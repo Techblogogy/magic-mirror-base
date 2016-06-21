@@ -1,0 +1,32 @@
+<div ng-controller="ClockCtr">
+    <ui-widget id="clock">
+        <h1>{{ time | date:'HH:mm' }}</h1>
+    </ui-widget>
+</div>
+
+<div ng-controller="WeatherCtr">
+    <ui-widget id="weather">
+        <div class="col-xs-6">
+            <img class="" ng-src="{{w_dat.icon}}" />
+        </div>
+
+        <div class="col-xs-6">
+            <h1>{{ w_dat.temp | tempC }}</h1>
+        </div>
+    </ui-widget>
+</div>
+
+
+<div ng-controller="ScheduleCtr">
+    <ui-widget id="schedule">
+        <div ng-repeat="i in plans" class="s_item">
+            <div class="col-xs-4 time">
+                <span>{{ i.time_start }} {{ i.time_end }}</span>
+            </div>
+
+            <div class="col-xs-8 plan">
+                <span>{{ i.text }}</span>
+            </div>
+        </div>
+    </ui-widget>
+</div>
