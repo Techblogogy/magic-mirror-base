@@ -2,7 +2,7 @@
 app.controller('WeatherCtr', ['$scope', function ($scope) {
 
     $scope.name = "Weather";
-    $scope.show_title = true;
+    $scope.show_title = false;
 
     $scope.w_dat = {
         temp: 20,
