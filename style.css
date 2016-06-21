@@ -2,3 +2,15 @@ body {
     background-color: #000;
     color: #fff;
 }
+
+.ui-widget {
+    /*display: inline-block;*/
+    width: 250px;
+    /*border: 1px solid white;*/
+
+}
+
+/* Weather Widget */
+#weather > img {
+    width: 100%;
+}
