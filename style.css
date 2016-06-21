@@ -8,6 +8,26 @@ body {
     width: 250px;
     /*border: 1px solid white;*/
 
+    margin-bottom: 10px;
+}
+
+/* Clock Widget */
+#clock {
+    display: block;
+
+    width: auto;
+
+    text-align: center;
+
+    font-family: "Helvetica";
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#clock > h1 {
+    font-weight: 100;
+    font-size: 56pt;
 }
 
 /* Weather Widget */
