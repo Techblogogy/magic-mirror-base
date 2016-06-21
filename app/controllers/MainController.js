@@ -1,9 +1,8 @@
-app.controller('MainController', ['$scope', function ($scope) {
-    $scope.title = 'Welcome to Mirror UI';
+app.controller('MainController', ['$scope', '$location', function ($scope, $location) {
 
-    $scope.windows = {
-        name: "Hello World!",
-        data: "This is a simple window"
-    };
+    $scope.switchView = function (view) {
+        console.log("Switching");
+        $location.path(view);
+    }
 
 }]);

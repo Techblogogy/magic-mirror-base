@@ -7,7 +7,7 @@ app.config(function ($routeProvider) {
         templateUrl: 'app/views/home.html'
     })
     .when('/weather', {
-        controller: "WeatherCtr",
+        controller: "MainController",
         templateUrl: 'app/views/large_weather.html'
     });
 });
