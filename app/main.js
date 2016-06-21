@@ -1,4 +1,4 @@
-var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute']);
+var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate']);
 
 app.config(function ($routeProvider) {
     $routeProvider
