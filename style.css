@@ -19,7 +19,7 @@ body {
 
     text-align: center;
 
-    font-family: "Helvetica";
+    /*font-family: "Arial";*/
 
     margin-left: auto;
     margin-right: auto;
@@ -33,4 +33,9 @@ body {
 /* Weather Widget */
 #weather > img {
     width: 100%;
+}
+
+#weather h1 {
+    font-weight: 100;
+    /*font-size: 24pt;*/
 }
