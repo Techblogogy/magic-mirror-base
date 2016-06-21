@@ -17,7 +17,7 @@
 
             <div ng-controller="ClockCtr">
                 <ui-widget id="clock">
-                    <h1>11:30</h1>
+                    <h1>{{ time | date:'HH:mm' }}</h1>
                 </ui-widget>
             </div>
 
