@@ -3,6 +3,8 @@ body {
     color: #fff;
 }
 
+/* Widget Style */
+
 .ui-widget {
     /*display: inline-block;*/
     width: 250px;
@@ -20,13 +22,19 @@ body {
     margin-bottom: 10px;
 }
 
+.ui-widget > .title {
+    margin-top: 0px;
+    margin-bottom: 10px;
+}
+
 /* Clock Widget */
 #clock {
     display: block;
 
     width: auto;
-
     text-align: center;
+
+    border: 0;
 
     /*font-family: "Arial";*/
 
@@ -62,4 +70,8 @@ body {
 
 #schedule .time {
     padding-left: 0;
+}
+
+#schedule .plan {
+    padding-right: 0;
 }
