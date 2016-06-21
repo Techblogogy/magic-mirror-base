@@ -15,8 +15,10 @@
 
         <div class="container-fluid">
 
-            <div class="ui-widget" id="clock">
-                <h1>11:30</h1>
+            <div ng-controller="ClockCtr">
+                <ui-widget id="clock">
+                    <h1>11:30</h1>
+                </ui-widget>
             </div>
 
             <div ng-controller="WeatherCtr">
@@ -54,6 +56,7 @@
         <script src="app/directives/widget.js"></script>
         <!-- Controllers -->
         <script src="app/controllers/MainController.js"></script>
+        <script src="app/controllers/ClockController.js"></script>
         <script src="app/controllers/ScheduleController.js"></script>
         <script src="app/controllers/WeatherController.js"></script>
     </body>

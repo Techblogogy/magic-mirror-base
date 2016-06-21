@@ -30,7 +30,7 @@ body {
 }
 
 /* Clock Widget */
-#clock {
+#clock > .ui-widget {
     display: block;
 
     width: auto;
