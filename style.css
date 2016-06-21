@@ -6,7 +6,16 @@ body {
 .ui-widget {
     /*display: inline-block;*/
     width: 250px;
+    /*height: 250px;*/
+    /*height: auto;*/
     /*border: 1px solid white;*/
+
+    overflow: auto;
+
+    padding: 10px;
+    border: 2px solid white;
+
+    border-radius: 20px; /* Reserved For Circular Items */
 
     margin-bottom: 10px;
 }
@@ -38,4 +47,19 @@ body {
 #weather h1 {
     font-weight: 100;
     /*font-size: 24pt;*/
+}
+
+/* Schedule Widget */
+#schedule {
+
+}
+
+#schedule .s_item {
+    border-bottom: 1px solid white;
+
+    overflow: auto; /* FIX for bootstrap column floating */
+}
+
+#schedule .time {
+    padding-left: 0;
 }

@@ -5,17 +5,20 @@ app.controller('ScheduleCtr', ['$scope', function ($scope) {
 
     $scope.plans = [
         {
-            time: "12:00pm - 14:00pm",
+            time_start: "12:00pm",
+            time_end: "14:00pm",
             text: "Do some stuff"
         },
 
         {
-            time: "15:00pm - 15:30pm",
+            time_start: "15:00pm",
+            time_end: "15:30pm",
             text: "Coffe with Dave"
         },
 
         {
-            time: "16:00pm - 16:05pm",
+            time_start: "16:00pm",
+            time_end: "16:05pm",
             text: "Go have fun and this: antidisestablishmentarianism"
         }
     ];
