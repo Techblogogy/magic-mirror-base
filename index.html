@@ -4,19 +4,24 @@
         <title>Magic Mirror UI</title>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="style.css" />
+
         <script src="node_modules/angular/angular.min.js"></script>
+        <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
     </head>
 
     <body ng-app="mirror-ui">
 
-        <div class="main" ng-controller="MainController">
-            <h1>{{ title }}</h1>
+        <div class="container-fluid" ng-controller="MainController">
+            <h1> {{title}} </h1>
         </div>
 
         <!-- Modules -->
         <script src="app/main.js"></script>
-
         <!-- Controllers -->
         <script src="app/controllers/MainController.js"></script>
+        <script src="app/controllers/ScheduleController.js"></script>
+        <script src="app/controllers/WeatherController.js"></script>
     </body>
 </html>
