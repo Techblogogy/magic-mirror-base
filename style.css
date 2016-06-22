@@ -41,22 +41,26 @@ body {
 
 /* Left Swipe */
 .left_swipe.ng-leave {
+    left:0;
 	-webkit-animation: moveToLeft .6s ease both;
 	animation: moveToLeft .6s ease both;
 }
 
 .left_swipe.ng-enter {
+    /*left: 0;*/
 	-webkit-animation: moveFromRight .6s ease both;
 	animation: moveFromRight .6s ease both;
 }
 
 /* Right Swipe */
 .right_swipe.ng-leave {
+    left: 0;
 	-webkit-animation: moveToRight .6s ease both;
 	animation: moveToRight .6s ease both;
 }
 
 .right_swipe.ng-enter {
+    /*left: 0;*/
 	-webkit-animation: moveFromLeft .6s ease both;
 	animation: moveFromLeft .6s ease both;
 }

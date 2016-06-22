@@ -16,7 +16,10 @@
     <body ng-app="mirror-ui">
 
         <div ng-controller="MainController">
-            <div class="container-fluid page {{page_id}} {{anim}}" ng-view></div>
+            <div class="{{anim}}"></div>
+            <div class="{{anim}}"></div>
+            
+            <div class="container-fluid page {{page_id}}" ng-class="anim" ng-view></div>
         </div>
 
         <!-- Modules -->
