@@ -16,8 +16,8 @@ app.config(function ($routeProvider) {
     $routeProvider
     .when('/', {
         controller: 'HomePageController',
-        templateUrl: 'app/views/home.html',
-        animation: 'left_swipe'
+        templateUrl: 'app/views/home.html'
+        // animation: 'left_swipe'
     })
     .when('/weather', {
         controller: "WeatherPageController",

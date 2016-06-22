@@ -41,7 +41,7 @@ body {
 
 /* Left Swipe */
 .left_swipe.ng-leave {
-    left:0;
+    /*left:0;*/
 	-webkit-animation: moveToLeft .6s ease both;
 	animation: moveToLeft .6s ease both;
 }
@@ -54,7 +54,7 @@ body {
 
 /* Right Swipe */
 .right_swipe.ng-leave {
-    left: 0;
+    /*left: 0;*/
 	-webkit-animation: moveToRight .6s ease both;
 	animation: moveToRight .6s ease both;
 }
