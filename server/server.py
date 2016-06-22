@@ -10,9 +10,10 @@ def index():
     return "Hello World"
 
 @socketio.on('myevent')
-def test_message():
-    print("Trigged")
+def test_message(message):
+    print(message)
     emit('myresponse', {'data': 'got it!'})
 
 if __name__  == '__main__':
     socketio.run(app)
+    emit('myresponse', {'data': 'got it!'})
