@@ -39,14 +39,26 @@ body {
 	from { -webkit-transform: translateX(100%); transform: translateX(100%); }
 }
 
-.ng-leave {
+/* Left Swipe */
+.left_swipe.ng-leave {
 	-webkit-animation: moveToLeft .6s ease both;
 	animation: moveToLeft .6s ease both;
 }
 
-.ng-enter {
+.left_swipe.ng-enter {
 	-webkit-animation: moveFromRight .6s ease both;
 	animation: moveFromRight .6s ease both;
+}
+
+/* Right Swipe */
+.right_swipe.ng-leave {
+	-webkit-animation: moveToRight .6s ease both;
+	animation: moveToRight .6s ease both;
+}
+
+.right_swipe.ng-enter {
+	-webkit-animation: moveFromLeft .6s ease both;
+	animation: moveFromLeft .6s ease both;
 }
 
 /* Page Style */

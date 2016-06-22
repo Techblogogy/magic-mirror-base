@@ -1,8 +1,9 @@
-app.controller('MainController', ['$scope', '$location', function ($scope, $location) {
+app.controller('MainController', ['$scope', '$location', '$rootScope', function ($scope, $location, $rootScope) {
 
-    $scope.switchView = function (view) {
-        console.log("Switching");
+    $scope.anim = "";
+
+    $scope.switchView = function (view, animation) {
+        $scope.anim = animation;
         $location.path(view);
     }
-
 }]);
