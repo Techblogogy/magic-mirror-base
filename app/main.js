@@ -1,4 +1,16 @@
-var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate']);
+var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate','btford.socket-io']);
+
+app.factory('socket', function (socketFactory) {
+    var iosock = io.connect("http://127.0.0.1:5000/");
+
+    iosock = socketFactory({
+        ioSocket: iosock
+    });
+
+    return iosock;
+
+    // return socketFactory;
+});
 
 app.config(function ($routeProvider) {
     $routeProvider

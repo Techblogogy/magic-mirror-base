@@ -11,6 +11,9 @@
         <script src="node_modules/angular-route/angular-route.min.js"></script>
         <script src="node_modules/angular-animate/angular-animate.min.js"></script>
         <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+
+        <script src="node_modules/socket.io-client/socket.io.js"></script>
+        <script src="node_modules/angular-socket-io/socket.min.js"></script>
     </head>
 
     <body ng-app="mirror-ui">
@@ -18,7 +21,7 @@
         <div ng-controller="MainController">
             <div class="{{anim}}"></div>
             <div class="{{anim}}"></div>
-            
+
             <div class="container-fluid page {{page_id}}" ng-class="anim" ng-view></div>
         </div>
 
