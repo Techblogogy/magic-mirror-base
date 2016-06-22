@@ -2,7 +2,7 @@ var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate','btf
 
 // Connect to Socket.IO Server
 app.factory('socket', function (socketFactory) {
-    var iosock = io.connect("http://127.0.0.1:5000/");
+    var iosock = io.connect("http://127.0.0.1:5000/io");
 
     iosock = socketFactory({
         ioSocket: iosock

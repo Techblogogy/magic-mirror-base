@@ -61,7 +61,7 @@ body {
 
 .right_swipe.ng-enter {
     /*left: 0;*/
-	-webkit-animation: moveFromLeft .6s ease both;
+    -webkit-animation: moveFromLeft .6s ease both;
 	animation: moveFromLeft .6s ease both;
 }
 

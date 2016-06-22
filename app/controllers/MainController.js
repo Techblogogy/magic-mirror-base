@@ -3,13 +3,13 @@ app.controller('MainController', ['$scope', '$location', 'socket', '$timeout', f
     $scope.anim = "";
     $scope.bodge_time = 1; //in milliseconds
 
-    socket.emit("myevent", {lal: "string"});
+    socket.emit("connected");
 
     socket.forward('myresponse', $scope);
     $scope.$on('socket:myresponse', function (event, data) {
         console.log(data);
 
-        // $scope.switchView('weather', 'left_swipe');
+        $scope.switchView('weather', 'left_swipe');
     });
 
     // Switch View with an animation
