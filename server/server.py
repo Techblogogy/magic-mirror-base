@@ -2,12 +2,14 @@ from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from threading import Thread
 
+from dbase.dbase import db
+
 import time
 import speech_recognition as sr
 
 # Flask Elements
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "secret!";
+app.config['SECRET_KEY'] = "supersecret";
 socketio = SocketIO(app,async_mode='threading')
 
 # Some junk
@@ -43,7 +45,7 @@ def index():
 
 @socketio.on("connect", namespace='/io')
 def connected():
-    global thread
+    global thread,db
 
     print "client connected"
     print(request.sid)

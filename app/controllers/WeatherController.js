@@ -6,7 +6,7 @@ app.controller('WeatherCtr', ['$scope', function ($scope) {
 
     $scope.w_dat = {
         temp: 20,
-        icon: "icons/weather/cloud.png" // Cloudy, Sunny, etc.
+        icon: "res/icons/weather/cloud.png" // Cloudy, Sunny, etc.
     };
 }]);
 
