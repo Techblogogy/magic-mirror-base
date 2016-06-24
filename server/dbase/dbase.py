@@ -2,8 +2,6 @@ import sqlite3
 
 class dbase:
     def __init__(self):
-        print ("create")
-
         self._dbpath = 'res/db/mirror.db' # Database file path
         self.setup()
 
@@ -17,6 +15,7 @@ class dbase:
         self.connect()
         dat = self.exe(qry)
         self.close()
+
         return dat
 
     # Only execute querry
