@@ -17,12 +17,18 @@ To install dependencies run listed commands in terminal
 
 # Running software
 First you need to clone git repository and navigate into the directory
-    git clone https://github.com/Techblogogy/magic-mirror-base && cd magic-mirror-base
+```
+git clone https://github.com/Techblogogy/magic-mirror-base && cd magic-mirror-base
+```
 
 Install all of JS dependencies with this command:
-    npm install
+```
+npm install
+```
 
 Run the electron application like this:
-    electron .
+```
+electron .
+```
 
 You're done! ENJOY :)
