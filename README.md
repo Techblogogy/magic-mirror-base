@@ -16,3 +16,4 @@ To install dependencies run listed commands in terminal
 * [PyAudio](http://people.csail.mit.edu/hubert/pyaudio/#downloads) for microphone listening `pip install pyaudio`
 
 # Running software
+    git clone https://github.com/Techblogogy/magic-mirror-base
