@@ -15,9 +15,4 @@ To install dependencies run listed commands in terminal
 * [Speech Recognition](https://github.com/Uberi/speech_recognition) provides boiler plate for voice recognition API's `pip install SpeechRecognition`
 * [PyAudio](http://people.csail.mit.edu/hubert/pyaudio/#downloads) for microphone listening `pip install pyaudio`
 
-#
-To run:
-- Clone git repository
-- Navigate into it
-- Run: npm install
-- Execute: electron .
+# Running software
