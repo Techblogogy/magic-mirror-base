@@ -16,4 +16,13 @@ To install dependencies run listed commands in terminal
 * [PyAudio](http://people.csail.mit.edu/hubert/pyaudio/#downloads) for microphone listening `pip install pyaudio`
 
 # Running software
-    git clone https://github.com/Techblogogy/magic-mirror-base
+First you need to clone git repository and navigate into the directory
+    git clone https://github.com/Techblogogy/magic-mirror-base && cd magic-mirror-base
+
+Install all of JS dependencies with this command:
+    npm install
+
+Run the electron application like this:
+    electron .
+
+You're done! ENJOY :)
