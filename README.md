@@ -12,6 +12,8 @@ Open Source Smart Mirror software for Rapsberry PI. Made by
 To install dependencies run listed commands in terminal
 * [Flask](http://flask.pocoo.org) for managing Electron UI requests `pip install flask`
 * [Flask Socket IO](https://flask-socketio.readthedocs.io/en/latest/) for creating constant client/server connection `pip install flask-socketio`
+* [Speech Recognition](https://github.com/Uberi/speech_recognition) provides boiler plate for voice recognition API's `pip install SpeechRecognition`
+* [PyAudio](http://people.csail.mit.edu/hubert/pyaudio/#downloads) for microphone listening `pip install pyaudio`
 
 ### How to run?
 To run:
