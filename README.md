@@ -9,6 +9,7 @@ Open Source Smart Mirror software for Rapsberry PI. Made by
 * [SQL Lite 3](https://www.sqlite.org/index.html) single file database for storing essential user data
 
 #### Python side dependencies (TODO: create installer script)
+To install dependencies run listed commands in terminal
 * [Flask](http://flask.pocoo.org) for managing Electron UI requests `pip install flask`
 * [Flask Socket IO](https://flask-socketio.readthedocs.io/en/latest/) for creating constant client/server connection `pip install flask-socketio`
 
