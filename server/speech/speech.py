@@ -1,9 +1,11 @@
 import speech_recognition as sr
 from flask_socketio import emit
 
+# import pocketsphinx
+
 from server import IO_SPACE, socketio
 
-class voice:
+class Speech:
 
     def __init__(self):
         self._r = sr.Recognizer()
@@ -21,10 +23,14 @@ class voice:
     # @staticmethod
     def detected(self,recon,audio):
         try:
-            text = recon.recognize_google(audio);
+            # text = recon.recognize_sphinx(audio)
+            text = recon.recognize_google(audio)
             print("Google Speech: "+text)
             # socketio.emit("myresponse", text, namespace=IO_SPACE)
         except sr.UnknownValueError:
             print("Google Speech unrecognizable")
         except sr.RequestError as e:
-            print("Service unavalible")
+            print("Service error; {0}".format(e))
+
+voice = Speech()
+voice.start()

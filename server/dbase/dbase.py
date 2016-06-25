@@ -34,10 +34,10 @@ class dbase:
 
         # Create a basic weather test table
         self.exe("""
-            CREATE TABLE IF NOT EXISTS test (
+            CREATE TABLE IF NOT EXISTS temp_video (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                temperature INTEGER NOT NULL,
-                icon TEXT NOT NULL
+                v_path INTEGER NOT NULL,
+                time INTEGER NOT NULL
             )
             """)
 
@@ -45,3 +45,4 @@ class dbase:
 
 # Initiate database instance
 db = dbase()
+db.setup()
