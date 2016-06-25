@@ -14,35 +14,41 @@
 
         <script src="node_modules/socket.io-client/socket.io.js"></script>
         <script src="node_modules/angular-socket-io/socket.min.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASu812zJ2sky-v7hvRUfu6-1r6rWwTnpw" async defer></script>
     </head>
 
     <body ng-app="mirror-ui">
 
-        <video width="320" height="240" controls>
+        <!-- <video width="320" height="240" controls>
           <source src="video.mp4" type="video/mp4">
-        </video>
+        </video> -->
+
+
 
         <div ng-controller="MainController">
-            <div class="{{anim}}"></div>
-            <div class="{{anim}}"></div>
-
             <div class="container-fluid page {{page_id}} {{ anim }}" ng-view></div>
         </div>
 
         <!-- Modules -->
         <script src="app/main.js"></script>
         <!-- Services -->
-        
+
         <!-- Directives -->
         <script src="app/directives/widget.js"></script>
+        <script src="app/directives/maps.js"></script>
         <!-- Controllers -->
         <script src="app/controllers/MainController.js"></script>
         <!-- Widget Controllers -->
         <script src="app/controllers/ClockController.js"></script>
         <script src="app/controllers/ScheduleController.js"></script>
         <script src="app/controllers/WeatherController.js"></script>
+        <script src="app/controllers/MapsController.js"></script>
         <!-- Page controllers -->
         <script src="app/controllers/HomePageController.js"></script>
         <script src="app/controllers/WeatherPageController.js"></script>
+
+        <!-- Additional Libraries -->
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASu812zJ2sky-v7hvRUfu6-1r6rWwTnpw&callback=initMap" async defer></script> -->
     </body>
 </html>

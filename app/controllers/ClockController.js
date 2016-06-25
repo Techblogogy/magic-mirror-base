@@ -4,6 +4,8 @@ app.controller('ClockCtr', ['$scope', '$timeout', function ($scope, $timeout) {
 
     $scope.time = Date.now();
     $scope.tickInterval = 1000;
+    
+    $scope.loaded = function () {};
 
     var tick = function () {
         $scope.time = Date.now();

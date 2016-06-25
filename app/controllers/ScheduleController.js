@@ -4,6 +4,8 @@ app.controller('ScheduleCtr', ['$scope', function ($scope) {
     $scope.name = "Todays Plans";
     $scope.show_title = true;
 
+    $scope.loaded = function () {};
+
     $scope.plans = [
         {
             time_start: "12:00pm",

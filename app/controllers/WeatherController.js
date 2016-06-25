@@ -4,6 +4,8 @@ app.controller('WeatherCtr', ['$scope', function ($scope) {
     $scope.name = "Weather";
     $scope.show_title = false;
 
+    $scope.loaded = function () {};
+
     $scope.w_dat = {
         temp: 20,
         icon: "res/icons/weather/cloud.png" // Cloudy, Sunny, etc.
