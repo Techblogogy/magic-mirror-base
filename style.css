@@ -151,7 +151,10 @@ body {
 }
 
 /* Maps Widget */
+#map-widget .ui-widget {
+    width: 400px;
+}
 #g_map {
     width: 100%;
-    height: 200px;
+    height: 400px;
 }

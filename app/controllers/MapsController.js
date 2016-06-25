@@ -8,11 +8,31 @@ app.controller('MapsCtr', ['$scope', function ($scope) {
     // })
 
     $scope.loaded = function () {
-        console.log("INitin map");
-        var maps = new google.maps.Map(document.getElementById('g_map'), {
-            center: {lat: -34.397, lng: 150.644},
-            zoom: 8
+        $scope.map = new google.maps.Map(document.getElementById('g_map'), {
+            center: {lat: 0, lng: 0},
+            disableDefaultUI: true,
+            zoom: 12
         });
+        $scope.map.set('styles', [
+            {
+                featureType: "all",
+                stylers: [
+                    { saturation: -100 }
+                ]
+            }
+        ]);
+        // $scope.m_info = new google.maps.InfoWindow({map: $scope.map});
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (p) {
+                var pos = {
+                    lat: p.coords.latitude,
+                    lng: p.coords.longitude
+                };
+
+                $scope.map.setCenter(pos);
+            })
+        }
     }
         // $scope.initMap();
 }]);
