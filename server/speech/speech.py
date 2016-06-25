@@ -1,9 +1,7 @@
 import speech_recognition as sr
 from flask_socketio import emit
 
-# import pocketsphinx
-
-from server import IO_SPACE, socketio
+# from server import IO_SPACE, socketio
 
 class Speech:
 
@@ -12,25 +10,39 @@ class Speech:
         self._m = sr.Microphone()
 
     def start(self):
+        print ("Starting")
         self.noise_adjust()
-        self.stop = self._r.listen_in_background(self._m,self.detected)
+        self.stop = self._r.listen_in_background(self._m,self.detect_bing)
 
     # Ajust for ambient noise
     def noise_adjust(self):
         with self._m as source:
             self._r.adjust_for_ambient_noise(source)
 
-    # @staticmethod
-    def detected(self,recon,audio):
+    # Google Speech
+    def detect_google(self,recon,audio):
         try:
             # text = recon.recognize_sphinx(audio)
             text = recon.recognize_google(audio)
             print("Google Speech: "+text)
             # socketio.emit("myresponse", text, namespace=IO_SPACE)
         except sr.UnknownValueError:
-            print("Google Speech unrecognizable")
+            print("Google unrecognizable")
         except sr.RequestError as e:
-            print("Service error; {0}".format(e))
+            print("Google error; {0}".format(e))
+
+    # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
+    def detect_bing(self,recon,audio):
+        try:
+            # text = recon.recognize_sphinx(audio)
+            text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            print("Bing Speech: "+text)
+            # socketio.emit("myresponse", text, namespace=IO_SPACE)
+        except sr.UnknownValueError:
+            print("Bing unrecognizable")
+        except sr.RequestError as e:
+            print("Bing error; {0}".format(e))
+
 
 voice = Speech()
 voice.start()
