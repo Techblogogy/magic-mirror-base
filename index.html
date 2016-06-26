@@ -24,12 +24,6 @@
 
     <body ng-app="mirror-ui">
 
-      <script>
-        function init() {
-          console.log(gapi);
-        }
-      </script>
-
         <div ng-controller="MainController">
             <div class="container-fluid page {{page_id}} {{ anim }}" ng-view></div>
         </div>
@@ -53,6 +47,6 @@
 
         <!-- Additional Libraries -->
         <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASu812zJ2sky-v7hvRUfu6-1r6rWwTnpw&callback=initMap" async defer></script> -->
-          <script src="https://apis.google.com/js/client.js?onload=init"></script>
+        <script src="https://apis.google.com/js/client.js?onload=init"></script>
     </body>
 </html>

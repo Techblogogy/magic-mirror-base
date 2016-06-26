@@ -23,7 +23,7 @@
     <ui-widget id="schedule">
         <div ng-repeat="i in plans" class="s_item">
             <div class="col-xs-4 time">
-                <span>{{ i.start.dateTime | date:"h:mma" }} {{ i.time_end }}</span>
+                <span>{{ i.start.dateTime | date:"h:mma" }} {{ i.end.dateTime | date:"h:mma" }}</span>
             </div>
 
             <div class="col-xs-8 plan">

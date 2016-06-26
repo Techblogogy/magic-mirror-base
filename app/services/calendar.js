@@ -2,6 +2,7 @@ var CLIENT_ID = '1024232874468-ptfrdrq0s1tns1mrfeahb1b1jbnbmrgn.apps.googleuserc
 var SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
 
 window.onload = function () {
+    // console.log("L");
     handleAuthClick();
 }
 
