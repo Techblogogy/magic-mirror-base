@@ -26,4 +26,8 @@ app.controller('MainController', ['$scope', '$location', 'socket', '$timeout', f
             $location.path(view);
         }, $scope.bodge_time);
     }
+
+
 }]);
+
+console.log( 196*0.25 + 193*0.3 + 193* 0.35 + 194.5*0.05 );

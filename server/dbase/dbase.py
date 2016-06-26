@@ -36,7 +36,7 @@ class dbase:
         self.exe("""
             CREATE TABLE IF NOT EXISTS temp_video (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                v_path INTEGER NOT NULL,
+                v_path TEXT NOT NULL,
                 time INTEGER NOT NULL
             )
             """)

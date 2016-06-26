@@ -11,7 +11,7 @@ app.controller('MapsCtr', ['$scope', function ($scope) {
         $scope.map = new google.maps.Map(document.getElementById('g_map'), {
             center: {lat: 0, lng: 0},
             disableDefaultUI: true,
-            zoom: 12
+            zoom: 20
         });
         $scope.map.set('styles', [
             {

@@ -19,15 +19,15 @@
 </div>
 
 <!-- Google Calendar Widget -->
-<div ng-controller="ScheduleCtr">
+<div ng-controller="ScheduleCtr" id="ScheduleCtr">
     <ui-widget id="schedule">
         <div ng-repeat="i in plans" class="s_item">
             <div class="col-xs-4 time">
-                <span>{{ i.time_start }} {{ i.time_end }}</span>
+                <span>{{ i.start.dateTime | date:"h:mma" }} {{ i.time_end }}</span>
             </div>
 
             <div class="col-xs-8 plan">
-                <span>{{ i.text }}</span>
+                <span>{{ i.summary }}</span>
             </div>
         </div>
     </ui-widget>

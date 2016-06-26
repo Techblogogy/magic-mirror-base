@@ -1,4 +1,4 @@
-var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate','btford.socket-io']);
+var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate','btford.socket-io','angular-google-gapi']);
 
 // Connect to Socket.IO Server
 app.factory('socket', function (socketFactory) {
