@@ -13,7 +13,7 @@
         </div>
 
         <div class="col-xs-6">
-            <h1>{{ w_dat.temp | tempC }}</h1>
+            <h1>{{ (w_dat.temp | number:0) | tempC }}</h1>
         </div>
     </ui-widget>
 </div>

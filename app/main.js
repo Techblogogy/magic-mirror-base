@@ -24,3 +24,26 @@ app.config(function ($routeProvider) {
         templateUrl: 'app/views/large_weather.html'
     });
 });
+//weather
+app.factory('forecast', ['$http', function($http) {
+
+  var lat;
+  var lng;
+
+navigator.geolocation.getCurrentPosition(function (p) {
+        lat = p.coords.latitude;
+        lng =  p.coords.longitude;
+
+        console.log(lat);
+    });
+    
+  return $http.get('http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lng+'&units=metric&appid=ea1b2a690767c4cffc1832b89fe81d68')
+            .success(function(data) {
+              console.log(data);
+              return data;
+
+            })
+            .error(function(err) {
+              return err;
+            });
+}]);
