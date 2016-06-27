@@ -19,36 +19,36 @@ app.controller('WeatherCtr', ['$scope', '$http', function ($scope, $http) {
                     icon: ""
                   };
 
-                  switch(data.weather[0].description) {
-                      case "clear sky":
-                        $scope.w_dat.icon = "res/icons/weather/clear_sky.png";
-                        break;
-                      case "few clouds":
-                        $scope.w_dat.icon = "res/icons/weather/few_clouds.png";
-                        break;
-                      case "scattered clouds":
-                        $scope.w_dat.icon = "res/icons/weather/scattered_clouds.png";
-                        break;
-                      case "broken clouds":
-                        $scope.w_dat.icon = "res/icons/weather/broken_clouds.png";
-                        break;
-                      case "shower rain":
-                        $scope.w_dat.icon = "res/icons/weather/shower_rain.png";
-                        break;
-                      case "rain":
-                        $scope.w_dat.icon = "res/icons/weather/rain.png";
-                        break;
-                      case "thunderstorm":
-                        $scope.w_dat.icon = "res/icons/weather/thunderstorm.png";
-                        break;
-                      case "snow":
-                        $scope.w_dat.icon = "res/icons/weather/snow.png";
-                        break;
-                      case "mist":
-                        $scope.w_dat.icon = "res/icons/weather/mist.png";
-                        break;
-
-                  }
+                //   switch(data.weather[0].description) {
+                //       case "clear sky":
+                //         $scope.w_dat.icon = "res/icons/weather/clear_sky.png";
+                //         break;
+                //       case "few clouds":
+                //         $scope.w_dat.icon = "res/icons/weather/few_clouds.png";
+                //         break;
+                //       case "scattered clouds":
+                //         $scope.w_dat.icon = "res/icons/weather/scattered_clouds.png";
+                //         break;
+                //       case "broken clouds":
+                //         $scope.w_dat.icon = "res/icons/weather/broken_clouds.png";
+                //         break;
+                //       case "shower rain":
+                //         $scope.w_dat.icon = "res/icons/weather/shower_rain.png";
+                //         break;
+                //       case "rain":
+                //         $scope.w_dat.icon = "res/icons/weather/rain.png";
+                //         break;
+                //       case "thunderstorm":
+                //         $scope.w_dat.icon = "res/icons/weather/thunderstorm.png";
+                //         break;
+                //       case "snow":
+                //         $scope.w_dat.icon = "res/icons/weather/snow.png";
+                //         break;
+                //       case "mist":
+                //         $scope.w_dat.icon = "res/icons/weather/mist.png";
+                //         break;
+                //
+                //   }
                 })
         });
 

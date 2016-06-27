@@ -123,8 +123,8 @@ body {
 }
 
 /* Weather Widget */
-#weather > .ui-widget > .body > img {
-    width: 100%;
+#weather img {
+    width: 125%;
 }
 
 #weather h1 {
