@@ -17,37 +17,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "supersecret";
 socketio = SocketIO(app,async_mode='threading')
 
-@app.route("/home")
-def heom_page():
-    return "Hello World!"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @app.route('/')
 def index():
     return "Welcome to Magic Mirror Server :)"
@@ -59,4 +28,4 @@ def connected():
 
 # Run Server Application
 if __name__  == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app)

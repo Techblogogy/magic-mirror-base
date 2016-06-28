@@ -2,7 +2,6 @@ import speech_recognition as sr
 from flask_socketio import emit
 
 # from server import IO_SPACE, socketio
-
 # Custom voice listening function based on sound and vision
 
 # TODO:
