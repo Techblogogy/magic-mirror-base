@@ -6,10 +6,8 @@ const stat = require("serve-static");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-
-con().use(stat(__dirname)).listen(8000, function () {
-
-});
+// Initiate Server
+con().use(stat(__dirname)).listen(8000, function () {});
 
 var mainWindow = null;
 
