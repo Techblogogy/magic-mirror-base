@@ -19,6 +19,7 @@ command = "how do i look today"
 #     ""
 # ]
 
+# Return command based on voice input
 def get_command(cm):
     tokens = nltk.word_tokenize(cm)
 
