@@ -124,7 +124,7 @@ body {
 
 /* Weather Widget */
 #weather img {
-    width: 125%;
+    width: 100%;
 }
 
 #weather h1 {
