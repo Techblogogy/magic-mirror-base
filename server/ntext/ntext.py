@@ -1,7 +1,19 @@
 import nltk
 
+class v_cmd:
+    def __init__(self, kw, logic, cmd, exception=""):
+        self.keys = kw;
+        self.lg = logic;
+        self.cmd = cmd;
+        self.exp = exception;
+
 #command = "mirror how do I look";
-command = "mirror what should i dress today";
+
+# Key base
+key_w = "mirror"
+
+# Input Cmd
+command = "how should i dress today"
 
 # Possible responce listening
 out_cmd = [
@@ -9,22 +21,21 @@ out_cmd = [
     ""
 ]
 
+# Commands model
+# [keywords], (and/or), exp
+
 # Possible comands list
 in_cmd = [
-    ["do", "i", "need", "an", "umbrella", "today"],
-    ["how", "do", "i", "look"],
-    ["how", "should", "i", "dress", "today"],
-    ["does", "she", "love", "me"]
+    v_cmd(["look", "today"], "AND", "c1"),
+    v_cmd(["dress", "today"], "AND", "c2"),
+    v_cmd([""])
 ]
 
 def get_command():
     tokens = nltk.word_tokenize(command)
-    tags = nltk.pos_tag(tokens)
 
-    print tokens
-    print tags
-
-    if "mirror" in tokens:
-        print "yes"
+    # if "mirror" in tokens:
+    for c in in_cmd:
+        print c.keys
 
 get_command()
