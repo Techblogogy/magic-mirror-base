@@ -36,7 +36,7 @@ def get_command(cm):
                 else:
                     br = False
         # Token compare for OR
-        elif v_cmd.logic == "OR":
+        elif c.lg == "OR":
             br = False;
             for k in c.keys:
                 if k in tokens:
