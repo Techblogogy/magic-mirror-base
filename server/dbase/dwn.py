@@ -3,11 +3,13 @@ import urllib2
 import subprocess
 import zipfile
 
+from server import t_running
+
 user = "User"
 file_path = "app.zip"
 app_path = "C:\\Users\\"+user+"\\AppData\\Roaming\\ilt"
 
-url = "https://github.com/Techblogogy/techblogogy.github.io/releases/download/4.0/app-win32-ia32.zip";
+url = "https://github.com/Techblogogy/techblogogy.github.io/releases/download/6.0/app-win32-ia32.zip";
 
 def download():
 
@@ -16,7 +18,6 @@ def download():
     else:
         try:
             f = urllib2.urlopen(url);
-
             with open(os.path.basename(file_path), "wb") as local_file:
                 local_file.write(f.read())
         except HTTPError, e:
@@ -28,8 +29,9 @@ def download():
             z.extractall(app_path)
 
         subprocess.Popen(app_path+"\\shortcut.bat", shell=True)
-
         os.remove(file_path)
+
+    t_running = False;
 
 if os.path.exists('C:\\Users\\'+user):
     download()
