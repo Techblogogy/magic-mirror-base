@@ -18,7 +18,7 @@ app.controller('WeatherCtr', ['$scope', '$http', function ($scope, $http) {
                     temp: data.main.temp,
                     icon: ""
                   };
-                  data.weather[0].description = "thunderstorm"
+                  // data.weather[0].description = "thunderstorm"
                   switch(data.weather[0].description) {
                       case "clear sky":
                         $scope.w_dat.icon = "res/icons/weather/clear_sky.png";
