@@ -5,11 +5,8 @@ body{
 h1 {
   font-family: Poiret One, sans-serif, bold;
   text-align: center;
-
   /*color: white;*/
   padding: 10px;
-  -webkit-box-reflect: below 10px
-  -webkit-gradient(linear, left top, left bottom, from(transparent -180), to(rgba(250, 250, 250, 0.4)));
 }
 
 .banner {
@@ -56,7 +53,7 @@ h1 {
 }
 
 .google_button:hover {
-    background-color: #8bc8f0; /* same as bg */
+    background-color: #8AC5ED; /* same as bg */
     color: white;
 }
 
@@ -80,6 +77,6 @@ h1 {
 
 }
 .btn:hover{
-  background-color: #8bc8f0; /* same as bg */
+  background-color: #8AC5ED; /* same as bg */
   color: white;
 }
