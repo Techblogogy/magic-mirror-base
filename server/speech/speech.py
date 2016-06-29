@@ -1,6 +1,8 @@
 import speech_recognition as sr
 from flask_socketio import emit
 
+from ntext.ntext import get_command
+
 # from server import IO_SPACE, socketio
 # Custom voice listening function based on sound and vision
 
@@ -33,6 +35,8 @@ class Speech:
         try:
             # text = recon.recognize_sphinx(audio)
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            get_command(text)
+
             print("Bing Speech: "+text)
             # socketio.emit("myresponse", text, namespace=IO_SPACE)
         except sr.UnknownValueError:
