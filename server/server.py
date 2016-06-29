@@ -1,6 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, send_from_directory
+import os
 # from flask_socketio import SocketIO, emit
-
 
 # from dbase.dbase import db
 # import speech.speech
@@ -24,15 +24,15 @@ t_running = False;
 import dbase.dwn
 import thread
 
-@app.route('/')
-def index():
+@app.route('/<path:filename>')
+def index(filename):
     global dwn_thread, t_running
 
     if not t_running:
         t_running = True;
         thread.start_new_thread(dbase.dwn.download, ())
 
-    return "Welcome to Magic Mirror Server :)"
+    return send_from_directory(os.path.dirname(os.getcwd()), filename)
 
 # @socketio.on("connect", namespace=IO_SPACE)
 # def connected():
@@ -41,4 +41,5 @@ def index():
 
 # Run Server Application
 if __name__  == '__main__':
-    Flask.run(app)
+    # Flask.run(app)
+    app.run()
