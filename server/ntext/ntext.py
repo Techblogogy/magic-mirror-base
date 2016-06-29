@@ -1,4 +1,9 @@
 import nltk
+
+from server import socketio
+from server import IO_SPACE
+
+from flask_socketio import emit
 from v_cmd import v_cmd
 from commands import in_cmd
 
@@ -38,6 +43,7 @@ def get_command(cm):
 
         # Output command
         if br:
+            socketio.emit(c.cmd, "", namespace=IO_SPACE)
             print c.cmd;
             break;
 
