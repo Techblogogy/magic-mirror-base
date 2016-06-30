@@ -1,4 +1,4 @@
-import speech_recognition as sr
+import slib as sr
 from flask_socketio import emit
 
 from ntext.ntext import get_command
