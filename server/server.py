@@ -1,8 +1,9 @@
-from flask import Flask, request
-from flask_socketio import SocketIO, emit
+from flask import Flask, request, send_from_directory
+import os
+# from flask_socketio import SocketIO, emit
 
-from dbase.dbase import db
-import speech.speech
+# from dbase.dbase import db
+# import speech.speech
 
 import time
 
@@ -15,48 +16,30 @@ IO_SPACE = "/io"
 # Flask Elements
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "supersecret";
-socketio = SocketIO(app,async_mode='threading')
+# socketio = SocketIO(app,async_mode='threading')
 
-@app.route("/home")
-def heom_page():
-    return "Hello World!"
+dwn_thread = None;
+t_running = False;
 
+import dbase.dwn
+import thread
 
+@app.route('/<path:filename>')
+def index(filename):
+    global dwn_thread, t_running
 
+    if not t_running:
+        t_running = True;
+        thread.start_new_thread(dbase.dwn.download, ())
 
+    return send_from_directory(os.path.dirname(os.getcwd()), filename)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@app.route('/')
-def index():
-    return "Welcome to Magic Mirror Server :)"
-
-@socketio.on("connect", namespace=IO_SPACE)
-def connected():
-    print "client %s connected" % (request.sid)
-    #emit("myresponse", db.qry("SELECT * FROM test"))
+# @socketio.on("connect", namespace=IO_SPACE)
+# def connected():
+#     print "client %s connected" % (request.sid)
+#     #emit("myresponse", db.qry("SELECT * FROM test"))
 
 # Run Server Application
 if __name__  == '__main__':
-    socketio.run(app, debug=True)
+    # Flask.run(app)
+    app.run()

@@ -1,8 +1,9 @@
 import speech_recognition as sr
 from flask_socketio import emit
 
-# from server import IO_SPACE, socketio
+from ntext.ntext import get_command
 
+# from server import IO_SPACE, socketio
 # Custom voice listening function based on sound and vision
 
 # TODO:
@@ -26,36 +27,6 @@ class Speech:
         with self._m as source:
             self._r.adjust_for_ambient_noise(source)
 
-    # Google Speech
-    # Pluses: super accurate
-    # Minuses: need to pay, not fast
-    # Verdict: great service, but not enough money (4 out of 5)
-    def detect_google(self,recon,audio):
-        try:
-            # text = recon.recognize_sphinx(audio)
-            text = recon.recognize_google(audio)
-            print("Google Speech: "+text)
-            # socketio.emit("myresponse", text, namespace=IO_SPACE)
-        except sr.UnknownValueError:
-            print("Google unrecognizable")
-        except sr.RequestError as e:
-            print("Google error; {0}".format(e))
-
-    # Sphynx
-    # Pluses: fast
-    # Minuses: absolutely unacurate
-    # Verdict: NOOOO! (2 out of 5)
-    # TODO: Posible use for words detection, before sending to bing ()
-    def detect_sphinx(self,recon,audio):
-        try:
-            text = recon.recognize_sphinx(audio)
-            print("Sphinx Speech: "+text)
-            # socketio.emit("myresponse", text, namespace=IO_SPACE)
-        except sr.UnknownValueError:
-            print("Sphinx unrecognizable")
-        except sr.RequestError as e:
-            print("Sphinx error; {0}".format(e))
-
     # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
     # Pluses: quite accurate
     # Minuses: slow, 5000 month quota
@@ -64,6 +35,8 @@ class Speech:
         try:
             # text = recon.recognize_sphinx(audio)
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            get_command(text)
+
             print("Bing Speech: "+text)
             # socketio.emit("myresponse", text, namespace=IO_SPACE)
         except sr.UnknownValueError:
