@@ -1,8 +1,6 @@
 from flask import Flask, request, render_template
-from flask_socketio import SocketIO, emit
+# from flask_socketio import SocketIO, emit
 
-from dbase.dwn import download
-import thread
 
 # from dbase.dbase import db
 # import speech.speech
@@ -23,12 +21,16 @@ app.config['SECRET_KEY'] = "supersecret";
 dwn_thread = None;
 t_running = False;
 
+import dbase.dwn
+import thread
+
 @app.route('/')
 def index():
+    global dwn_thread, t_running
 
-    if !t_running:
+    if not t_running:
         t_running = True;
-        thread.start_new_thread(download, ("Thread 1",))
+        thread.start_new_thread(dbase.dwn.download, ())
 
     return "Welcome to Magic Mirror Server :)"
 
@@ -39,4 +41,4 @@ def index():
 
 # Run Server Application
 if __name__  == '__main__':
-    socketio.run(app)
+    Flask.run(app)
