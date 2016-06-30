@@ -1,12 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Poiret+One);
 body{
-  background-color: #E6E6FA;
+  /*background-color: #E6E6FA;*/
+  background-image: url("bg.jpg");
 }
 h1 {
   font-family: Poiret One, sans-serif, bold;
   text-align: center;
   /*color: white;*/
   padding: 10px;
+
 }
 
 .banner {
