@@ -1,6 +1,8 @@
+@import url(https://fonts.googleapis.com/css?family=Poiret+One);
 body {
     background-color: #000;
     color: #fff;
+    font-family: Poiret One;
 }
 
 /* Page Animations */
@@ -112,6 +114,8 @@ body {
     border: 0;
 
     /*font-family: "Arial";*/
+    font-family: Poiret One;
+
 
     margin-left: auto;
     margin-right: auto;
@@ -124,7 +128,7 @@ body {
 
 /* Weather Widget */
 #weather img {
-    width: 125%;
+    width: 100%;
 }
 
 #weather h1 {
