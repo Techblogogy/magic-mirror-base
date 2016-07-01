@@ -13,11 +13,25 @@ class cal:
                 deleted INTEGER NOT NULL DEFAULT 0
             ) """)
 
-    # Returns all events
+    # Returns all events from today onwards
     @staticmethod
     def get_events():
         return db.qry("""
             SELECT * FROM tbl_cal WHERE c_date >= date('now') AND deleted=0
+        """)
+
+    # Returns events in range
+    @staticmethod
+    def get_range_events(min, max):
+        return db.qry("""
+            SELECT * FROM tbl_cal WHERE c_date >= ? AND c_dat <= ? AND deleted=0
+        """, (min,max,))
+
+    # Returns todays events
+    @staticmethod
+    def get_today_events():
+        return db.qry("""
+            SELECT * FROM tbl_cal WHERE c_date=date('now') AND deleted=0
         """)
 
     # Adds an event
