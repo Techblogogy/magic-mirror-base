@@ -69,10 +69,20 @@ class gcal:
         http = gcal.get_cred().authorize(httplib2.Http())
         cal = build('calendar', 'v3', http=http)
 
-        now = datetime.datetime.utcnow().isoformat() + "Z"
+        t_now = datetime.datetime.utcnow()
+        t_max = datetime.datetime(
+            year=t_now.year,
+            month=t_now.month,
+            day=t_now.day,
+            hour=23,
+            minute=59,
+            second=59,
+            microsecond=999999)
+
         results = cal.events().list(
             calendarId='primary',
-            timeMin=now,
+            timeMin=t_now.isoformat()+"Z",
+            timeMax=t_max.isoformat()+"Z",
             showDeleted=False,
             singleEvents=True,
             maxResults=15,
