@@ -33,6 +33,14 @@ def cal_route():
 def cal_get_event():
     return json.dumps(calendar.calendar.cal.get_events())
 
+# events getter in range
+@app.route('/cal/events/get/range')
+def cal_get_rage_event():
+    return json.dumps(calendar.calendar.cal.get_range_events(
+        request.args.get('min'),
+        request.args.get('max')
+    ))
+
 # events adder
 @app.route('/cal/events/add', methods=['POST'])
 def cal_add_event():
@@ -45,7 +53,7 @@ def cal_add_event():
 @app.route('/cal/events/update', methods=['POST'])
 def cal_upt_event():
     return calendar.calendar.cal.upd_event(
-        request.form.get('id'),
+        request.form.get('id', type=int),
         request.form.get('task'),
         request.form.get('date'),
         request.form.get('time'))
@@ -53,7 +61,7 @@ def cal_upt_event():
 # events remover
 @app.route('/cal/events/delete', methods=['POST'])
 def cal_rmv_event():
-    return calendar.calendar.cal.rmv_event(request.form.get('id'))
+    return calendar.calendar.cal.rmv_event(request.form.get('id', type=int))
 
 # Error Handling
 @app.errorhandler(400)

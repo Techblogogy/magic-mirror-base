@@ -29,7 +29,7 @@ class cal:
             return
 
         return db.qry("""
-            SELECT * FROM tbl_cal WHERE c_date >= ? AND c_dat <= ? AND deleted=0
+            SELECT * FROM tbl_cal WHERE c_date >= ? AND c_date <= ? AND deleted=0
         """, (min,max,))
 
     # Returns todays events
