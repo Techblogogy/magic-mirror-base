@@ -2,10 +2,7 @@ from flask import Flask, request, send_from_directory
 import os
 # from flask_socketio import SocketIO, emit
 
-# from dbase.dbase import db
-# import speech.speech
-
-import time
+import calendar.calendar
 
 # FLASK SERVER INITIATION FILE
 # USED FOR SOCKET EVENTS
@@ -18,21 +15,13 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "supersecret";
 # socketio = SocketIO(app,async_mode='threading')
 
-dwn_thread = None;
-t_running = False;
-
-import dbase.dwn
-import thread
-
 @app.route('/<path:filename>')
 def index(filename):
-    global dwn_thread, t_running
-
-    if not t_running:
-        t_running = True;
-        thread.start_new_thread(dbase.dwn.download, ())
-
     return send_from_directory(os.path.dirname(os.getcwd()), filename)
+
+@app.route('/cal')
+def cal_route():
+    return "hey!";
 
 # @socketio.on("connect", namespace=IO_SPACE)
 # def connected():

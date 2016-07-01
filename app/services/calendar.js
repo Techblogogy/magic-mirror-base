@@ -18,8 +18,13 @@ function checkAuth() {
 
 /* function for handling authorozation of server */
 function handleAuthResult(authResult) {
+    auth2 = gapi.auth
     if (authResult && !authResult.error) {
-        loadCalendarApi();
+        console.log("Auth");
+        console.log(authResult);
+        // loadCalendarApi();
+    } else {
+        console.log("Error");
     }
 }
 
