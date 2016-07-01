@@ -12,6 +12,7 @@ import calendar.calendar
 
 # Important Constants
 IO_SPACE = "/io"
+JSON_DENT = 4
 
 # Flask Elements
 app = Flask(__name__)
@@ -31,7 +32,7 @@ def cal_route():
 # events getter
 @app.route('/cal/events/get')
 def cal_get_event():
-    return json.dumps(calendar.calendar.cal.get_events())
+    return json.dumps(calendar.calendar.cal.get_events(), indent=JSON_DENT)
 
 # events getter in range
 @app.route('/cal/events/get/range')
@@ -39,12 +40,12 @@ def cal_get_rage_event():
     return json.dumps(calendar.calendar.cal.get_range_events(
         request.args.get('min'),
         request.args.get('max')
-    ))
+    ), indent=JSON_DENT)
 
 # today event getter
 @app.route('/cal/events/get/today')
 def cal_get_today_event():
-    return json.dumps(calendar.calendar.cal.get_today_events())
+    return json.dumps(calendar.calendar.cal.get_today_events(), indent=JSON_DENT)
 
 # events adder
 @app.route('/cal/events/add', methods=['POST'])
