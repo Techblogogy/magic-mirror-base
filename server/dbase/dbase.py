@@ -11,16 +11,16 @@ class dbase:
         self._db = self._cn.cursor() # Databse Cursor
 
     # Querry Database
-    def qry(self, qry):
+    def qry(self, qry, params=()):
         self.connect()
-        dat = self.exe(qry)
+        dat = self.exe(qry,params)
         self.close()
 
         return dat
 
     # Only execute querry
-    def exe(self, qry):
-        self._db.execute(qry)
+    def exe(self, qry, params=()):
+        self._db.execute(qry,params)
         return self._db.fetchall()
 
     # Commit changes and close
@@ -30,10 +30,10 @@ class dbase:
 
     #TODO: Add Setup method to initate all of the tables
     def setup(self):
-        self.connect()
+        # self.connect()
 
         # Create a basic weather test table
-        self.exe("""
+        self.qry("""
             CREATE TABLE IF NOT EXISTS temp_video (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 v_path TEXT NOT NULL,
@@ -41,7 +41,7 @@ class dbase:
             )
             """)
 
-        self.close()
+        # self.close()
 
 # Initiate database instance
 db = dbase()

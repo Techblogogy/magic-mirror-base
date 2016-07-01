@@ -1,25 +1,52 @@
-from dbase.dbase import db
+from server import db
 
-class Cal:
-    def __init__(self):
-        pass
-
+class cal:
     # Creates required tables
-    def init_tables(self):
-        pass
+    @staticmethod
+    def init_tables():
+        db.qry("""
+            CREATE TABLE IF NOT EXISTS tbl_cal (
+                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                task TEXT NOT NULL,
+                c_date TEXT NOT NULL,
+                c_time TEXT,
+                deleted INTEGER NOT NULL DEFAULT 0
+            ) """)
 
     # Returns all events
-    def get_event(self):
-        pass
+    @staticmethod
+    def get_events():
+        return db.qry("""
+            SELECT * FROM tbl_cal WHERE c_date AND deleted=0
+        """)
 
     # Adds an event
-    def add_event(self, text, time=0):
-        pass
+    @staticmethod
+    def add_event(task, date, time=None):
+        db.qry("""
+            INSERT INTO tbl_cal (task, c_date, c_time)
+            VALUES (?,?,?)
+        """, (task,date,time,))
 
     # Updates an event
-    def upd_event(self, id, text=None, time=None):
-        pass
+    @staticmethod
+    def upd_event(id, task=None, date=None, time=None):
+        db.qry("""
+            UPDATE tbl_cal
+            SET task=?, c_date=?, c_time=?
+            WHERE id=?
+        """)
 
     # Removes an event
-    def rmv_event(self, id):
-        pass
+    @staticmethod
+    def rmv_event(id):
+        db.qry("""
+            UPDATE tbl_cal
+            SET deleted=1
+            WHERE id=?
+        """, (id,))
+
+cal.init_tables()
+cal.add_event("lala", "2016-07-01")
+cal.rmv_event(2)
+print cal.get_events()
