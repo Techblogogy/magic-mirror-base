@@ -41,6 +41,11 @@ def cal_get_rage_event():
         request.args.get('max')
     ))
 
+# today event getter
+@app.route('/cal/events/get/today')
+def cal_get_today_event():
+    return json.dumps(calendar.calendar.cal.get_today_events())
+
 # events adder
 @app.route('/cal/events/add', methods=['POST'])
 def cal_add_event():
