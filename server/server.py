@@ -55,6 +55,18 @@ def cal_upt_event():
 def cal_rmv_event():
     return calendar.calendar.cal.rmv_event(request.form.get('id'))
 
+# Error Handling
+@app.errorhandler(400)
+def err_400(e):
+    return '{"status": 400, "message":"Bad request"}', 400
+
+@app.errorhandler(404)
+def err_404(e):
+    return '{"status": 404, "message":"Page not found"}', 404
+
+@app.errorhandler(500)
+def err_500(e):
+    return '{"status": 500, "message":"Internal server error"}', 500
 
 # @socketio.on("connect", namespace=IO_SPACE)
 # def connected():

@@ -1,4 +1,5 @@
 from server import db
+from flask import abort
 
 class cal:
     # Creates required tables
@@ -23,6 +24,10 @@ class cal:
     # Returns events in range
     @staticmethod
     def get_range_events(min, max):
+        if min == None or max == None:
+            abort(400)
+            return
+
         return db.qry("""
             SELECT * FROM tbl_cal WHERE c_date >= ? AND c_dat <= ? AND deleted=0
         """, (min,max,))
@@ -37,18 +42,23 @@ class cal:
     # Adds an event
     @staticmethod
     def add_event(task, date, time=None):
+        if task == None or date == None:
+            abort(400)
+            return
+
         db.qry("""
             INSERT INTO tbl_cal (task, c_date, c_time)
             VALUES (?,?,?)
         """, (task,date,time,))
 
-        return '{"status": 200, "message":"ok"}'
+        return '{"status": 200, "message":"Event Added"}'
 
     # Updates an event
     @staticmethod
     def upd_event(id, task, date, time=None):
-        if id == None:
-            return '{"status": 500, "message":"id not specified"}'
+        if id == None or task == None or date == None:
+            abort(400)
+            return
 
         db.qry("""
             UPDATE tbl_cal
@@ -56,13 +66,14 @@ class cal:
             WHERE id=?
         """)
 
-        return '{"status": 200, "message":"ok"}'
+        return '{"status": 200, "message":"Event Updated"}'
 
     # Removes an event
     @staticmethod
     def rmv_event(id):
         if id == None:
-            return '{"status": 500, "message":"id not specified"}'
+            abort(400)
+            return
 
         db.qry("""
             UPDATE tbl_cal
@@ -70,7 +81,7 @@ class cal:
             WHERE id=?
         """, (id,))
 
-        return '{"status": 200, "message":"ok"}'
+        return '{"status": 200, "message":"Event Removed"}'
 
 cal.init_tables()
 # cal.add_event("lala", "2016-07-01")
