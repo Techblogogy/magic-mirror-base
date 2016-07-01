@@ -6,16 +6,15 @@ from ntext.ntext import get_command
 # from server import IO_SPACE, socketio
 # Custom voice listening function based on sound and vision
 
-# TODO:
-# Theoretical plan. Using OpenCV's for motion detection
-# trigger microphone listening. Then based on calibrated background vs voice
-# amplitude (maybe /w help of sphynx) send data to bing and to UI
+S_DEBUG = True
 
 class Speech:
 
     def __init__(self):
         self._r = sr.Recognizer()
-        self._m = sr.Microphone()
+        self._r.dynamic_energy_threshold = False
+
+        self._m = sr.Microphone(sample_rate=8000)
 
     def start(self):
         print ("Starting")
@@ -25,7 +24,7 @@ class Speech:
     # Ajust for ambient noise
     def noise_adjust(self):
         with self._m as source:
-            self._r.adjust_for_ambient_noise(source)
+            self._r.adjust_for_ambient_noise(source, duration=2)
 
     # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
     # Pluses: quite accurate
@@ -33,12 +32,10 @@ class Speech:
     # Verdict: most likely (4 out of 5)
     def detect_bing(self,recon,audio):
         try:
-            # text = recon.recognize_sphinx(audio)
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
             get_command(text)
 
             print("Bing Speech: "+text)
-            # socketio.emit("myresponse", text, namespace=IO_SPACE)
         except sr.UnknownValueError:
             print("Bing unrecognizable")
         except sr.RequestError as e:

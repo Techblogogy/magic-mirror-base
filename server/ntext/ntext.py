@@ -44,7 +44,7 @@ def get_command(cm):
 
         # Output command
         if br:
-            socketio.emit(c.cmd, "", namespace=IO_SPACE)
+            # socketio.emit(c.cmd, "", namespace=IO_SPACE)
             print c.cmd;
             break;
 
