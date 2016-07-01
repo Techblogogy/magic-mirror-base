@@ -64,6 +64,7 @@ class gcal:
         # Return Index redirection
         return "/"
 
+    # Returns todays events
     @staticmethod
     def get_today():
         http = gcal.get_cred().authorize(httplib2.Http())
