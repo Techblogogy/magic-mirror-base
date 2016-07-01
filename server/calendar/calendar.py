@@ -33,6 +33,9 @@ class cal:
     # Updates an event
     @staticmethod
     def upd_event(id, task, date, time=None):
+        if id == None:
+            return '{"status": 500, "message":"id not specified"}'
+
         db.qry("""
             UPDATE tbl_cal
             SET task=?, c_date=?, c_time=?
@@ -44,6 +47,9 @@ class cal:
     # Removes an event
     @staticmethod
     def rmv_event(id):
+        if id == None:
+            return '{"status": 500, "message":"id not specified"}'
+
         db.qry("""
             UPDATE tbl_cal
             SET deleted=1
@@ -53,6 +59,6 @@ class cal:
         return '{"status": 200, "message":"ok"}'
 
 cal.init_tables()
-cal.add_event("lala", "2016-07-01")
-cal.rmv_event(2)
+# cal.add_event("lala", "2016-07-01")
+# cal.rmv_event(2)
 print cal.get_events()

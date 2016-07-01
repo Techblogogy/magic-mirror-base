@@ -41,6 +41,20 @@ def cal_add_event():
         request.form.get('date'),
         request.form.get('time'))
 
+# events updater
+@app.route('/cal/events/update', methods=['POST'])
+def cal_add_event():
+    return calendar.calendar.cal.upd_event(
+        request.form.get('id'),
+        request.form.get('task'),
+        request.form.get('date'),
+        request.form.get('time'))
+
+# events remover
+@app.route('/cal/events/delete', methods=['POST'])
+def cal_add_event():
+    return calendar.calendar.cal.rmv_event(request.form.get('id'))
+
 
 # @socketio.on("connect", namespace=IO_SPACE)
 # def connected():
