@@ -2,7 +2,7 @@ import sqlite3
 
 class dbase:
     def __init__(self):
-        self._dbpath = 'res/db/mirror.db' # Database file path
+        self._dbpath = 'dbase/mirror.db' # Database file path
         self.setup()
 
     # Connect to database
@@ -42,7 +42,3 @@ class dbase:
             """)
 
         # self.close()
-
-# Initiate database instance
-db = dbase()
-db.setup()

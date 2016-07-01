@@ -28,14 +28,18 @@ class cal:
             VALUES (?,?,?)
         """, (task,date,time,))
 
+        return '{"status": 200, "message":"ok"}'
+
     # Updates an event
     @staticmethod
-    def upd_event(id, task=None, date=None, time=None):
+    def upd_event(id, task, date, time=None):
         db.qry("""
             UPDATE tbl_cal
             SET task=?, c_date=?, c_time=?
             WHERE id=?
         """)
+
+        return '{"status": 200, "message":"ok"}'
 
     # Removes an event
     @staticmethod
@@ -45,6 +49,8 @@ class cal:
             SET deleted=1
             WHERE id=?
         """, (id,))
+
+        return '{"status": 200, "message":"ok"}'
 
 cal.init_tables()
 cal.add_event("lala", "2016-07-01")

@@ -1,12 +1,14 @@
 from flask import Flask, request, send_from_directory
-import os
+import os, json
 # from flask_socketio import SocketIO, emit
 
-from dbase.dbase import db
-import calendar.calendar
+from dbase.dbase import dbase
 
-# FLASK SERVER INITIATION FILE
-# USED FOR SOCKET EVENTS
+# Initiate database instance
+db = dbase()
+db.setup()
+
+import calendar.calendar
 
 # Important Constants
 IO_SPACE = "/io"
@@ -20,9 +22,25 @@ app.config['SECRET_KEY'] = "supersecret";
 def index(filename):
     return send_from_directory(os.path.dirname(os.getcwd()), filename)
 
+# Calendar API Routes
+# main route
 @app.route('/cal')
 def cal_route():
-    return "hey!";
+    return "";
+
+# events getter
+@app.route('/cal/events/get')
+def cal_get_event():
+    return json.dumps(calendar.calendar.cal.get_events())
+
+# events adder
+@app.route('/cal/events/add', methods=['POST'])
+def cal_add_event():
+    return calendar.calendar.cal.add_event(
+        request.form.get('task'),
+        request.form.get('date'),
+        request.form.get('time'))
+
 
 # @socketio.on("connect", namespace=IO_SPACE)
 # def connected():
