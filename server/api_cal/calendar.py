@@ -1,5 +1,5 @@
 from server import db
-from flask import abort
+from flask import abort, redirect
 
 class cal:
     # Creates required tables
@@ -86,4 +86,4 @@ class cal:
 cal.init_tables()
 # cal.add_event("lala", "2016-07-01")
 # cal.rmv_event(2)
-print cal.get_events()
+# print cal.get_events()

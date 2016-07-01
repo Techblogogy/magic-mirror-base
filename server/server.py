@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory
+from flask import Flask, request, send_from_directory, redirect
 import os, json
 # from flask_socketio import SocketIO, emit
 
@@ -9,6 +9,7 @@ db = dbase()
 db.setup()
 
 import api_cal.calendar
+from api_cal.gcal import gcal
 
 # Important Constants
 IO_SPACE = "/io"
@@ -22,6 +23,21 @@ app.config['SECRET_KEY'] = "supersecret";
 @app.route('/<path:filename>')
 def index(filename):
     return send_from_directory(os.path.dirname(os.getcwd()), filename)
+
+# GOOGLE CALENDAR API Routes
+
+# Authenication routes
+@app.route('/gcal/auth2callback')
+def gauth_callback():
+    return redirect(gcal.auth_callback(request.args.get('code')))
+@app.route('/gcal/gauth')
+def gauth_call():
+    return redirect(gcal.get_auth_uri())
+
+# Get todays events
+@app.route('/gcal/today')
+def gcal_today():
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
 
 # Calendar API Routes
 # main route
