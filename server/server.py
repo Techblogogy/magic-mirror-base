@@ -43,7 +43,7 @@ def cal_add_event():
 
 # events updater
 @app.route('/cal/events/update', methods=['POST'])
-def cal_add_event():
+def cal_upt_event():
     return calendar.calendar.cal.upd_event(
         request.form.get('id'),
         request.form.get('task'),
@@ -52,7 +52,7 @@ def cal_add_event():
 
 # events remover
 @app.route('/cal/events/delete', methods=['POST'])
-def cal_add_event():
+def cal_rmv_event():
     return calendar.calendar.cal.rmv_event(request.form.get('id'))
 
 

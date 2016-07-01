@@ -17,7 +17,7 @@ class cal:
     @staticmethod
     def get_events():
         return db.qry("""
-            SELECT * FROM tbl_cal WHERE c_date AND deleted=0
+            SELECT * FROM tbl_cal WHERE c_date >= date('now') AND deleted=0
         """)
 
     # Adds an event
