@@ -30,12 +30,12 @@ def cal_route():
     return "";
 
 # events getter
-@app.route('/cal/events/get')
+@app.route('/cal/events/get', methods=['GET'])
 def cal_get_event():
     return json.dumps(calendar.calendar.cal.get_events(), indent=JSON_DENT)
 
 # events getter in range
-@app.route('/cal/events/get/range')
+@app.route('/cal/events/get/range', methods=['GET'])
 def cal_get_rage_event():
     return json.dumps(calendar.calendar.cal.get_range_events(
         request.args.get('min'),
@@ -43,7 +43,7 @@ def cal_get_rage_event():
     ), indent=JSON_DENT)
 
 # today event getter
-@app.route('/cal/events/get/today')
+@app.route('/cal/events/get/today', methods=['GET'])
 def cal_get_today_event():
     return json.dumps(calendar.calendar.cal.get_today_events(), indent=JSON_DENT)
 
