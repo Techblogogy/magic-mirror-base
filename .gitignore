@@ -9,3 +9,6 @@ server/cvison/frames/*.png
 *.mp4
 
 server/gcal_credentials
+server/client_secret.json
+
+server/venv
