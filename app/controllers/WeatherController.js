@@ -16,6 +16,8 @@ app.controller('WeatherCtr', ['$scope', '$http', function ($scope, $http) {
 
                   $scope.w_dat = {
                     temp: data.main.temp,
+                    min_temp: data.main.temp_min,
+                    max_temp: data.main.temp_max,
                     icon: ""
                   };
                   // data.weather[0].description = "thunderstorm"
