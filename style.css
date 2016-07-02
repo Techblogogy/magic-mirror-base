@@ -125,6 +125,11 @@ body {
     font-weight: 100;
     font-size: 56pt;
 }
+#clock > .ui-widget > .body > h2 {
+    font-weight: 50;
+    margin-top: -10px;
+    text-align: left;
+}
 
 /* Weather Widget */
 #weather img {
@@ -139,26 +144,32 @@ body {
 /* Schedule Widget */
 #schedule .s_item {
     /*border-bottom: 1px solid white;*/
-
-
+    /*border-left: 2px solid white;*/
     overflow: auto; /* FIX for bootstrap column floating */
+    padding-bottom: 10px;
 }
 
 #schedule .time {
-    padding-left: 0;
-    font-weight: 50;
+    padding-left: 5;
+    font-weight: 80
+    font-size: 16px;
+    border-left: 2px solid white;
     /*font-size: 24pt;*/
+
 }
 
 #schedule .plan {
-    padding-right: 0;
+    /*padding-right: 0;*/
+
 }
 
 #schedule .plan > span {
+  font-size: 24px;
 }
 
 /* Maps Widget */
 #map-widget .ui-widget {
+    display: none;
     width: 400px;
 }
 #g_map {

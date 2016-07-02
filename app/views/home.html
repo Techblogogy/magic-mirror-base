@@ -1,7 +1,9 @@
+
 <!-- Clock Widget -->
 <div ng-controller="ClockCtr">
     <ui-widget id="clock">
-        <h1>{{ time | date:'HH:mm' }}</h1>
+        <h1>{{ time | date:'HH:mm'}}</h1>
+        <h2>{{time | date:'MMMM d'}}</h2>
     </ui-widget>
 </div>
 
@@ -23,7 +25,7 @@
     <ui-widget id="schedule">
         <div ng-repeat="i in plans" class="s_item">
             <div class="col-xs-4 time">
-                <span>{{ i.start.dateTime | date:"h:mma" }} {{ i.end.dateTime | date:"h:mma" }}</span>
+                <span>{{ i.start.dateTime | date:"H:mm" }} {{ i.end.dateTime | date:"H:mm" }}</span>
             </div>
 
             <div class="col-xs-8 plan">
