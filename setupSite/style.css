@@ -58,6 +58,18 @@ h1 {
     background-color: #8AC5ED; /* same as bg */
     color: white;
 }
+a:hover{
+    color: white;
+    text-decoration: none;
+
+}
+a:link {
+    text-decoration: none;
+}
+a.not-main{
+  color: black;
+  text-decoration: none;
+}
 
 .container {
   text-align: center;
