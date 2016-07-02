@@ -33,6 +33,9 @@ def gauth_callback():
 @app.route('/gcal/gauth')
 def gauth_call():
     return redirect(gcal.get_auth_uri())
+@app.route('/gcal/isauth')
+def gauth_isauth():
+    return json.dumps({'is_needed': not gcal.need_auth()})
 
 # Get todays events
 @app.route('/gcal/today')
