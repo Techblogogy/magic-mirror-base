@@ -7,3 +7,5 @@ server/cvison/*.png
 server/cvison/frames/*.png
 
 *.mp4
+
+server/gcal_credentials

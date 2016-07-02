@@ -11,11 +11,13 @@ class gcal:
     # Get auth flow
     @staticmethod
     def get_flow():
-        return client.flow_from_clientsecrets(
+        flow = client.flow_from_clientsecrets(
             "client_secret.json",
             scope="https://www.googleapis.com/auth/calendar.readonly",
             redirect_uri="http://localhost:5000/gcal/auth2callback"
         )
+        flow.params['access_type'] = 'offline'
+        return flow
 
     # Get credential
     @staticmethod
@@ -29,6 +31,12 @@ class gcal:
         store = Storage('gcal_credentials')
         store.put(cred)
 
+    # Remove credential
+    @staticmethod
+    def rmv_cred():
+        store = Storage('gcal_credentials')
+        store.delete()
+
     # Checks for need of authentication
     @staticmethod
     def need_auth():
@@ -36,6 +44,12 @@ class gcal:
             return True
         else:
             return False
+
+    # De authenticate user
+    @staticmethod
+    def deauth_usr():
+        gcal.get_cred().revoke(httplib2.Http())
+        gcal.rmv_cred()
 
     # Get Google Auth redirect URL
     @staticmethod
