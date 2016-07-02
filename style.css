@@ -72,7 +72,7 @@ body {
     position:absolute;
     top:0;
     bottom:0;
-
+    border: 2px solid white;
     width:100%;
 
     /*text-align:center;*/
@@ -90,7 +90,7 @@ body {
     overflow: auto;
 
     padding: 10px;
-    border: 2px solid white;
+    /*border: 2px solid white;
 
     border-radius: 20px; /* Reserved For Circular Items */
 
@@ -109,7 +109,7 @@ body {
     display: block;
 
     width: auto;
-    text-align: center;
+    text-align: left;
 
     border: 0;
 
@@ -138,13 +138,16 @@ body {
 
 /* Schedule Widget */
 #schedule .s_item {
-    border-bottom: 1px solid white;
+    /*border-bottom: 1px solid white;*/
+
 
     overflow: auto; /* FIX for bootstrap column floating */
 }
 
 #schedule .time {
     padding-left: 0;
+    font-weight: 50;
+    /*font-size: 24pt;*/
 }
 
 #schedule .plan {
