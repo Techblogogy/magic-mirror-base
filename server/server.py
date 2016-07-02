@@ -2,8 +2,7 @@ from flask import Flask, request, send_from_directory, redirect
 import os, json
 # from flask_socketio import SocketIO, emit
 
-from decor import crossdomain as crd
-
+import decor
 from dbase.dbase import dbase
 
 # Initiate database instance
@@ -31,20 +30,18 @@ def index(filename):
 
 # Authenication routes
 @app.route('/gcal/auth2callback')
-@crd(origin=ALLOWED_ORIGIN)
 def gauth_callback():
     return redirect(gcal.auth_callback(request.args.get('code')))
 @app.route('/gcal/gauth')
-@crd(origin=ALLOWED_ORIGIN)
 def gauth_call():
     return redirect(gcal.get_auth_uri())
 @app.route('/gcal/isauth')
-@crd(origin=ALLOWED_ORIGIN )
 def gauth_isauth():
     return json.dumps({'is_needed': not gcal.need_auth()})
 
 # Get todays events
-@app.route('/gcal/today')
+@app.route('/gcal/today', methods=['GET','OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
 def gcal_today():
     return json.dumps(gcal.get_today(), indent=JSON_DENT)
 

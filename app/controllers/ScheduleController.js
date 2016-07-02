@@ -1,5 +1,5 @@
 // Schedule Data Controller
-app.controller('ScheduleCtr', ['$scope', function ($scope) {
+app.controller('ScheduleCtr', ['$scope', '$http',function ($scope, $http) {
 
     $scope.name = "Todays Plans";
     $scope.show_title = true;
@@ -7,6 +7,13 @@ app.controller('ScheduleCtr', ['$scope', function ($scope) {
     $scope.loaded = function () {
       //handleAuthClick();
     };
+
+
+    $http.get('http://localhost:5000/gcal/today')
+    .success(function(a){
+        console.log("111");
+        console.log(a);
+    })
 
     $scope.plans = [
         {

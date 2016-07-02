@@ -1,16 +1,16 @@
-app.controller('MainController', ['$scope', '$location', 'socket', '$timeout', function ($scope, $location, socket, $timeout) {
+app.controller('MainController', ['$scope', '$location', /*'socket',*/ '$timeout', function ($scope, $location, /*socket,*/ $timeout) {
 
     $scope.anim = "";
     $scope.bodge_time = 1; //in milliseconds
 
-    socket.emit("connected");
+    // socket.emit("connected");
 
-    socket.forward('myresponse', $scope);
-    $scope.$on('socket:myresponse', function (event, data) {
-        console.log(data);
-
-        $scope.switchView('weather', 'left_swipe');
-    });
+    // socket.forward('myresponse', $scope);
+    // $scope.$on('socket:myresponse', function (event, data) {
+    //     console.log(data);
+    //
+    //     $scope.switchView('weather', 'left_swipe');
+    // });
 
     // Switch View with an animation
     $scope.switchView = function (view, animation) {
