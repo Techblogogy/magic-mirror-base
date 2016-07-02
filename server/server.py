@@ -2,6 +2,8 @@ from flask import Flask, request, send_from_directory, redirect
 import os, json
 # from flask_socketio import SocketIO, emit
 
+from decor import crossdomain as crd
+
 from dbase.dbase import dbase
 
 # Initiate database instance
@@ -13,6 +15,7 @@ from api_cal.gcal import gcal
 
 # Important Constants
 IO_SPACE = "/io"
+ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
 
 # Flask Elements
@@ -28,12 +31,15 @@ def index(filename):
 
 # Authenication routes
 @app.route('/gcal/auth2callback')
+@crd(origin=ALLOWED_ORIGIN)
 def gauth_callback():
     return redirect(gcal.auth_callback(request.args.get('code')))
 @app.route('/gcal/gauth')
+@crd(origin=ALLOWED_ORIGIN)
 def gauth_call():
     return redirect(gcal.get_auth_uri())
 @app.route('/gcal/isauth')
+@crd(origin=ALLOWED_ORIGIN )
 def gauth_isauth():
     return json.dumps({'is_needed': not gcal.need_auth()})
 
