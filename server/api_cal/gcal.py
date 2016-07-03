@@ -78,6 +78,15 @@ class gcal:
         # Return Index redirection
         return "/"
 
+    @staticmethod
+    def get_mail():
+        http = gcal.get_cred().authorize(httplib2.Http())
+        mail = build('gmail', 'v1', http=http)
+
+        results = mail.users().labels().list(userId='me').execute()
+
+        return results.get('labels', [])
+
     # Returns todays events
     @staticmethod
     def get_today():

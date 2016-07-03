@@ -45,6 +45,11 @@ def gauth_isauth():
 def gcal_today():
     return json.dumps(gcal.get_today(), indent=JSON_DENT)
 
+# Get todays events
+@app.route('/gcal/mail', methods=['GET'])
+def gcal_mail():
+    return json.dumps(gcal.get_mail(), indent=JSON_DENT)
+
 # Calendar API Routes
 # main route
 @app.route('/cal')

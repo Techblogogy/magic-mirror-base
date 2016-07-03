@@ -3,7 +3,7 @@ var SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
 
 window.onload = function () {
     // console.log("L");
-    handleAuthClick();
+    // handleAuthClick();
 }
 
 /*Check the user authentication */

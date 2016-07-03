@@ -1,51 +1,51 @@
 @import url(https://fonts.googleapis.com/css?family=Poiret+One);
 body{
-  /*background-color: #E6E6FA;*/
-  background-image: url("bg.jpg");
+    /*background-color: #E6E6FA;*/
+    background-image: url("bg.jpg");
 }
 h1 {
-  font-family: Poiret One, sans-serif, bold;
-  text-align: center;
-  /*color: white;*/
-  padding: 10px;
+    font-family: Poiret One, sans-serif, bold;
+    text-align: center;
+    /*color: white;*/
+    padding: 10px;
 
 }
 
 .banner {
 
-  font-family: 'Poiret One', cursive;
-  min-height: 300px;
-  background-image: url("bg.png");
-  border-top: 4px solid white;
-  border-bottom: 4px solid white;
-  color: white;
+    font-family: 'Poiret One', cursive;
+    min-height: 300px;
+    background-image: url("bg.png");
+    border-top: 4px solid white;
+    border-bottom: 4px solid white;
+    color: white;
     overflow-x: auto;
     overflow-y: auto;
 }
 
 .banner .welcome {
 
-  background-color: rgba(255, 255, 255);
-  border: 4px solid white;
-  top: 200px;
-  left: 25%;
-  width: 50%;
-  min-height: 10px;
-  text-align: center;
-  margin: 10px;
-  margin-top: 100px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 60%;
-  padding-top: 30px;
-  padding-bottom: 30px;
+    background-color: rgba(255, 255, 255);
+    border: 4px solid white;
+    top: 200px;
+    left: 25%;
+    width: 50%;
+    min-height: 10px;
+    text-align: center;
+    margin: 10px;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    padding-top: 30px;
+    padding-bottom: 30px;
 
 }
 
 .banner .welcome span {
-  font-size: 32px;
-  line-height: auto;
-  padding: 30px;
+    font-size: 32px;
+    line-height: auto;
+    padding: 30px;
 
 }
 .google_button {
@@ -68,27 +68,39 @@ h1 {
     color: white;
     cursor: pointer;
 }
+a:hover{
+    color: white;
+    text-decoration: none;
+
+}
+a:link {
+    text-decoration: none;
+}
+a.not-main{
+    color: black;
+    text-decoration: none;
+}
 
 .container {
-  text-align: center;
-  font-family: 'Poiret One', cursive;
+    text-align: center;
+    font-family: 'Poiret One', cursive;
 }
 
 .container .btn {
-  display: inline-block;
-  margin: 2%;
-  border: 4px solid white;
-  font-size: 32px;
-  padding: 10px;
+    display: inline-block;
+    margin: 2%;
+    border: 4px solid white;
+    font-size: 32px;
+    padding: 10px;
 }
 
 
 .btn {
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
 
 }
 .btn:hover{
-  background-color: #8AC5ED; /* same as bg */
-  color: white;
+    background-color: #8AC5ED; /* same as bg */
+    color: white;
 }
