@@ -2,50 +2,31 @@ from flask import Flask, request, send_from_directory, redirect
 import os, json
 
 import decor
+
+from routes.gcal import gcal_api
 #from dbase.dbase import dbase
 
 # Initiate database instance
 #db = dbase()
 #db.setup()
 
-import api_cal.calendar
-from api_cal.gcal import gcal
+# import api_cal.calendar
 
 # Important Constants
-ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
 
 # Flask Elements
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "supersecret";
 
+# Reigster Blueprints
+app.register_blueprint(gcal_api)
+
 @app.route('/<path:filename>')
 def index(filename):
     return send_from_directory(os.path.dirname(os.getcwd()), filename)
 
-# GOOGLE CALENDAR API Routes
 
-# Authenication routes
-@app.route('/gcal/auth2callback')
-def gauth_callback():
-    return redirect(gcal.auth_callback(request.args.get('code')))
-@app.route('/gcal/gauth')
-def gauth_call():
-    return redirect(gcal.get_auth_uri())
-@app.route('/gcal/isauth')
-def gauth_isauth():
-    return json.dumps({'is_needed': not gcal.need_auth()})
-
-# Get todays events
-@app.route('/gcal/today', methods=['GET','OPTIONS'])
-@decor.crossdomain(origin=ALLOWED_ORIGIN)
-def gcal_today():
-    return json.dumps(gcal.get_today(), indent=JSON_DENT)
-
-# Get todays events
-@app.route('/gcal/mail', methods=['GET'])
-def gcal_mail():
-    return json.dumps(gcal.get_mail(), indent=JSON_DENT)
 
 # Calendar API Routes
 # main route
@@ -93,18 +74,6 @@ def cal_upt_event():
 def cal_rmv_event():
     return calendar.calendar.cal.rmv_event(request.form.get('id', type=int))
 
-# Error Handling
-@app.errorhandler(400)
-def err_400(e):
-    return '{"status": 400, "message":"Bad request"}', 400
-
-@app.errorhandler(404)
-def err_404(e):
-    return '{"status": 404, "message":"Page not found"}', 404
-
-@app.errorhandler(500)
-def err_500(e):
-    return '{"status": 500, "message":"Internal server error"}', 500
 
 # Run Server Application
 if __name__  == '__main__':
