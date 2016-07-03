@@ -12,3 +12,5 @@ server/gcal_credentials
 server/client_secret.json
 
 server/venv
+
+mirror.db

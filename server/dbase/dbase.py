@@ -8,7 +8,7 @@ def dict_factory(cursor, row):
 
 class dbase:
     def __init__(self):
-        self._dbpath = 'dbase/mirror.db' # Database file path
+        self._dbpath = 'mirror.db' # Database file path
         self.setup()
 
     # Connect to database
@@ -37,10 +37,10 @@ class dbase:
 
     #TODO: Add Setup method to initate all of the tables
     def setup(self):
-        # self.connect()
+        self.connect()
 
         # Create a basic weather test table
-        self.qry("""
+        self.exe("""
             CREATE TABLE IF NOT EXISTS temp_video (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 v_path TEXT NOT NULL,
@@ -48,4 +48,4 @@ class dbase:
             )
             """)
 
-        # self.close()
+        self.close()

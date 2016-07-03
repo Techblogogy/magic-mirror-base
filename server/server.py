@@ -1,10 +1,12 @@
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
 
-from dbase.dbase import db
 import speech.speech
+from dbase.dbase import dbase
 
-import time
+#Initiate database instance
+db = dbase()
+db.setup()
 
 # FLASK SERVER INITIATION FILE
 # USED FOR SOCKET EVENTS
