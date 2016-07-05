@@ -80,11 +80,12 @@ class gcal:
 
     @staticmethod
     def get_disp_name():
-        http = gcal.get_cred().authorize(httplib2.Http())
-        info = build('plus','v1', http=http)
+        if not need_auth:
+            http = gcal.get_cred().authorize(httplib2.Http())
+            info = build('plus','v1', http=http)
 
-        results = info.people().get(userId='me').execute()
-        return results.get('displayName')
+            results = info.people().get(userId='me').execute()
+            return results.get('displayName')
 
     @staticmethod
     def get_mail():
