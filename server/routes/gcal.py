@@ -9,7 +9,6 @@ ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
 gcal_api = Blueprint('gcal_api', __name__, url_prefix="/gcal")
 
-
 # GOOGLE CALENDAR API Routes
 
 # Authenication routes

@@ -16,7 +16,7 @@ class gcal:
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/gmail.readonly"],
             redirect_uri="http://localhost:5000/gcal/auth2callback"
         )
-        flow.params['access_type'] = 'offline' 
+        flow.params['access_type'] = 'offline'
         return flow
 
     # Get credential
@@ -79,9 +79,12 @@ class gcal:
         return "/"
 
     @staticmethod
-    def get_name():
+    def get_disp_name():
         http = gcal.get_cred().authorize(httplib2.Http())
-        info = build('','', http=http)
+        info = build('plus','v1', http=http)
+
+        results = info.people().get(userId='me').execute()
+        return results.get('displayName')
 
     @staticmethod
     def get_mail():
