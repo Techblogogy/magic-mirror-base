@@ -13,10 +13,10 @@ class gcal:
     def get_flow():
         flow = client.flow_from_clientsecrets(
             "client_secret.json",
-            scope="https://www.googleapis.com/auth/calendar.readonly",
+            scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/gmail.readonly"],
             redirect_uri="http://localhost:5000/gcal/auth2callback"
         )
-        flow.params['access_type'] = 'offline'
+        flow.params['access_type'] = 'offline' 
         return flow
 
     # Get credential
@@ -77,6 +77,11 @@ class gcal:
 
         # Return Index redirection
         return "/"
+
+    @staticmethod
+    def get_name():
+        http = gcal.get_cred().authorize(httplib2.Http())
+        info = build('','', http=http)
 
     @staticmethod
     def get_mail():
