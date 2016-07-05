@@ -17,12 +17,12 @@
         </span>
       </div>
       {% if not auth %}
-      <div class="google_button" ng-click="download()">
+      <div class="google_button">
         <p><a href="http://localhost:5000/gcal/gauth" >Sign in</a></p>
       </div>
       {% else %}
-      <div class="google_button" ng-click="download()">
-        <p><a href="http://localhost:5000/gcal/gauth" >You've already signed in</a></p>
+      <div class="signed">
+        <p>You've already signed in</p>
       </div>
       {% endif %}
     </div>

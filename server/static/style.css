@@ -10,6 +10,20 @@ h1 {
     padding: 10px;
 
 }
+.signed{
+    background-color: white;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    text-align: center;
+    color: black;
+    /*display: inline-block;*/
+    font-size: 32px;
+    width: 100%;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
 .404nf{
     background-image: url("404.png");
 }
