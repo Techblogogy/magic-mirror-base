@@ -25,7 +25,7 @@ app.register_blueprint(gcal_api)
 
 @app.route('/')
 def main():
-    return render_template('setupSite.html', auth = gcal.need_auth());
+    return render_template('setupSite.html', auth = gcal.need_auth(), userName = gcal.get_disp_name());
 
 @app.route('/<path:filename>')
 def index(filename):
@@ -34,7 +34,7 @@ def index(filename):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404    
+    return render_template('404.html'), 404
 
 # Run Server Application
 if __name__  == '__main__':
