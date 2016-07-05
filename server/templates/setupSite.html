@@ -16,10 +16,14 @@
           Welcome to Magic Mirror Authorization Page!
         </span>
       </div>
-      {% if name %}
-      <h1>Hello {{ auth}}!</h1>
+      {% if not auth %}
+      <div class="google_button" ng-click="download()">
+        <p><a href="http://localhost:5000/gcal/gauth" >Sign in</a></p>
+      </div>
       {% else %}
-      <h1>Hello, World!</h1>
+      <div class="google_button" ng-click="download()">
+        <p><a href="http://localhost:5000/gcal/gauth" >You've already signed in</a></p>
+      </div>
       {% endif %}
     </div>
 
