@@ -1,9 +1,10 @@
-from flask import Flask, request, send_from_directory, redirect
+from flask import Flask, request, send_from_directory, redirect, render_template
 import os, json
 
 import decor
 
 from routes.gcal import gcal_api
+from api_cal.gcal import gcal
 #from dbase.dbase import dbase
 
 # Initiate database instance
@@ -22,10 +23,14 @@ app.config['SECRET_KEY'] = "supersecret";
 # Reigster Blueprints
 app.register_blueprint(gcal_api)
 
+@app.route('/')
+def main():
+    return render_template('setupSite.html', auth = gcal.need_auth());
+
 @app.route('/<path:filename>')
 def index(filename):
-    return send_from_directory(os.path.dirname(os.getcwd()), filename)
+    return send_from_directory('static', filename)
 
 # Run Server Application
 if __name__  == '__main__':
-    app.run()
+    app.run(debug=True)

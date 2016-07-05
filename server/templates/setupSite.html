@@ -4,9 +4,10 @@
         <title>Magic Mirror UI</title>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="style.css"/>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
     </head>
-    <body>
+    <body ng-app="setupSite">
     <h1>MAGIC MIRROR</h1>
 
     <div class="banner">
@@ -15,9 +16,11 @@
           Welcome to Magic Mirror Authorization Page!
         </span>
       </div>
-      <div class="google_button">
-        <p><a href="http://localhost:5000/gcal/gauth" >Login</a></p>
-      </div>
+      {% if name %}
+      <h1>Hello {{ auth}}!</h1>
+      {% else %}
+      <h1>Hello, World!</h1>
+      {% endif %}
     </div>
 
     <div class="container">
@@ -31,7 +34,8 @@
         <a href="http://www.huffingtonpost.com/entry/quiz-what-wear-today_us_55f85700e4b0c2077efc3c9b" class="not-main">Dress properly</a>
       </div>
     </div>
-    <script src="../app/services/setupSite.js"></script>
+
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
+
   </body>
 </html>
