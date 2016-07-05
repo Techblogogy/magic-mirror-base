@@ -80,7 +80,7 @@ class gcal:
 
     @staticmethod
     def get_disp_name():
-        if not need_auth:
+        if not gcal.need_auth():
             http = gcal.get_cred().authorize(httplib2.Http())
             info = build('plus','v1', http=http)
 

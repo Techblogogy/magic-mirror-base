@@ -16,13 +16,13 @@
           Welcome to Magic Mirror Authorization Page!
         </span>
       </div>
-      {% if not auth %}
+      {% if auth %}
       <div class="google_button">
         <p><a href="http://localhost:5000/gcal/gauth" >Sign in</a></p>
       </div>
       {% else %}
       <div class="signed">
-        <p>You've already signed in</p>
+        <p>You've already signed in as {{userName}}</p>
       </div>
       {% endif %}
     </div>
