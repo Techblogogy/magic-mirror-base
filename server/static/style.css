@@ -10,6 +10,9 @@ h1 {
     padding: 10px;
 
 }
+.notf{
+    background-image: url(404.png);
+}
 .signed{
     background-color: white;
     padding-top: 1px;

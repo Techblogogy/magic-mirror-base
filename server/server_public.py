@@ -30,6 +30,11 @@ def main():
 @app.route('/<path:filename>')
 def index(filename):
     return send_from_directory('static', filename)
+# Page 404
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404    
 
 # Run Server Application
 if __name__  == '__main__':
