@@ -1,7 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Poiret+One);
-html{
-
-}
 body {
     background-color: #000;
     color: #fff;
@@ -77,8 +74,6 @@ body {
     bottom:0;
     border: 2px solid white;
     width:100%;
-    transform: rotate(90deg);
-
     /*text-align:center;*/
 }
 
