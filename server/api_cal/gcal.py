@@ -51,7 +51,6 @@ class gcal:
     # Checks for need of authentication
     @staticmethod
     def need_auth():
-        print gcal.get_cred()
         if gcal.get_cred() == None:
             return True
 
