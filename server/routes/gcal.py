@@ -21,6 +21,9 @@ def gauth_call():
 @gcal_api.route('/isauth')
 def gauth_isauth():
     return json.dumps({'is_needed': not gcal.need_auth()})
+@gcal_api.route('/deauth')
+def gauth_deauth():
+    return redirect(gcal.deauth_usr())
 
 # Get todays events
 @gcal_api.route('/today', methods=['GET','OPTIONS'])

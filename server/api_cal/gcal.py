@@ -2,6 +2,8 @@ from oauth2client import client
 from apiclient.discovery import build
 from oauth2client.file import Storage
 
+import sys
+
 from flask import abort, redirect
 import httplib2
 
@@ -22,45 +24,60 @@ class gcal:
     # Get credential
     @staticmethod
     def get_cred():
-        store = Storage('gcal_credentials')
-        return store.get()
+        try:
+            store = Storage('gcal_credentials')
+            return store.get()
+        except:
+            return None
 
     # Put credential
     @staticmethod
     def put_cred(cred):
-        store = Storage('gcal_credentials')
-        store.put(cred)
+        try:
+            store = Storage('gcal_credentials')
+            store.put(cred)
+        except:
+            return None
 
     # Remove credential
     @staticmethod
     def rmv_cred():
-        store = Storage('gcal_credentials')
-        store.delete()
+        try:
+            store = Storage('gcal_credentials')
+            store.delete()
+        except:
+            return None
 
     # Checks for need of authentication
     @staticmethod
     def need_auth():
+        print gcal.get_cred()
         if gcal.get_cred() == None:
             return True
-        else:
-            return False
+
+        if gcal.get_disp_name() == False:
+            return True
+
+        return False
 
     # De authenticate user
     @staticmethod
     def deauth_usr():
-        gcal.get_cred().revoke(httplib2.Http())
-        gcal.rmv_cred()
+        if gcal.get_cred() != None:
+            gcal.get_cred().revoke(httplib2.Http())
+            gcal.rmv_cred()
+
+        return "/"
 
     # Get Google Auth redirect URL
     @staticmethod
     def get_auth_uri():
-        if gcal.get_cred() == None:
-            flow = gcal.get_flow()
-
-            auth_uri = flow.step1_get_authorize_url()
-            return auth_uri
-        else:
-            return "/"
+        # if gcal.need_auth():
+        flow = gcal.get_flow()
+        auth_uri = flow.step1_get_authorize_url()
+        return auth_uri
+        # else:
+        #     return "/"
 
     # Google Auth Redirect callback
     @staticmethod
@@ -80,12 +97,16 @@ class gcal:
 
     @staticmethod
     def get_disp_name():
-        if not gcal.need_auth():
+        # if not gcal.need_auth():
+        try:
             http = gcal.get_cred().authorize(httplib2.Http())
             info = build('plus','v1', http=http)
 
             results = info.people().get(userId='me').execute()
             return results.get('displayName')
+        except:
+            return False
+            # print "ERROR!", sys.exc_info()[0]
 
     @staticmethod
     def get_mail():
