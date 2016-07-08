@@ -168,6 +168,9 @@ body {
 /* Schedule Widget */
 #schedule .ui-widget{
     width: auto;
+    -webkit-animation: moveFromLeft .9s ease-in-out both;
+	animation: moveFromLeft .9s ease-in-out both;
+
 }
 #schedule h1{
     font-weight: 700;
@@ -194,7 +197,6 @@ body {
     font-weight: 700;
     font-size: 32pt;
     margin-left: auto;
-
 }
 
 #schedule .plan > span {
