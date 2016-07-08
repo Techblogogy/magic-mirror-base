@@ -45,9 +45,9 @@ app.controller('WeatherCtr', ['$scope', '$http', function ($scope, $http) {
 
     // Weather data placeholder
     $scope.w_dat = {
-        temp: 0,
-        min_temp: 0,
-        max_temp: 0,
+        temp: "res/icons/weather/loading.gif",
+        min_temp: "res/icons/weather/loading.gif",
+        max_temp: "res/icons/weather/loading.gif",
         icon: "" // Cloudy, Sunny, etc.
     };
 }]);

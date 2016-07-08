@@ -15,9 +15,11 @@
         </div>
 
         <div class="col-xs-6">
-            <h2>min {{ (w_dat.min_temp | number:0) | tempC }}</h2>
-            <h2>max {{ (w_dat.max_temp | number:0) | tempC }}</h2>
-            <h1>{{ (w_dat.temp | number:0) | tempC }}</h1>
+            <div class="div1">
+                <h2>min {{ (w_dat.min_temp | number:0) | tempC }}</h2>
+                <h2>max {{ (w_dat.max_temp | number:0) | tempC }}</h2>
+                <h1>{{ (w_dat.temp | number:0) | tempC }}</h1>
+            </div>
         </div>
     </ui-widget>
 </div>
