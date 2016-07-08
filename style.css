@@ -115,7 +115,7 @@ body {
     /*font-family: "Arial";*/
     font-family: Poiret One;
 
-    margin-bottom: auto;
+    margin-bottom: 100px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -134,6 +134,7 @@ body {
 /* Weather Widget */
 #weather .ui-widget {
     width: 500px;
+    margin-bottom: 100px;
 }
 #weather img {
     width: 250px;
@@ -165,6 +166,13 @@ body {
 
 
 /* Schedule Widget */
+#schedule .ui-widget{
+    width: auto;
+}
+#schedule h1{
+    font-weight: 700;
+    font-size: 56pt;
+}
 #schedule .s_item {
     /*border-bottom: 1px solid white;*/
     /*border-left: 2px solid white;*/
@@ -174,8 +182,8 @@ body {
 
 #schedule .time {
     padding-left: 5;
-    font-weight: 80
-    font-size: 16px;
+    font-weight: 700;
+    font-size: 32pt;
     border-left: 2px solid white;
     /*font-size: 24pt;*/
 
@@ -183,11 +191,14 @@ body {
 
 #schedule .plan {
     /*padding-right: 0;*/
+    font-weight: 700;
+    font-size: 32pt;
+    margin-left: auto;
 
 }
 
 #schedule .plan > span {
-  font-size: 24pt;
+  font-size: 40pt;
 }
 
 /* Maps Widget */

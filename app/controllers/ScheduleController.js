@@ -2,7 +2,7 @@
 app.controller('ScheduleCtr', ['$scope', '$http',function ($scope, $http) {
 
     $scope.name = "Plans for Today:";
-    $scope.show_title = true;
+    $scope.show_title = false;
 
     $scope.loaded = function () {
       //handleAuthClick();
