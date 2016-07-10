@@ -1,12 +1,14 @@
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
 
-import speech.speech
-from dbase.dbase import dbase
+# import speech.speech
+import cvison.store
+
+# from dbase.dbase import dbase
 
 #Initiate database instance
-db = dbase()
-db.setup()
+# db = dbase()
+# db.setup()
 
 # FLASK SERVER INITIATION FILE
 # USED FOR SOCKET EVENTS
