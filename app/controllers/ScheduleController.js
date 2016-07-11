@@ -3,18 +3,22 @@ app.controller('ScheduleCtr', ['$scope', '$http',function ($scope, $http) {
 
     $scope.name = "Plans for Today:";
     $scope.show_title = false;
+    $scope.refresh = function(){
+        $http.get('http://localhost:5000/gcal/today')
+        .success(function(data){
+            console.log(data);
+            $scope.plans = data;
+
+        });
+    };
 
     $scope.loaded = function () {
       //handleAuthClick();
     };
-
-
-    $http.get('http://localhost:5000/gcal/today')
-    .success(function(data){
-        console.log(data);
-        $scope.plans = data;
-
-    })
+    $scope.refresh();
+    setInterval(function () {
+        $scope.refresh();
+    }, 60000);
 
     // $scope.plans = [
     //     {
