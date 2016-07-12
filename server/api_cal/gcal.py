@@ -8,11 +8,25 @@ from flask import abort, redirect
 import httplib2
 
 import datetime
+# from dbase.dbase import dbase as db
 
 class gcal:
+    # Inits Calendar tables
+    # @staticmethod
+    # def init_cal_tbl():
+    #     db.qry("""
+    #         CREATE TABLE IF NOT EXISTS tbl_gcal (
+    #             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    #             gid TEXT NOT NULL
+    #         )
+    #     """)
+
+
     # Get auth flow
     @staticmethod
     def get_flow():
+        # gcal.init_cal_tbl()
+
         flow = client.flow_from_clientsecrets(
             "client_secret.json",
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/gmail.readonly"],
@@ -26,26 +40,28 @@ class gcal:
     def get_cred():
         try:
             store = Storage('gcal_credentials')
-            return store.get()
+            return store.locked_get()
         except:
+            print "ERROR!", sys.exc_info()[0]
             return None
 
     # Put credential
     @staticmethod
     def put_cred(cred):
-        try:
-            store = Storage('gcal_credentials')
-            store.put(cred)
-        except:
-            return None
+        # try:
+        store = Storage('gcal_credentials')
+        store.locked_put(cred)
+        # except:
+        #     return None
 
     # Remove credential
     @staticmethod
     def rmv_cred():
         try:
             store = Storage('gcal_credentials')
-            store.delete()
+            store.locked_delete()
         except:
+            print "ERROR!", sys.exc_info()[0]
             return None
 
     # Checks for need of authentication
@@ -62,6 +78,8 @@ class gcal:
     # De authenticate user
     @staticmethod
     def deauth_usr():
+        print "removing auth"
+
         if gcal.get_cred() != None:
             gcal.get_cred().revoke(httplib2.Http())
             gcal.rmv_cred()
@@ -116,6 +134,26 @@ class gcal:
 
         return results.get('labels', [])
 
+    # Return list calendarList
+    # @staticmethod
+    # def get_cals():
+    #     http = gcal.get_cred().authorize(httplib2.Http())
+    #     cal = build('calendar', 'v3', http=http)
+    #
+    #     c_list = cal.calendarList().list().execute()
+    #
+    #     return c_list['items']
+
+    # Add list of calendars
+    # @staticmethod
+    # def add_cals(ids):
+    #     for id in ids:
+    #         db.qry("INSERT INTO tbl_gcal (gcal) VALUES (?)", (id, ))
+
+    # List user calendars
+    # def get_ucals():
+    #     print db.qry("SELECT * FROM tbl_gcal")
+
     # Returns todays events
     @staticmethod
     def get_today():
@@ -132,8 +170,15 @@ class gcal:
             second=59,
             microsecond=999999)
 
+        # pToken = None;
+        # stuff = []
+
+        # for cl in c_list['items']:
+        #     print cl['id']
+
         results = cal.events().list(
             calendarId='primary',
+            # calendarId=cl['id'],
             timeMin=t_now.isoformat()+"Z",
             timeMax=t_max.isoformat()+"Z",
             showDeleted=False,
@@ -141,6 +186,7 @@ class gcal:
             maxResults=15,
             orderBy='startTime'
         ).execute()
-
         events = results.get('items',[])
+
+        # return stuff
         return events
