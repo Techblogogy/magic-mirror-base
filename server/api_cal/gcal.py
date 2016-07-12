@@ -146,8 +146,11 @@ class gcal:
     #Add list of calendars
     @staticmethod
     def add_cals(ids):
-        # print ids
         gcal.init_cal_tbl()
+        db.qry("""
+            DELETE FROM tbl_gcal
+        """)
+        # print ids
         for id in ids["data"]:
             print id
             db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))

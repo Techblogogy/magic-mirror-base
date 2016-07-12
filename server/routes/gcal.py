@@ -44,9 +44,9 @@ def gcal_save_cals():
     # print request.form
     # print request.form.get('ids')
     # gcal.add_cals(json.loads(request.form.get('ids')))
+    # return ''
     return json.dumps(gcal.get_ucals(), indent=JSON_DENT)
 
-    # return ''
     # return json.dumps(gcal.add_cals(), indent=JSON_DENT)
 
 
