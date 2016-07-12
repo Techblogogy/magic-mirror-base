@@ -32,16 +32,21 @@ def gcal_today():
     return json.dumps(gcal.get_today(), indent=JSON_DENT)
 
 # Get calendars
-# @gcal_api.route('/calendars', methods=['GET','OPTIONS'])
-# @decor.crossdomain(origin=ALLOWED_ORIGIN)
-# def gcal_cals():
-#     return json.dumps(gcal.get_cals(), indent=JSON_DENT)
+@gcal_api.route('/calendars', methods=['GET','OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def gcal_cals():
+    return json.dumps(gcal.get_cals(), indent=JSON_DENT)
 
 # Save calendars
-@gcal_api.route('/add/calendars', methods=['POST','OPTIONS'])
-@decor.crossdomain(origin=ALLOWED_ORIGIN)
+# @decor.crossdomain(origin=ALLOWED_ORIGIN)
+@gcal_api.route('/add/calendars', methods=['POST'])
 def gcal_save_cals():
-    gcal.add_cals(request.args.get('ids'))
+    # print request.form
+    # print request.form.get('ids')
+    # gcal.add_cals(json.loads(request.form.get('ids')))
+    return json.dumps(gcal.get_ucals(), indent=JSON_DENT)
+
+    # return ''
     # return json.dumps(gcal.add_cals(), indent=JSON_DENT)
 
 

@@ -8,19 +8,18 @@ from flask import abort, redirect
 import httplib2
 
 import datetime
-# from dbase.dbase import dbase as db
+from dbase.dbase import dbase as db
 
 class gcal:
-    # Inits Calendar tables
-    # @staticmethod
-    # def init_cal_tbl():
-    #     db.qry("""
-    #         CREATE TABLE IF NOT EXISTS tbl_gcal (
-    #             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    #             gid TEXT NOT NULL
-    #         )
-    #     """)
-
+    #Inits Calendar tables
+    @staticmethod
+    def init_cal_tbl():
+        db.qry("""
+            CREATE TABLE IF NOT EXISTS tbl_gcal (
+                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                gid TEXT NOT NULL
+            )
+        """)
 
     # Get auth flow
     @staticmethod
@@ -135,24 +134,28 @@ class gcal:
         return results.get('labels', [])
 
     # Return list calendarList
-    # @staticmethod
-    # def get_cals():
-    #     http = gcal.get_cred().authorize(httplib2.Http())
-    #     cal = build('calendar', 'v3', http=http)
-    #
-    #     c_list = cal.calendarList().list().execute()
-    #
-    #     return c_list['items']
+    @staticmethod
+    def get_cals():
+        http = gcal.get_cred().authorize(httplib2.Http())
+        cal = build('calendar', 'v3', http=http)
 
-    # Add list of calendars
-    # @staticmethod
-    # def add_cals(ids):
-    #     for id in ids:
-    #         db.qry("INSERT INTO tbl_gcal (gcal) VALUES (?)", (id, ))
+        c_list = cal.calendarList().list().execute()
 
-    # List user calendars
-    # def get_ucals():
-    #     print db.qry("SELECT * FROM tbl_gcal")
+        return c_list['items']
+
+    #Add list of calendars
+    @staticmethod
+    def add_cals(ids):
+        # print ids
+        gcal.init_cal_tbl()
+        for id in ids["data"]:
+            print id
+            db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))
+
+    #List user calendars
+    @staticmethod
+    def get_ucals():
+        return db.qry("SELECT * FROM tbl_gcal")
 
     # Returns todays events
     @staticmethod
