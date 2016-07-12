@@ -33,11 +33,11 @@ class gcal:
     # Put credential
     @staticmethod
     def put_cred(cred):
-        try:
-            store = Storage('gcal_credentials')
-            store.put(cred)
-        except:
-            return None
+        # try:
+        store = Storage('gcal_credentials')
+        store.put(cred)
+        # except:
+        #     return None
 
     # Remove credential
     @staticmethod
@@ -132,15 +132,28 @@ class gcal:
             second=59,
             microsecond=999999)
 
-        results = cal.events().list(
-            calendarId='primary',
-            timeMin=t_now.isoformat()+"Z",
-            timeMax=t_max.isoformat()+"Z",
-            showDeleted=False,
-            singleEvents=True,
-            maxResults=15,
-            orderBy='startTime'
-        ).execute()
+        pToken = None;
+        c_list = cal.calendarList().list(pageToken=pToken).execute()
 
-        events = results.get('items',[])
-        return events
+        stuff = []
+
+        for cl in c_list['items']:
+            print cl['id']
+
+            results = cal.events().list(
+                # calendarId='primary',
+                calendarId=cl['id'],
+                timeMin=t_now.isoformat()+"Z",
+                timeMax=t_max.isoformat()+"Z",
+                showDeleted=False,
+                singleEvents=True,
+                maxResults=15,
+                orderBy='startTime'
+            ).execute()
+            events = results.get('items',[])
+
+            for e in events:
+                stuff.append(e)
+            # stuff.append(events)
+        return stuff
+        # return events
