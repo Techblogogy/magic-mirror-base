@@ -38,35 +38,28 @@ def gcal_cals():
     return json.dumps(gcal.get_cals(), indent=JSON_DENT)
 
 # Save calendars
-# @decor.crossdomain(origin=ALLOWED_ORIGIN)
-@gcal_api.route('/add/calendars', methods=['POST'])
+@gcal_api.route('/add/calendars', methods=['POST','OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
 def gcal_save_cals():
-    # print request.form
-    # print request.form.get('ids')
-    # gcal.add_cals(json.loads(request.form.get('ids')))
-    # return ''
-    return json.dumps(gcal.get_ucals(), indent=JSON_DENT)
-
-    # return json.dumps(gcal.add_cals(), indent=JSON_DENT)
-
+    gcal.add_cals(json.loads(request.form.get('ids')))
+    return ''
+    # return json.dumps(gcal.get_ucals(), indent=JSON_DENT)
 
 # Get todays events
 @gcal_api.route('/mail', methods=['GET'])
 def gcal_mail():
     return json.dumps(gcal.get_mail(), indent=JSON_DENT)
 
-
-
 # === JSON Error Handling ===
 
-# @gcal_api.errorhandler(400)
-# def err_400(e):
-#     return '{"status": 400, "message":"Bad request"}', 400
-#
-# @gcal_api.errorhandler(404)
-# def err_404(e):
-#     return '{"status": 404, "message":"Page not found"}', 404
-#
-# @gcal_api.errorhandler(500)
-# def err_500(e):
-#     return '{"status": 500, "message":"Internal server error"}', 500
+@gcal_api.errorhandler(400)
+def err_400(e):
+    return '{"status": 400, "message":"Bad request"}', 400
+
+@gcal_api.errorhandler(404)
+def err_404(e):
+    return '{"status": 404, "message":"Page not found"}', 404
+
+@gcal_api.errorhandler(500)
+def err_500(e):
+    return '{"status": 500, "message":"Internal server error"}', 500

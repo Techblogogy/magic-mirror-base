@@ -147,10 +147,11 @@ class gcal:
     @staticmethod
     def add_cals(ids):
         gcal.init_cal_tbl()
+
         db.qry("""
             DELETE FROM tbl_gcal
         """)
-        # print ids
+
         for id in ids["data"]:
             print id
             db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))
@@ -158,7 +159,7 @@ class gcal:
     #List user calendars
     @staticmethod
     def get_ucals():
-        return db.qry("SELECT * FROM tbl_gcal")
+        return db.qry("SELECT gid FROM tbl_gcal")
 
     # Returns todays events
     @staticmethod
@@ -176,23 +177,22 @@ class gcal:
             second=59,
             microsecond=999999)
 
-        # pToken = None;
-        # stuff = []
+        stuff = []
+        for cl in gcal.get_ucals():
+            results = cal.events().list(
+                # calendarId='primary',
+                calendarId=cl['gid'],
+                timeMin=t_now.isoformat()+"Z",
+                timeMax=t_max.isoformat()+"Z",
+                showDeleted=False,
+                singleEvents=True,
+                maxResults=15,
+                orderBy='startTime'
+            ).execute()
+            events = results.get('items',[])
 
-        # for cl in c_list['items']:
-        #     print cl['id']
+            for e in events:
+                stuff.append(e)
 
-        results = cal.events().list(
-            calendarId='primary',
-            # calendarId=cl['id'],
-            timeMin=t_now.isoformat()+"Z",
-            timeMax=t_max.isoformat()+"Z",
-            showDeleted=False,
-            singleEvents=True,
-            maxResults=15,
-            orderBy='startTime'
-        ).execute()
-        events = results.get('items',[])
-
-        # return stuff
-        return events
+        return stuff
+        # return events
