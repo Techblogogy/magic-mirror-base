@@ -18,6 +18,9 @@ ul{
     font-size: 24px;
 }
 
+input[type="submit"]{
+    color: red;
+}
 .notf{
     background-image: url(404.png);
 }
