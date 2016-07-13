@@ -152,8 +152,9 @@ class gcal:
             DELETE FROM tbl_gcal
         """)
 
-        for id in ids["data"]:
-            print id
+        print ids
+        for id in ids:
+            # print id
             db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))
 
     #List user calendars
@@ -177,6 +178,7 @@ class gcal:
             second=59,
             microsecond=999999)
 
+        print gcal.get_ucals()
         stuff = []
         for cl in gcal.get_ucals():
             results = cal.events().list(

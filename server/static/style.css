@@ -12,6 +12,12 @@ h1 {
     color: rgb(71, 71, 71);
 
 }
+ul{
+    text-align: left;
+    list-style: none;
+    font-size: 24px;
+}
+
 .notf{
     background-image: url(404.png);
 }
@@ -27,7 +33,7 @@ a .out{
     text-align: center;
     color: white;
     /*display: inline-block;*/
-    font-size: 24px;
+    font-size: 20px;
     width: 100%;
     margin-top: 40px;
     margin-left: auto;
@@ -70,7 +76,15 @@ a .out{
     line-height: auto;
     padding: 30px;
 }
-
+p{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 24px;
+}
+.row{
+    margin: auto;
+}
 .google_button {
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
