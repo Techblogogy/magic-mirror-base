@@ -1,6 +1,6 @@
 import decor
 
-from flask import Blueprint, redirect, request
+from flask import Blueprint, redirect, request, url_for
 from api_cal.gcal import gcal
 
 import os, json
@@ -44,8 +44,9 @@ def gcal_save_cals():
     # print request.form.getlist('ids[]')
     gcal.add_cals(request.form.getlist('ids[]'))
     # print request.form
-    return ''
+    redirect(url_for('setcal'))
     # return json.dumps(gcal.get_ucals(), indent=JSON_DENT)
+    return '<meta http-equiv="refresh" content ="0; URL=http://localhost:5000/setcal">'
 
 # Get todays events
 @gcal_api.route('/mail', methods=['GET'])

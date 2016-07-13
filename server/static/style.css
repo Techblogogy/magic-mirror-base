@@ -19,7 +19,11 @@ ul{
 }
 
 input[type="submit"]{
-    color: red;
+    color: rgb(43, 78, 144);
+    background: none;
+    border: none;
+    outline: 0;
+
 }
 .notf{
     background-image: url(404.png);
@@ -41,6 +45,7 @@ a .out{
     margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
+    font-family: 'Poiret One';
 }
 .404nf{
     background-image: url("404.png");
