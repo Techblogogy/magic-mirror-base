@@ -17,14 +17,18 @@ class gcal:
         db.qry("""
             CREATE TABLE IF NOT EXISTS tbl_gcal (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                gid TEXT NOT NULL
+                gid TEXT NOT NULL,
+                backgroundColor TEXT,
+                summary TEXT,
+                description TEXT,
+                active INT NOT NULL DEFAULT 1
             )
         """)
 
     # Get auth flow
     @staticmethod
     def get_flow():
-        # gcal.init_cal_tbl()
+        gcal.init_cal_tbl()
 
         flow = client.flow_from_clientsecrets(
             "client_secret.json",
@@ -136,12 +140,36 @@ class gcal:
     # Return list calendarList
     @staticmethod
     def get_cals():
+        gcal.init_cal_tbl()
+
         http = gcal.get_cred().authorize(httplib2.Http())
         cal = build('calendar', 'v3', http=http)
 
-        c_list = cal.calendarList().list().execute()
+        c_list = cal.calendarList().list().execute()['items']
+        db_list = []
 
-        return c_list['items']
+        for i in c_list:
+            db_list.append((i.get('id'),
+                            i.get('backgroundColor'),
+                            i.get('summary'),
+                            i.get('description'),
+                            i.get('id')))
+
+        print db_list
+
+        # db.qry_many("""
+        #     INSERT INTO tbl_gcal (gid, backgroundColor, summary, description)
+        #     VALUES (?,?,?,?)
+        # """, db_list)
+
+        db.qry_many("""
+            INSERT INTO tbl_gcal (gid, backgroundColor, summary, description)
+            SELECT ?,?,?,?
+            WHERE NOT EXISTS(SELECT gid FROM tbl_gcal WHERE gid=?)
+        """, db_list)
+
+        return db.qry("SELECT * FROM tbl_gcal")
+        # return ''
 
     #Add list of calendars
     @staticmethod
