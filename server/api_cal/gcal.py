@@ -155,13 +155,6 @@ class gcal:
                             i.get('description'),
                             i.get('id')))
 
-        print db_list
-
-        # db.qry_many("""
-        #     INSERT INTO tbl_gcal (gid, backgroundColor, summary, description)
-        #     VALUES (?,?,?,?)
-        # """, db_list)
-
         db.qry_many("""
             INSERT INTO tbl_gcal (gid, backgroundColor, summary, description)
             SELECT ?,?,?,?
@@ -174,21 +167,23 @@ class gcal:
     #Add list of calendars
     @staticmethod
     def add_cals(ids):
-        gcal.init_cal_tbl()
+        # print ids
+        # pass
+        # gcal.init_cal_tbl()
 
-        db.qry("""
-            DELETE FROM tbl_gcal
-        """)
+        db.qry("UPDATE tbl_gcal SET active=0");
+        db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
 
-        print ids
-        for id in ids:
-            # print id
-            db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))
+        # print db.qry("SELECT * FROM tbl_gcal")
+
+        # for id in ids:
+        #     # print id
+        #     db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))
 
     #List user calendars
     @staticmethod
     def get_ucals():
-        return db.qry("SELECT gid FROM tbl_gcal")
+        return db.qry("SELECT gid FROM tbl_gcal WHERE active=1")
 
     # Returns todays events
     @staticmethod
@@ -206,7 +201,7 @@ class gcal:
             second=59,
             microsecond=999999)
 
-        print gcal.get_ucals()
+        # print gcal.get_ucals()
         stuff = []
         for cl in gcal.get_ucals():
             results = cal.events().list(
