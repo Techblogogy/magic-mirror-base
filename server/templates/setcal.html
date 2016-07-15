@@ -43,7 +43,8 @@
                 <div class="col-md-6">
                     <h1>Confirm your location</h1>
                     <form action="/setup/pos"  method="POST">
-                        <input type="hidden" name="u_pos" value="" id="u_pos">
+                        <input type="hidden" name="u_lat" value="" id="u_pos1">
+                        <input type="hidden" name="u_lng" value="" id="u_pos2">
                         <input type="submit" value="Confirm">
                     </form>
                     <div id="map"></div>
@@ -69,8 +70,9 @@
                                     title: 'Your current position'
                                 });
                                 map.setCenter(pos);
-                                u_pos = pos;
-                                document.getElementById('u_pos').value = u_pos;
+                                document.getElementById('u_pos1').value = pos.lat;
+                                document.getElementById('u_pos2').value = pos.lng;
+
                             })
                         }
                     }

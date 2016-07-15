@@ -3,7 +3,7 @@ import os, json
 
 import decor
 
-from routes.setup import setup
+from routes.setup import setup_blp
 from api_cal.setup import setup
 
 from routes.gcal import gcal_api
@@ -25,7 +25,7 @@ app.config['SECRET_KEY'] = "supersecret"
 
 # Reigster Blueprints
 app.register_blueprint(gcal_api)
-app.register_blueprint(setup)
+app.register_blueprint(setup_blp)
 
 @app.route('/')
 def main():

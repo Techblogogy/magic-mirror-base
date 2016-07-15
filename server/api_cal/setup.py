@@ -16,6 +16,22 @@ class setup:
             )
         """)
 
+    #save position
+    @staticmethod
+    def save_pos(u_lng, u_lat):
+        setup.init_setup_tbl()
+
+        db.qry("DELETE FROM tbl_setup")
+
+        db.qry("""
+            INSERT INTO tbl_setup(lng, lat)
+            VALUES (?,?)
+        """,(u_lng, u_lat))
+
+        print db.qry("SELECT * FROM tbl_setup")
+    @staticmethod
+    def get_position():
+        return db.qry("SELECT * FROM tbl_setup")[0]
 
     # What do I think abut it? Nice start :) Now lets have a look at how you can store data in the tables
     # There's a thing called SQL. What does that mean
