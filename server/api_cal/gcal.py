@@ -17,14 +17,18 @@ class gcal:
         db.qry("""
             CREATE TABLE IF NOT EXISTS tbl_gcal (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                gid TEXT NOT NULL
+                gid TEXT NOT NULL,
+                backgroundColor TEXT,
+                summary TEXT,
+                description TEXT,
+                active INT NOT NULL DEFAULT 1
             )
         """)
 
     # Get auth flow
     @staticmethod
     def get_flow():
-        # gcal.init_cal_tbl()
+        gcal.init_cal_tbl()
 
         flow = client.flow_from_clientsecrets(
             "client_secret.json",
@@ -136,31 +140,50 @@ class gcal:
     # Return list calendarList
     @staticmethod
     def get_cals():
+        gcal.init_cal_tbl()
+
         http = gcal.get_cred().authorize(httplib2.Http())
         cal = build('calendar', 'v3', http=http)
 
-        c_list = cal.calendarList().list().execute()
+        c_list = cal.calendarList().list().execute()['items']
+        db_list = []
 
-        return c_list['items']
+        for i in c_list:
+            db_list.append((i.get('id'),
+                            i.get('backgroundColor'),
+                            i.get('summary'),
+                            i.get('description'),
+                            i.get('id')))
+
+        db.qry_many("""
+            INSERT INTO tbl_gcal (gid, backgroundColor, summary, description)
+            SELECT ?,?,?,?
+            WHERE NOT EXISTS(SELECT gid FROM tbl_gcal WHERE gid=?)
+        """, db_list)
+
+        return db.qry("SELECT * FROM tbl_gcal")
+        # return ''
 
     #Add list of calendars
     @staticmethod
     def add_cals(ids):
-        gcal.init_cal_tbl()
+        # print ids
+        # pass
+        # gcal.init_cal_tbl()
 
-        db.qry("""
-            DELETE FROM tbl_gcal
-        """)
+        db.qry("UPDATE tbl_gcal SET active=0");
+        db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
 
-        print ids
-        for id in ids:
-            # print id
-            db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))
+        # print db.qry("SELECT * FROM tbl_gcal")
+
+        # for id in ids:
+        #     # print id
+        #     db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))
 
     #List user calendars
     @staticmethod
     def get_ucals():
-        return db.qry("SELECT gid FROM tbl_gcal")
+        return db.qry("SELECT gid FROM tbl_gcal WHERE active=1")
 
     # Returns todays events
     @staticmethod
@@ -178,7 +201,7 @@ class gcal:
             second=59,
             microsecond=999999)
 
-        print gcal.get_ucals()
+        # print gcal.get_ucals()
         stuff = []
         for cl in gcal.get_ucals():
             results = cal.events().list(

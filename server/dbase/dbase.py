@@ -31,10 +31,26 @@ class dbase:
 
         return dat
 
+    # Querry Database
+    @classmethod
+    def qry_many(self, qry, params=[]):
+        self.connect()
+        dat = self.exe_many(qry,params)
+        self.close()
+
+        return dat
+
     # Only execute querry
     @classmethod
     def exe(self, qry, params=()):
         self._db.execute(qry,params)
+        return self._db.fetchall()
+
+
+    # Only execute many querry
+    @classmethod
+    def exe_many(self, qry, params=[]):
+        self._db.executemany(qry,params)
         return self._db.fetchall()
 
     # Commit changes and close
