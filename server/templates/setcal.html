@@ -6,19 +6,33 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
         <link rel="stylesheet" href="style.css"/>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASu812zJ2sky-v7hvRUfu6-1r6rWwTnpw" ></script>
+
     </head>
+    <style>
+      #map {
+        width: 100%;
+        height: 400px;
+      }
+    </style>
     <body ng-app="setupSite">
     <h1><a href="/">MAGIC MIRROR</a></h1>
     <div class="container">
-        <h1>Manage your calendars right here<h1>
+
             <div class="row">
                 <div class="col-md-6">
+                    <h1>Manage your calendars right here<h1>
                     <p>Pick the calendars you want to display</p>
                     <form action="/gcal/add/calendars"  method="POST">
                     <div>{% for i in range(0, c_len): %}
                         <ul>
                             <li>
+                                {%if cals[i].active == 1:%}
+                                <input type="checkbox" name="ids[]" value="{{cals[i].id}}" checked>  {{cals[i].summary}}<br>
+                                {%else:%}
                                 <input type="checkbox" name="ids[]" value="{{cals[i].id}}">  {{cals[i].summary}}<br>
+                                {%endif%}
                             </li>
                         </ul>
                         {%endfor%}
@@ -27,7 +41,48 @@
                     </form>
                 </div>
                 <div class="col-md-6">
-                    <p>Pick the calendars you want to display</p>
+                    <h1>Confirm your location</h1>
+                    <form action="/setup/pos"  method="POST">
+                        <input type="hidden" name="u_pos" value="" id="u_pos">
+                        <input type="submit" value="Confirm">
+                    </form>
+                    <div id="map"></div>
+                    <!-- JS map -->
+                    <script>
+                    var map;
+                    var u_pos;
+                    function initMap() {
+                        var mapDiv = document.getElementById('map');
+                        var map = new google.maps.Map(mapDiv, {
+                            center: {lat: 0, lng: 0},
+                            zoom: 17
+                        });
+                        if (navigator.geolocation) {
+                            navigator.geolocation.getCurrentPosition(function (p) {
+                                pos = {
+                                    lat: p.coords.latitude,
+                                    lng: p.coords.longitude
+                                };
+                                var marker = new google.maps.Marker({
+                                    position: pos,
+                                    map: map,
+                                    title: 'Your current position'
+                                });
+                                map.setCenter(pos);
+                                u_pos = pos;
+                                document.getElementById('u_pos').value = u_pos;
+                            })
+                        }
+                    }
+                    initMap();
+
+                    // setTimeout(function () {
+                    //     console.log(u_pos);
+                    //     document.getElementById('u_pos').value = u_pos;
+                    // }, 2000);
+
+                    </script>
+
                 </div>
 
             </div>

@@ -3,6 +3,9 @@ import os, json
 
 import decor
 
+from routes.setup import setup
+from api_cal.setup import setup
+
 from routes.gcal import gcal_api
 from api_cal.gcal import gcal
 #from dbase.dbase import dbase
@@ -22,6 +25,7 @@ app.config['SECRET_KEY'] = "supersecret"
 
 # Reigster Blueprints
 app.register_blueprint(gcal_api)
+app.register_blueprint(setup)
 
 @app.route('/')
 def main():
@@ -38,7 +42,8 @@ def setcal():
         auth = gcal.need_auth(),
         userName = gcal.get_disp_name(),
         cals = gcal.get_cals(),
-        c_len = len(gcal.get_cals())
+        c_len = len(gcal.get_cals()),
+        # pos = setup_get_pos()
     )
 
 
