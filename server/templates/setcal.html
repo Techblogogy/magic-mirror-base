@@ -18,28 +18,29 @@
     </style>
     <body ng-app="setupSite">
     <h1><a href="/">MAGIC MIRROR</a></h1>
-    <div class="container">
+    <div id="container">
 
             <div class="row">
                 <div class="col-md-6">
-                    <h1>Manage your calendars right here<h1>
-                    <p>Pick the calendars you want to display</p>
-                    <form action="/gcal/add/calendars"  method="POST">
-                    <div>{% for i in range(0, c_len): %}
-                        <ul>
-                            <li>
-                                {%if cals[i].active == 1:%}
-                                <input type="checkbox" name="ids[]" value="{{cals[i].id}}" checked>  {{cals[i].summary}}<br>
-                                {%else:%}
-                                <input type="checkbox" name="ids[]" value="{{cals[i].id}}">  {{cals[i].summary}}<br>
-                                {%endif%}
-                            </li>
-                        </ul>
-                        {%endfor%}
-                    </div>
-                    <input type="submit" value="Save">
-                    </form>
+                        <h1>Manage your calendars right here<h1>
+                        <p id="big">Pick the calendars you want to display</p>
+                        <form action="/gcal/add/calendars"  method="POST">
+                        <div>{% for i in range(0, c_len): %}
+                            <ul>
+                                <li>
+                                    {%if cals[i].active == 1:%}
+                                    <input type="checkbox" name="ids[]" value="{{cals[i].id}}" checked>  {{cals[i].summary}}<br>
+                                    {%else:%}
+                                    <input type="checkbox" name="ids[]" value="{{cals[i].id}}">  {{cals[i].summary}}<br>
+                                    {%endif%}
+                                </li>
+                            </ul>
+                            {%endfor%}
+                        </div>
+                        <input type="submit" value="Save">
+                        </form>
                 </div>
+
                 <div class="col-md-6">
                     <h1>Confirm your location</h1>
                     <form action="/setup/pos"  method="POST">
@@ -93,7 +94,7 @@
     </div>
 
       {% if auth %}
-      <div class="google_button">
+      <div id="google_button">
         <p><a href="http://localhost:5000/gcal/gauth" >Sign in</a></p>
       </div>
       {% else %}

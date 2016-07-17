@@ -94,7 +94,7 @@ p{
 .row{
     margin: auto;
 }
-.google_button {
+#google_button {
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
     /*/background-image: url("bg.png");*/
@@ -111,9 +111,11 @@ p{
     margin-right: auto;
 }
 
-
-.google_button:hover {
-    /*background-color: #8AC5ED; /* same as bg */*/
+#big {
+    font-size: 28px;
+}
+#google_button:hover {
+    /*background-color: #8AC5ED; /* same as bg */
     color: white;
     cursor: pointer;
 }
