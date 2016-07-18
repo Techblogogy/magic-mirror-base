@@ -1,7 +1,8 @@
 @import url(https://fonts.googleapis.com/css?family=Poiret+One);
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
 body{
     /*background-color: #E6E6FA;*/
-    background-image: url("bg.jpg");
+    background-image: url("bgb.png");
     margin: 0;
 }
 h1 {
@@ -12,20 +13,7 @@ h1 {
     color: rgb(71, 71, 71);
 
 }
-ul{
-    text-align: left;
-    list-style: none;
-    font-size: 24px;
-}
 
-input[type="submit"]{
-    color: rgb(43, 78, 144);
-    background: none;
-    border: none;
-    outline: 0;
-    font-size: 24px;
-
-}
 .notf{
     background-image: url(404.png);
 }
@@ -35,22 +23,19 @@ a .out{
     padding-bottom: 10px;
 }
 .signed{
-    /*background-color: white;*/
-    padding-top: 1px;
-    padding-bottom: 1px;
     text-align: center;
     color: white;
-    /*display: inline-block;*/
     font-size: 20px;
     width: 100%;
-    margin-top: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
     margin-left: auto;
     margin-right: auto;
     font-family: 'Poiret One';
 }
-.404nf{
+/*.404nf{
     background-image: url("404.png");
-}
+}*/
 .banner {
     top:10px;
     font-family: 'Poiret One', cursive;
@@ -90,11 +75,13 @@ p{
     margin-left: auto;
     margin-right: auto;
     font-size: 24px;
+    font-family: Josefin Sans;
 }
 .row{
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
-#google_button {
+.google_button {
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
     /*/background-image: url("bg.png");*/
@@ -111,11 +98,10 @@ p{
     margin-right: auto;
 }
 
-#big {
-    font-size: 28px;
-}
-#google_button:hover {
+
+.google_button:hover {
     /*background-color: #8AC5ED; /* same as bg */
+
     color: white;
     cursor: pointer;
 }
@@ -130,11 +116,14 @@ a:link {
     color: rgb(91, 91, 91);
     padding-bottom: 10px;
     margin-top: -5px;
+    margin-bottom: 10px;
+
 }
 
 a.not-main{
     color: black;
     text-decoration: none;
+
 }
 
 .container {
@@ -157,6 +146,38 @@ a.not-main{
 }
 
 .btn:hover{
-    background-color: #8AC5ED; /* same as bg */
+    background-color: rgba(0, 167, 204, 0.2); /* same as bg */
     color: white;
 }
+/*Setup page start*/
+
+.col-md-12 {
+    background-color: rgba(241, 241, 241, 0.35);
+    padding-bottom: 13px;
+    margin-bottom: 20px;
+}
+.setup body{
+    background-image: url(bg.png);
+}
+
+
+ul{
+    text-align: left;
+    list-style: none;
+    font-size: 24px;
+}
+
+input[type="submit"]{
+    color: rgb(43, 78, 144);
+    background: none;
+    border: none;
+    font-size: 24px;
+
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+}
+
+/*Setup page finish*/
