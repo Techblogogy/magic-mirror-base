@@ -36,14 +36,27 @@ def index(filename):
     return send_from_directory('static', filename)
 
 #calendar Settings
-@app.route('/setcal')
+@app.route('/setcal', methods=['GET','POST','OPTIONS'])
 def setcal():
+    resp = 0
+    if (request.form.get('action') == "calendar"):
+        gcal.add_cals(request.form.getlist('ids[]'))
+        resp = 200
+
+    elif(request.form.get('action') == "position"):
+        setup.save_pos(request.form.get('u_lng'), request.form.get('u_lat'))
+        resp = 201
+
+
+
     return render_template('setcal.html',
+        resp_g = resp,
+        # resp_p = setup.response()
         auth = gcal.need_auth(),
         userName = gcal.get_disp_name(),
         cals = gcal.get_cals(),
         c_len = len(gcal.get_cals()),
-        # pos = setup_get_pos()
+        # pos = setup_get_pos()x
     )
 
 

@@ -14,9 +14,35 @@ h1 {
 
 }
 
+
+/*Page 404 start*/
 .notf{
-    background-image: url(404.png);
+    background-image: url(bg.png);
+    margin: 100px;
 }
+.notf h1{
+    /*background-image: url(404.png);*/
+        /*background-color: rgba(241, 241, 241, 0.35);*/
+        text-align: center;
+        font-family: Poiret One, sans-serif, bold;
+        font-size: 72px;
+        color: rgb(83, 83, 83);
+        padding: 20px;
+}
+.notf h3{
+    /*background-image: url(404.png);*/
+        text-align: center;
+        font-family: Poiret One, sans-serif, bold;
+        font-size: 32px;
+        color: rgb(83, 83, 83);
+        padding: 20px;
+}
+.notf  h3 a{
+    color: rgb(28, 146, 190);
+}
+/*Page 404 finish*/
+
+
 a .out{
     color: white;
     text-decoration: none;
@@ -167,7 +193,7 @@ ul{
     font-size: 24px;
 }
 
-input[type="submit"]{
+button[type="submit"]{
     color: rgb(43, 78, 144);
     background: none;
     border: none;
