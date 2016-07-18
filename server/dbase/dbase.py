@@ -7,17 +7,23 @@ def dict_factory(cursor, row):
     return d
 
 class dbase:
-    def __init__(self):
-        self._dbpath = 'mirror.db' # Database file path
-        self.setup()
+    _dbpath = 'mirror.db'
+    _db = None
+    _cn = None;
+
+    # def __init__(self):
+    #     self._dbpath = 'mirror.db' # Database file path
+    #     self.setup()
 
     # Connect to database
+    @classmethod
     def connect(self):
         self._cn = sqlite3.connect(self._dbpath) # Created Database "connection"
         self._cn.row_factory = dict_factory
         self._db = self._cn.cursor() # Databse Cursor
 
     # Querry Database
+    @classmethod
     def qry(self, qry, params=()):
         self.connect()
         dat = self.exe(qry,params)
@@ -25,12 +31,30 @@ class dbase:
 
         return dat
 
+    # Querry Database
+    @classmethod
+    def qry_many(self, qry, params=[]):
+        self.connect()
+        dat = self.exe_many(qry,params)
+        self.close()
+
+        return dat
+
     # Only execute querry
+    @classmethod
     def exe(self, qry, params=()):
         self._db.execute(qry,params)
         return self._db.fetchall()
 
+
+    # Only execute many querry
+    @classmethod
+    def exe_many(self, qry, params=[]):
+        self._db.executemany(qry,params)
+        return self._db.fetchall()
+
     # Commit changes and close
+    @classmethod
     def close(self):
         self._cn.commit()
         self._cn.close()

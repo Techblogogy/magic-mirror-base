@@ -1,45 +1,77 @@
 @import url(https://fonts.googleapis.com/css?family=Poiret+One);
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans);
 body{
     /*background-color: #E6E6FA;*/
-    background-image: url("bg.jpg");
+    background-image: url("bgb.png");
+    margin: 0;
 }
 h1 {
     font-family: Poiret One, sans-serif, bold;
     text-align: center;
     /*color: white;*/
     padding: 10px;
+    color: rgb(71, 71, 71);
 
 }
+
+
+/*Page 404 start*/
 .notf{
-    background-image: url(404.png);
+    background-image: url(bg.png);
+    margin: 100px;
+}
+.notf h1{
+    /*background-image: url(404.png);*/
+        /*background-color: rgba(241, 241, 241, 0.35);*/
+        text-align: center;
+        font-family: Poiret One, sans-serif, bold;
+        font-size: 72px;
+        color: rgb(83, 83, 83);
+        padding: 20px;
+}
+.notf h3{
+    /*background-image: url(404.png);*/
+        text-align: center;
+        font-family: Poiret One, sans-serif, bold;
+        font-size: 32px;
+        color: rgb(83, 83, 83);
+        padding: 20px;
+}
+.notf  h3 a{
+    color: rgb(28, 146, 190);
+}
+/*Page 404 finish*/
+
+
+a .out{
+    color: white;
+    text-decoration: none;
+    padding-bottom: 10px;
 }
 .signed{
-    background-color: white;
-    padding-top: 1px;
-    padding-bottom: 1px;
     text-align: center;
-    color: black;
-    /*display: inline-block;*/
-    font-size: 32px;
+    color: white;
+    font-size: 20px;
     width: 100%;
-    margin-top: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
     margin-left: auto;
     margin-right: auto;
-
+    font-family: 'Poiret One';
 }
-.404nf{
+/*.404nf{
     background-image: url("404.png");
-}
+}*/
 .banner {
-
+    top:10px;
     font-family: 'Poiret One', cursive;
     min-height: 300px;
     background-image: url("bg.png");
     border-top: 4px solid white;
     border-bottom: 4px solid white;
     color: white;
-    overflow-x: auto;
-    overflow-y: auto;
+    padding-bottom: 20px;
+
 }
 
 .banner .welcome {
@@ -48,14 +80,13 @@ h1 {
     border: 4px solid white;
     top: 200px;
     left: 25%;
-    width: 50%;
     min-height: 10px;
     text-align: center;
     margin: 10px;
     margin-top: 100px;
     margin-left: auto;
     margin-right: auto;
-    width: 60%;
+    width: 70%;
     padding-top: 30px;
     padding-bottom: 30px;
 }
@@ -65,15 +96,25 @@ h1 {
     line-height: auto;
     padding: 30px;
 }
-
+p{
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 24px;
+    font-family: Josefin Sans;
+}
+.row{
+    margin-left: auto;
+    margin-right: auto;
+}
 .google_button {
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
     /*/background-image: url("bg.png");*/
-    background-color: white;
+    /*background-color: white;*/
     color: white;
     font-style: oblique;
-    padding: 15px 25px;
+    /*padding: 15px 25px;*/
     text-align: center;
     /*display: inline-block;*/
     font-size: 32px;
@@ -85,7 +126,8 @@ h1 {
 
 
 .google_button:hover {
-    background-color: #8AC5ED; /* same as bg */
+    /*background-color: #8AC5ED; /* same as bg */
+
     color: white;
     cursor: pointer;
 }
@@ -97,11 +139,17 @@ a:hover{
 
 a:link {
     text-decoration: none;
+    color: rgb(91, 91, 91);
+    padding-bottom: 10px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+
 }
 
 a.not-main{
     color: black;
     text-decoration: none;
+
 }
 
 .container {
@@ -112,7 +160,7 @@ a.not-main{
 .container .btn {
     display: inline-block;
     margin: 2%;
-    border: 4px solid white;
+    /*border: 4px solid white;*/
     font-size: 32px;
     padding: 10px;
 }
@@ -124,6 +172,38 @@ a.not-main{
 }
 
 .btn:hover{
-    background-color: #8AC5ED; /* same as bg */
+    background-color: rgba(0, 167, 204, 0.2); /* same as bg */
     color: white;
 }
+/*Setup page start*/
+
+.col-md-12 {
+    background-color: rgba(241, 241, 241, 0.35);
+    padding-bottom: 13px;
+    margin-bottom: 20px;
+}
+.setup body{
+    background-image: url(bg.png);
+}
+
+
+ul{
+    text-align: left;
+    list-style: none;
+    font-size: 24px;
+}
+
+button[type="submit"]{
+    color: rgb(43, 78, 144);
+    background: none;
+    border: none;
+    font-size: 24px;
+
+}
+
+#map {
+    width: 100%;
+    height: 400px;
+}
+
+/*Setup page finish*/

@@ -72,7 +72,7 @@ body {
     position:absolute;
     top:0;
     bottom:0;
-    border: 2px solid white;
+    /*border: 2px solid white;*/
     width:100%;
     /*text-align:center;*/
 }
@@ -100,7 +100,7 @@ body {
     margin-top: 0px;
     margin-bottom: 10px;
 
-    font-weight: 200;
+    font-weight: 400;
 }
 
 /* Clock Widget */
@@ -115,43 +115,67 @@ body {
     /*font-family: "Arial";*/
     font-family: Poiret One;
 
-    margin-bottom: auto;
+    margin-bottom: 100px;
     margin-left: auto;
     margin-right: auto;
 }
 
 #clock > .ui-widget > .body > h1 {
-    font-weight: 100;
-    font-size: 56pt;
+    font-weight: 700;
+    font-size: 148pt;
 }
 #clock > .ui-widget > .body > h2 {
-    font-weight: 50;
+    font-weight: 600;
     margin-top: -10px;
     text-align: left;
+    font-size: 56pt;
 }
 
 /* Weather Widget */
-#weather img {
-    width: 100%;
-    margin-left: -15px;
+#weather .ui-widget {
+    width: 500px;
+    margin-bottom: 100px;
 }
-
+#weather img {
+    width: 250px;
+    margin-left: -25px;
+}
+#weather > .ui-widget > .col-xs-6 > .loaded {
+    -webkit-transition-delay: 3s;
+        /*font-size: 24pt;*/
+}
 #weather h1 {
-    font-size: 24px;
-    font-weight: 100;
-    margin-left: -30px;
+    font-size: 56pt;
+    font-weight: 700;
+    margin-left: 20px;
+    -webkit-transition-delay: 1s;
+    -webkit-animation: moveFromLeft .9s ease both;
+	animation: moveFromLeft .9s ease both;
         /*font-size: 24pt;*/
 }
 #weather h2 {
-    font-size: 20px;
-    font-weight: 100;
+    font-size: 28pt;
+    font-weight: 600;
     margin-top: -10px;
-    margin-left: -30px;
+    margin-left: 0px;
+    -webkit-animation: moveFromLeft .9s ease both;
+	animation: moveFromLeft .9s ease both;
+
     /*font-size: 24pt;*/
 }
 
 
 /* Schedule Widget */
+#schedule .ui-widget{
+    width: auto;
+    -webkit-animation: moveFromLeft .9s ease-in-out both;
+	animation: moveFromLeft .9s ease-in-out both;
+
+}
+#schedule h1{
+    font-weight: 700;
+    font-size: 56pt;
+}
 #schedule .s_item {
     /*border-bottom: 1px solid white;*/
     /*border-left: 2px solid white;*/
@@ -161,8 +185,8 @@ body {
 
 #schedule .time {
     padding-left: 5;
-    font-weight: 80
-    font-size: 16px;
+    font-weight: 700;
+    font-size: 32pt;
     border-left: 2px solid white;
     /*font-size: 24pt;*/
 
@@ -170,16 +194,17 @@ body {
 
 #schedule .plan {
     /*padding-right: 0;*/
-
+    font-weight: 700;
+    font-size: 32pt;
+    margin-left: auto;
 }
 
 #schedule .plan > span {
-  font-size: 24px;
+  font-size: 40pt;
 }
 
 /* Maps Widget */
 #map-widget .ui-widget {
-    display: none;
     width: 400px;
 }
 #g_map {

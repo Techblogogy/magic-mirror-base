@@ -1,6 +1,6 @@
 import decor
 
-from flask import Blueprint, redirect, request
+from flask import Blueprint, redirect, request, url_for
 from api_cal.gcal import gcal
 
 import os, json
@@ -31,18 +31,33 @@ def gauth_deauth():
 def gcal_today():
     return json.dumps(gcal.get_today(), indent=JSON_DENT)
 
+# Get calendars
+@gcal_api.route('/calendars', methods=['GET','OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def gcal_cals():
+    return json.dumps(gcal.get_cals(), indent=JSON_DENT)
+
+# Save calendars
+@gcal_api.route('/add/calendars', methods=['POST','OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def gcal_save_cals():
+    # print request.form.getlist('ids[]')
+    gcal.add_cals(request.form.getlist('ids[]'))
+    # print request.form
+    redirect(url_for('setcal'))
+    # return json.dumps(gcal.get_ucals(), indent=JSON_DENT)
+    return '<meta http-equiv="refresh" content ="0; URL=http://localhost:5000/setcal">'
+
 # Get todays events
 @gcal_api.route('/mail', methods=['GET'])
 def gcal_mail():
     return json.dumps(gcal.get_mail(), indent=JSON_DENT)
 
-
-
 # === JSON Error Handling ===
 
-@gcal_api.errorhandler(400)
-def err_400(e):
-    return '{"status": 400, "message":"Bad request"}', 400
+# @gcal_api.errorhandler(400)
+# def err_400(e):
+#     return '{"status": 400, "message":"Bad request"}', 400
 
 @gcal_api.errorhandler(404)
 def err_404(e):

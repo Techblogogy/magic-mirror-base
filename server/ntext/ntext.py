@@ -7,6 +7,8 @@ from flask_socketio import emit
 from v_cmd import v_cmd
 from commands import in_cmd
 
+nltk.download()
+
 # Key base
 key_w = "mirror"
 

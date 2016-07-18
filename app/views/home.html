@@ -15,9 +15,11 @@
         </div>
 
         <div class="col-xs-6">
-            <h2>min {{ (w_dat.min_temp | number:0) | tempC }}</h2>
-            <h2>max {{ (w_dat.max_temp | number:0) | tempC }}</h2>
-            <h1>{{ (w_dat.temp | number:0) | tempC }}</h1>
+            <div class="div1">
+                <h2>min {{ (w_dat.min_temp | number:0) | tempC }}</h2>
+                <h2>max {{ (w_dat.max_temp | number:0) | tempC }}</h2>
+                <h1>{{ (w_dat.temp | number:0) | tempC }}</h1>
+            </div>
         </div>
     </ui-widget>
 </div>
@@ -25,6 +27,7 @@
 <!-- Google Calendar Widget -->
 <div ng-controller="ScheduleCtr" id="ScheduleCtr">
     <ui-widget id="schedule">
+        <h1>Plans for Today:</h1>
         <div ng-repeat="i in plans" class="s_item">
             <div class="col-xs-4 time">
                 <span>{{ i.start.dateTime | date:"H:mm" }} {{ i.end.dateTime | date:"H:mm" }}</span>
