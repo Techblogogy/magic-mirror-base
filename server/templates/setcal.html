@@ -28,7 +28,7 @@
         <div class="col-md-12">
             <h1>Manage your calendars right here<h1>
                 <p>Pick the calendars you want to display</p>
-                <form action="/gcal/add/calendars"  method="POST">
+                <form action="/setcal"  method="POST">
                     <div>{% for i in range(0, c_len): %}
                         <ul>
                             <li>
@@ -41,15 +41,25 @@
                         </ul>
                         {%endfor%}
                     </div>
-                    <input type="submit" value="Save">
+                    <!-- <input type="submit" name="action" value="Save"> -->
+                    <button type="submit" name="action" value="calendar">Save</button>
+                    {% if resp_g == 200 %}
+                    <p>Thanks, your data was saved</p>
+                    {% endif %}
+
                 </form>
             </div>
             <div class="col-md-12">
                 <h1>Confirm your location</h1>
-                <form action="/setup/pos"  method="POST">
+                {% if resp_g == 201 %}
+                <p>Thanks, your position was saved<br></p>
+
+                {% endif %}
+                <form action="/setcal"  method="POST">
                     <input type="hidden" name="u_lat" value="" id="u_pos1">
                     <input type="hidden" name="u_lng" value="" id="u_pos2">
-                    <input type="submit" value="Confirm">
+                    <!-- <input type="submit" name="action" value="Confirm"> -->
+                    <button type="submit" name="action" value="position">Confirm</button>
                 </form>
                 <div class="map" id="map"></div>
                 <!-- JS map -->

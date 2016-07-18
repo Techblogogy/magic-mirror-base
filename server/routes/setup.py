@@ -18,6 +18,7 @@ setup_blp = Blueprint('setup_blp', __name__, url_prefix="/setup")
 def setup_save_u_pos():
     # print request.form.getlist('ids[]')
     setup.save_pos(request.form.get('u_lng'), request.form.get('u_lat'))
+    print request.form
     # redirect(url_for('setcal'))
     # return json.dumps(gcal.get_ucals(), indent=JSON_DENT)
     return '<meta http-equiv="refresh" content ="1000; URL=http://localhost:5000/setcal">'

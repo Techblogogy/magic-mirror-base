@@ -1,8 +1,8 @@
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
 
-# import speech.speech
-import cvison.store
+import speech.speech
+#import cvison.store
 
 # from dbase.dbase import dbase
 

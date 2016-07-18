@@ -174,6 +174,8 @@ class gcal:
         db.qry("UPDATE tbl_gcal SET active=0");
         db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
 
+        return 200
+
         # print db.qry("SELECT * FROM tbl_gcal")
 
         # for id in ids:

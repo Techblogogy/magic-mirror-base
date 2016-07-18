@@ -1,6 +1,6 @@
 import sys
 
-from flask import abort, redirect
+from flask import abort, redirect, request
 import httplib2
 
 import datetime
@@ -32,6 +32,11 @@ class setup:
     @staticmethod
     def get_position():
         return db.qry("SELECT * FROM tbl_setup")[0]
+    @staticmethod
+    def response():
+        if request.method == 'POST':
+            return True
+
 
     # What do I think abut it? Nice start :) Now lets have a look at how you can store data in the tables
     # There's a thing called SQL. What does that mean
