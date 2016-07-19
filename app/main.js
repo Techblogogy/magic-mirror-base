@@ -19,8 +19,8 @@ app.config(function ($routeProvider) {
         templateUrl: 'app/views/home.html'
         // animation: 'left_swipe'
     })
-    .when('/weather', {
-        controller: "WeatherPageController",
-        templateUrl: 'app/views/large_weather.html'
+    .when('/stylist', {
+        controller: "StlCtr",
+        templateUrl: 'app/views/stylist.html'
     });
 });

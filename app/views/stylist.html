@@ -1,0 +1,26 @@
+<div ng-controller="StlCtr">
+    <ui-widget class="stylist" id="stylist">
+        <h1>Welcome to your wardow</h1>
+        <div class="container" ng-controller="ItemCtr">
+            <div class="row">
+                <div class="item" ng-repeat="item in items">
+                    <item-dir info="item"></item-dir>
+                </div>
+                    <!-- <div class="col-xs-3">
+                        <img class="" ng-src="{{img.cat}}" id="item_img"/>
+                    </div>
+                    <div class="col-xs-3" id="item_descr">
+                        <p> style: casual<br>stars:4<br>last worn: date<br>style: casual<br>stars:4<br>last worn: date<br></p>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </ui-widget>
+</div>
+
+<!-- Item directives -->
+
+<!-- <script src="js/directives/installApp.js"></script> -->
+
+<!-- <p ng-click="testView('')">Switch Tag</p> -->
+<p ng-click="switchView('','right_swipe')">Back Again (Test)</p>
