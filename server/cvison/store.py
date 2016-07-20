@@ -87,9 +87,16 @@ class clothes:
     # Get items in range
     @classmethod
     def get(self, lim, ofs):
-        return db.qry(
-            "SELECT id, name, thumbnail, dresscode, t_wears FROM clothes WHERE deleted=0 LIMIT ? OFFSET ?",
-            (lim, ofs)
+        return db.qry("""
+            SELECT id, thumbnail, dresscode, t_wears,
+                (SELECT group_concat(tag, ', ') as tags
+                FROM clothes_tags
+                WHERE clothes_tags.c_id = clothes.id
+                GROUP BY c_id) as tags
+            FROM clothes
+            WHERE deleted=0 LIMIT ? OFFSET ?
+        """,
+            (lim, ofs*lim)
         )
 
     # Mark item as worn

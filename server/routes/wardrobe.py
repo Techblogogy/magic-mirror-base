@@ -13,7 +13,7 @@ wrd_api = Blueprint('wrd_api', __name__, url_prefix="/wardrobe")
 @wrd_api.route("/get", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_get():
-    return json.dumps(clothes.get(request.args.get("items"), request.args.get("page")), indent=JSON_DENT)
+    return json.dumps(clothes.get(int(request.args.get("items")), int(request.args.get("page"))), indent=JSON_DENT)
 
 # Returns all of the wardrobe items
 @wrd_api.route("/get/all", methods=['GET', 'OPTIONS'])
