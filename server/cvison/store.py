@@ -9,10 +9,14 @@ class clothes:
             CREATE TABLE IF NOT EXISTS clothes (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
+
                 thumbnail TEXT NOT NULL,
                 dresscode TEXT NOT NULL,
                 t_wears INT NOT NULL DEFAULT 0,
+
+                liked INT NOT NULL DEFAULT 0,
                 tags TEXT,
+
                 deleted INTEGER NOT NULL DEFAULT 0
             )
         """)
@@ -57,7 +61,16 @@ class clothes:
             (id, )
         )
 
-clothes.setup()
-clothes.add("casual", "1.png", 20, "somthing 1", "cool, winter")
-clothes.worn(1)
-print clothes.get_all()
+    # Like item (ID of element, Like state (0) for no, (1) for yes)
+    @classmethod
+    def set_like(self, id, like):
+        db.qry(
+            "UPDATE clothes SET liked=? WHERE id=?",
+            (id, like, )
+        )
+
+
+# clothes.setup()
+# clothes.add("casual", "1.png", 20, "somthing 1", "cool, winter")
+# clothes.worn(1)
+# print clothes.get_all()

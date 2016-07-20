@@ -1,4 +1,5 @@
 import sqlite3
+from minfo import app_dir
 
 def dict_factory(cursor, row):
     d = {}
@@ -7,7 +8,7 @@ def dict_factory(cursor, row):
     return d
 
 class dbase:
-    _dbpath = 'mirror.db'
+    _dbpath = '/mirror.db'
     _db = None
     _cn = None;
 
@@ -18,7 +19,7 @@ class dbase:
     # Connect to database
     @classmethod
     def connect(self):
-        self._cn = sqlite3.connect(self._dbpath) # Created Database "connection"
+        self._cn = sqlite3.connect(app_dir+self._dbpath) # Created Database "connection"
         self._cn.row_factory = dict_factory
         self._db = self._cn.cursor() # Databse Cursor
 

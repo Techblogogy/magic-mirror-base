@@ -7,23 +7,31 @@ from flask_socketio import emit
 from v_cmd import v_cmd
 from commands import in_cmd
 
-nltk.download()
+# nltk.download()
 
 # Key base
 key_w = "mirror"
 
 # Input Cmd
-command = "how do i look today"
+# command = "how do i look today"
 
-# Possible responce listening
-# out_cmd = [
-#     "I don't understand you",
-#     ""
-# ]
+# Number Units
+n_units = [
+    "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+    "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+    "sixteen", "seventeen", "eighteen", "nineteen",
+]
+n_tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+n_scales = ["hundred", "thousand", "million", "billion", "trillion"]
+
+def get_numbers():
+    pass
 
 # Return command based on voice input
 def get_command(cm):
     tokens = nltk.word_tokenize(cm)
+
+    print tokens
 
     # Iriterate over all commands
     for c in in_cmd:
@@ -42,7 +50,7 @@ def get_command(cm):
             br = False;
             for k in c.keys:
                 if k in tokens:
-                    br = True;
+                    br = True
 
         # Output command
         if br:
@@ -51,4 +59,4 @@ def get_command(cm):
             break;
 
 
-get_command(command)
+# get_command("i pick number twenty two please")

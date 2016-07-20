@@ -2,6 +2,8 @@ from oauth2client import client
 from apiclient.discovery import build
 from oauth2client.file import Storage
 
+from minfo import app_dir
+
 import sys
 
 from flask import abort, redirect
@@ -31,7 +33,7 @@ class gcal:
         gcal.init_cal_tbl()
 
         flow = client.flow_from_clientsecrets(
-            "client_secret.json",
+            app_dir+"/client_secret.json",
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/gmail.readonly"],
             redirect_uri="http://localhost:5000/gcal/auth2callback"
         )
@@ -42,7 +44,7 @@ class gcal:
     @staticmethod
     def get_cred():
         try:
-            store = Storage('gcal_credentials')
+            store = Storage(app_dir+'/gcal_credentials')
             return store.locked_get()
         except:
             print "ERROR!", sys.exc_info()[0]
@@ -52,7 +54,7 @@ class gcal:
     @staticmethod
     def put_cred(cred):
         # try:
-        store = Storage('gcal_credentials')
+        store = Storage(app_dir+'/gcal_credentials')
         store.locked_put(cred)
         # except:
         #     return None
@@ -61,7 +63,7 @@ class gcal:
     @staticmethod
     def rmv_cred():
         try:
-            store = Storage('gcal_credentials')
+            store = Storage(app_dir+'/gcal_credentials')
             store.locked_delete()
         except:
             print "ERROR!", sys.exc_info()[0]
