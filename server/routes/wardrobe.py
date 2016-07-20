@@ -13,13 +13,13 @@ wrd_api = Blueprint('wrd_api', __name__, url_prefix="/wardrobe")
 @wrd_api.route("/get", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_get():
-    return json.dumps(clothes.get(request.args.get("items"), request.args.get("page")))
+    return json.dumps(clothes.get(request.args.get("items"), request.args.get("page")), indent=JSON_DENT)
 
 # Returns all of the wardrobe items
 @wrd_api.route("/get/all", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_get_all():
-    return json.dumps(clothes.get_all())
+    return json.dumps(clothes.get_all(), indent=JSON_DENT)
 
 
 # Starts camera thumbnail and video recording sequence and saves stuff to database
@@ -36,4 +36,4 @@ def wrd_add():
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_add_tags(c_id):
     # print request.form.get("tags")
-    return json.dumps( clothes.add_tags(c_id, request.form.get("tags")) )
+    return json.dumps( clothes.add_tags(c_id, request.form.get("tags")), indent=JSON_DENT)
