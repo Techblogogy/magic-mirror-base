@@ -10,6 +10,8 @@ from routes.gcal import gcal_api
 from api_cal.gcal import gcal
 #from dbase.dbase import dbase
 
+from routes.wardrobe import wrd_api
+
 # Initiate database instance
 #db = dbase()
 #db.setup()
@@ -26,6 +28,7 @@ app.config['SECRET_KEY'] = "supersecret"
 # Reigster Blueprints
 app.register_blueprint(gcal_api)
 app.register_blueprint(setup_blp)
+app.register_blueprint(wrd_api)
 
 @app.route('/')
 def main():
