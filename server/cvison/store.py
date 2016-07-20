@@ -46,6 +46,28 @@ class clothes:
             (name, thumbnail, dresscode, )
         )
 
+    # Add Tags to items
+    @classmethod
+    def add_tags(self, c_id, tags):
+        a_tags = tags.strip().split(",")
+        a_list = []
+
+        for a_tag in a_tags:
+            a_list.append( (c_id, a_tag) )
+        # return a_list
+
+        db.qry_many(
+            "INSERT INTO clothes_tags (c_id, tag) VALUES (?, ?)",
+            a_list
+        )
+
+        return db.qry("SELECT * FROM clothes_tags")
+
+    # TODO: Remove tags from items
+    @classmethod
+    def rmv_tags(self, id):
+        pass
+
     # Get all items
     @classmethod
     def get_all(self):
