@@ -8,7 +8,6 @@ app.controller('ItemCtr', ['$scope', '$document','$http', function($scope, $docu
         price: 0.99
       }
   ];
-    $scope.x = 2;
     $scope.add_item = function(){
         $scope.clth = [];
         $http.post('http://localhost:5000/wardrobe/add',$scope.clth)
@@ -19,8 +18,8 @@ app.controller('ItemCtr', ['$scope', '$document','$http', function($scope, $docu
     };
 
     // $scope.add_item();
-
-    $http.get('http://localhost:5000/wardrobe/get/all?items='+16+'&page='+0)
+    $scope.get_page_items = function(){
+    $http.get('http://localhost:5000/wardrobe/get?items='+9+'&page='+0)
     .success(function(data){
         console.log(data);
         $scope.items = data;
@@ -30,4 +29,13 @@ app.controller('ItemCtr', ['$scope', '$document','$http', function($scope, $docu
             angular.element(document.querySelectorAll("#item-1")).addClass("current");
         }, 1000);
     });
+ };
+ $scope.get_page_items();
+ $scope.next_page = function(){
+     // $document.find("current").removeClass("current");
+     $scope.get_page_items();
+
+     // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
+ };
+
 }]);

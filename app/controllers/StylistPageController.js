@@ -17,9 +17,14 @@ app.controller('StlCtr', ['$scope','$document', function ($scope,$document) {
         // $document.find("current").removeClass("current");
         angular.element(document.querySelectorAll("#item-"+x)).removeClass("current");
         x -= 1
+        if (x == 0) {
+            x = 1;
+        };
         angular.element(document.querySelectorAll("#item-"+x)).addClass("current");
 
         // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
     };
 
+
+    
 }]);
