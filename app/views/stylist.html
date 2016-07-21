@@ -1,8 +1,10 @@
 <div ng-controller="StlCtr">
     <ui-widget class="stylist" id="stylist">
         <h1>Welcome to your wardowbe</h1>
+        <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
+        <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
         <div class="container" ng-controller="ItemCtr">
-            <div class="row">
+            <div class="row" >
                 <div class="item" ng-repeat="item in items">
                     <item-dir info="item"></item-dir>
                 </div>
