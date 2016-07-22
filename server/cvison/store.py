@@ -1,6 +1,8 @@
 from dbase.dbase import dbase as db
 from api_cal.weather import Weather
 
+import random
+
 class clothes:
 
     @classmethod
@@ -120,6 +122,18 @@ class clothes:
         return db.qry("SELECT * FROM clothes_meta")
         # return Weather.w_current_temp()
 
+    @classmethod
+    def worn_tmp(self, id, w):
+        db.qry(
+            "UPDATE clothes SET t_wears=t_wears+1 WHERE id=?",
+            (id, )
+        )
+
+        db.qry(
+            "INSERT INTO clothes_meta (c_id, temperature, t_time) VALUES (?, ?, date('now'))",
+            (id, w, )
+        )
+
     # Like item (ID of element, Like state (0) for no, (1) for yes)
     @classmethod
     def set_like(self, id, like):
@@ -127,6 +141,14 @@ class clothes:
             "UPDATE clothes SET liked=? WHERE id=?",
             (id, like, )
         )
+
+    # NOTE: Testing data fill
+    @classmethod
+    def fill_junk(self):
+        d_codes = ["business-casual", "casual", "formal", "sportswear"]
+
+        for i in range(1,100):
+            self.add(random.choice(d_codes))
 
 
 clothes.setup()

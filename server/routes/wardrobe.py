@@ -51,3 +51,9 @@ def wrd_add_tags(c_id):
 def wrd_worn(c_id):
 
     return json.dumps(clothes.worn(c_id), indent=JSON_DENT)
+
+# Like clothes item
+@wrd_api.route("/like/<int:c_id>", methods=['POST', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_worn(c_id):
+    return json.dumps(clothes.like(c_id), indent=JSON_DENT)
