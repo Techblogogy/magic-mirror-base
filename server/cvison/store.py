@@ -69,6 +69,10 @@ class clothes:
     def rmv_tags(self, id):
         pass
 
+    @classmethod
+    def get_smart(self):
+        return Weather.w_temp_range()
+
     # Get all items
     @classmethod
     def get_all(self):
