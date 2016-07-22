@@ -134,4 +134,4 @@ if __name__  == '__main__':
     except:
         print "Error: unable to start thread"
 
-    app.run(debug=False, threaded=True)
+    app.run(debug=True, threaded=True)

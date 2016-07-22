@@ -1,4 +1,3 @@
-var counter = 0;
 app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($scope,$document,$http, socket) {
     $scope.loaded = function(){};
     $scope.page_id = "p_stylist";
