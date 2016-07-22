@@ -105,11 +105,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     };
 
 
-    var g_cn = 0;
+    // var g_cn = 0;
     socket.forward('r_ctr', $scope);
     $scope.$on("socket:r_ctr", function (event, data) {
-        g_cn++;
-        console.log("GLOBAL:"+g_cn);
+        // g_cn++;
+        // console.log("GLOBAL:"+g_cn);
         // console.log(123456);
         if (data == "left") {
             $scope.switch_left();
