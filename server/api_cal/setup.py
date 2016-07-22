@@ -6,6 +6,8 @@ import httplib2
 import datetime
 from dbase.dbase import dbase as db
 class setup:
+    
+    # Creates setup table
     @staticmethod
     def init_setup_tbl():
         db.qry("""
@@ -16,7 +18,7 @@ class setup:
             )
         """)
 
-    #save position
+    # Saves position
     @staticmethod
     def save_pos(u_lng, u_lat):
         setup.init_setup_tbl()
@@ -29,9 +31,13 @@ class setup:
         """,(u_lng, u_lat))
 
         print db.qry("SELECT * FROM tbl_setup")
+
+    # Retuns lat and lng coordinates
     @staticmethod
     def get_position():
         return db.qry("SELECT * FROM tbl_setup")[0]
+
+    # NOTE: WTF is this????
     @staticmethod
     def response():
         if request.method == 'POST':

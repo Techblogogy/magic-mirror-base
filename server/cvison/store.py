@@ -1,4 +1,5 @@
 from dbase.dbase import dbase as db
+from api_cal.weather import Weather
 
 class clothes:
 
@@ -106,6 +107,14 @@ class clothes:
             "UPDATE clothes SET t_wears=t_wears+1 WHERE id=?",
             (id, )
         )
+
+        db.qry(
+            "INSERT INTO clothes_meta (c_id, temperature, t_time) VALUES (?, ?, date('now'))",
+            (id, Weather.w_current_temp(), )
+        )
+
+        return db.qry("SELECT * FROM clothes_meta")
+        # return Weather.w_current_temp()
 
     # Like item (ID of element, Like state (0) for no, (1) for yes)
     @classmethod

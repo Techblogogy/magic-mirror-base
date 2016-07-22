@@ -37,3 +37,10 @@ def wrd_add():
 def wrd_add_tags(c_id):
     # print request.form.get("tags")
     return json.dumps( clothes.add_tags(c_id, request.form.get("tags")), indent=JSON_DENT)
+
+# Mark clothes as worn
+@wrd_api.route("/wear/<int:c_id>", methods=['POST', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_worn(c_id):
+
+    return json.dumps(clothes.worn(c_id), indent=JSON_DENT)
