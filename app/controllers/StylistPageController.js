@@ -6,6 +6,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         cat: "res/pics/cat.jpg"
     };
 
+    console.log("INIT");
+
     // $scope.items =[
     //   {
     //     thumbnail: "res/pics/cat.jpg",
@@ -19,16 +21,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.switch_right = function(){
         // $document.find("current").removeClass("current");
         // x = angular.element(document.querySelectorAll(".current"));
-        console.log(counter);
-        counter += 1;
-        // counter2 += 2;
-        console.log(counter);
-        if (counter < 4) {
-            counter += 1;
-            return;
-        } else {
-            counter = 0;
-        }
+        // console.log(counter);
+        // counter += 1;
+        // // counter2 += 2;
+        // console.log(counter);
+        // if (counter < 4) {
+        //     counter += 1;
+        //     return;
+        // } else {
+        //     counter = 0;
+        // }
 
         item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
         // console.log(item_id);

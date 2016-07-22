@@ -2,7 +2,7 @@ from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 import os, json
 
-import thread, time
+import threading, time
 
 import decor
 
@@ -34,8 +34,8 @@ IO_SPACE = "/io"
 # Flask Elements
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "supersecret"
-# socketio = SocketIO(app,async_mode='threading')
-socketio = SocketIO(app)
+socketio = SocketIO(app,async_mode='threading')
+# socketio = SocketIO(app)
 
 # Reigster Blueprints
 app.register_blueprint(gcal_api)
@@ -74,13 +74,13 @@ def setcal():
         # pos = setup_get_pos()x
     )
 
-def send_left(t):
-    # global t_count
-    # t_count += 1
-    while True:
-        print "test"
-        socketio.emit("r_ctr", "right", namespace=IO_SPACE)
-        time.sleep(4)
+# def send_left(t):
+#     # global t_count
+#     # t_count += 1
+#     while True:
+#         print "test"
+#         socketio.emit("r_ctr", "right", namespace=IO_SPACE)
+#         time.sleep(4)
 
 
 @socketio.on("connect", namespace=IO_SPACE)
@@ -100,37 +100,38 @@ def myevent():
 def page_not_found(e):
     return render_template('404.html'), 404
 #
-# class myThread (threading.Thread):
-#     def __init__(self, threadID, name, counter):
-#         threading.Thread.__init__(self)
-#         self.threadID = threadID
-#         self.name = name
-#         self.counter = counter
-#
-#         # print self.active_count()
-#
-#     def active_count(self):
-#         # super(myThread, self).active_count()
-#
-#     def run(self):
-#         print "running"
-#         # print "Starting " + self.name
-#         # print_time(self.name, self.counter, 5)
-#         # print "Exiting " + self.name
+class myThread (threading.Thread):
+    def __init__(self, threadID, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter
 
-# thread = myThread(1, "Thread-1", 1)
+        print threading.activeCount()
+
+    def run(self):
+        while True:
+            print "[THREAD-1] Sending"
+            socketio.emit("r_ctr", "right", namespace=IO_SPACE)
+
+            time.sleep(4)
+        # print "Starting " + self.name
+        # print_time(self.name, self.counter, 5)
+        # print "Exiting " + self.name
+
+thread = myThread(1, "Thread-1", 1)
 
 # Run Server Application
 if __name__  == '__main__':
-    print "two times"
+    # print "two times"
 
     try:
         # print thread.active_count()
-        # thread.start()
+        thread.start()
         # print thread.active_count()
         # print t_count
-        thread.start_new_thread( send_left, (1,) )
+        # thread.start_new_thread( send_left, (1,) )
     except:
         print "Error: unable to start thread"
 
-    app.run(debug=True, threaded=True)
+    app.run(debug=False, threaded=True)

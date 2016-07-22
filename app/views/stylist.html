@@ -1,27 +1,25 @@
-<div ng-controller="StlCtr">
-    <ui-widget class="stylist" id="stylist">
-        <h1>Welcome to your wardowbe</h1>
-        <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
-        <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
+<ui-widget class="stylist" id="stylist">
+    <h1>Welcome to your wardowbe</h1>
+    <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
+    <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
 
-        <button type="button" name="next_page" class="selector" ng-click="next_page()">next page</button>
-        <button type="button" name="previous_page" class="selector" ng-click="previous_page()">previous page</button>
-        <div class="container" ng-controller="ItemCtr">
-            <div class="row" >
-                <div class="item" ng-repeat="item in items">
-                    <item-dir info="item"></item-dir>
+    <button type="button" name="next_page" class="selector" ng-click="next_page()">next page</button>
+    <button type="button" name="previous_page" class="selector" ng-click="previous_page()">previous page</button>
+    <div class="container" ng-controller="ItemCtr">
+        <div class="row" >
+            <div class="item" ng-repeat="item in items">
+                <item-dir info="item"></item-dir>
+            </div>
+                <!-- <div class="col-xs-3">
+                    <img class="" ng-src="{{img.cat}}" id="item_img"/>
                 </div>
-                    <!-- <div class="col-xs-3">
-                        <img class="" ng-src="{{img.cat}}" id="item_img"/>
-                    </div>
-                    <div class="col-xs-3" id="item_descr">
-                        <p> style: casual<br>stars:4<br>last worn: date<br>style: casual<br>stars:4<br>last worn: date<br></p>
-                    </div> -->
-                </div>
+                <div class="col-xs-3" id="item_descr">
+                    <p> style: casual<br>stars:4<br>last worn: date<br>style: casual<br>stars:4<br>last worn: date<br></p>
+                </div> -->
             </div>
         </div>
-    </ui-widget>
-</div>
+    </div>
+</ui-widget>
 
 <!-- Item directives -->
 
