@@ -1,15 +1,23 @@
-app.controller('MainController', ['$scope', '$location', /*'socket',*/ '$timeout', function ($scope, $location, /*socket,*/ $timeout) {
+app.controller('MainController', ['$scope', '$location', 'socket', '$timeout','$document','$http',
+function ($scope, $location, socket, $timeout,$document, $http) {
 
     $scope.anim = "";
     $scope.bodge_time = 1; //in milliseconds
 
-    // socket.emit("connected");
+    // socket.emit("myevent");
 
-    // socket.forward('myresponse', $scope);
-    // $scope.$on('socket:myresponse', function (event, data) {
+    // socket.forward('r_ctr', $scope);
+    // $scope.$on("socket:r_ctr", function (event, data) {
+    //     // console.log("HEY Mnan!");
     //     console.log(data);
+    //     if (data == "left") {
+    //         $scope.switch_left();
+    //     }
+    //     else if (data == "right") {
+    //         $scope.switch_right();
+    //     }
     //
-    //     $scope.switchView('weather', 'left_swipe');
+    //     // $scope.switchView('weather', 'left_swipe');
     // });
 
     // Switch View with an animation

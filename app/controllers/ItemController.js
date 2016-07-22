@@ -9,6 +9,12 @@ app.controller('ItemCtr', ['$scope', '$document','$http', function($scope, $docu
             console.log(d);
         });
     };
+    // $scope.if_first = function(item){
+    //     if (item.info.id === 1) {
+    //         console.log("it works");
+    //         return true
+    //     };
+    // };
 
     // $scope.page_num = 0;
     // $scope.get_page_items = function(p_num){

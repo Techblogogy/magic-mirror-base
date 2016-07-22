@@ -1,15 +1,16 @@
 var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate','btford.socket-io','angular-google-gapi']);
 
 // Connect to Socket.IO Server
-// app.factory('socket', function (socketFactory) {
-//     var iosock = io.connect("http://127.0.0.1:5000/io");
-//
-//     iosock = socketFactory({
-//         ioSocket: iosock
-//     });
-//
-//     return iosock;
-// });
+app.factory('socket', function (socketFactory) {
+    // console.log(7890);
+    var iosock = io.connect("http://localhost:5000/io");
+
+    iosock = socketFactory({
+        ioSocket: iosock
+    });
+
+    return iosock;
+});
 
 // Routes Configuration
 app.config(function ($routeProvider) {
