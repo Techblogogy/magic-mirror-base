@@ -148,7 +148,8 @@ class clothes:
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
         for i in range(1,100):
-            self.add(random.choice(d_codes))
+            print random.choice(d_codes)
+            # self.add(random.choice(d_codes),  "thumb1.jpg")
 
 
 clothes.setup()

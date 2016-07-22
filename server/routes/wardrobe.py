@@ -26,6 +26,7 @@ def wrd_get_smart():
 @wrd_api.route("/get/all", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_get_all():
+    # clothes.fill_junk()
     return json.dumps(clothes.get_all(), indent=JSON_DENT)
 
 
@@ -55,5 +56,5 @@ def wrd_worn(c_id):
 # Like clothes item
 @wrd_api.route("/like/<int:c_id>", methods=['POST', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
-def wrd_worn(c_id):
+def wrd_like(c_id):
     return json.dumps(clothes.like(c_id), indent=JSON_DENT)
