@@ -103,13 +103,24 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         // g_cn++;
         // console.log("GLOBAL:"+g_cn);
         // console.log(123456);
-        if (data == "left") {
-            $scope.switch_left();
+        switch (data) {
+            case "left":
+                $scope.switch_left();
+                break;
+            case "right":
+                    $scope.switch_right();
+                    break;
+            case "up":
+                    $scope.previous_page();
+                    break;
+            case "down":
+                    $scope.next_page();
+                    break;
+            case "click":
+                    $scope.show_closer();
+                    break;
+                break;
         }
-        else if (data == "right") {
-            $scope.switch_right();
-        }
-
         // $scope.switchView('weather', 'left_swipe');
     });
 

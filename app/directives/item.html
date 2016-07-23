@@ -1,18 +1,9 @@
 
 <div class="col-xs-4 item_stl current" id="item-{{info.id}}" it-id="{{info.id}}" ng-if="info.id%9 === 1">
-    <!-- Вызов окна через миниатюру изображения -->
-    <!-- <a href=""><img title="" class"" ng-src="server/static/clothes/{{info.thumbnail}}" alt="" /></a> -->
-    <!-- Модальное окно №5 -->
-    <!-- <a href="#x" class="overlay" id="win5"></a>
-    <div class="popup">
-        <img class="is-image" ng-src="server/static/clothes/{{info.thumbnail}}" alt="" />
-        <a class="close" title="close" href="#close"></a>
-    </div> -->
     <img class="item_img" ng-src="server/static/clothes/{{info.thumbnail}}" />
     <h3 class="dresscode">Dresscode: {{ info.dresscode }}</h3>
     <p class="tags">Tags: FUCKING SHIT {{ info.tags }}</p>
     <p class="t_wears">Wears: {{ info.t_wears}}</p>
-
 </div>
 <div class="col-xs-4 item_stl" id="item-{{info.id}}" it-id="{{info.id}}" ng-if="info.id%9 !== 1">
     <img class="item_img" ng-src="server/static/clothes/{{info.thumbnail}}" >
