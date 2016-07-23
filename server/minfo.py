@@ -15,4 +15,7 @@ app_dir = app_drs.user_data_dir
 if not os.path.exists(app_dir):
     os.makedirs(app_dir)
 
+if not os.path.exists(app_dir+"/cls"):
+    os.makedirs(app_dir+"/cls")
+
 # print app_dir

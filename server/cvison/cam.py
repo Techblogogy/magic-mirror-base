@@ -3,6 +3,8 @@ from time import sleep
 from time import time
 from subprocess import call
 
+from minfo import app_dir
+
 R_WARM = 2
 R_REC = 5
 
@@ -45,12 +47,12 @@ class My_Cam():
 
         #TODO: Add socket sending
         print "Capturing thumbnail"
-        self.cam.capture('/home/pi/%s.jpg' % (t,))
+        self.cam.capture('%s/cls/%s.jpg' % (app_dir,t,))
 
         #TODO: Add socket sending
         print "Recording video"
 
-        self.cam.start_recording("/home/pi/%s.h264" % (t,))
+        self.cam.start_recording("%s/cls/%s.h264" % (app_dir,t,))
         sleep(R_REC)
         self.cam.stop_recording()
 
@@ -60,7 +62,7 @@ class My_Cam():
         self.cam.close()
 
         #TODO: Add socket sending
-        call("MP4Box -add /home/pi/%s.h264 /home/pi/%s.mp4"%(t,t,), shell=True)
+        call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,t, app_dir,t,), shell=True)
 
         #TODO: Add socket sending
         print t
