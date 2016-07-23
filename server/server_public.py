@@ -4,6 +4,8 @@ import os, json
 
 import thread, time
 
+import cvison.cam
+
 import decor
 
 from routes.setup import setup_blp
