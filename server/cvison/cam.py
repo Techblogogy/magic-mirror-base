@@ -5,6 +5,10 @@ from subprocess import call
 
 from minfo import app_dir
 
+from server import socketio
+from server import IO_SPACE
+from flask_socketio import emit
+
 R_WARM = 2
 R_REC = 5
 
@@ -36,6 +40,7 @@ class My_Cam():
     @classmethod
     def rec(self):
         self.start()
+        socketio.emit("m_camera", "cam_on", namespace=IO_SPACE)
 
         t = str(int(time()))
 
@@ -43,28 +48,41 @@ class My_Cam():
         print "warming camera up"
 
         self.cam.start_preview(fullscreen=False, window = (100, 20, 640, 480))
+        socketio.emit("m_camera", "preview_on", namespace=IO_SPACE)
+
         sleep(R_WARM)
 
         #TODO: Add socket sending
         print "Capturing thumbnail"
         self.cam.capture('%s/cls/%s.jpg' % (app_dir,t,))
+        socketio.emit("m_camera", "thumb_captured", namespace=IO_SPACE)
 
         #TODO: Add socket sending
         print "Recording video"
-
+        socketio.emit("m_camera", "video_start", namespace=IO_SPACE)
         self.cam.start_recording("%s/cls/%s.h264" % (app_dir,t,))
+
+        # Wait record time
         sleep(R_REC)
+
         self.cam.stop_recording()
+        socketio.emit("m_camera", "video_end", namespace=IO_SPACE)
 
         #TODO: Add socket sending
         print "Recording stopped"
         self.cam.stop_preview()
+        socketio.emit("m_camera", "preview_off", namespace=IO_SPACE)
+
         self.cam.close()
+        socketio.emit("m_camera", "cam_off", namespace=IO_SPACE)
 
         #TODO: Add socket sending
+        socketio.emit("m_camera", "compression_begin", namespace=IO_SPACE)
         call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,t, app_dir,t,), shell=True)
+        socketio.emit("m_camera", "compression_off", namespace=IO_SPACE)
 
         #TODO: Add socket sending
+        socketio.emit("m_camera_dat", t, namespace=IO_SPACE)
         print t
 
         return t

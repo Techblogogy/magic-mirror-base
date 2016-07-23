@@ -20,6 +20,14 @@ function ($scope, $location, socket, $timeout,$document, $http) {
     //     // $scope.switchView('weather', 'left_swipe');
     // });
 
+    // $http.post("http://localhost:5000/");
+    $http.post('http://localhost:5000/wardrobe/add', [])
+    .success(function(d){
+        // $scope.items = d;
+        console.log("sent thing");
+    });
+
+
     // Switch View with an animation
     $scope.switchView = function (view, animation) {
         $scope.anim = animation;

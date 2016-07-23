@@ -4,6 +4,7 @@ import os, json
 
 import thread, time
 
+# from remote_ctr.remote_ctr import m_remote
 
 import decor
 
@@ -126,13 +127,9 @@ def page_not_found(e):
 if __name__  == '__main__':
     # print "two times"
 
-    try:
-    #     # print thread.active_count()
-    #     # thread.start()
-    #     # print thread.active_count()
-    #     # print t_count
-        thread.start_new_thread( send_left, (1,) )
-    except:
-        print "Error: unable to start thread"
+    # try:
+    #     thread.start_new_thread( m_remote, (0,) )
+    # except:
+    #     print "Error: unable to start thread"
 
     app.run(debug=True, threaded=True)
