@@ -60,10 +60,10 @@ class My_Cam():
         #TODO: Add socket sending
         print "Recording video"
         socketio.emit("m_camera", "video_start", namespace=IO_SPACE)
-
         self.cam.start_recording("%s/cls/%s.h264" % (app_dir,t,))
-        sleep(R_REC)
 
+        # Wait record time
+        sleep(R_REC)
 
         self.cam.stop_recording()
         socketio.emit("m_camera", "video_end", namespace=IO_SPACE)
@@ -77,9 +77,12 @@ class My_Cam():
         socketio.emit("m_camera", "cam_off", namespace=IO_SPACE)
 
         #TODO: Add socket sending
+        socketio.emit("m_camera", "compression_begin", namespace=IO_SPACE)
         call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,t, app_dir,t,), shell=True)
+        socketio.emit("m_camera", "compression_off", namespace=IO_SPACE)
 
         #TODO: Add socket sending
+        socketio.emit("m_camera_dat", t, namespace=IO_SPACE)
         print t
 
         return t
