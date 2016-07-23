@@ -4,7 +4,6 @@ import os, json
 
 import thread, time
 
-import cvison.cam
 
 import decor
 

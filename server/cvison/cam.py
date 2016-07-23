@@ -70,4 +70,4 @@ class My_Cam():
         return t
 
 # cam = My_Cam()
-My_Cam.rec()
+# My_Cam.rec()

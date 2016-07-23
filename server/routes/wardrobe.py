@@ -3,6 +3,8 @@ import decor
 from flask import Blueprint, redirect, request, url_for
 from cvison.store import clothes
 
+from cvison.cam import My_Cam
+
 import os, json
 
 ALLOWED_ORIGIN = "*"
@@ -35,7 +37,9 @@ def wrd_get_all():
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_add():
     #TODO: Camera take a picture and return path and dresscode
-    clothes.add("casual", "thum1.jpg")
+
+    fl = My_Cam.rec()
+    clothes.add("casual", fl+".jpg")
 
     return ""
 
