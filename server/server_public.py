@@ -4,6 +4,8 @@ import os, json
 
 import thread, time
 
+from remote_ctr.remote_ctr import m_remote
+
 import decor
 
 from routes.setup import setup_blp
@@ -130,7 +132,7 @@ if __name__  == '__main__':
     #     # thread.start()
     #     # print thread.active_count()
     #     # print t_count
-        thread.start_new_thread( send_left, (1,) )
+        thread.start_new_thread( m_remote, (0,) )
     except:
         print "Error: unable to start thread"
 
