@@ -3,7 +3,7 @@ import decor
 from flask import Blueprint, redirect, request, url_for
 from cvison.store import clothes
 
-from cvison.cam import My_Cam
+# from cvison.cam import My_Cam
 
 import os, json
 
@@ -38,7 +38,8 @@ def wrd_get_all():
 def wrd_add():
     #TODO: Camera take a picture and return path and dresscode
 
-    fl = My_Cam.rec()
+    fl = 0 #My_Cam.rec()
+    # fl = My_Cam.rec()
     clothes.add("casual", fl+".jpg")
 
     return ""

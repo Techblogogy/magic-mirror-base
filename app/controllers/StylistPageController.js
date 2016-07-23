@@ -7,49 +7,32 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     console.log("INIT");
 
-    // $scope.items =[
-    //   {
-    //     thumbnail: "res/pics/cat.jpg",
-    //     f: 'MOVE',
-    //     developer: 'MOVE, Inc.',
-    //     price: 0.99
-    //   }
-    // ];
-
-    // var counter2 = 0;
     $scope.switch_right = function(){
-        // $document.find("current").removeClass("current");
-        // x = angular.element(document.querySelectorAll(".current"));
-        // console.log(counter);
-        // counter += 1;
-        // // counter2 += 2;
-        // console.log(counter);
-        // if (counter < 4) {
-        //     counter += 1;
-        //     return;
-        // } else {
-        //     counter = 0;
-        // }
 
         item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
         // console.log(item_id);
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         // angular.element(document.querySelectorAll("current")).removeClass("current");
         item_id += 1;
+        if (item_id == $scope.page_num*9 +10) {
+            $scope.next_page()
 
-        // console.log(item_id);
+        }
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
-
-        // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
+        console.log("it's"+item_id);
     };
     $scope.switch_left = function(){
         // $document.find("current").removeClass("current");
-        angular.element(document.querySelectorAll("#item-"+x)).removeClass("current");
-        x -= 1
-        if (x == 0) {
-            x = 1;
+        item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+        item_id -= 1;
+        if (item_id == $scope.page_num*9) {
+            $scope.previous_page()
+        }
+        if (item_id == 0) {
+            item_id = 1;
         };
-        angular.element(document.querySelectorAll("#item-"+x)).addClass("current");
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
 
         // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
     };
@@ -85,14 +68,14 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
+        item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        console.log("next "+item_id);
         console.log("123");
         $scope.page_num +=1
         $scope.get_page_items($scope.page_num);
 
-        angular.element(document.querySelectorAll("#item-"+x)).removeClass("current");
-        x = $scope.page_num*9 +1;
-        console.log(x);
-        angular.element(document.querySelectorAll("#item-"+x)).addClass("current");
+        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
         // setTimeout(function () {
         //     angular.element(document.querySelectorAll("#item-"+x)).removeClass("current");
         //     x = $scope.page_num*9 +1;
@@ -102,6 +85,15 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
 
         // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
+    };
+
+    $scope.previous_page = function(){
+        item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        $scope.page_num -=1
+        $scope.get_page_items($scope.page_num);
+        console.log("pr"+item_id);
+        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
     };
 
 
