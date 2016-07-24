@@ -75,19 +75,24 @@ class clothes:
     def get_smart(self):
         c_items = db.qry("""
             SELECT
-                id, thumbnail, dresscode, t_wears,
+                id, thumbnail, dresscode, t_wears, liked,
                     (SELECT group_concat(tag, ', ') as tags
                     FROM clothes_tags
                     WHERE clothes_tags.c_id = clothes.id
                     GROUP BY c_id) as tags
             FROM clothes
             WHERE deleted=0
+            ORDER BY liked DESC
         """)
 
         # Get meta tags
         for i in c_items:
             i['meta'] = db.qry("""
-                SELECT t_time, temperature FROM clothes_meta WHERE c_id=?
+                SELECT
+                    t_time, temperature
+                FROM clothes_meta
+                WHERE c_id=?
+                ORDER BY t_time DESC
             """, (i['id'], ) )
 
         return c_items
@@ -170,6 +175,8 @@ class clothes:
     def fill_junk(self):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
+        d_tags = ["clubwear", "meetups", "beach", "work", "time", "special ocasion"]
+
         # Clear out clothes table
         db.qry("DELETE FROM clothes")
         db.qry("VACUUM")
@@ -180,16 +187,25 @@ class clothes:
         db.qry("VACUUM")
         db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_meta'")
 
+        # Clear out clothes tags table
+        db.qry("DELETE FROM clothes_tags")
+        db.qry("VACUUM")
+        db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_tags'")
+
         for i in range(1,100):
             # print random.choice(d_codes)
             self.add(random.choice(d_codes), "thum%s.jpg"%str(random.randint(1,13)))
             i_id = db.last_id()
-            # print "[DEBUG] Item id: "
-            # print i_id
 
-            if random.random() <= 0.2:
-                self.set_like(i_id, 1)
+            # Randomly add tags
+            for t in range( 1, random.randint(1, len(d_tags)+1 ) ):
+                self.add_tags(i_id, random.choice(d_tags) )
 
+            # 20% chanse to set like
+            if random.random() <= 0.1:
+                self.set_like(1, i_id)
+
+            # Randomly wear items
             for a in range(1,random.randint(2,40)):
                 self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,12), random.randint(1,30) ) )
 
