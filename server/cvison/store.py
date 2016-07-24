@@ -71,6 +71,11 @@ class clothes:
     def rmv_tags(self, id):
         pass
 
+    # TODO: Returns page count
+    @classmethod
+    def pages(self):
+        pass
+
     @classmethod
     def get_smart(self):
         c_items = db.qry("""
@@ -88,7 +93,18 @@ class clothes:
         w_rng = Weather.w_temp_range()[0]
 
         # print ((abs(w_rng/5)*10)+1)*db._sign(w_rng)
-        print db._temp_group(w_rng)
+        # return db.qry("""
+        #     SELECT
+        #         temp_group(temperature) as tmp, count(*) as tmp_count
+        #     FROM clothes_meta
+        #     WHERE tmp <= ?
+        #     GROUP BY tmp
+        #     ORDER BY
+        #         CASE tmp
+        #             WHEN ? THEN 0
+        #             ELSE 1
+        #         END, tmp DESC, tmp_count DESC
+        # """, (  db._temp_group(w_rng), db._temp_group(w_rng) ) )
 
         # Get meta tags
         for i in c_items:
@@ -104,9 +120,27 @@ class clothes:
                 SELECT
                     temp_group(temperature) as tmp, count(*) as tmp_count
                 FROM clothes_meta
-                WHERE c_id=?
+                WHERE c_id=? AND tmp <= ?
                 GROUP BY tmp
-            """, (i['id'], ) )
+                ORDER BY
+                    CASE tmp
+                        WHEN ? THEN 0
+                        ELSE 1
+                    END, tmp DESC, tmp_count DESC
+            """, (  i['id'], db._temp_group(w_rng), db._temp_group(w_rng) ) )
+
+        # return db.qry("""
+        #     SELECT
+        #         *
+        #     FROM clothes_meta
+        # """)
+
+        return db.qry("""
+            SELECT
+                c_id, temp_group(temperature) as temp ,COUNT(temp_group(temperature)) as temp_count
+            FROM clothes_meta
+            GROUP BY c_id, temp
+        """)
 
         return c_items
         # return Weather.w_temp_range()
