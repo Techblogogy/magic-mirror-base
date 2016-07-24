@@ -60,6 +60,11 @@ class dbase:
         self._cn.commit()
         self._cn.close()
 
+    # Last added id
+    @classmethod
+    def last_id(self):
+        return self.qry("SELECT last_insert_rowid()");
+
     #TODO: Add Setup method to initate all of the tables
     def setup(self):
         self.connect()

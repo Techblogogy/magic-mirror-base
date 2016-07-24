@@ -147,9 +147,16 @@ class clothes:
     def fill_junk(self):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
+        # Clear out current table
+        db.qry("DELETE FROM clothes")
+        db.qry("VACUUM")
+        db.qry("DELETE FROM sqlite_sequence WHERE name='clothes'")
+
         for i in range(1,100):
             print random.choice(d_codes)
-            # self.add(random.choice(d_codes),  "thumb1.jpg")
+            self.add(random.choice(d_codes), "thum%s.jpg"%str(random.randint(1,13)))
+
+        return self.get_all()
 
 
 clothes.setup()

@@ -43,6 +43,13 @@ def wrd_add():
 
     return ""
 
+# Generates random testing data
+@wrd_api.route("/add/test", methods=['POST', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_add_test():
+    # print request.form.get("tags")
+    return json.dumps( clothes.fill_junk(), indent=JSON_DENT)
+
 # Adds tag to wardrobe item
 @wrd_api.route("/add/tags/<int:c_id>", methods=['POST', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
