@@ -96,6 +96,25 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
     };
 
+    $scope.click = function(){
+        if (document.getElementById('parent_popup').style.display === 'none'){
+
+            // document.querySelectorAll(".current")[0].style.margin = '100px';
+            angular.element(document.querySelectorAll('#popup')).append(document.querySelectorAll(".current")[0]);
+            document.getElementById('parent_popup').style.display = 'inline';
+            document.querySelectorAll(".current")[0].style.width = '100%' ;
+            // document.querySelectorAll(".current")[0].style.position = 'fixed' ;
+
+        }
+        else {
+            document.getElementById('parent_popup').style.display = 'none';
+            document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
+            // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
+        }
+
+    };
+
+
 
     // var g_cn = 0;
     socket.forward('r_ctr', $scope);
