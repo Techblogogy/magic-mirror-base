@@ -12,6 +12,20 @@ class dbase:
     _db = None
     _cn = None;
 
+    # Gets sign of values
+    @staticmethod
+    def _sign(val):
+        if val:
+            if val > 0: return 1
+            else: return -1
+        else:
+            return val
+
+    # Gets group of temperature
+    @staticmethod
+    def _temp_group(val):
+        return ((abs(val/5)*10)+1)*dbase._sign(val)
+
     # def __init__(self):
     #     self._dbpath = 'mirror.db' # Database file path
     #     self.setup()
@@ -20,6 +34,11 @@ class dbase:
     @classmethod
     def connect(self):
         self._cn = sqlite3.connect(app_dir+self._dbpath) # Created Database "connection"
+
+        # Add custom functions
+        self._cn.create_function("sign", 1, self._sign)
+        self._cn.create_function("temp_group", 1, self._temp_group)
+
         self._cn.row_factory = dict_factory
         self._db = self._cn.cursor() # Databse Cursor
 

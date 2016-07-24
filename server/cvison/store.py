@@ -82,17 +82,30 @@ class clothes:
                     GROUP BY c_id) as tags
             FROM clothes
             WHERE deleted=0
-            ORDER BY liked DESC
+            ORDER BY liked DESC, t_wears DESC
         """)
+
+        w_rng = Weather.w_temp_range()[0]
+
+        # print ((abs(w_rng/5)*10)+1)*db._sign(w_rng)
+        print db._temp_group(w_rng)
 
         # Get meta tags
         for i in c_items:
+            # i['meta'] = db.qry("""
+            #     SELECT
+            #         t_time, temperature
+            #     FROM clothes_meta
+            #     WHERE c_id=?
+            #     ORDER BY t_time DESC
+            # """, (i['id'], ) )
+
             i['meta'] = db.qry("""
                 SELECT
-                    t_time, temperature
+                    temp_group(temperature) as tmp, count(*) as tmp_count
                 FROM clothes_meta
                 WHERE c_id=?
-                ORDER BY t_time DESC
+                GROUP BY tmp
             """, (i['id'], ) )
 
         return c_items
@@ -207,7 +220,7 @@ class clothes:
 
             # Randomly wear items
             for a in range(1,random.randint(2,40)):
-                self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,12), random.randint(1,30) ) )
+                self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,8), random.randint(1,30) ) )
 
         return self.get_all()
 
