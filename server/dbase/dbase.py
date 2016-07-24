@@ -63,7 +63,8 @@ class dbase:
     # Last added id
     @classmethod
     def last_id(self):
-        return self.qry("SELECT last_insert_rowid()");
+        # return self.qry("select last_insert_rowid() as lid")[0]['lid'];
+        return self._db.lastrowid
 
     #TODO: Add Setup method to initate all of the tables
     def setup(self):

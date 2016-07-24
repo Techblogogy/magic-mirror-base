@@ -122,16 +122,23 @@ class clothes:
         return db.qry("SELECT * FROM clothes_meta")
         # return Weather.w_current_temp()
 
+    # Get items meta
     @classmethod
-    def worn_tmp(self, id, w):
+    def get_meta(self):
+        return db.qry("""
+            SELECT * FROM clothes_meta
+        """)
+
+    @classmethod
+    def worn_tmp(self, c_id, w, dt):
         db.qry(
             "UPDATE clothes SET t_wears=t_wears+1 WHERE id=?",
-            (id, )
+            (c_id, )
         )
 
         db.qry(
-            "INSERT INTO clothes_meta (c_id, temperature, t_time) VALUES (?, ?, date('now'))",
-            (id, w, )
+            "INSERT INTO clothes_meta (c_id, temperature, t_time) VALUES (?, ?, ?)",
+            (c_id, w, dt,)
         )
 
     # Like item (ID of element, Like state (0) for no, (1) for yes)
@@ -147,14 +154,28 @@ class clothes:
     def fill_junk(self):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
-        # Clear out current table
+        # Clear out clothes table
         db.qry("DELETE FROM clothes")
         db.qry("VACUUM")
         db.qry("DELETE FROM sqlite_sequence WHERE name='clothes'")
 
+        # Clear out clothes meta table
+        db.qry("DELETE FROM clothes_meta")
+        db.qry("VACUUM")
+        db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_meta'")
+
         for i in range(1,100):
-            print random.choice(d_codes)
+            # print random.choice(d_codes)
             self.add(random.choice(d_codes), "thum%s.jpg"%str(random.randint(1,13)))
+            i_id = db.last_id()
+            # print "[DEBUG] Item id: "
+            # print i_id
+
+            if random.random() <= 0.2:
+                self.set_like(i_id, 1)
+
+            for a in range(1,random.randint(2,40)):
+                self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,12), random.randint(1,30) ) )
 
         return self.get_all()
 
