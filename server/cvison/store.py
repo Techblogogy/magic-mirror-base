@@ -80,7 +80,7 @@ class clothes:
     def get_all(self):
         # return db.qry("SELECT * FROM clothes_tags")
         # return db.qry("SELECT group_concat(tag, ', ') as tags FROM clothes_tags GROUP BY c_id")
-        return db.qry("""
+        c_items = db.qry("""
             SELECT
                 id, thumbnail, dresscode, t_wears,
                     (SELECT group_concat(tag, ', ') as tags
@@ -90,6 +90,14 @@ class clothes:
             FROM clothes
             WHERE deleted=0
         """)
+
+        # Get meta tags
+        for i in c_items:
+            i['meta'] = db.qry("""
+                SELECT t_time, temperature FROM clothes_meta WHERE c_id=?
+            """, (i['id'], ) )
+
+        return c_items
 
     # Get items in range
     @classmethod
