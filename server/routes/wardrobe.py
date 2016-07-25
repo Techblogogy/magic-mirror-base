@@ -3,7 +3,7 @@ import decor
 from flask import Blueprint, redirect, request, url_for
 from cvison.store import clothes
 
-# from cvison.cam import My_Cam
+from cvison.cam import My_Cam
 
 import os, json
 
