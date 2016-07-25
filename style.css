@@ -275,18 +275,22 @@ body {
 
 
 #parent_popup {
-  background-color: rgba(0, 0, 0, 0.9);
-  height: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-  left: 0;
-  right: auto;
-  display: none;
-  /*padding: 30px;*/
+    background-color: rgba(0, 0, 0, 0.9);
+       width: 95%;
+       position: fixed;
+       top: 0;
+       z-index: 1000;
+       left: 22px;
+       /* right: auto; */
+       display: none;
+       padding: 70px;
+       font-size: 40px;
 }
+#parent_popup h3{ font-size: 40px;}
 .popup_back{
     background-color: rgba(0, 0, 0, 0.9);
+    width: 120%;
+    height: 120%;
 
 }
 #popup {
@@ -295,8 +299,9 @@ body {
   position: fixed;
   /*color: rgb(0, 0, 0);*/
   color: rgb(255, 255, 255);
+  width: 80%;
 
-  font-size: 40px;
+  font-size: 60px;
   margin-left: auto;
   margin-right: auto;
 

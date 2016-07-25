@@ -56,6 +56,9 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         $http.get('http://localhost:5000/wardrobe/get?items='+9+'&page='+p_num)
         .success(function(data){
             console.log(data);
+            if (data.length === 0) {
+                return 0;
+            }
             $scope.items = data;
             // setTimeout(function () {
             //     console.log($document.find("#item-1"));
@@ -96,22 +99,42 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
     };
 
+    // function getOffset(elem) {
+    //     if (elem.getBoundingClientRect) {
+    //         return getOffsetRect(elem);
+    //     } else {
+    //     return getOffsetSum(elem);
+    //     }
+    // };
+
+
+
+
+
     $scope.click = function(){
         if (document.getElementById('parent_popup').style.display === 'none'){
+            // getOffset(document.getElementById('popup'));
+            // getOffsetRect()
+            // console.log( document.querySelectorAll('img_c').offset() );
 
             // document.querySelectorAll(".current")[0].style.margin = '100px';
-            angular.element(document.querySelectorAll('#popup')).append(document.querySelectorAll(".current")[0]);
-            document.getElementById('parent_popup').style.display = 'inline';
-            document.querySelectorAll(".current")[0].style.width = '100%' ;
+            big_item = document.querySelectorAll(".current")[0].innerHTML;
+            document.getElementById('parent_popup').innerHTML = big_item;
+            console.log(big_item);
+            document.getElementById('parent_popup').style.display = 'inline-block';
+
+            socket.emit("start_video");
+
+            // document.querySelectorAll(".current")[0].style.width = '90%' ;
             // document.querySelectorAll(".current")[0].style.position = 'fixed' ;
 
         }
         else {
             document.getElementById('parent_popup').style.display = 'none';
-            document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
+                socket.emit("colsed");
+            // document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
             // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
         }
-
     };
 
 
