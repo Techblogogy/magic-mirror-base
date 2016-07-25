@@ -1,3 +1,4 @@
+
 app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($scope,$document,$http, socket) {
     $scope.loaded = function(){};
     $scope.page_id = "p_stylist";
@@ -123,7 +124,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             console.log(big_item);
             document.getElementById('parent_popup').style.display = 'inline-block';
 
-            socket.emit("start_video");
+            vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id');
+            console.log(vid_id);
+
+            socket.emit("start_video", vid_id);
 
             // document.querySelectorAll(".current")[0].style.width = '90%' ;
             // document.querySelectorAll(".current")[0].style.position = 'fixed' ;
@@ -131,7 +135,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         }
         else {
             document.getElementById('parent_popup').style.display = 'none';
-                socket.emit("colsed");
+                socket.emit("closed");
             // document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
             // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
         }
@@ -164,6 +168,17 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 break;
         }
         // $scope.switchView('weather', 'left_swipe');
+    });
+
+    socket.forward('right', $scope);
+    $scope.$on("socket:right", function (event, data) {
+        console.log("RIGHT!!!");
+        $scope.switch_right();
+    });
+
+    socket.forward('left', $scope);
+    $scope.$on("socket:left", function (event, data) {
+                    $scope.switch_left();
     });
 
 }]);

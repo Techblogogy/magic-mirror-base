@@ -11,6 +11,7 @@ S_DEBUG = True
 class Speech:
 
     def __init__(self):
+        print "test"
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = False
 

@@ -275,6 +275,10 @@ body {
 
 
 #parent_popup {
+    -webkit-transition-delay: 1s;
+    -webkit-animation: moveFromLeft .9s ease both;
+	animation: moveFromLeft .9s ease both;
+
     background-color: rgba(0, 0, 0, 0.9);
        width: 95%;
        position: fixed;

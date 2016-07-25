@@ -1,13 +1,13 @@
 import nltk
 
-from server import socketio
-from server import IO_SPACE
+from server_public import socketio
+from server_public import IO_SPACE
 from flask_socketio import emit
 
 from v_cmd import v_cmd
 from commands import in_cmd
 
-# nltk.download()
+nltk.download()
 
 # Key base
 key_w = "mirror"
@@ -29,6 +29,8 @@ def get_numbers():
 
 # Return command based on voice input
 def get_command(cm):
+    # print IO_SPACE
+    # socketio.emit('right', "", namespace=IO_SPACE)
     tokens = nltk.word_tokenize(cm)
 
     print tokens
@@ -54,7 +56,7 @@ def get_command(cm):
 
         # Output command
         if br:
-            # socketio.emit(c.cmd, "", namespace=IO_SPACE)
+            socketio.emit(c.cmd, "", namespace=IO_SPACE)
             print c.cmd;
             break;
 

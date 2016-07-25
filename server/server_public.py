@@ -2,11 +2,12 @@ from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 import os, json
 
+
 import thread, time
+# import threading
 
-import speech.speech
 
-from remote_ctr.remote_ctr import m_remote
+# from remote_ctr.remote_ctr import m_remote
 
 import decor
 
@@ -37,9 +38,12 @@ IO_SPACE = "/io"
 
 # Flask Elements
 app = Flask(__name__)
+app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = "supersecret"
 socketio = SocketIO(app,async_mode='threading')
 # socketio = SocketIO(app)
+
+import speech.speech
 
 # Reigster Blueprints
 app.register_blueprint(gcal_api)
@@ -83,7 +87,7 @@ def send_left(t):
     # t_count += 1
     while True:
         print "test"
-        socketio.emit("r_ctr", "right", namespace=IO_SPACE)
+        socketio.emit("right", "", namespace=IO_SPACE)
         time.sleep(4)
 
 
@@ -122,16 +126,17 @@ def page_not_found(e):
 #         # print "Starting " + self.name
 #         # print_time(self.name, self.counter, 5)
 #         # print "Exiting " + self.name
-
+#
 # thread = myThread(1, "Thread-1", 1)
 
 # Run Server Application
 if __name__  == '__main__':
     # print "two times"
 
-    try:
-        thread.start_new_thread( m_remote, (0,) )
-    except:
-        print "Error: unable to start thread"
+    # try:
+    #     thread.start_new_thread( send_left, (0,) )
+    # except:
+    #     print "Error: unable to start thread"
 
+    # socketio.run(app)
     app.run(debug=True, threaded=True)
