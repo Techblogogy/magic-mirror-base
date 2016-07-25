@@ -1,13 +1,13 @@
 import nltk
 
-from server_public import socketio
-from server_public import IO_SPACE
-from flask_socketio import emit
+
+import thread
+from thead import send_left
 
 from v_cmd import v_cmd
 from commands import in_cmd
 
-nltk.download()
+# nltk.download()
 
 # Key base
 key_w = "mirror"
@@ -29,11 +29,10 @@ def get_numbers():
 
 # Return command based on voice input
 def get_command(cm):
-    # print IO_SPACE
-    # socketio.emit('right', "", namespace=IO_SPACE)
     tokens = nltk.word_tokenize(cm)
 
-    print tokens
+    # print tokens
+    # print pserve.test
 
     # Iriterate over all commands
     for c in in_cmd:
@@ -56,9 +55,19 @@ def get_command(cm):
 
         # Output command
         if br:
-            socketio.emit(c.cmd, "", namespace=IO_SPACE)
-            print c.cmd;
-            break;
+
+            # try:
+            #     thread.start_new_thread( send_left, (0,) )
+            # except:
+            #     print "Error: unable to start thread"
+
+            # pserve.send()
+
+            # pserve.socketio.emit("c2", "", namespace=pserve.IO_SPACE)
+            # pserve.socketio.emit(c.cmd, "", namespace=pserve.IO_SPACE)
+            print c.cmd
+            return c.cmd
+            break
 
 
-# get_command("i pick number twenty two please")
+# get_command("how should i dress today")

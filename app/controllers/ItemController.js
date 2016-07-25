@@ -2,12 +2,12 @@ app.controller('ItemCtr', ['$scope', '$document','$http', function($scope, $docu
     $scope.loaded = function(){};
 
     $scope.add_item = function(){
-        $scope.clth = [];
-        $http.post('http://localhost:5000/wardrobe/add',$scope.clth)
-        .success(function(d){
-            $scope.items = d;
-            console.log(d);
-        });
+        // $scope.clth = [];
+        // $http.post('http://localhost:5000/wardrobe/add',$scope.clth)
+        // .success(function(d){
+        //     $scope.items = d;
+        //     console.log(d);
+        // });
     };
     // $scope.if_first = function(item){
     //     if (item.info.id === 1) {
