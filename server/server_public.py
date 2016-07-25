@@ -4,6 +4,8 @@ import os, json
 
 import thread, time
 
+import speech.speech
+
 from remote_ctr.remote_ctr import m_remote
 
 import decor
