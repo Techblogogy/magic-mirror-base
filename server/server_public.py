@@ -1,12 +1,15 @@
 from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
-import os, json
 
-import thread, time
+from server import PServer
+pserve = PServer()
+
+import os, json, thread, time
 
 import speech.speech
+# from remote_ctr.remote_ctr import m_remote
 
-from remote_ctr.remote_ctr import m_remote
+from thead import send_left
 
 import decor
 
@@ -15,47 +18,34 @@ from api_cal.setup import setup
 
 from routes.gcal import gcal_api
 from api_cal.gcal import gcal
-#from dbase.dbase import dbase
 
 from routes.wardrobe import wrd_api
-
-# Initiate database instance
-#db = dbase()
-#db.setup()
-
-# import api_cal.calendar
-
-t_running = False
 
 # Important Constants
 JSON_DENT = 4
 
-t_count = 0
-
-# Important Constants
-IO_SPACE = "/io"
-
 # Flask Elements
-app = Flask(__name__)
-app.config['SECRET_KEY'] = "supersecret"
-socketio = SocketIO(app,async_mode='threading')
-# socketio = SocketIO(app)
+# pserve.app = Flask(__name__)
+# pserve.app.config['SECRET_KEY'] = "supersecret"
+# socketio = SocketIO(pserve.app,async_mode='threading')
+#socketio = SocketIO(pserve.app)
 
 # Reigster Blueprints
-app.register_blueprint(gcal_api)
-app.register_blueprint(setup_blp)
-app.register_blueprint(wrd_api)
+pserve.app.register_blueprint(gcal_api)
+pserve.app.register_blueprint(setup_blp)
+pserve.app.register_blueprint(wrd_api)
 
-@app.route('/')
+
+@pserve.app.route('/')
 def main():
     return render_template('setupSite.html', auth = gcal.need_auth(), userName = gcal.get_disp_name())
 
-@app.route('/<path:filename>')
+@pserve.app.route('/<path:filename>')
 def index(filename):
     return send_from_directory('static', filename)
 
 #calendar Settings
-@app.route('/setcal', methods=['GET','POST','OPTIONS'])
+@pserve.app.route('/setcal', methods=['GET','POST','OPTIONS'])
 def setcal():
     resp = 0
     if (request.form.get('action') == "calendar"):
@@ -65,8 +55,6 @@ def setcal():
     elif(request.form.get('action') == "position"):
         setup.save_pos(request.form.get('u_lng'), request.form.get('u_lat'))
         resp = 201
-
-
 
     return render_template('setcal.html',
         resp_g = resp,
@@ -78,29 +66,16 @@ def setcal():
         # pos = setup_get_pos()x
     )
 
-def send_left(t):
-    # global t_count
-    # t_count += 1
-    while True:
-        print "test"
-        socketio.emit("r_ctr", "right", namespace=IO_SPACE)
-        time.sleep(4)
-
-
-@socketio.on("connect", namespace=IO_SPACE)
+@pserve.socketio.on("connect", namespace=pserve.IO_SPACE)
 def connected():
     print "client %s connected" % (request.sid)
 
-
-    # emit("myresponse", db.qry("SELECT * FROM test"))
-    # socketio.emit("r_ctr", "left")
-
-@socketio.on("myevent", namespace=IO_SPACE)
+@pserve.socketio.on("myevent", namespace=pserve.IO_SPACE)
 def myevent():
     print "EHY!"
 
 # Page 404
-@app.errorhandler(404)
+@pserve.app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 #
@@ -129,9 +104,10 @@ def page_not_found(e):
 if __name__  == '__main__':
     # print "two times"
 
-    try:
-        thread.start_new_thread( m_remote, (0,) )
-    except:
-        print "Error: unable to start thread"
+    # try:
+    #     thread.start_new_thread( send_left, (0,) )
+    # except:
+    #     print "Error: unable to start thread"
 
-    app.run(debug=True, threaded=True)
+    pserve.app.run(debug=True, threaded=True)
+    # socketio.run(pserve.app, debug=True)

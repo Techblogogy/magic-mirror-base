@@ -137,7 +137,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         }
     };
 
-
+    socket.forward('c2', $scope);
+    $scope.$on("socket:c2", function (event, data) {
+        console.log("[SOCKETIO] c2");
+        $scope.switch_right();
+    });
 
     // var g_cn = 0;
     socket.forward('r_ctr', $scope);
