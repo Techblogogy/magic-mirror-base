@@ -7,8 +7,8 @@ pserve = PServer()
 import os, json, thread, time
 
 
-import speech.speech
-from remote_ctr.remote_ctr import m_remote
+# import speech.speech
+# from remote_ctr.remote_ctr import m_remote
 
 #from thead import send_left
 

@@ -91,6 +91,10 @@ class clothes:
         """)
 
         w_rng = Weather.w_temp_range()[0]
+        w_temp = db._temp_group(w_rng);
+
+        print "[DEBUG] Current temperatue: %d" % (w_rng)
+        print "[DEBUG] Temperature Range: %d" % (w_temp)
 
         # print ((abs(w_rng/5)*10)+1)*db._sign(w_rng)
         # return db.qry("""
@@ -135,12 +139,18 @@ class clothes:
         #     FROM clothes_meta
         # """)
 
+        # Returns grouped wearther
         return db.qry("""
             SELECT
-                c_id, temp_group(temperature) as temp ,COUNT(temp_group(temperature)) as temp_count
+                c_id, temp_group(temperature) as temp, COUNT(temp_group(temperature)) as temp_count
             FROM clothes_meta
             GROUP BY c_id, temp
-        """)
+            ORDER BY
+                CASE temp
+                    WHEN ? THEN 0
+                    ELSE 1
+                END, temp_count DESC
+        """, (w_temp, ))
 
         return c_items
         # return Weather.w_temp_range()
