@@ -6,6 +6,8 @@ import thread, time
 
 from remote_ctr.remote_ctr import m_remote
 
+#from cvison.play import PlayVid
+
 import decor
 
 from routes.setup import setup_blp

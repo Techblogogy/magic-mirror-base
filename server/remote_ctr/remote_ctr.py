@@ -8,7 +8,7 @@ from server import socketio
 from server import IO_SPACE
 from flask_socketio import emit
 
-B_COM = "COM16"
+B_COM = "/dev/rfcomm0"
 
 def m_remote(t):
     ser = serial.Serial(
