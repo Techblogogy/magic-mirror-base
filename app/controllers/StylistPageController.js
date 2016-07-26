@@ -121,7 +121,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
 
     $scope.click = function(itm_num){
-        if (document.getElementById('parent_popup').style.display === 'none'){
+            (document.getElementById('parent_popup').style.display === 'none')
             // getOffset(document.getElementById('popup'));
             // getOffsetRect()
             // console.log( document.querySelectorAll('img_c').offset() );
@@ -142,14 +142,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             // document.querySelectorAll(".current")[0].style.width = '90%' ;
             // document.querySelectorAll(".current")[0].style.position = 'fixed' ;
 
-        }
-        else {
-            document.getElementById('parent_popup').style.display = 'none';
+        };
+    $scope.close_item = function () {
+            if (document.getElementById('parent_popup').style.display === 'inline-block'){
+                document.getElementById('parent_popup').style.display = 'none';
                 socket.emit("closed");
+            }
             // document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
             // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
-        }
-    };
+        };
+
 
     //socket.forward('c2', $scope);
     //$scope.$on("socket:c2", function (event, data) {
@@ -198,6 +200,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     socket.forward('fullscreen', $scope);
     $scope.$on("socket:fullscreen", function (event, data) {
                     $scope.click(data);
+
+    });
+    socket.forward('close_item', $scope);
+    $scope.$on("socket:close_item", function (event, data) {
+                    $scope.close_item();
 
     });
 
