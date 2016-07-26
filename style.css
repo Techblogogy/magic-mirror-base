@@ -241,7 +241,6 @@ body {
 }
 .Number {
     position: inherit;
-    top: -579px;
     left: 213px;
     background-color: rgba(0, 0, 0, 0.62);
     width: 70px;
@@ -251,6 +250,8 @@ body {
 /* border-radius: 50%; */
     padding: 7px;
     margin-bottom: -40px;
+    margin-top: -20px;
+    /*padding-top: -10px;*/
 }
 .item_stl{
     background-color: rgba(255, 255, 255, 0.1);
@@ -258,9 +259,11 @@ body {
     margin-left: auto;
     margin-right: auto;
     border: 5px solid black;
-
-
+    height: 590px;
 }
+
+.item_stl h3 {margin-top: -5px;}
+
 .current{
     background-color: rgba(255, 255, 255, 0.5);
 }

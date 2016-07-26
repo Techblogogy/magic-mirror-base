@@ -175,7 +175,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                     $scope.next_page();
                     break;
             case "click":
-                    $scope.show_closer();
+                    $scope.click();
                     break;
                 break;
         }
