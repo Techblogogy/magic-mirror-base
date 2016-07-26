@@ -8,7 +8,7 @@ from server import socketio
 from server import IO_SPACE
 from flask_socketio import emit
 
-B_COM = "COM16"
+B_COM = "/dev/rfcomm1"
 
 def m_remote(t):
     ser = serial.Serial(
@@ -33,6 +33,7 @@ def m_remote(t):
                 x = int(x)
             except ValueError:
                 x = 500;
+                
             if 2000 > x > 800:
                 if time.time() > t + 0.3 :
                     print 'Down'
