@@ -28,8 +28,13 @@ def wrd_get_smart():
 @wrd_api.route("/get/all", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_get_all():
-    # clothes.fill_junk()
     return json.dumps(clothes.get_all(), indent=JSON_DENT)
+
+# Returns wardrobe items meta tags
+@wrd_api.route("/get/meta", methods=['GET', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_get_meta():
+    return json.dumps(clothes.get_meta(), indent=JSON_DENT)
 
 
 # Starts camera thumbnail and video recording sequence and saves stuff to database
@@ -43,6 +48,13 @@ def wrd_add():
     clothes.add("casual", fl+".jpg")
 
     return ""
+
+# Generates random testing data
+@wrd_api.route("/add/test", methods=['POST', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_add_test():
+    # print request.form.get("tags")
+    return json.dumps( clothes.fill_junk(), indent=JSON_DENT)
 
 # Adds tag to wardrobe item
 @wrd_api.route("/add/tags/<int:c_id>", methods=['POST', 'OPTIONS'])
