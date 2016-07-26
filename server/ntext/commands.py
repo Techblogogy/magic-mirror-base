@@ -8,8 +8,10 @@ in_cmd = [
     v_cmd(["weather", "jacket", "umbrella"], "OR", "c4"), # Weather keywords
     v_cmd(["next", "page"], "AND", "next_page"),
     v_cmd(["previous", "page"], "AND", "previous_page"),
-    v_cmd(["go","right"], "OR", "right"),
-    v_cmd(["go","left"], "OR", "left"),
+    v_cmd(["go","right"], "AND", "right"),
+    v_cmd(["go","left"], "AND", "left"),
     v_cmd(["show", "me", "big", "image"], "AND", "fullscreen"),
+    v_cmd(["close", "image"], "AND", "fullscreen")
+
 
 ]

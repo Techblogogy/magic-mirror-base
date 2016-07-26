@@ -61,6 +61,14 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 return 0;
             }
             $scope.items = data;
+
+            // $scope.items.push({"element": 1});
+
+            for (var i = 0; i < $scope.items.length; i++) {
+            $scope.items[i]["number"] = i + 1;
+            }
+            console.log($scope.items);
+            // angular.element(document.querySelectorAll(".row")).children()
             // setTimeout(function () {
             //     console.log($document.find("#item-1"));
             //     // $document.find("#item-1").addClass("current");
@@ -183,6 +191,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     socket.forward('left', $scope);
     $scope.$on("socket:left", function (event, data) {
                     $scope.switch_left();
+    });
+
+    socket.forward('fullscreen', $scope);
+    $scope.$on("socket:fullscreen", function (event, data) {
+                    $scope.click();
     });
 
 }]);

@@ -1,8 +1,8 @@
 import nltk
 
 
-import thread
-from thead import send_left
+# import thread
+# from thead import send_left
 
 from v_cmd import v_cmd
 from commands import in_cmd
@@ -21,6 +21,12 @@ n_units = [
     "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
     "sixteen", "seventeen", "eighteen", "nineteen",
 ]
+num_dict = {}
+i = 0
+for i in range(len(n_units)):
+    num_dict[n_units[i]] = i
+    
+
 n_tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
 n_scales = ["hundred", "thousand", "million", "billion", "trillion"]
 

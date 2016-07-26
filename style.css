@@ -239,7 +239,19 @@ body {
 #item_descr{
     font-size: 24px;
 }
-
+.Number {
+    position: inherit;
+    top: -579px;
+    left: 213px;
+    background-color: rgba(0, 0, 0, 0.62);
+    width: 70px;
+    text-align: center;
+    height: 70px;
+    font-size: 40px;
+/* border-radius: 50%; */
+    padding: 7px;
+    margin-bottom: -40px;
+}
 .item_stl{
     background-color: rgba(255, 255, 255, 0.1);
     margin: 5px;
