@@ -18,7 +18,7 @@ class Speech:
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = False
 
-        self._m = sr.Microphone(sample_rate=8000)
+        self._m = sr.Microphone(sample_rate=16000)
 
     def start(self):
         print ("Starting")
@@ -38,8 +38,9 @@ class Speech:
         try:
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
             cmd = get_command(text)
-
-            pserve.send(cmd, "")
+            if cmd:
+                print cmd[1]
+                pserve.send(cmd[0], cmd[1])
             print("Bing Speech: "+text)
         except sr.UnknownValueError:
             print("Bing unrecognizable")
