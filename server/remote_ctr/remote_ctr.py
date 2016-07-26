@@ -11,7 +11,7 @@ import serial
 from server import PServer
 pserve = PServer()
 
-B_COM = "/dev/rfcomm1"
+B_COM = "/dev/rfcomm0"
 
 def m_remote(t):
     ser = serial.Serial(
@@ -40,25 +40,30 @@ def m_remote(t):
                 if time.time() > t + 0.3 :
                     print 'Down'
                     pserve.socketio.emit("r_ctr", "down", namespace="/io")
+                    #pserve.send("r_ctr", "down")
                     t = time.time()
             if x < 100 :
                 if time.time() > t + 0.3 :
                     t = time.time()
                     print 'Up'
                     pserve.socketio.emit("r_ctr", "up", namespace="/io")
+                    #pserve.send("r_ctr", "up")
             if 10900< x < 15000:
                 if time.time() > t + 0.3 :
                     print 'Left'
                     pserve.socketio.emit("r_ctr", "left", namespace="/io")
+                    #pserve.send("r_ctr", "left")
                     t = time.time()
             if 5000 < x < 10100 :
                 if time.time() > t + 0.3 :
                     t = time.time()
                     print 'Right'
                     pserve.socketio.emit("r_ctr", "right", namespace="/io")
+                    #pserve.send("r_ctr", "right")
             if 21022 < x :
                 if time.time() > t + 0.2 :
                     t = time.time()
                     print 'Click'
                     pserve.socketio.emit("r_ctr", "click", namespace="/io")
+                    #pserve.send("r_ctr", "click")
 # dozimetr()
