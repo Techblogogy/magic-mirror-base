@@ -10,8 +10,9 @@ in_cmd = [
     v_cmd(["previous", "page"], "AND", "previous_page"),
     v_cmd(["go","right"], "AND", "right"),
     v_cmd(["go","left"], "AND", "left"),
-    v_cmd(["show", "me", "big", "image"], "AND", "fullscreen"),
-    v_cmd(["close", "image"], "AND", "fullscreen")
+    v_cmd([], "NUM", "fullscreen"),
+    v_cmd(["close", "image"], "AND", "fullscreen"),
+
 
 
 ]

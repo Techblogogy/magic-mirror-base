@@ -1,5 +1,5 @@
 import nltk
-
+item_number = 0
 
 # import thread
 # from thead import send_left
@@ -25,7 +25,7 @@ num_dict = {}
 i = 0
 for i in range(len(n_units)):
     num_dict[n_units[i]] = i
-    
+
 
 n_tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
 n_scales = ["hundred", "thousand", "million", "billion", "trillion"]
@@ -58,6 +58,14 @@ def get_command(cm):
             for k in c.keys:
                 if k in tokens:
                     br = True
+        # Token compare for NUM
+        elif c.lg == "NUM":
+            br = False;
+            for k in tokens:
+                if k in num_dict:
+                    global item_number
+                    item_number = num_dict[k]
+                    br = True
 
         # Output command
         if br:
@@ -72,8 +80,9 @@ def get_command(cm):
             # pserve.socketio.emit("c2", "", namespace=pserve.IO_SPACE)
             # pserve.socketio.emit(c.cmd, "", namespace=pserve.IO_SPACE)
             print c.cmd
-            return c.cmd
+            return (c.cmd, item_number)
             break
 
 
-# get_command("how should i dress today")
+get_command(" lucky silly ten ducks LSD")
+print item_number

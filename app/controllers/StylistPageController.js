@@ -120,14 +120,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
 
 
-    $scope.click = function(){
+    $scope.click = function(itm_num){
         if (document.getElementById('parent_popup').style.display === 'none'){
             // getOffset(document.getElementById('popup'));
             // getOffsetRect()
             // console.log( document.querySelectorAll('img_c').offset() );
 
             // document.querySelectorAll(".current")[0].style.margin = '100px';
-            big_item = document.querySelectorAll(".current")[0].innerHTML;
+            // big_item = document.querySelectorAll(".current")[0].innerHTML;
+            console.log(itm_num);
+            big_item = document.getElementById("item-"+(itm_num%9)).innerHTML;
             document.getElementById('parent_popup').innerHTML = big_item;
             console.log(big_item);
             document.getElementById('parent_popup').style.display = 'inline-block';
@@ -195,7 +197,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     socket.forward('fullscreen', $scope);
     $scope.$on("socket:fullscreen", function (event, data) {
-                    $scope.click();
+                    $scope.click(data);
+
     });
 
 }]);
