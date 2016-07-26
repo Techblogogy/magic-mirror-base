@@ -6,10 +6,10 @@ pserve = PServer()
 
 import os, json, thread, time
 
-import speech.speech
-# from remote_ctr.remote_ctr import m_remote
+#import speech.speech
+from remote_ctr.remote_ctr import m_remote
 
-from thead import send_left
+#from thead import send_left
 
 #from cvison.play import PlayVid
 
@@ -106,10 +106,10 @@ def page_not_found(e):
 if __name__  == '__main__':
     # print "two times"
 
-    # try:
-    #     thread.start_new_thread( send_left, (0,) )
-    # except:
-    #     print "Error: unable to start thread"
+    try:
+        thread.start_new_thread( m_remote, (0,) )
+    except:
+        print "Error: unable to start thread"
 
     pserve.app.run(debug=True, threaded=True)
     # socketio.run(pserve.app, debug=True)
