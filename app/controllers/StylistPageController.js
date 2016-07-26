@@ -149,18 +149,18 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         }
     };
 
-    socket.forward('c2', $scope);
-    $scope.$on("socket:c2", function (event, data) {
-        console.log("[SOCKETIO] c2");
-        $scope.switch_right();
-    });
+    //socket.forward('c2', $scope);
+    //$scope.$on("socket:c2", function (event, data) {
+    //    console.log("[SOCKETIO] c2");
+    //    $scope.switch_right();
+    //});
 
     // var g_cn = 0;
     socket.forward('r_ctr', $scope);
     $scope.$on("socket:r_ctr", function (event, data) {
         // g_cn++;
         // console.log("GLOBAL:"+g_cn);
-        // console.log(123456);
+      	console.log(123456);
         switch (data) {
             case "left":
                 $scope.switch_left();
@@ -182,16 +182,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         // $scope.switchView('weather', 'left_swipe');
     });
 
-    socket.forward('right', $scope);
-    $scope.$on("socket:right", function (event, data) {
-        console.log("RIGHT!!!");
-        $scope.switch_right();
-    });
+    //socket.forward('right', $scope);
+    //$scope.$on("socket:right", function (event, data) {
+    //    console.log("RIGHT!!!");
+    //    $scope.switch_right();
+    //});
 
-    socket.forward('left', $scope);
-    $scope.$on("socket:left", function (event, data) {
-                    $scope.switch_left();
-    });
+    //socket.forward('left', $scope);
+    //$scope.$on("socket:left", function (event, data) {
+    //                $scope.switch_left();
+    //});
 
     socket.forward('fullscreen', $scope);
     $scope.$on("socket:fullscreen", function (event, data) {

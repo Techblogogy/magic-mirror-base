@@ -4,11 +4,14 @@ import time
 import serial
 # import bluetooth
 
-from server import socketio
-from server import IO_SPACE
-from flask_socketio import emit
+#from server import socketio
+#from server import IO_SPACE
+#from flask_socketio import emit
 
-B_COM = "COM16"
+from server import PServer
+pserve = PServer()
+
+B_COM = "/dev/rfcomm0"
 
 def m_remote(t):
     ser = serial.Serial(
@@ -36,26 +39,31 @@ def m_remote(t):
             if 2000 > x > 800:
                 if time.time() > t + 0.3 :
                     print 'Down'
-                    socketio.emit("m_remote", "down", namespace=IO_SPACE)
+                    pserve.socketio.emit("r_ctr", "down", namespace="/io")
+                    #pserve.send("r_ctr", "down")
                     t = time.time()
             if x < 100 :
                 if time.time() > t + 0.3 :
                     t = time.time()
                     print 'Up'
-                    socketio.emit("m_remote", "up", namespace=IO_SPACE)
+                    pserve.socketio.emit("r_ctr", "up", namespace="/io")
+                    #pserve.send("r_ctr", "up")
             if 10900< x < 15000:
                 if time.time() > t + 0.3 :
                     print 'Left'
-                    socketio.emit("m_remote", "left", namespace=IO_SPACE)
+                    pserve.socketio.emit("r_ctr", "left", namespace="/io")
+                    #pserve.send("r_ctr", "left")
                     t = time.time()
             if 5000 < x < 10100 :
                 if time.time() > t + 0.3 :
                     t = time.time()
                     print 'Right'
-                    socketio.emit("m_remote", "right", namespace=IO_SPACE)
+                    pserve.socketio.emit("r_ctr", "right", namespace="/io")
+                    #pserve.send("r_ctr", "right")
             if 21022 < x :
                 if time.time() > t + 0.2 :
                     t = time.time()
                     print 'Click'
-                    socketio.emit("m_remote", "click", namespace=IO_SPACE)
+                    pserve.socketio.emit("r_ctr", "click", namespace="/io")
+                    #pserve.send("r_ctr", "click")
 # dozimetr()
