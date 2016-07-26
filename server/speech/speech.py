@@ -1,6 +1,9 @@
 import slib as sr
 from flask_socketio import emit
 
+from server import PServer
+pserve = PServer()
+
 from ntext.ntext import get_command
 
 # from server import IO_SPACE, socketio
@@ -11,6 +14,7 @@ S_DEBUG = True
 class Speech:
 
     def __init__(self):
+        print "test"
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = False
 
@@ -33,8 +37,9 @@ class Speech:
     def detect_bing(self,recon,audio):
         try:
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
-            get_command(text)
+            cmd = get_command(text)
 
+            pserve.send(cmd, "")
             print("Bing Speech: "+text)
         except sr.UnknownValueError:
             print("Bing unrecognizable")
