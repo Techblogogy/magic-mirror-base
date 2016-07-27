@@ -230,4 +230,9 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     });
 
+    // setTimeout(function () {
+    //     $http.post('http://localhost:5000/wardrobe/add/tags/'+1,{tags: "tags,lags,bugs"});
+    // }, 1000)
+
+
 }]);
