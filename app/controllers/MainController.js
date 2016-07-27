@@ -42,6 +42,14 @@ function ($scope, $location, socket, $timeout,$document, $http) {
             $location.path(view);
         }, $scope.bodge_time);
     }
+    socket.forward('wardrobe_page', $scope);
+    $scope.$on("socket:wardrobe_page", function (event, data) {
+                    $scope.switchView('stylist','left_swipe');
+                });
+    socket.forward('home_page', $scope);
+    $scope.$on("socket:home_page", function (event, data) {
+                    $scope.switchView('','right_swipe');
+                });
 
 
 }]);

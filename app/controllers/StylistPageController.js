@@ -239,6 +239,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.$on("socket:mic_active", function (event, data) {
                     $scope.mic_active();
                 });
+            
 
     // setTimeout(function () {
     //     $http.post('http://localhost:5000/wardrobe/add/tags/'+1,{tags: "tags,lags,bugs"});
