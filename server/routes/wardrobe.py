@@ -43,9 +43,8 @@ def wrd_get_meta():
 def wrd_add():
     #TODO: Camera take a picture and return path and dresscode
 
-    fl = 0 #My_Cam.rec()
     # fl = My_Cam.rec()
-    clothes.add("casual", fl+".jpg")
+    # clothes.add("casual", fl+".jpg")
 
     return ""
 

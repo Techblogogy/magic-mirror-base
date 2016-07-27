@@ -24,7 +24,6 @@ def create_server():
     from server import PServer
     pserve = PServer()
 
-
     # Reigster Blueprints
     from routes.setup import setup_blp
     pserve.app.register_blueprint(setup_blp)
@@ -37,7 +36,7 @@ def create_server():
 
     # Start voice recognition
     voice = Speech()
-    voice.start()
+    # voice.start()
 
     # Start Remote Control
     try:

@@ -60,13 +60,18 @@ class clothes:
         a_list = []
 
         for a_tag in a_tags:
-            a_list.append( (c_id, a_tag) )
-        # return a_list
+            a_list.append( (c_id, a_tag, a_tag) )
 
-        db.qry_many(
-            "INSERT INTO clothes_tags (c_id, tag) VALUES (?, ?)",
-            a_list
-        )
+        db.qry_many("""
+            INSERT INTO clothes_tags(c_id, tag)
+            SELECT ?,?
+            WHERE NOT EXISTS(SELECT id FROM clothes_tags WHERE tag=?)
+        """, a_list)
+
+        # db.qry_many(
+        #     "INSERT INTO clothes_tags (c_id, tag) VALUES (?, ?)",
+        #     a_list
+        # )
 
         return db.qry("SELECT * FROM clothes_tags")
 
