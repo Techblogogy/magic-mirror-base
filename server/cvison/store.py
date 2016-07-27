@@ -153,7 +153,9 @@ class clothes:
     def get_smart(self, query, lim, ofs):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
+        # Create indexes to speed up perfomance
         db.qry("CREATE INDEX IF NOT EXISTS code_dx ON clothes(dresscode)")
+        db.qry("CREATE INDEX IF NOT EXISTS wears_dx ON clothes(t_wears)")
         db.qry("CREATE INDEX IF NOT EXISTS tag_dx ON clothes_tags(tag)")
         # return db.qry("SELECT * FROM sqlite_master WHERE type = 'index';")
 
@@ -167,7 +169,7 @@ class clothes:
             d_codes.index(query)
             return db.qry(self.get_by_code(), (w_temp, w_temp, query, lim, ofs*lim))
         except ValueError:
-            return db.qry(self.get_by_tag(), (w_temp, w_temp, query, lim, ofs*lim))
+            return db.qry(self.get_by_tag(), (w_temp, w_temp, "%"+query+"%", lim, ofs*lim))
         # except:
         #     return {'error': "TOTAL ERROR"}
 
