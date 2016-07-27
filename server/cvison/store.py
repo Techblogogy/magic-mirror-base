@@ -156,7 +156,11 @@ class clothes:
         # Create indexes to speed up perfomance
         db.qry("CREATE INDEX IF NOT EXISTS code_dx ON clothes(dresscode)")
         db.qry("CREATE INDEX IF NOT EXISTS wears_dx ON clothes(t_wears)")
+        
         db.qry("CREATE INDEX IF NOT EXISTS tag_dx ON clothes_tags(tag)")
+
+        db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
+        db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
         # return db.qry("SELECT * FROM sqlite_master WHERE type = 'index';")
 
         w_rng = Weather.w_temp_range()[0]
