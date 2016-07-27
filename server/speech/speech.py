@@ -38,9 +38,15 @@ class Speech:
         try:
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
             cmd = get_command(text)
+            # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
             if cmd:
                 print cmd[1]
-                pserve.send(cmd[0], cmd[1])
+                # print cmd[2]
+                if cmd[0] == "add_tags":
+                    pserve.send(cmd[0], cmd[2])
+                else:
+                    pserve.send(cmd[0], cmd[1])
+                # pserve.send(cmd[0], cmd[2])
             print("Bing Speech: "+text)
         except sr.UnknownValueError:
             print("Bing unrecognizable")

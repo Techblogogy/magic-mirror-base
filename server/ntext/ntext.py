@@ -1,6 +1,5 @@
 import nltk
 item_number = 0
-
 # import thread
 # from thead import send_left
 
@@ -66,6 +65,13 @@ def get_command(cm):
                     global item_number
                     item_number = num_dict[k]
                     br = True
+        elif c.lg == "TAG":
+            br = False;
+            for k in c.keys:
+                if k in tokens:
+                    tokens.remove(k)
+                    br = True
+
 
         # Output command
         if br:
@@ -80,7 +86,7 @@ def get_command(cm):
             # pserve.socketio.emit("c2", "", namespace=pserve.IO_SPACE)
             # pserve.socketio.emit(c.cmd, "", namespace=pserve.IO_SPACE)
             print c.cmd
-            return (c.cmd, item_number)
+            return (c.cmd, item_number, tokens)
             break
 
 
