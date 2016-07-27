@@ -90,5 +90,5 @@ def get_command(cm):
             break
 
 
-get_command(" lucky silly ten ducks LSD")
+get_command("Mirror, mirror on the wall")
 print item_number

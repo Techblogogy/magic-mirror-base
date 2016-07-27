@@ -325,3 +325,21 @@ body {
   margin-right: auto;
 
 }
+
+.circle {
+    margin-bottom: 5px;
+    margin-left: 11px;
+	width: 10px;
+	height: 10px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+#red{
+    background: rgb(255, 0, 0);
+    display: block;
+}
+#green{
+    background: rgb(0, 219, 35);
+    display: none;
+}

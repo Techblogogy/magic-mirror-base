@@ -17,13 +17,13 @@ class Speech:
         print "test"
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = False
-
         self._m = sr.Microphone(sample_rate=16000)
 
     def start(self):
         print ("Starting")
         self.noise_adjust()
         self.stop = self._r.listen_in_background(self._m,self.detect_bing)
+
 
     # Ajust for ambient noise
     def noise_adjust(self):
@@ -37,6 +37,7 @@ class Speech:
     def detect_bing(self,recon,audio):
         try:
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            pserve.send("mic_active", "smth")
             cmd = get_command(text)
             # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
             if cmd:
