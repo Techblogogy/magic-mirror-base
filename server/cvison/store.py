@@ -3,7 +3,11 @@ from api_cal.weather import Weather
 
 import random
 
+TAG_LIMIT = 5
+
 class clothes:
+
+    # self.d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
     @classmethod
     def setup(self):
@@ -78,12 +82,6 @@ class clothes:
 
     @classmethod
     def get_smart(self):
-        # db.qry("""
-        #     CREATE INDEX t_inx ON clothes_meta (
-        #         temp_group(temperature) DESC
-        #     )
-        # """)
-
         # c_items = db.qry("""
         #     SELECT
         #         id, thumbnail, dresscode, t_wears, liked,
@@ -96,54 +94,11 @@ class clothes:
         #     ORDER BY liked DESC, t_wears DESC
         # """)
 
-        w_rng = 12 # Weather.w_temp_range()[0]
+        w_rng = Weather.w_temp_range()[0]
         w_temp = db._temp_group(w_rng);
 
         print "[DEBUG] Current temperatue: %d" % (w_rng)
         print "[DEBUG] Temperature Range: %d" % (w_temp)
-
-        # print ((abs(w_rng/5)*10)+1)*db._sign(w_rng)
-        # return db.qry("""
-        #     SELECT
-        #         temp_group(temperature) as tmp, count(*) as tmp_count
-        #     FROM clothes_meta
-        #     WHERE tmp <= ?
-        #     GROUP BY tmp
-        #     ORDER BY
-        #         CASE tmp
-        #             WHEN ? THEN 0
-        #             ELSE 1
-        #         END, tmp DESC, tmp_count DESC
-        # """, (  db._temp_group(w_rng), db._temp_group(w_rng) ) )
-
-        # # Get meta tags
-        # for i in c_items:
-        #     # i['meta'] = db.qry("""
-        #     #     SELECT
-        #     #         t_time, temperature
-        #     #     FROM clothes_meta
-        #     #     WHERE c_id=?
-        #     #     ORDER BY t_time DESC
-        #     # """, (i['id'], ) )
-        #
-        #     i['meta'] = db.qry("""
-        #         SELECT
-        #             temp_group(temperature) as tmp, count(*) as tmp_count
-        #         FROM clothes_meta
-        #         WHERE c_id=? AND tmp <= ?
-        #         GROUP BY tmp
-        #         ORDER BY
-        #             CASE tmp
-        #                 WHEN ? THEN 0
-        #                 ELSE 1
-        #             END, tmp DESC, tmp_count DESC
-        #     """, (  i['id'], db._temp_group(w_rng), db._temp_group(w_rng) ) )
-
-        # return db.qry("""
-        #     SELECT
-        #         *
-        #     FROM clothes_meta
-        # """)
 
         return db.qry("""
             SELECT
@@ -155,16 +110,17 @@ class clothes:
                         WHEN temp_group(temperature) = ? THEN 2
                         WHEN temp_group(temperature) < ? THEN 1
                         ELSE 0 END as temp_rank,
-                    temp_group(temperature) as temp, COUNT(temp_group(temperature)) as temp_count
+                    temp_group(temperature) as temp,
+                    COUNT(temp_group(temperature)) as temp_count,
+                    (SELECT MIN(t_time) FROM clothes_meta WHERE clothes_meta.c_id=cm.c_id ) as min_date
                 FROM clothes_meta as cm
                 GROUP BY c_id, temp
                 ORDER BY temp_rank DESC, temp DESC, temp_count DESC) as t_qry
                 JOIN clothes ON( clothes.id=t_qry.c_id )
-            ORDER BY temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
+            WHERE deleted = 0
+            ORDER BY liked DESC, temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
+            /*LIMIT 9 OFFSET 0*/
         """, (w_temp, w_temp, ))
-
-        return c_items
-        # return Weather.w_temp_range()
 
     # Get all items
     @classmethod
@@ -243,7 +199,7 @@ class clothes:
     def fill_junk(self):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
-        d_tags = ["clubwear", "meetups", "beach", "work", "time", "special ocasion"]
+        d_tags = ["clubwear", "meetups", "beach", "work", "time", "special", "bugs", "whatistag", "needhelp", "Tanya?", "howareyou", "surprise", "nonono", "whatelse"]
 
         # Clear out clothes table
         db.qry("DELETE FROM clothes")
