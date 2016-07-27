@@ -54,5 +54,5 @@ class Speech:
             print("Bing error; {0}".format(e))
 
 
-voice = Speech()
-voice.start()
+# voice = Speech()
+# voice.start()
