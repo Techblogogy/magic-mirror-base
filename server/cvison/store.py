@@ -56,6 +56,15 @@ class clothes:
     # Add Tags to items
     @classmethod
     def add_tags(self, c_id, tags):
+        count = db.qry("""
+            SELECT COUNT(*) as cnt
+            FROM clothes_tags
+            WHERE c_id=?
+        """, (c_id,))
+
+        if count[0]["cnt"] > TAG_LIMIT:
+            return "[]"
+
         a_tags = tags.strip().split(",")
         a_list = []
 
@@ -67,11 +76,6 @@ class clothes:
             SELECT ?,?
             WHERE NOT EXISTS(SELECT id FROM clothes_tags WHERE tag=?)
         """, a_list)
-
-        # db.qry_many(
-        #     "INSERT INTO clothes_tags (c_id, tag) VALUES (?, ?)",
-        #     a_list
-        # )
 
         return db.qry("SELECT * FROM clothes_tags")
 

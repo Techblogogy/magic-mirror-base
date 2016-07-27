@@ -231,7 +231,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     });
 
     setTimeout(function () {
-        $http.post('http://localhost:5000/wardrobe/add/tags/'+1,{tags: "tags,lags,bugs"});
+        $http.post('http://localhost:5000/wardrobe/add/tags/'+1,{tags: "tags,lags,bugs"})
+        .success(function (data) {
+            console.log(data);
+        });
     }, 1000)
 
 
