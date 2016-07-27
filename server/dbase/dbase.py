@@ -24,7 +24,7 @@ class dbase:
     # Gets group of temperature
     @staticmethod
     def _temp_group(val):
-        return ((abs(val/5)*10)+1)*dbase._sign(val)
+        return int( ((abs(val/5)*10)+1)*dbase._sign(val) )
 
     # def __init__(self):
     #     self._dbpath = 'mirror.db' # Database file path

@@ -78,6 +78,12 @@ class clothes:
 
     @classmethod
     def get_smart(self):
+        # db.qry("""
+        #     CREATE INDEX t_inx ON clothes_meta (
+        #         temp_group(temperature) DESC
+        #     )
+        # """)
+
         c_items = db.qry("""
             SELECT
                 id, thumbnail, dresscode, t_wears, liked,
@@ -90,7 +96,7 @@ class clothes:
             ORDER BY liked DESC, t_wears DESC
         """)
 
-        w_rng = Weather.w_temp_range()[0]
+        w_rng = 12 # Weather.w_temp_range()[0]
         w_temp = db._temp_group(w_rng);
 
         print "[DEBUG] Current temperatue: %d" % (w_rng)
@@ -139,18 +145,17 @@ class clothes:
         #     FROM clothes_meta
         # """)
 
-        # Returns grouped wearther
         return db.qry("""
             SELECT
-                c_id, temp_group(temperature) as temp, COUNT(temp_group(temperature)) as temp_count
-            FROM clothes_meta
-            GROUP BY c_id, temp
-            ORDER BY
-                CASE temp
-                    WHEN ? THEN 0
-                    ELSE 1
-                END, temp_count DESC
-        """, (w_temp, ))
+                CASE
+                    WHEN temp_group(temperature) = ? THEN 2
+                    WHEN temp_group(temperature) < ? THEN 1
+                    ELSE 0 END as temp_rank,
+                temp_group(temperature) as temp, temperature
+            FROM clothes_meta as cm
+            GROUP BY c_id, temp_rank
+            ORDER BY temp_rank DESC, temp DESC
+        """, (w_temp, w_temp, ))
 
         return c_items
         # return Weather.w_temp_range()
