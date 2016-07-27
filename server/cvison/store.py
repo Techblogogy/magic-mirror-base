@@ -89,66 +89,6 @@ class clothes:
     def pages(self):
         pass
 
-    # TODO: Get items by tags
-    @classmethod
-    def get_by_tag(self):
-        base_qry = """
-            SELECT
-                *,
-                (SELECT group_concat(tag, ', ') as tags
-                FROM clothes_tags
-                WHERE clothes_tags.c_id = clothes.id
-                GROUP BY c_id) as tags
-            FROM
-                (SELECT
-                    c_id,
-                    CASE
-                        WHEN temp_group(temperature) = ? THEN 2
-                        WHEN temp_group(temperature) < ? THEN 1
-                        ELSE 0 END as temp_rank,
-                    temp_group(temperature) as temp,
-                    COUNT(temp_group(temperature)) as temp_count,
-                    (SELECT MAX(t_time) FROM clothes_meta WHERE clothes_meta.c_id=cm.c_id ) as last_date
-                FROM clothes_meta as cm
-                GROUP BY c_id, temp
-                ORDER BY temp_rank DESC, temp DESC, temp_count DESC) as t_qry
-                JOIN clothes ON( clothes.id=t_qry.c_id )
-            WHERE deleted = 0 AND tags LIKE ?
-            ORDER BY liked DESC, temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
-            LIMIT ? OFFSET ?
-        """
-        return base_qry
-
-    # TODO: Get items by dresscode
-    @classmethod
-    def get_by_code(self):
-        base_qry = """
-            SELECT
-                *,
-                (SELECT group_concat(tag, ', ') as tags
-                FROM clothes_tags
-                WHERE clothes_tags.c_id = clothes.id
-                GROUP BY c_id) as tags
-            FROM
-                (SELECT
-                    c_id,
-                    CASE
-                        WHEN temp_group(temperature) = ? THEN 2
-                        WHEN temp_group(temperature) < ? THEN 1
-                        ELSE 0 END as temp_rank,
-                    temp_group(temperature) as temp,
-                    COUNT(temp_group(temperature)) as temp_count,
-                    (SELECT MAX(t_time) FROM clothes_meta WHERE clothes_meta.c_id=cm.c_id ) as last_date
-                FROM clothes_meta as cm
-                GROUP BY c_id, temp
-                ORDER BY temp_rank DESC, temp DESC, temp_count DESC) as t_qry
-                JOIN clothes ON( clothes.id=t_qry.c_id )
-            WHERE deleted = 0 AND dresscode=?
-            ORDER BY liked DESC, temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
-            LIMIT ? OFFSET ?
-        """
-        return base_qry
-
     @classmethod
     def get_smart(self, query, lim, ofs):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
@@ -156,12 +96,38 @@ class clothes:
         # Create indexes to speed up perfomance
         db.qry("CREATE INDEX IF NOT EXISTS code_dx ON clothes(dresscode)")
         db.qry("CREATE INDEX IF NOT EXISTS wears_dx ON clothes(t_wears)")
-        
+
         db.qry("CREATE INDEX IF NOT EXISTS tag_dx ON clothes_tags(tag)")
 
         db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
         db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
         # return db.qry("SELECT * FROM sqlite_master WHERE type = 'index';")
+
+        base_qry = """
+            SELECT
+                *,
+                (SELECT group_concat(tag, ', ') as tags
+                FROM clothes_tags
+                WHERE clothes_tags.c_id = clothes.id
+                GROUP BY c_id) as tags
+            FROM
+                (SELECT
+                    c_id,
+                    CASE
+                        WHEN temp_group(temperature) = ? THEN 2
+                        WHEN temp_group(temperature) < ? THEN 1
+                        ELSE 0 END as temp_rank,
+                    temp_group(temperature) as temp,
+                    COUNT(temp_group(temperature)) as temp_count,
+                    (SELECT MAX(t_time) FROM clothes_meta WHERE clothes_meta.c_id=cm.c_id ) as last_date
+                FROM clothes_meta as cm
+                GROUP BY c_id, temp
+                ORDER BY temp_rank DESC, temp DESC, temp_count DESC) as t_qry
+                JOIN clothes ON( clothes.id=t_qry.c_id )
+            WHERE deleted = 0 %s
+            ORDER BY liked DESC, temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
+            LIMIT ? OFFSET ?
+        """
 
         w_rng = Weather.w_temp_range()[0]
         w_temp = db._temp_group(w_rng)
@@ -171,9 +137,9 @@ class clothes:
 
         try:
             d_codes.index(query)
-            return db.qry(self.get_by_code(), (w_temp, w_temp, query, lim, ofs*lim))
+            return db.qry(base_qry % ("AND dresscode=?"), (w_temp, w_temp, query, lim, ofs*lim))
         except ValueError:
-            return db.qry(self.get_by_tag(), (w_temp, w_temp, "%"+query+"%", lim, ofs*lim))
+            return db.qry(base_qry % ("AND tags LIKE ?"), (w_temp, w_temp, "%"+query+"%", lim, ofs*lim))
         # except:
         #     return {'error': "TOTAL ERROR"}
 
