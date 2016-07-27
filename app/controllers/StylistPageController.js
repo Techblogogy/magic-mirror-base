@@ -8,9 +8,14 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     console.log("INIT");
 
+    $scope.get_curitem_id = function(){
+        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+
+    };
+
     $scope.switch_right = function(){
 
-        item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        item_id = $scope.get_curitem_id();
         // console.log(item_id);
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         // angular.element(document.querySelectorAll("current")).removeClass("current");
@@ -24,7 +29,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     };
     $scope.switch_left = function(){
         // $document.find("current").removeClass("current");
-        item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        item_id = $scope.get_curitem_id();
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         item_id -= 1;
         if (item_id == $scope.page_num*9) {
@@ -80,7 +85,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
-        item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        item_id = $scope.get_curitem_id();
         console.log("next "+item_id);
         console.log("123");
         $scope.page_num +=1
@@ -100,7 +105,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     };
 
     $scope.previous_page = function(){
-        item_id = Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        item_id = $scope.get_curitem_id();
         $scope.page_num -=1
         $scope.get_page_items($scope.page_num);
         console.log("pr"+item_id);
@@ -202,9 +207,26 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                     $scope.click(data);
 
     });
+
     socket.forward('close_item', $scope);
     $scope.$on("socket:close_item", function (event, data) {
                     $scope.close_item();
+
+    });
+
+    socket.forward('add_tags', $scope);
+    $scope.$on("socket:add_tags", function (event, data) {
+                    console.log(data);
+                    tags_arr = "";
+                    for (var i = 0; i < data.length; i++) {
+                        if (i === data.length - 1) {
+                            tags_arr += data[i];
+                        }
+                        else{tags_arr += data[i]+","}
+                    }
+                    item_id = $scope.get_curitem_id();
+                    $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr});
+
 
     });
 

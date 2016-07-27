@@ -11,9 +11,8 @@ in_cmd = [
     v_cmd(["go","right"], "AND", "right"),
     v_cmd(["go","left"], "AND", "left"),
     v_cmd([], "NUM", "fullscreen"),
-    v_cmd(["close", "image"], "AND", "close_item")
-    # v_cmd([], "TAG", "tag"),
-
+    v_cmd(["close", "image"], "AND", "close_item"),
+    v_cmd(["tag", "tags"], "TAG", "add_tags"),
 
 
 ]
