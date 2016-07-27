@@ -78,19 +78,29 @@ class clothes:
 
     @classmethod
     def get_smart(self):
-        c_items = db.qry("""
-            SELECT
-                id, thumbnail, dresscode, t_wears, liked,
-                    (SELECT group_concat(tag, ', ') as tags
-                    FROM clothes_tags
-                    WHERE clothes_tags.c_id = clothes.id
-                    GROUP BY c_id) as tags
-            FROM clothes
-            WHERE deleted=0
-            ORDER BY liked DESC, t_wears DESC
-        """)
+        # db.qry("""
+        #     CREATE INDEX t_inx ON clothes_meta (
+        #         temp_group(temperature) DESC
+        #     )
+        # """)
 
-        w_rng = Weather.w_temp_range()[0]
+        # c_items = db.qry("""
+        #     SELECT
+        #         id, thumbnail, dresscode, t_wears, liked,
+        #             (SELECT group_concat(tag, ', ') as tags
+        #             FROM clothes_tags
+        #             WHERE clothes_tags.c_id = clothes.id
+        #             GROUP BY c_id) as tags
+        #     FROM clothes
+        #     WHERE deleted=0
+        #     ORDER BY liked DESC, t_wears DESC
+        # """)
+
+        w_rng = 12 # Weather.w_temp_range()[0]
+        w_temp = db._temp_group(w_rng);
+
+        print "[DEBUG] Current temperatue: %d" % (w_rng)
+        print "[DEBUG] Temperature Range: %d" % (w_temp)
 
         # print ((abs(w_rng/5)*10)+1)*db._sign(w_rng)
         # return db.qry("""
@@ -106,28 +116,28 @@ class clothes:
         #         END, tmp DESC, tmp_count DESC
         # """, (  db._temp_group(w_rng), db._temp_group(w_rng) ) )
 
-        # Get meta tags
-        for i in c_items:
-            # i['meta'] = db.qry("""
-            #     SELECT
-            #         t_time, temperature
-            #     FROM clothes_meta
-            #     WHERE c_id=?
-            #     ORDER BY t_time DESC
-            # """, (i['id'], ) )
-
-            i['meta'] = db.qry("""
-                SELECT
-                    temp_group(temperature) as tmp, count(*) as tmp_count
-                FROM clothes_meta
-                WHERE c_id=? AND tmp <= ?
-                GROUP BY tmp
-                ORDER BY
-                    CASE tmp
-                        WHEN ? THEN 0
-                        ELSE 1
-                    END, tmp DESC, tmp_count DESC
-            """, (  i['id'], db._temp_group(w_rng), db._temp_group(w_rng) ) )
+        # # Get meta tags
+        # for i in c_items:
+        #     # i['meta'] = db.qry("""
+        #     #     SELECT
+        #     #         t_time, temperature
+        #     #     FROM clothes_meta
+        #     #     WHERE c_id=?
+        #     #     ORDER BY t_time DESC
+        #     # """, (i['id'], ) )
+        #
+        #     i['meta'] = db.qry("""
+        #         SELECT
+        #             temp_group(temperature) as tmp, count(*) as tmp_count
+        #         FROM clothes_meta
+        #         WHERE c_id=? AND tmp <= ?
+        #         GROUP BY tmp
+        #         ORDER BY
+        #             CASE tmp
+        #                 WHEN ? THEN 0
+        #                 ELSE 1
+        #             END, tmp DESC, tmp_count DESC
+        #     """, (  i['id'], db._temp_group(w_rng), db._temp_group(w_rng) ) )
 
         # return db.qry("""
         #     SELECT
@@ -137,10 +147,21 @@ class clothes:
 
         return db.qry("""
             SELECT
-                c_id, temp_group(temperature) as temp ,COUNT(temp_group(temperature)) as temp_count
-            FROM clothes_meta
-            GROUP BY c_id, temp
-        """)
+                *
+            FROM
+                (SELECT
+                    c_id,
+                    CASE
+                        WHEN temp_group(temperature) = ? THEN 2
+                        WHEN temp_group(temperature) < ? THEN 1
+                        ELSE 0 END as temp_rank,
+                    temp_group(temperature) as temp, COUNT(temp_group(temperature)) as temp_count
+                FROM clothes_meta as cm
+                GROUP BY c_id, temp
+                ORDER BY temp_rank DESC, temp DESC, temp_count DESC) as t_qry
+                JOIN clothes ON( clothes.id=t_qry.c_id )
+            ORDER BY temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
+        """, (w_temp, w_temp, ))
 
         return c_items
         # return Weather.w_temp_range()
