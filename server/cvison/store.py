@@ -91,27 +91,17 @@ class clothes:
 
     @classmethod
     def get_smart(self):
-        # c_items = db.qry("""
-        #     SELECT
-        #         id, thumbnail, dresscode, t_wears, liked,
-        #             (SELECT group_concat(tag, ', ') as tags
-        #             FROM clothes_tags
-        #             WHERE clothes_tags.c_id = clothes.id
-        #             GROUP BY c_id) as tags
-        #     FROM clothes
-        #     WHERE deleted=0
-        #     ORDER BY liked DESC, t_wears DESC
-        # """)
+        query = "meetups"
 
-        w_rng = Weather.w_temp_range()[0]
-        w_temp = db._temp_group(w_rng);
+        d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
-        print "[DEBUG] Current temperatue: %d" % (w_rng)
-        print "[DEBUG] Temperature Range: %d" % (w_temp)
-
-        return db.qry("""
+        base_qry = """
             SELECT
-                *
+                *,
+                (SELECT group_concat(tag, ', ') as tags
+                FROM clothes_tags
+                WHERE clothes_tags.c_id = clothes.id
+                GROUP BY c_id) as tags
             FROM
                 (SELECT
                     c_id,
@@ -121,15 +111,29 @@ class clothes:
                         ELSE 0 END as temp_rank,
                     temp_group(temperature) as temp,
                     COUNT(temp_group(temperature)) as temp_count,
-                    (SELECT MIN(t_time) FROM clothes_meta WHERE clothes_meta.c_id=cm.c_id ) as min_date
+                    (SELECT MAX(t_time) FROM clothes_meta WHERE clothes_meta.c_id=cm.c_id ) as last_date
                 FROM clothes_meta as cm
                 GROUP BY c_id, temp
                 ORDER BY temp_rank DESC, temp DESC, temp_count DESC) as t_qry
                 JOIN clothes ON( clothes.id=t_qry.c_id )
-            WHERE deleted = 0
+            WHERE deleted = 0 %s
             ORDER BY liked DESC, temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
-            /*LIMIT 9 OFFSET 0*/
-        """, (w_temp, w_temp, ))
+            LIMIT 9 OFFSET 0
+        """
+
+        w_rng = Weather.w_temp_range()[0]
+        w_temp = db._temp_group(w_rng)
+
+        print "[DEBUG] Current temperatue: %d" % (w_rng)
+        print "[DEBUG] Temperature Range: %d" % (w_temp)
+
+        try:
+            d_codes.index(query)
+            return db.qry(base_qry % ("AND dresscode=?"), (w_temp, w_temp, query))
+        except ValueError:
+            return db.qry(base_qry % ("AND tags LIKE ?"), (w_temp, w_temp, "%"+query+"%"))
+        except:
+            return {error: "TOTAL ERROR"}
 
     # Get all items
     @classmethod
