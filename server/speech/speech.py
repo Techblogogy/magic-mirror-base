@@ -43,7 +43,7 @@ class Speech:
     def detect_bing(self,recon,audio):
         try:
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
-            pserve.send("mic_active", "smth")
+            # pserve.send("mic_active", "smth")
             cmd = get_command(text)
             # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
             if cmd:
@@ -51,8 +51,10 @@ class Speech:
                 # print cmd[2]
                 if cmd[0] == "add_tags":
                     pserve.send(cmd[0], cmd[2])
+                    pserve.send("audio_detected","ok")
                 else:
                     pserve.send(cmd[0], cmd[1])
+                    pserve.send("audio_detected","ok")
                 # pserve.send(cmd[0], cmd[2])
             print("Bing Speech: "+text)
         except sr.UnknownValueError:

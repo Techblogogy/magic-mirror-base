@@ -400,6 +400,7 @@ class Recognizer(AudioSource):
         self.phrase_threshold = 0.3 # minimum seconds of speaking audio before we consider the speaking audio a phrase - values below this are ignored (for filtering out clicks and pops)
         self.non_speaking_duration = 0.5 # seconds of non-speaking audio to keep on both sides of the recording
 
+
     def record(self, source, duration = None, offset = None):
         """
         Records up to ``duration`` seconds of audio from ``source`` (an ``AudioSource`` instance) starting at ``offset`` (or at the beginning if not specified) into an ``AudioData`` instance, which it returns.
@@ -479,7 +480,7 @@ class Recognizer(AudioSource):
 
         # DEBUG
         print "[Speech API DEBUG]: Energy threshold %d" % (self.energy_threshold)
-
+        pserve.send("mic_is_listening","smth")
         # read audio input for phrases until there is a phrase that is long enough
         elapsed_time = 0 # number of seconds of audio read
         while True:
@@ -501,7 +502,7 @@ class Recognizer(AudioSource):
                 energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
 
                 # DEBUG
-                print "[Speech API DEBUG]: Audio Energy %d" % (energy)
+                # print "[Speech API DEBUG]: Audio Energy %d" % (energy)
 
                 if energy > self.energy_threshold: break
 
@@ -513,7 +514,6 @@ class Recognizer(AudioSource):
 
             # DEBUG
             print "[Speech API DEBUG]: Audio Detected"
-
             # read audio input until the phrase ends
             pause_count, phrase_count = 0, 0
             while True:

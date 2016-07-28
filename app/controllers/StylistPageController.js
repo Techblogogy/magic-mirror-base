@@ -12,10 +12,18 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
 
     };
+
+    // Microphone functions
     $scope.mic_active = function(){
         document.getElementById('red').style.display = 'none';
         document.getElementById('green').style.display = 'block';
-    }
+    };
+    $scope.mic_is_listening = function(){
+        console.log("Microphone is listening");
+    };
+    $scope.audio_is_detected = function(){
+        console.log("Command was detected");
+    };
 
 
     $scope.switch_right = function(){
@@ -277,6 +285,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.$on("socket:mic_active", function (event, data) {
                     $scope.mic_active();
                 });
+
+    socket.forward('mic_is_listening', $scope);
+    $scope.$on("socket:mic_is_listening", function (event, data) {
+                    $scope.mic_is_listening();
+                });
+    socket.forward('audio_detected', $scope);
+    $scope.$on("socket:audio_detected", function (event, data) {
+                    $scope.audio_is_detected();
+                });
+                    
 
 
     // setTimeout(function () {
