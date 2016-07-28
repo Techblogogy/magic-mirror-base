@@ -47,6 +47,38 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
         // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
     };
+    $scope.switch_down = function(){
+
+        item_id = $scope.get_curitem_id();
+        // console.log(item_id);
+        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+        // angular.element(document.querySelectorAll("current")).removeClass("current");
+        item_id += 3;
+        if (item_id >= $scope.page_num*9 +10) {
+            $scope.next_page()
+
+        }
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+        console.log("it's"+item_id);
+    };
+
+    $scope.switch_up = function(){
+
+        item_id = $scope.get_curitem_id();
+        // console.log(item_id);
+        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+        // angular.element(document.querySelectorAll("current")).removeClass("current");
+        item_id -= 3;// 11 - 3 = 8
+        if (item_id <= 0){
+            item_id = 1;
+        }
+        if (item_id <= $scope.page_num*9) {
+            $scope.previous_page()
+        }
+
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+        console.log("it's"+item_id);
+    };
 
     // $scope.add_item();
     // $scope.get_page_items = function(p_num){
@@ -75,7 +107,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             // $scope.items.push({"element": 1});
 
             for (var i = 0; i < $scope.items.length; i++) {
-                $scope.items[i]["number"] = i + 1;
+            $scope.items[i]["number"] = i + 1;
             }
             console.log($scope.items);
             // angular.element(document.querySelectorAll(".row")).children()
@@ -85,8 +117,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             //     angular.element(document.querySelectorAll("#item-1")).addClass("current");
             // }, 1000);
         });
-    };
-    $scope.get_page_items(0);
+     };
+     $scope.get_page_items(0);
 
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
@@ -131,36 +163,40 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
 
     $scope.click = function(itm_num){
-        (document.getElementById('parent_popup').style.display === 'none')
-        // getOffset(document.getElementById('popup'));
-        // getOffsetRect()
-        // console.log( document.querySelectorAll('img_c').offset() );
+            // (document.getElementById('parent_popup').style.display === 'none')
+            // getOffset(document.getElementById('popup'));
+            // getOffsetRect()
+            // console.log( document.querySelectorAll('img_c').offset() );
 
-        // document.querySelectorAll(".current")[0].style.margin = '100px';
-        // big_item = document.querySelectorAll(".current")[0].innerHTML;
-        console.log(itm_num);
-        big_item = document.getElementById("item-"+(itm_num%9)).innerHTML;
-        document.getElementById('parent_popup').innerHTML = big_item;
-        console.log(big_item);
-        document.getElementById('parent_popup').style.display = 'inline-block';
+            // document.querySelectorAll(".current")[0].style.margin = '100px';
+            // big_item = document.querySelectorAll(".current")[0].innerHTML;
+            console.log(itm_num);
+            actual_id = itm_num%9;
+            if (actual_id == 0) {
+                actual_id = 9
+            }
+            big_item = document.getElementById("item-"+(actual_id)).innerHTML;
+            document.getElementById('parent_popup').innerHTML = big_item;
+            console.log(big_item);
+            document.getElementById('parent_popup').style.display = 'inline-block';
 
-        vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id');
-        console.log(vid_id);
+            vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id');
+            console.log(vid_id);
 
-        socket.emit("start_video", vid_id);
+            socket.emit("start_video", vid_id);
 
-        // document.querySelectorAll(".current")[0].style.width = '90%' ;
-        // document.querySelectorAll(".current")[0].style.position = 'fixed' ;
+            // document.querySelectorAll(".current")[0].style.width = '90%' ;
+            // document.querySelectorAll(".current")[0].style.position = 'fixed' ;
 
-    };
+        };
     $scope.close_item = function () {
-        if (document.getElementById('parent_popup').style.display === 'inline-block'){
-            document.getElementById('parent_popup').style.display = 'none';
-            socket.emit("closed");
-        }
-        // document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
-        // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
-    };
+            if (document.getElementById('parent_popup').style.display === 'inline-block'){
+                document.getElementById('parent_popup').style.display = 'none';
+                socket.emit("closed");
+            }
+            // document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
+            // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
+        };
 
 
     //socket.forward('c2', $scope);
@@ -174,24 +210,25 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.$on("socket:r_ctr", function (event, data) {
         // g_cn++;
         // console.log("GLOBAL:"+g_cn);
-        console.log(123456);
+      	console.log(123456);
         switch (data) {
             case "left":
-            $scope.switch_left();
-            break;
+                $scope.switch_left();
+                break;
             case "right":
-            $scope.switch_right();
-            break;
+                    $scope.switch_right();
+                    break;
             case "up":
-            $scope.previous_page();
-            break;
+                    $scope.switch_up();
+                    break;
             case "down":
-            $scope.next_page();
-            break;
+                    $scope.switch_down();
+                    break;
             case "click":
-            $scope.click();
-            break;
-            break;
+                    id = $scope.get_curitem_id();
+                    $scope.click(id);
+                    break;
+                break;
         }
         // $scope.switchView('weather', 'left_swipe');
     });
@@ -209,36 +246,37 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     socket.forward('fullscreen', $scope);
     $scope.$on("socket:fullscreen", function (event, data) {
-        $scope.click(data);
+
+                    $scope.click(data);
 
     });
 
     socket.forward('close_item', $scope);
     $scope.$on("socket:close_item", function (event, data) {
-        $scope.close_item();
+                    $scope.close_item();
 
     });
 
     socket.forward('add_tags', $scope);
     $scope.$on("socket:add_tags", function (event, data) {
-        console.log(data);
-        tags_arr = "";
-        for (var i = 0; i < data.length; i++) {
-            if (i === data.length - 1) {
-                tags_arr += data[i];
-            }
-            else{tags_arr += data[i]+","}
-        }
-        item_id = $scope.get_curitem_id();
-        $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr});
+                    console.log(data);
+                    tags_arr = "";
+                    for (var i = 0; i < data.length; i++) {
+                        if (i === data.length - 1) {
+                            tags_arr += data[i];
+                        }
+                        else{tags_arr += data[i]+","}
+                    }
+                    item_id = $scope.get_curitem_id();
+                    $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr});
 
 
     });
 
     socket.forward('mic_active', $scope);
     $scope.$on("socket:mic_active", function (event, data) {
-        $scope.mic_active();
-    });
+                    $scope.mic_active();
+                });
 
 
     // setTimeout(function () {

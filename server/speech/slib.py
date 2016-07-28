@@ -9,6 +9,9 @@ import math, audioop, collections, threading
 import platform, stat, random, uuid
 import json
 
+from server import PServer
+pserve = PServer()
+
 try: # attempt to use the Python 2 modules
     from urllib import urlencode
     from urllib2 import Request, urlopen, URLError, HTTPError
