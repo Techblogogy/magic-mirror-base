@@ -3,7 +3,11 @@ from api_cal.weather import Weather
 
 import random
 
+TAG_LIMIT = 5
+
 class clothes:
+
+    # self.d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
     @classmethod
     def setup(self):
@@ -52,17 +56,26 @@ class clothes:
     # Add Tags to items
     @classmethod
     def add_tags(self, c_id, tags):
+        count = db.qry("""
+            SELECT COUNT(*) as cnt
+            FROM clothes_tags
+            WHERE c_id=?
+        """, (c_id,))
+
+        if count[0]["cnt"] > TAG_LIMIT:
+            return "[]"
+
         a_tags = tags.strip().split(",")
         a_list = []
 
         for a_tag in a_tags:
-            a_list.append( (c_id, a_tag) )
-        # return a_list
+            a_list.append( (c_id, a_tag, a_tag) )
 
-        db.qry_many(
-            "INSERT INTO clothes_tags (c_id, tag) VALUES (?, ?)",
-            a_list
-        )
+        db.qry_many("""
+            INSERT INTO clothes_tags(c_id, tag)
+            SELECT ?,?
+            WHERE NOT EXISTS(SELECT id FROM clothes_tags WHERE tag=?)
+        """, a_list)
 
         return db.qry("SELECT * FROM clothes_tags")
 
@@ -77,77 +90,26 @@ class clothes:
         pass
 
     @classmethod
-    def get_smart(self):
-        # db.qry("""
-        #     CREATE INDEX t_inx ON clothes_meta (
-        #         temp_group(temperature) DESC
-        #     )
-        # """)
+    def get_smart(self, query, lim, ofs):
+        d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
-        # c_items = db.qry("""
-        #     SELECT
-        #         id, thumbnail, dresscode, t_wears, liked,
-        #             (SELECT group_concat(tag, ', ') as tags
-        #             FROM clothes_tags
-        #             WHERE clothes_tags.c_id = clothes.id
-        #             GROUP BY c_id) as tags
-        #     FROM clothes
-        #     WHERE deleted=0
-        #     ORDER BY liked DESC, t_wears DESC
-        # """)
+        # Create indexes to speed up perfomance
+        db.qry("CREATE INDEX IF NOT EXISTS code_dx ON clothes(dresscode)")
+        db.qry("CREATE INDEX IF NOT EXISTS wears_dx ON clothes(t_wears)")
 
-        w_rng = 12 # Weather.w_temp_range()[0]
-        w_temp = db._temp_group(w_rng);
+        db.qry("CREATE INDEX IF NOT EXISTS tag_dx ON clothes_tags(tag)")
 
-        print "[DEBUG] Current temperatue: %d" % (w_rng)
-        print "[DEBUG] Temperature Range: %d" % (w_temp)
+        db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
+        db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
+        # return db.qry("SELECT * FROM sqlite_master WHERE type = 'index';")
 
-        # print ((abs(w_rng/5)*10)+1)*db._sign(w_rng)
-        # return db.qry("""
-        #     SELECT
-        #         temp_group(temperature) as tmp, count(*) as tmp_count
-        #     FROM clothes_meta
-        #     WHERE tmp <= ?
-        #     GROUP BY tmp
-        #     ORDER BY
-        #         CASE tmp
-        #             WHEN ? THEN 0
-        #             ELSE 1
-        #         END, tmp DESC, tmp_count DESC
-        # """, (  db._temp_group(w_rng), db._temp_group(w_rng) ) )
-
-        # # Get meta tags
-        # for i in c_items:
-        #     # i['meta'] = db.qry("""
-        #     #     SELECT
-        #     #         t_time, temperature
-        #     #     FROM clothes_meta
-        #     #     WHERE c_id=?
-        #     #     ORDER BY t_time DESC
-        #     # """, (i['id'], ) )
-        #
-        #     i['meta'] = db.qry("""
-        #         SELECT
-        #             temp_group(temperature) as tmp, count(*) as tmp_count
-        #         FROM clothes_meta
-        #         WHERE c_id=? AND tmp <= ?
-        #         GROUP BY tmp
-        #         ORDER BY
-        #             CASE tmp
-        #                 WHEN ? THEN 0
-        #                 ELSE 1
-        #             END, tmp DESC, tmp_count DESC
-        #     """, (  i['id'], db._temp_group(w_rng), db._temp_group(w_rng) ) )
-
-        # return db.qry("""
-        #     SELECT
-        #         *
-        #     FROM clothes_meta
-        # """)
-
-        return db.qry("""
+        base_qry = """
             SELECT
-                *
+                *,
+                (SELECT group_concat(tag, ', ') as tags
+                FROM clothes_tags
+                WHERE clothes_tags.c_id = clothes.id
+                GROUP BY c_id) as tags
             FROM
                 (SELECT
                     c_id,
@@ -155,16 +117,31 @@ class clothes:
                         WHEN temp_group(temperature) = ? THEN 2
                         WHEN temp_group(temperature) < ? THEN 1
                         ELSE 0 END as temp_rank,
-                    temp_group(temperature) as temp, COUNT(temp_group(temperature)) as temp_count
+                    temp_group(temperature) as temp,
+                    COUNT(temp_group(temperature)) as temp_count,
+                    (SELECT MAX(t_time) FROM clothes_meta WHERE clothes_meta.c_id=cm.c_id ) as last_date
                 FROM clothes_meta as cm
                 GROUP BY c_id, temp
                 ORDER BY temp_rank DESC, temp DESC, temp_count DESC) as t_qry
                 JOIN clothes ON( clothes.id=t_qry.c_id )
-            ORDER BY temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
-        """, (w_temp, w_temp, ))
+            WHERE deleted = 0 %s
+            ORDER BY liked DESC, temp_rank DESC, temp DESC, t_wears DESC, temp_count DESC
+            LIMIT ? OFFSET ?
+        """
 
-        return c_items
-        # return Weather.w_temp_range()
+        w_rng = Weather.w_temp_range()[0]
+        w_temp = db._temp_group(w_rng)
+
+        print "[DEBUG] Current temperatue: %d" % (w_rng)
+        print "[DEBUG] Temperature Range: %d" % (w_temp)
+
+        try:
+            d_codes.index(query)
+            return db.qry(base_qry % ("AND dresscode=?"), (w_temp, w_temp, query, lim, ofs*lim))
+        except ValueError:
+            return db.qry(base_qry % ("AND tags LIKE ?"), (w_temp, w_temp, "%"+query+"%", lim, ofs*lim))
+        # except:
+        #     return {'error': "TOTAL ERROR"}
 
     # Get all items
     @classmethod
@@ -243,7 +220,7 @@ class clothes:
     def fill_junk(self):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
-        d_tags = ["clubwear", "meetups", "beach", "work", "time", "special ocasion"]
+        d_tags = ["clubwear", "meetups", "beach", "work", "time", "special", "bugs", "whatistag", "needhelp", "Tanya?", "howareyou", "surprise", "nonono", "whatelse"]
 
         # Clear out clothes table
         db.qry("DELETE FROM clothes")

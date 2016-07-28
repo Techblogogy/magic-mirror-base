@@ -2,8 +2,6 @@ from flask import Flask, request
 from flask_socketio import SocketIO, emit
 
 # Important Constants
-
-
 class Singleton(type):
     _instances = {}
     def __call__(cls, *args, **kwargs):

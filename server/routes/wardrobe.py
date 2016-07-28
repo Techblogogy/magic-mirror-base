@@ -22,7 +22,7 @@ def wrd_get():
 @wrd_api.route("/get/smart", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_get_smart():
-    return json.dumps(clothes.get_smart(), indent=JSON_DENT)
+    return json.dumps(clothes.get_smart(request.args.get("q"), int(request.args.get("items")), int(request.args.get("page"))), indent=JSON_DENT)
 
 # Returns all of the wardrobe items
 @wrd_api.route("/get/all", methods=['GET', 'OPTIONS'])
@@ -43,9 +43,8 @@ def wrd_get_meta():
 def wrd_add():
     #TODO: Camera take a picture and return path and dresscode
 
-    fl = 0 #My_Cam.rec()
     # fl = My_Cam.rec()
-    clothes.add("casual", fl+".jpg")
+    # clothes.add("casual", fl+".jpg")
 
     return ""
 
