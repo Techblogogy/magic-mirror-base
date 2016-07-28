@@ -21,7 +21,8 @@ class Speech:
 
     def start(self):
         print ("Starting")
-        # self.noise_adjust()
+        self.noise_adjust()
+
         self.stop = self._r.listen_in_background(self._m,self.detect_bing)
 
 
@@ -29,6 +30,11 @@ class Speech:
     def noise_adjust(self):
         with self._m as source:
             self._r.adjust_for_ambient_noise(source, duration=2)
+
+        if self._r.energy_threshold <= 300:
+            self._r.energy_threshold = 300
+
+        # print "[TB Speech] Threshold: %s" % (self._r.energy_threshold)
 
     # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
     # Pluses: quite accurate
