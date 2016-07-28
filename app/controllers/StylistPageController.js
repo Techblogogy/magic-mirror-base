@@ -221,10 +221,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                     $scope.switch_down();
                     break;
             case "click":
-                    $scope.click();
+                    id = $scope.get_curitem_id();
+                    $scope.click(id);
                     break;
                 break;
-        }
+        }id
         // $scope.switchView('weather', 'left_swipe');
     });
 
