@@ -85,5 +85,10 @@ def create_server():
     def page_not_found(e):
         return render_template('404.html'), 404
 
+    # Play video
+    @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
+    def play_video(dat):
+        print "[TB DUBUG] Playing video"
+
 
     return pserve.app

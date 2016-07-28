@@ -57,10 +57,18 @@ class PlayVid:
 		# self.proc.terminate()
 		os.killpg(os.getpgid(self.proc.pid), signal.SIGTERM)
 
-pv = PlayVid()
+	# Play Cycle
+	def play_auto(self):
+		self.set_p("~/test.mp4")
+		self.play()
+		# pv.proc.wait()
+		sleep(5)
+		self.stop()
 
-pv.set_p("~/test.mp4")
-pv.play()
-# pv.proc.wait()
-sleep(5)
-pv.stop()
+# pv = PlayVid()
+#
+# pv.set_p("~/test.mp4")
+# pv.play()
+# # pv.proc.wait()
+# sleep(5)
+# pv.stop()
