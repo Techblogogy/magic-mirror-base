@@ -47,6 +47,35 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
         // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
     };
+    $scope.switch_down = function(){
+
+        item_id = $scope.get_curitem_id();
+        // console.log(item_id);
+        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+        // angular.element(document.querySelectorAll("current")).removeClass("current");
+        item_id += 3;
+        if (item_id >= $scope.page_num*9 +10) {
+            $scope.next_page()
+
+        }
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+        console.log("it's"+item_id);
+    };
+
+    $scope.switch_up = function(){
+
+        item_id = $scope.get_curitem_id();
+        // console.log(item_id);
+        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+        // angular.element(document.querySelectorAll("current")).removeClass("current");
+        item_id -= 3;
+        if (item_id <= $scope.page_num*9 - 10) {
+            $scope.previous_page()
+
+        }
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+        console.log("it's"+item_id);
+    };
 
     // $scope.add_item();
     // $scope.get_page_items = function(p_num){
@@ -131,7 +160,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
 
     $scope.click = function(itm_num){
-            (document.getElementById('parent_popup').style.display === 'none')
+            // (document.getElementById('parent_popup').style.display === 'none')
             // getOffset(document.getElementById('popup'));
             // getOffsetRect()
             // console.log( document.querySelectorAll('img_c').offset() );
@@ -183,10 +212,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                     $scope.switch_right();
                     break;
             case "up":
-                    $scope.previous_page();
+                    $scope.switch_up();
                     break;
             case "down":
-                    $scope.next_page();
+                    $scope.switch_down();
                     break;
             case "click":
                     $scope.click();
