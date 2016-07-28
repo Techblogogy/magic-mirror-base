@@ -57,10 +57,10 @@ class PlayVid:
 		# self.proc.terminate()
 		os.killpg(os.getpgid(self.proc.pid), signal.SIGTERM)
 
-pv = PlayVid()
+#pv = PlayVid()
 
-pv.set_p("~/test.mp4")
-pv.play()
+#pv.set_p("~/test.mp4")
+#pv.play()
 # pv.proc.wait()
-sleep(5)
-pv.stop()
+#sleep(5)
+#pv.stop()

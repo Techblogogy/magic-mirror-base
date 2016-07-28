@@ -6,8 +6,8 @@ from flask_socketio import SocketIO, emit
 
 import os, json, thread, time
 
-from speech.speech import Speech
-# from remote_ctr.remote_ctr import m_remote
+# from speech.speech import Speech
+from remote_ctr.remote_ctr import m_remote
 # from cvison.play import PlayVid
 
 import decor
@@ -35,8 +35,8 @@ def create_server():
     pserve.app.register_blueprint(wrd_api)
 
     # Start voice recognition
-    voice = Speech()
-    voice.start()
+    # voice = Speech()
+    #voice.start()
 
     # Start Remote Control
     try:
@@ -84,6 +84,5 @@ def create_server():
     @pserve.app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.html'), 404
-
 
     return pserve.app
