@@ -61,8 +61,8 @@ class PlayVid:
 	def play_auto(self):
 		self.set_p("~/test.mp4")
 		self.play()
-		# pv.proc.wait()
-		sleep(5)
+		pv.proc.wait()
+		# sleep(5)
 		self.stop()
 
 # pv = PlayVid()
