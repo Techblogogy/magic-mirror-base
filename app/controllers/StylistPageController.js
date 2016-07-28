@@ -225,7 +225,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                     $scope.click(id);
                     break;
                 break;
-        }id
+        }
         // $scope.switchView('weather', 'left_swipe');
     });
 
@@ -242,6 +242,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     socket.forward('fullscreen', $scope);
     $scope.$on("socket:fullscreen", function (event, data) {
+
                     $scope.click(data);
 
     });
