@@ -171,7 +171,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             // document.querySelectorAll(".current")[0].style.margin = '100px';
             // big_item = document.querySelectorAll(".current")[0].innerHTML;
             console.log(itm_num);
-            big_item = document.getElementById("item-"+(itm_num%9)).innerHTML;
+            actual_id = itm_num%9;
+            if (actual_id == 0) {
+                actual_id = 9
+            }
+            big_item = document.getElementById("item-"+(actual_id)).innerHTML;
             document.getElementById('parent_popup').innerHTML = big_item;
             console.log(big_item);
             document.getElementById('parent_popup').style.display = 'inline-block';
