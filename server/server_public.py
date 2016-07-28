@@ -8,7 +8,7 @@ import os, json, thread, time
 
 # from speech.speech import Speech
 # from remote_ctr.remote_ctr import m_remote
-# from cvison.play import PlayVid
+from cvison.play import PlayVid
 
 import decor
 
@@ -88,6 +88,8 @@ def create_server():
     # Play video
     @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
     def play_video(dat):
+        pv = PlayVid()
+        pv.play_auto()
         print "[TB DUBUG] Playing video"
 
 
