@@ -746,7 +746,7 @@ class Recognizer(AudioSource):
         assert isinstance(key, str), "`key` must be a string"
         assert isinstance(language, str), "`language` must be a string"
 
-        #DEBUG:
+        # DEBUG:
         print "\n[Speech API DEBUG]: Started Bing Recogntion"
 
         access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)

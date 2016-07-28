@@ -21,7 +21,7 @@ class Speech:
 
     def start(self):
         print ("Starting")
-        self.noise_adjust()
+        # self.noise_adjust()
         self.stop = self._r.listen_in_background(self._m,self.detect_bing)
 
 
