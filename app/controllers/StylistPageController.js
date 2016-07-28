@@ -69,7 +69,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         // angular.element(document.querySelectorAll("current")).removeClass("current");
         item_id -= 3;// 11 - 3 = 8
-        if (item_id <= $scope.page_num*9 - 9) {
+        if (item_id <= $scope.page_num*9) { 
             $scope.previous_page()
 
         }
