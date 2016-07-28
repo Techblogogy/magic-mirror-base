@@ -36,7 +36,7 @@ def create_server():
 
     # Start voice recognition
     voice = Speech()
-    # voice.start()
+    voice.start()
 
     # Start Remote Control
     try:

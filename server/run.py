@@ -5,5 +5,4 @@ import os
 if __name__ == '__main__':
 
     app = create_server()
-
-    app.run(debug=True, threaded=True)
+    app.run(debug=False, threaded=True)
