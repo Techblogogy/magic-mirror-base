@@ -8,7 +8,7 @@ import os, json, thread, time
 
 from speech.speech import Speech
 # from remote_ctr.remote_ctr import m_remote
-# from cvison.play import PlayVid
+from cvison.play import PlayVid
 
 import decor
 
@@ -36,7 +36,7 @@ def create_server():
 
     # Start voice recognition
     voice = Speech()
-    voice.start()
+    # voice.start()
 
     # Start Remote Control
     try:
@@ -84,6 +84,13 @@ def create_server():
     @pserve.app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.html'), 404
+
+    # Play video
+    @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
+    def play_video(dat):
+        pv = PlayVid()
+        pv.play_auto()
+        print "[TB DUBUG] Playing video"
 
 
     return pserve.app
