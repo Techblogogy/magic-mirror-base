@@ -474,6 +474,9 @@ class Recognizer(AudioSource):
         phrase_buffer_count = int(math.ceil(self.phrase_threshold / seconds_per_buffer)) # minimum number of buffers of speaking audio before we consider the speaking audio a phrase
         non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
 
+        # DEBUG
+        print "[Speech API DEBUG]: Energy threshold %d" % (self.energy_threshold)
+
         # read audio input for phrases until there is a phrase that is long enough
         elapsed_time = 0 # number of seconds of audio read
         while True:
@@ -493,6 +496,10 @@ class Recognizer(AudioSource):
 
                 # detect whether speaking has started on audio input
                 energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
+
+                # DEBUG
+                print "[Speech API DEBUG]: Audio Energy %d" % (energy)
+
                 if energy > self.energy_threshold: break
 
                 # dynamically adjust the energy threshold using assymmetric weighted average
@@ -500,6 +507,9 @@ class Recognizer(AudioSource):
                     damping = self.dynamic_energy_adjustment_damping ** seconds_per_buffer # account for different chunk sizes and rates
                     target_energy = energy * self.dynamic_energy_ratio
                     self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
+
+            # DEBUG
+            print "[Speech API DEBUG]: Audio Detected"
 
             # read audio input until the phrase ends
             pause_count, phrase_count = 0, 0
@@ -522,7 +532,15 @@ class Recognizer(AudioSource):
 
             # check how long the detected phrase is, and retry listening if the phrase is too short
             phrase_count -= pause_count
-            if phrase_count >= phrase_buffer_count: break # phrase is long enough, stop listening
+            if phrase_count >= phrase_buffer_count:
+                break # phrase is long enough, stop listening
+            else:
+                # DEBUG
+                print "[Speech API DEBUG]: Phase is not long enough"
+
+
+        # DEBUG
+        print "[Speech API DEBUG]: Getting Frame Data"
 
         # obtain frame data
         for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
@@ -729,7 +747,7 @@ class Recognizer(AudioSource):
         assert isinstance(language, str), "`language` must be a string"
 
         #DEBUG:
-        print "\nStarted Bing Recogntion"
+        print "\n[Speech API DEBUG]: Started Bing Recogntion"
 
         access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
         allow_caching = True
@@ -769,7 +787,8 @@ class Recognizer(AudioSource):
                 self.bing_cached_access_token_expiry = start_time + expiry_seconds
 
         # DEBUG
-        print "Getting Audio Data"
+        print "[Speech API DEBUG]: Getting Audio Data"
+
         wav_data = audio_data.get_wav_data(
             convert_rate = 16000, # audio samples must be 8kHz or 16 kHz
             convert_width = 2 # audio samples should be 16-bit
@@ -791,7 +810,7 @@ class Recognizer(AudioSource):
         })
 
         # DEBUG
-        print "Sending request"
+        print "[Speech API DEBUG]: Sending Request"
 
         try:
             response = urlopen(request)
@@ -803,7 +822,7 @@ class Recognizer(AudioSource):
         result = json.loads(response_text)
 
         # DEBUG
-        print "Display Result"
+        print "[Speech API DEBUG]: Displaying Result"
 
         # return results
         if show_all: return result

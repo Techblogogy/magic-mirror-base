@@ -112,5 +112,5 @@ if __name__  == '__main__':
     except:
         print "Error: unable to start thread"
 
-    pserve.app.run(debug=True, threaded=True)
+    pserve.app.run(debug=False, threaded=True)
     # socketio.run(pserve.app, debug=True)
