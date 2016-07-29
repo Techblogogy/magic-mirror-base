@@ -89,6 +89,14 @@ class clothes:
     def pages(self):
         pass
 
+    # Returns video id
+    @classmethod
+    def get_video(self, id):
+        path = db.qry("SELECT thumbnail FROM clothes WHERE id=?", (id,))[0]['thumbnail']
+        path = path.split(".")
+        
+        return path[0] + ".mp4"
+
     @classmethod
     def get_smart(self, query, lim, ofs):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]

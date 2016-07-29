@@ -1,12 +1,14 @@
 from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 
+import eventlet
+
 # from server import PServer
 # pserve = PServer()
 
 import os, json, thread, time
 
-# from speech.speech import Speech
+#from speech.speech import Speech
 from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
@@ -35,12 +37,16 @@ def create_server():
     pserve.app.register_blueprint(wrd_api)
 
     # Start voice recognition
-    # voice = Speech()
-    # voice.start()
+    #voice = Speech()
+    #voice.start()
+
+    # Video playing
+    pv = PlayVid()
 
     # Start Remote Control
     try:
-        thread.start_new_thread( m_remote, (0,) )
+        # thread.start_new_thread( m_remote, (0,) )
+        pass
     except:
         print "Error: unable to start thread"
 
@@ -49,9 +55,15 @@ def create_server():
     def main():
         return render_template('setupSite.html', auth = gcal.need_auth(), userName = gcal.get_disp_name())
 
+    # Static directory route
     @pserve.app.route('/<path:filename>')
     def index(filename):
         return send_from_directory('static', filename)
+
+    # Clothes thumbnails static route
+    # @pserve.app.route('/clothes/<path:filename>')
+    # def clothes_imgs(filename):
+
 
     #calendar Settings
     @pserve.app.route('/setcal', methods=['GET','POST','OPTIONS'])
@@ -88,9 +100,17 @@ def create_server():
     # Play video
     @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
     def play_video(dat):
-        pv = PlayVid()
-        pv.play_auto()
-        print "[TB DUBUG] Playing video"
+        print "[TB DUBUG] Playing video %s" % (dat)
+        # pv.play_auto(dat)
+        try:
+            thread.start_new_thread( pv.play_auto, (dat,) )
+        except:
+            print "Error: unable to start video thread"
+
+    @pserve.socketio.on("closed", namespace=pserve.IO_SPACE)
+    def stop_video():
+        print "[TB DUBUG] Stoping video"
+        pv.stop_auto()
 
 
-    return pserve.app
+    return (pserve.app, pserve.socketio)

@@ -15,7 +15,8 @@ app.controller('ScheduleCtr', ['$scope', '$http',function ($scope, $http) {
     $scope.loaded = function () {
       //handleAuthClick();
     };
-    // $scope.refresh();
+    
+    $scope.refresh();
     setInterval(function () {
         $scope.refresh();
     }, 60000);

@@ -4,29 +4,7 @@ import signal
 
 from time import sleep
 
-# cmds = [
-# 	'omxplayer ~/test.mp4 --win "0,0,320,512"',
-# 	'omxplayer ~/test.mp4 --win "330,0,650,512"',
-# 	'omxplayer ~/test.mp4 --win "660,0,980,512"',
-# 	'omxplayer ~/test.mp4 --win "990,0,1310,512"'
-# 	'omxplayer ~/test.mp4 --win "660,0,980,512"'
-# ]
-#
-#
-# proc = subprocess.Popen(cmds[0], shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
-# sleep(5)
-# os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
-
-#proc = [Popen(cmd, shell=True) for cmd in cmds]
-
-#for p in proc:
-#	p.wait()
-
-#call('omxplayer ~/test.mp4 --win "0,0,320,512"', shell=True)
-#call('omxplayer ~/test.mp4 --win "100,0,420,512"', shell=True)
-#call('omxplayer ~/test.mp4 --win "640,0,320,512"', shell=True)
-
-
+from store import clothes
 
 class PlayVid:
 
@@ -44,6 +22,9 @@ class PlayVid:
 		# OMXPlayer Process
 		self.proc = None
 
+		# is playing
+		self.playing = False
+
 	# Sets Video File Path
 	def set_p(self, p):
 		self.file = p
@@ -56,19 +37,24 @@ class PlayVid:
 	def stop(self):
 		# self.proc.terminate()
 		os.killpg(os.getpgid(self.proc.pid), signal.SIGTERM)
+		os.system('killall omxplayer.bin')
 
 	# Play Cycle
-	def play_auto(self):
-		self.set_p("~/test.mp4")
-		self.play()
-		pv.proc.wait()
-		# sleep(5)
-		self.stop()
+	def play_auto(self, dat):
+		self.playing = True
 
-# pv = PlayVid()
-#
-# pv.set_p("~/test.mp4")
-# pv.play()
-# # pv.proc.wait()
-# sleep(5)
-# pv.stop()
+		vid_id = clothes.get_video(dat)
+
+		while self.playing:
+			print "[PlayVid DEBUG] Playing video %s" % (vid_id)
+			sleep(0.5)
+		# self.set_p("~/test.mp4")
+		# self.play()
+		# pv.proc.wait()
+		# # sleep(5)
+		# self.stop()
+
+	# Stop Cycle
+	def stop_auto(self):
+		self.playing = False
+		pass

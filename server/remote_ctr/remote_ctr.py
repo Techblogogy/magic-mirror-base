@@ -11,7 +11,7 @@ import serial
 from server import PServer
 pserve = PServer()
 
-B_COM = "/dev/rfcomm0"
+B_COM =  "COM4" #"/dev/rfcomm0"
 
 def m_remote(t):
     ser = serial.Serial(
@@ -65,6 +65,7 @@ def m_remote(t):
                 if time.time() > t + 0.2 :
                     t = time.time()
                     print 'Click'
+
                     pserve.socketio.emit("r_ctr", "click", namespace="/io")
                     #pserve.send("r_ctr", "click")
 # dozimetr()
