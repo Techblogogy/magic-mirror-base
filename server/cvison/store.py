@@ -94,6 +94,7 @@ class clothes:
     def get_video(self, id):
         print "[DEBUG] id is: %s" % (id)
         path = db.qry("SELECT thumbnail FROM clothes")
+        print path
         path = path.split(".")
 
         return path[0] + ".mp4"
