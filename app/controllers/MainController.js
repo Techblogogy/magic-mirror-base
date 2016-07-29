@@ -21,11 +21,11 @@ function ($scope, $location, socket, $timeout,$document, $http) {
     // });
 
     // $http.post("http://localhost:5000/");
-    $http.post('http://localhost:5000/wardrobe/add', [])
-    .success(function(d){
-        // $scope.items = d;
-        console.log("sent thing");
-    });
+    // $http.post('http://localhost:5000/wardrobe/add', [])
+    // .success(function(d){
+    //     // $scope.items = d;
+    //     console.log("sent thing");
+    // });
 
 
     // Switch View with an animation
