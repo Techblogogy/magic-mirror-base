@@ -45,7 +45,7 @@ def wrd_add():
 
     print "[DEBUG wdobe]: Add request"
     fl = My_Cam.rec()
-    # clothes.add("casual", fl+".jpg")
+    clothes.add("casual", fl+".jpg")
 
     return ""
 
