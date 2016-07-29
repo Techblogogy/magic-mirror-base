@@ -176,7 +176,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     //     }
     // };
     $scope.item_is_open = false;
-    $scope.click = function(itm_num){
+    $scope.click = function(itm_num, voice=false){
             // (document.getElementById('parent_popup').style.display === 'none')
             // getOffset(document.getElementById('popup'));
             // getOffsetRect()
@@ -185,13 +185,25 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             // document.querySelectorAll(".current")[0].style.margin = '100px';
             // big_item = document.querySelectorAll(".current")[0].innerHTML;
             if (!$scope.item_is_open) {
-                console.log(itm_num);
-                actual_id = itm_num%9;
-                if (actual_id == 0) {
-                    actual_id = 9
+                big_item = ""
+                if (voice) {
+                    console.log(itm_num);
+                    actual_id = itm_num%9;
+                    if (actual_id == 0) {
+                        actual_id = 9
+                    }
+                    console.log(actual_id);
+                    big_item = document.getElementById("item-"+(actual_id)).innerHTML;
+                } else {
+                    // console.log("READ COM");
+
+                    big_item = document.getElementById("item-"+(itm_num)).innerHTML;
                 }
-                console.log(actual_id);
-                big_item = document.getElementById("item-"+(actual_id)).innerHTML;
+
+
+
+
+
                 document.getElementById('parent_popup').innerHTML = big_item;
                 console.log(big_item);
                 document.getElementById('parent_popup').style.display = 'inline-block';
@@ -261,7 +273,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     socket.forward('fullscreen', $scope);
     $scope.$on("socket:fullscreen", function (event, data) {
 
-                    $scope.click(data);
+                    $scope.click(data, true);
 
     });
 

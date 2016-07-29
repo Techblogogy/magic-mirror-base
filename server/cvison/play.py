@@ -3,8 +3,8 @@ import os
 import signal
 
 from time import sleep
-
 from store import clothes
+from minfo import app_dir
 
 class PlayVid:
 
@@ -44,7 +44,7 @@ class PlayVid:
 		self.playing = True
 
 		vid_id = clothes.get_video(dat)
-		self.set_p("~/test.mp4")
+		self.set_p(app_dir+"/"+vid_id)
 		self.play()
 
 		while self.playing:
