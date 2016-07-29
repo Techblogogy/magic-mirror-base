@@ -119,6 +119,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             // $scope.items.push({"element": 1});
             var counter = 0;
             for (var i = 0; i < $scope.items.length; i++) {
+                $scope.items[i].vid_id = $scope.items[i].id;
                 $scope.items[i]["number"] = i + 1;
                 $scope.items[i]["id"] = p_num*9 + counter  ;
                 if ($scope.items[i]["number"] == 1) {
@@ -135,8 +136,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             //     angular.element(document.querySelectorAll("#item-1")).addClass("current");
             // }, 1000);
         });
-     };
-     $scope.get_page_items(0);
+    };
+    $scope.get_page_items(0);
 
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
@@ -176,57 +177,55 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     //     }
     // };
     $scope.item_is_open = false;
-    $scope.click = function(itm_num, voice=false){
-            // (document.getElementById('parent_popup').style.display === 'none')
-            // getOffset(document.getElementById('popup'));
-            // getOffsetRect()
-            // console.log( document.querySelectorAll('img_c').offset() );
+    $scope.click = function(itm_num){
+        voice = false;
+        // (document.getElementById('parent_popup').style.display === 'none')
+        // getOffset(document.getElementById('popup'));
+        // getOffsetRect()
+        // console.log( document.querySelectorAll('img_c').offset() );
 
-            // document.querySelectorAll(".current")[0].style.margin = '100px';
-            // big_item = document.querySelectorAll(".current")[0].innerHTML;
-            if (!$scope.item_is_open) {
-                big_item = ""
-                if (voice) {
-                    console.log(itm_num);
-                    actual_id = itm_num%9;
-                    if (actual_id == 0) {
-                        actual_id = 9
-                    }
-                    console.log(actual_id);
-                    big_item = document.getElementById("item-"+(actual_id)).innerHTML;
-                } else {
-                    // console.log("READ COM");
-
-                    big_item = document.getElementById("item-"+(itm_num)).innerHTML;
+        // document.querySelectorAll(".current")[0].style.margin = '100px';
+        // big_item = document.querySelectorAll(".current")[0].innerHTML;
+        if (!$scope.item_is_open) {
+            big_item = ""
+            if (voice) {
+                console.log(itm_num);
+                actual_id = itm_num%9;
+                if (actual_id == 0) {
+                    actual_id = 9
                 }
+                console.log(actual_id);
+                big_item = document.getElementById("item-"+(actual_id)).innerHTML;
+            } else {
+                // console.log("READ COM");
 
-
-
-
-
-                document.getElementById('parent_popup').innerHTML = big_item;
-                console.log(big_item);
-                document.getElementById('parent_popup').style.display = 'inline-block';
-
-                vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id');
-                console.log(vid_id);
-
-                socket.emit("start_video", vid_id);
-                $scope.item_is_open = true;
-
-                // setTimeout(function () {
-                //     $scope.click(null);
-                // }, 20000)
-
+                big_item = document.getElementById("item-"+(itm_num)).innerHTML;
             }
-            else {
-                if (document.getElementById('parent_popup').style.display === 'inline-block'){
-                    document.getElementById('parent_popup').style.display = 'none';
-                    socket.emit("closed");
-                }
-                $scope.item_is_open = false;
+
+
+            document.getElementById('parent_popup').innerHTML = big_item;
+            console.log(big_item);
+            document.getElementById('parent_popup').style.display = 'inline-block';
+
+            vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id');
+            console.log(vid_id);
+
+            socket.emit("start_video", vid_id);
+            $scope.item_is_open = true;
+
+            // setTimeout(function () {
+            //     $scope.click(null);
+            // }, 20000)
+
+        }
+        else {
+            if (document.getElementById('parent_popup').style.display === 'inline-block'){
+                document.getElementById('parent_popup').style.display = 'none';
+                socket.emit("closed");
             }
-        };
+            $scope.item_is_open = false;
+        }
+    };
 
     $scope.add_item = function() {
 
@@ -237,23 +236,23 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.$on("socket:r_ctr", function (event, data) {
         // g_cn++;
         // console.log("GLOBAL:"+g_cn);
-      	console.log(123456);
+        console.log(123456);
         switch (data) {
             case "left":
-                $scope.switch_left();
-                break;
+            $scope.switch_left();
+            break;
             case "right":
-                $scope.switch_right();
-                break;
+            $scope.switch_right();
+            break;
             case "up":
-                $scope.switch_up();
-                break;
+            $scope.switch_up();
+            break;
             case "down":
-                $scope.switch_down();
-                break;
+            $scope.switch_down();
+            break;
             case "click":
-                id = $scope.get_curitem_id();
-                $scope.click(id);
+            id = $scope.get_curitem_id();
+            $scope.click(id);
             break;
         }
         // $scope.switchView('weather', 'left_swipe');
@@ -273,28 +272,28 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     socket.forward('fullscreen', $scope);
     $scope.$on("socket:fullscreen", function (event, data) {
 
-                    $scope.click(data, true);
+        $scope.click(data, true);
 
     });
 
     socket.forward('close_item', $scope);
     $scope.$on("socket:close_item", function (event, data) {
-                    $scope.close_item();
+        $scope.close_item();
 
     });
 
     socket.forward('add_tags', $scope);
     $scope.$on("socket:add_tags", function (event, data) {
-                    console.log(data);
-                    tags_arr = "";
-                    for (var i = 0; i < data.length; i++) {
-                        if (i === data.length - 1) {
-                            tags_arr += data[i];
-                        }
-                        else{tags_arr += data[i]+","}
-                    }
-                    item_id = $scope.get_curitem_id();
-                    $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr});
+        console.log(data);
+        tags_arr = "";
+        for (var i = 0; i < data.length; i++) {
+            if (i === data.length - 1) {
+                tags_arr += data[i];
+            }
+            else{tags_arr += data[i]+","}
+        }
+        item_id = $scope.get_curitem_id();
+        $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr});
 
 
     });
@@ -306,12 +305,12 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     socket.forward('mic_is_listening', $scope);
     $scope.$on("socket:mic_is_listening", function (event, data) {
-                    $scope.mic_is_listening();
-                });
+        $scope.mic_is_listening();
+    });
     socket.forward('audio_detected', $scope);
     $scope.$on("socket:audio_detected", function (event, data) {
-                    $scope.audio_is_detected();
-                });
+        $scope.audio_is_detected();
+    });
 
 
 
