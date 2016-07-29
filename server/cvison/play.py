@@ -32,11 +32,11 @@ class PlayVid:
 
 	def __init__(self):
 		# Video playback position
-		self.x = 0
-		self.y = 0
+		self.x = 92
+		self.y = 80
 
-		self.w = 320
-		self.h = 512
+		self.w = 843
+		self.h = 1350
 
 		# Video File
 		self.file = ""
@@ -61,8 +61,8 @@ class PlayVid:
 	def play_auto(self):
 		self.set_p("~/test.mp4")
 		self.play()
-		# pv.proc.wait()
-		sleep(5)
+		pv.proc.wait()
+		# sleep(5)
 		self.stop()
 
 # pv = PlayVid()
