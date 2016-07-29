@@ -190,6 +190,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 if (actual_id == 0) {
                     actual_id = 8
                 }
+                console.log(actual_id);
                 big_item = document.getElementById("item-"+(actual_id)).innerHTML;
                 document.getElementById('parent_popup').innerHTML = big_item;
                 console.log(big_item);
