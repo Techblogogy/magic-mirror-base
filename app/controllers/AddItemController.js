@@ -52,6 +52,11 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         console.log(data);
     });
 
+    $scope.add_request = function(){
+        $http.post('http://localhost:5000/wardrobe/add')
+        };
+    $scope.add_request();
+
     $scope.switch_right = function(){
     };
     $scope.switch_right = function(){
