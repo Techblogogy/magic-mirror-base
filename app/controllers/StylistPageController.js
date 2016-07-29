@@ -15,14 +15,19 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     // Microphone functions
     $scope.mic_active = function(){
-        document.getElementById('red').style.display = 'none';
-        document.getElementById('green').style.display = 'block';
+        // document.getElementById('red').style.display = 'none';
+        // document.getElementById('green').style.display = 'block';
     };
     $scope.mic_is_listening = function(){
         console.log("Microphone is listening");
+        document.getElementById('m_detc').style.display = 'none';
+        document.getElementById('m_listen').style.display = 'block';
+
     };
     $scope.audio_is_detected = function(){
         console.log("Command was detected");
+        document.getElementById('m_listen').style.display = 'none';
+        document.getElementById('m_detc').style.display = 'block';
     };
 
 
@@ -200,22 +205,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 $scope.item_is_open = false;
             }
         };
-    // $scope.close_item = function () {
-    //         if (document.getElementById('parent_popup').style.display === 'inline-block'){
-    //             document.getElementById('parent_popup').style.display = 'none';
-    //             socket.emit("closed");
-    //         }
-    //         $scope.item_is_open = false;
-    //         // document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
-    //         // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
-    //     };
 
+    $scope.add_item = function() {
 
-    //socket.forward('c2', $scope);
-    //$scope.$on("socket:c2", function (event, data) {
-    //    console.log("[SOCKETIO] c2");
-    //    $scope.switch_right();
-    //});
+    };
     $scope.r_click = '';
     // var g_cn = 0;
     socket.forward('r_ctr', $scope);
@@ -284,10 +277,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     });
 
-    socket.forward('mic_active', $scope);
-    $scope.$on("socket:mic_active", function (event, data) {
-                    $scope.mic_active();
-                });
+    // socket.forward('mic_active', $scope);
+    // $scope.$on("socket:mic_active", function (event, data) {
+    //                 $scope.mic_active();
+    //             });
 
     socket.forward('mic_is_listening', $scope);
     $scope.$on("socket:mic_is_listening", function (event, data) {

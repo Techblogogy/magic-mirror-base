@@ -335,11 +335,68 @@ body {
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
 }
-#red{
+/*#red{
     background: rgb(255, 0, 0);
     display: block;
 }
 #green{
     background: rgb(0, 219, 35);
     display: none;
+}*/
+#m_listen{
+    display: none;
+}
+#m_detc{
+    display: none;
+}
+.microphone{
+    margin-left: 49%;
+    margin-right: auto;
+    margin-top: 10px;
+}
+.microph_img{
+    margin-top: -5px;
+}
+
+/*MICROPHONE ANIMATION*/
+.cssload-container {
+	width: 80%;
+	height: 30px;
+	text-align: center;
+    margin-left:-7px;
+}
+
+.cssload-double-torus {
+	width: 25px;
+	height: 25px;
+	border: 3px double;
+	border-radius: 50%;
+	border-color: transparent rgb(255,255,255) rgb(255,255,255);
+	animation: cssload-spin 690ms infinite linear;
+		-o-animation: cssload-spin 690ms infinite linear;
+		-ms-animation: cssload-spin 690ms infinite linear;
+		-webkit-animation: cssload-spin 690ms infinite linear;
+		-moz-animation: cssload-spin 690ms infinite linear;
+}
+
+
+
+@keyframes cssload-spin {
+	100%{ transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-o-keyframes cssload-spin {
+	100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-ms-keyframes cssload-spin {
+	100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-webkit-keyframes cssload-spin {
+	100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-moz-keyframes cssload-spin {
+	100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
 }
