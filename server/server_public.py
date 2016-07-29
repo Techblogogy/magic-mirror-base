@@ -57,8 +57,9 @@ def create_server():
     def index(filename):
         return send_from_directory('static', filename)
 
-    @pserve.app.route('/clothes/<path:filename>')
-    def clothes_imgs(filename):
+    # Clothes thumbnails static route
+    # @pserve.app.route('/clothes/<path:filename>')
+    # def clothes_imgs(filename):
 
 
     #calendar Settings
@@ -96,12 +97,17 @@ def create_server():
     # Play video
     @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
     def play_video(dat):
-        # pv.play_auto()
-        print "[TB DUBUG] Playing video"
+        print "[TB DUBUG] Playing video %s" % (dat)
+        # pv.play_auto(dat)
+        try:
+            thread.start_new_thread( pv.play_auto, (dat,) )
+        except:
+            print "Error: unable to start video thread"
 
     @pserve.socketio.on("closed", namespace=pserve.IO_SPACE)
     def stop_video():
-
+        print "[TB DUBUG] Stoping video"
+        pv.stop_auto()
 
 
     return pserve.app
