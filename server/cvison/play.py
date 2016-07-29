@@ -48,7 +48,7 @@ class PlayVid:
 		self.play()
 
 		while self.playing:
-			print "[PlayVid DEBUG] Playing video %s" % (vid_id)
+			print "[PlayVid DEBUG] Playing video %s" % (self.file)
 			print self.proc.poll()
 
 			if self.proc.poll() == 0:
