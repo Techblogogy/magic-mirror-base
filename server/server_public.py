@@ -1,7 +1,7 @@
 from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 
-from minfo import app_dir
+import eventlet
 
 # from server import PServer
 # pserve = PServer()
@@ -59,12 +59,6 @@ def create_server():
     @pserve.app.route('/<path:filename>')
     def index(filename):
         return send_from_directory('static', filename)
-
-
-    # Clothes thumbnails static route
-    @pserve.app.route('/clothes/<path:filename>')
-    def clothes_imgs(filename):
-        return send_from_directory(app_dir+"/cls", filename)
 
     #calendar Settings
     @pserve.app.route('/setcal', methods=['GET','POST','OPTIONS'])
