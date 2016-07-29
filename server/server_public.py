@@ -1,6 +1,8 @@
 from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 
+import eventlet
+
 # from server import PServer
 # pserve = PServer()
 
@@ -36,11 +38,15 @@ def create_server():
 
     # Start voice recognition
     voice = Speech()
-    # voice.start()
+    voice.start()
+
+    # Video playing
+    pv = PlayVid()
 
     # Start Remote Control
     try:
-        thread.start_new_thread( m_remote, (0,) )
+        # thread.start_new_thread( m_remote, (0,) )
+        pass
     except:
         print "Error: unable to start thread"
 
@@ -54,6 +60,10 @@ def create_server():
     def index(filename):
         return send_from_directory('static', filename)
 
+<<<<<<< HEAD
+=======
+    # Clothes thumbnails static route
+>>>>>>> db94c50bb6cf7a936209264c59b002ba3ad4abe8
     # @pserve.app.route('/clothes/<path:filename>')
     # def clothes_imgs(filename):
 
@@ -93,9 +103,17 @@ def create_server():
     # Play video
     @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
     def play_video(dat):
-        pv = PlayVid()
-        pv.play_auto()
-        print "[TB DUBUG] Playing video"
+        print "[TB DUBUG] Playing video %s" % (dat)
+        # pv.play_auto(dat)
+        try:
+            thread.start_new_thread( pv.play_auto, (dat,) )
+        except:
+            print "Error: unable to start video thread"
+
+    @pserve.socketio.on("closed", namespace=pserve.IO_SPACE)
+    def stop_video():
+        print "[TB DUBUG] Stoping video"
+        pv.stop_auto()
 
 
-    return pserve.app
+    return (pserve.app, pserve.socketio)

@@ -19,6 +19,7 @@ class PServer():
         self.test = "[TEST1]"
 
         self.app = Flask(__name__)
+        self.app.config['DEBUG'] = False
         self.app.config['SECRET_KEY'] = "supersecret";
         self.socketio = SocketIO(self.app, async_mode='threading')
 
