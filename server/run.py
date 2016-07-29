@@ -1,7 +1,8 @@
 from server_public import create_server
 # from gevent.event import Event
+# 
+# import eventlet
 
-import socketio.server
 
 import os, thread, signal, sys
 from time import sleep
@@ -38,3 +39,4 @@ if __name__ == '__main__':
 
     # app.run(debug=False, threaded=True)
     socketio.run(app)
+    # eventlet.wsgi.server(eventlet.listen(('', 8000)), socketio)
