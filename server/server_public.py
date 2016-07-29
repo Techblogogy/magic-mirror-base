@@ -1,7 +1,7 @@
 from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 
-import eventlet
+from minfo import app_dir
 
 # from server import PServer
 # pserve = PServer()
@@ -38,7 +38,7 @@ def create_server():
 
     # Start voice recognition
     voice = Speech()
-    voice.start()
+    # voice.start()
 
     # Video playing
     pv = PlayVid()
@@ -60,13 +60,11 @@ def create_server():
     def index(filename):
         return send_from_directory('static', filename)
 
-<<<<<<< HEAD
-=======
     # Clothes thumbnails static route
->>>>>>> db94c50bb6cf7a936209264c59b002ba3ad4abe8
-    # @pserve.app.route('/clothes/<path:filename>')
-    # def clothes_imgs(filename):
-
+    @pserve.app.route('/clothes/<path:filename>')
+    def clothes_imgs(filename):
+        return send_from_directory(app_dir+"/cls", filename)
+        pass
 
     #calendar Settings
     @pserve.app.route('/setcal', methods=['GET','POST','OPTIONS'])
