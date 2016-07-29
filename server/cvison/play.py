@@ -44,15 +44,20 @@ class PlayVid:
 		self.playing = True
 
 		vid_id = clothes.get_video(dat)
+		self.set_p("~/test.mp4")
+		self.play()
 
 		while self.playing:
 			print "[PlayVid DEBUG] Playing video %s" % (vid_id)
+
+			if not self.pv.poll():
+				self.play()
+
 			sleep(0.5)
-		# self.set_p("~/test.mp4")
-		# self.play()
-		# pv.proc.wait()
-		# # sleep(5)
-		# self.stop()
+			# pv.proc.wait()
+			# sleep(5)
+
+		self.stop()
 
 	# Stop Cycle
 	def stop_auto(self):
