@@ -23,5 +23,9 @@ app.config(function ($routeProvider) {
     .when('/stylist', {
         controller: "StlCtr",
         templateUrl: 'app/views/stylist.html'
+    })
+    .when('/add', {
+        controller: "AddCtr",
+        templateUrl: 'app/views/add.html'
     });
 });

@@ -1,5 +1,16 @@
 <ui-widget class="stylist" id="stylist">
-    <h1>Welcome to your wardowbe</h1>
+    <!-- <h1>Welcome to your wardowbe</h1> -->
+    <div class="microphone" id="microphone">
+        <div class="circle" id="m_listen">
+            <div class="cssload-container">
+                <div class="cssload-double-torus"></div>
+            </div>
+        </div>
+        <div class="circle" id="m_detc">
+            <p>some cmd</p>
+        </div>
+        <img  class="microph_img" src="res/microphone.png" alt="" />
+    </div>
     <!-- <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
     <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
 
@@ -23,7 +34,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class="container" ng-controller="ItemCtr">
         <div class="row" >
@@ -46,9 +57,6 @@
 <!-- <script src="js/directives/installApp.js"></script> -->
 
 <!-- <p ng-click="testView('')">Switch Tag</p> -->
-<div class="microphone" id="microphone">
-    <div class="circle" id="red"></div>
-    <div class="circle" id="green"></div>
-    <img src="res/microphone.png" alt="" />
-</div>
+
 <p ng-click="switchView('','right_swipe')">Back Again (Test)</p>
+<p ng-click="switchView('add','left_swipe')">To add item(Test)</p>

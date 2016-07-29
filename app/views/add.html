@@ -1,0 +1,31 @@
+<ui-widget class="add_item" id="add_item">
+    <!-- <h1>Welcome to your wardowbe</h1> -->
+    <div class="microphone" id="microphone">
+        <div class="circle" id="m_listen">
+            <div class="cssload-container">
+                <div class="cssload-double-torus"></div>
+            </div>
+        </div>
+        <div class="circle" id="m_detc">
+            <p>some cmd</p>
+        </div>
+        <img  class="microph_img" src="res/microphone.png" alt="" />
+    </div>
+    <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
+    <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
+
+    <button type="button" name="next_page" class="selector" ng-click="next_page()">next page</button>
+    <button type="button" name="previous_page" class="selector" ng-click="previous_page()">previous page</button>
+
+    <div id="parent_popup">
+        <div class="popup_back">
+            <div id="popup" class="col-xs-12">
+                <!-- <p style="cursor: pointer;">Close</p> -->
+            </div>
+        </div>
+    </div>
+</ui-widget>
+<h1>Hello</h1>
+
+
+<p ng-click="switchView('stylist','right_swipe')">Back Again (Test)</p>
