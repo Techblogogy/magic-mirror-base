@@ -92,7 +92,7 @@ class clothes:
     # Returns video id
     @classmethod
     def get_video(self, id):
-        print "[DEBUG] id is: %d" % (id)
+        print "[DEBUG] id is: %s" % (id)
         path = db.qry("SELECT thumbnail FROM clothes WHERE id=?", (id,))[0]['thumbnail']
         path = path.split(".")
 
