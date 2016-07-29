@@ -9,9 +9,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     socket.forward('m_camera', $scope);
     $scope.$on("socket:m_camera", function (event, data) {
-        // g_cn++;
-        // console.log("GLOBAL:"+g_cn);
-      	console.log(hello camera works);
+      	console.log("hello camera works");
         switch (data) {
             case "cam_on":
                 console.log('camera on');
