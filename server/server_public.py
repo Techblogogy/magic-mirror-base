@@ -60,6 +60,13 @@ def create_server():
     def index(filename):
         return send_from_directory('static', filename)
 
+
+    # Clothes thumbnails static route
+    @pserve.app.route('/clothes/<path:filename>')
+    def clothes_imgs(filename):
+        return send_from_directory(app_dir+"/cls", filename)
+        pass
+
     #calendar Settings
     @pserve.app.route('/setcal', methods=['GET','POST','OPTIONS'])
     def setcal():
