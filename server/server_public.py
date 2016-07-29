@@ -7,7 +7,7 @@ from flask_socketio import SocketIO, emit
 import os, json, thread, time
 
 from speech.speech import Speech
-# from remote_ctr.remote_ctr import m_remote
+from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
 import decor
