@@ -111,16 +111,21 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.get_page_items = function(p_num){
         $http.get('http://localhost:5000/wardrobe/get?items='+9+'&page='+p_num)
         .success(function(data){
-            console.log(data);
             if (data.length === 0) {
                 return 0;
             }
             $scope.items = data;
 
             // $scope.items.push({"element": 1});
-
+            var counter = 0;
             for (var i = 0; i < $scope.items.length; i++) {
-            $scope.items[i]["number"] = i + 1;
+                $scope.items[i]["number"] = i + 1;
+                $scope.items[i]["id"] = p_num*9 + counter  ;
+                if ($scope.items[i]["number"] == 1) {
+                    $scope.items[i]["id"] = p_num*9 + 1 ;
+                    counter += 1;
+                }
+                counter += 1;
             }
             console.log($scope.items);
             // angular.element(document.querySelectorAll(".row")).children()
@@ -181,9 +186,9 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             // big_item = document.querySelectorAll(".current")[0].innerHTML;
             if (!$scope.item_is_open) {
                 console.log(itm_num);
-                actual_id = itm_num%9;
+                actual_id = itm_num%8;
                 if (actual_id == 0) {
-                    actual_id = 9
+                    actual_id = 8
                 }
                 big_item = document.getElementById("item-"+(actual_id)).innerHTML;
                 document.getElementById('parent_popup').innerHTML = big_item;
@@ -196,9 +201,9 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 socket.emit("start_video", vid_id);
                 $scope.item_is_open = true;
 
-                setTimeout(function () {
-                    $scope.click(null);
-                }, 20000)
+                // setTimeout(function () {
+                //     $scope.click(null);
+                // }, 20000)
 
             }
             else {

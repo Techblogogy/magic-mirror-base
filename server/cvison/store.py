@@ -94,7 +94,7 @@ class clothes:
     def get_video(self, id):
         path = db.qry("SELECT thumbnail FROM clothes WHERE id=?", (id,))[0]['thumbnail']
         path = path.split(".")
-        
+
         return path[0] + ".mp4"
 
     @classmethod
@@ -177,7 +177,7 @@ class clothes:
             FROM clothes
             WHERE deleted=0 LIMIT ? OFFSET ?
         """,
-            (lim, ofs*lim)
+            (lim, ofs*(lim-1))
         )
 
     # Mark item as worn
