@@ -38,6 +38,9 @@ def create_server():
     voice = Speech()
     # voice.start()
 
+    # Video playing
+    pv = PlayVid()
+
     # Start Remote Control
     try:
         thread.start_new_thread( m_remote, (0,) )
@@ -56,7 +59,7 @@ def create_server():
 
     @pserve.app.route('/clothes/<path:filename>')
     def clothes_imgs(filename):
-        
+
 
     #calendar Settings
     @pserve.app.route('/setcal', methods=['GET','POST','OPTIONS'])
@@ -93,9 +96,12 @@ def create_server():
     # Play video
     @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
     def play_video(dat):
-        pv = PlayVid()
-        pv.play_auto()
+        # pv.play_auto()
         print "[TB DUBUG] Playing video"
+
+    @pserve.socketio.on("closed", namespace=pserve.IO_SPACE)
+    def stop_video():
+
 
 
     return pserve.app

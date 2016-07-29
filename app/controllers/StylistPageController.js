@@ -294,7 +294,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.$on("socket:audio_detected", function (event, data) {
                     $scope.audio_is_detected();
                 });
-                    
+
 
 
     // setTimeout(function () {
