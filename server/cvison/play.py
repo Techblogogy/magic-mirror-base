@@ -49,10 +49,10 @@ class PlayVid:
 
 		while self.playing:
 			print "[PlayVid DEBUG] Playing video %s" % (vid_id)
-
 			print self.pv.poll()
-			#if not self.pv.poll():
-			#	self.play()
+
+			# if not self.pv.poll():
+			# 	self.play()
 
 			sleep(0.5)
 			# pv.proc.wait()
