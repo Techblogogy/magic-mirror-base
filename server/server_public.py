@@ -49,9 +49,14 @@ def create_server():
     def main():
         return render_template('setupSite.html', auth = gcal.need_auth(), userName = gcal.get_disp_name())
 
+    # Static directory route
     @pserve.app.route('/<path:filename>')
     def index(filename):
         return send_from_directory('static', filename)
+
+    @pserve.app.route('/clothes/<path:filename>')
+    def clothes_imgs(filename):
+        
 
     #calendar Settings
     @pserve.app.route('/setcal', methods=['GET','POST','OPTIONS'])
