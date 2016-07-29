@@ -165,11 +165,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     //     return getOffsetSum(elem);
     //     }
     // };
-
-
-
-
-
+    $scope.item_is_open = false;
     $scope.click = function(itm_num){
             // (document.getElementById('parent_popup').style.display === 'none')
             // getOffset(document.getElementById('popup'));
@@ -178,33 +174,41 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
             // document.querySelectorAll(".current")[0].style.margin = '100px';
             // big_item = document.querySelectorAll(".current")[0].innerHTML;
-            console.log(itm_num);
-            actual_id = itm_num%9;
-            if (actual_id == 0) {
-                actual_id = 9
+            if (!$scope.item_is_open) {
+                console.log(itm_num);
+                actual_id = itm_num%9;
+                if (actual_id == 0) {
+                    actual_id = 9
+                }
+                big_item = document.getElementById("item-"+(actual_id)).innerHTML;
+                document.getElementById('parent_popup').innerHTML = big_item;
+                console.log(big_item);
+                document.getElementById('parent_popup').style.display = 'inline-block';
+
+                vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id');
+                console.log(vid_id);
+
+                socket.emit("start_video", vid_id);
+                $scope.item_is_open = true;
+
             }
-            big_item = document.getElementById("item-"+(actual_id)).innerHTML;
-            document.getElementById('parent_popup').innerHTML = big_item;
-            console.log(big_item);
-            document.getElementById('parent_popup').style.display = 'inline-block';
-
-            vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id');
-            console.log(vid_id);
-
-            socket.emit("start_video", vid_id);
-
-            // document.querySelectorAll(".current")[0].style.width = '90%' ;
-            // document.querySelectorAll(".current")[0].style.position = 'fixed' ;
-
-        };
-    $scope.close_item = function () {
-            if (document.getElementById('parent_popup').style.display === 'inline-block'){
-                document.getElementById('parent_popup').style.display = 'none';
-                socket.emit("closed");
+            else {
+                if (document.getElementById('parent_popup').style.display === 'inline-block'){
+                    document.getElementById('parent_popup').style.display = 'none';
+                    socket.emit("closed");
+                }
+                $scope.item_is_open = false;
             }
-            // document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
-            // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
         };
+    // $scope.close_item = function () {
+    //         if (document.getElementById('parent_popup').style.display === 'inline-block'){
+    //             document.getElementById('parent_popup').style.display = 'none';
+    //             socket.emit("closed");
+    //         }
+    //         $scope.item_is_open = false;
+    //         // document.querySelectorAll(".current")[0].style.width = '33.33333333%' ;
+    //         // angular.element(document.querySelectorAll('#popup')).remove(document.querySelectorAll(".current")[0]);
+    //     };
 
 
     //socket.forward('c2', $scope);
@@ -212,7 +216,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
     //    console.log("[SOCKETIO] c2");
     //    $scope.switch_right();
     //});
-
+    $scope.r_click = '';
     // var g_cn = 0;
     socket.forward('r_ctr', $scope);
     $scope.$on("socket:r_ctr", function (event, data) {
@@ -224,19 +228,18 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 $scope.switch_left();
                 break;
             case "right":
-                    $scope.switch_right();
-                    break;
-            case "up":
-                    $scope.switch_up();
-                    break;
-            case "down":
-                    $scope.switch_down();
-                    break;
-            case "click":
-                    id = $scope.get_curitem_id();
-                    $scope.click(id);
-                    break;
+                $scope.switch_right();
                 break;
+            case "up":
+                $scope.switch_up();
+                break;
+            case "down":
+                $scope.switch_down();
+                break;
+            case "click":
+                id = $scope.get_curitem_id();
+                $scope.click(id);
+            break;
         }
         // $scope.switchView('weather', 'left_swipe');
     });
