@@ -4,6 +4,8 @@ import signal
 
 from time import sleep
 
+from store import clothes
+
 class PlayVid:
 
 	def __init__(self):
@@ -41,8 +43,10 @@ class PlayVid:
 	def play_auto(self, dat):
 		self.playing = True
 
+		vid_id = clothes.get_video(dat)
+
 		while self.playing:
-			print "[PlayVid DEBUG] Playing video"
+			print "[PlayVid DEBUG] Playing video %s" % (vid_id)
 			sleep(0.5)
 		# self.set_p("~/test.mp4")
 		# self.play()
