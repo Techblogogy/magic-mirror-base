@@ -93,7 +93,7 @@ class clothes:
     @classmethod
     def get_video(self, id):
         print "[DEBUG] id is: %s" % (id)
-        path = db.qry("SELECT thumbnail FROM clothes")
+        path = db.qry("SELECT id, thumbnail FROM clothes")
         print path
         path = path.split(".")
 
