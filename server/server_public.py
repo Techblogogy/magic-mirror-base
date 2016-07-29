@@ -43,7 +43,8 @@ def create_server():
 
     # Start Remote Control
     try:
-        thread.start_new_thread( m_remote, (0,) )
+        # thread.start_new_thread( m_remote, (0,) )
+        pass
     except:
         print "Error: unable to start thread"
 
@@ -110,4 +111,4 @@ def create_server():
         pv.stop_auto()
 
 
-    return pserve.app
+    return (pserve.app, pserve.socketio)
