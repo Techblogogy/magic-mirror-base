@@ -191,9 +191,9 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 socket.emit("start_video", vid_id);
                 $scope.item_is_open = true;
 
-                // setTimeout(function () {
-                //     $scope.click(null);
-                // }, 10000)
+                setTimeout(function () {
+                    $scope.click(null);
+                }, 20000)
 
             }
             else {
