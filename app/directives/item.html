@@ -3,7 +3,7 @@
     <div class="Number">
         <p>{{ info.number}}</p>
     </div>
-    <img class="item_img" ng-src="server/static/clothes/{{info.thumbnail}}" id="img_c" />
+    <img class="item_img" ng-src="http://localhost:5000/clothes/{{info.thumbnail}}" id="img_c" />
     <h3 class="dresscode">Dresscode: {{ info.dresscode }}</h3>
     <p class="tags">Tags: First {{ info.tags }}</p>
     <p class="t_wears">Wears: {{ info.t_wears}}</p>
@@ -13,7 +13,7 @@
     <div class="Number">
         <p>{{ info.number}}</p>
     </div>
-    <img class="item_img" ng-src="server/static/clothes/{{info.thumbnail}}" >
+    <img class="item_img" ng-src="http://localhost:5000/clothes/{{info.thumbnail}}" >
     <h3 class="dresscode">Dresscode: {{ info.dresscode }}</h3>
     <p class="tags">Tags: {{ info.tags }}</p>
     <p class="t_wears">Wears: {{ info.t_wears}}</p>
