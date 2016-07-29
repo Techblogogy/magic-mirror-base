@@ -53,6 +53,9 @@ class PlayVid:
 
 			if self.proc.poll() == 0:
 				self.play()
+			elif self.proc.poll() == 1:
+				self.playing = False
+				break
 
 			sleep(0.5)
 			# pv.proc.wait()
