@@ -186,9 +186,9 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket',function ($sco
             // big_item = document.querySelectorAll(".current")[0].innerHTML;
             if (!$scope.item_is_open) {
                 console.log(itm_num);
-                actual_id = itm_num%8;
+                actual_id = itm_num%9;
                 if (actual_id == 0) {
-                    actual_id = 8
+                    actual_id = 9
                 }
                 console.log(actual_id);
                 big_item = document.getElementById("item-"+(actual_id)).innerHTML;
