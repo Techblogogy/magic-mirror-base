@@ -45,7 +45,7 @@ def wrd_add():
     #TODO: Camera take a picture and return path and dresscode
 
     print "[DEBUG wdobe]: Add request"
-    fl = My_Cam.rec()
+    fl = mc.rec()
     clothes.add("casual", fl+".jpg")
 
     return ""
