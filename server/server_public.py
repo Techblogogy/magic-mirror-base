@@ -1,6 +1,8 @@
 from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 
+from minfo import app_dir
+
 # import eventlet
 # eventlet.monkey_patch()
 
