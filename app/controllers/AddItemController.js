@@ -57,7 +57,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     socket.forward('m_camera_dat', $scope);
     $scope.$on("socket:m_camera_dat", function (event, data) {
-        $scope.cam_data = data[0];
+        $scope.cam_data = JSON.parse(data[0]);
         console.log($scope.cam_data);
         $scope.$apply();
 
