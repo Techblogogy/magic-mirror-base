@@ -46,10 +46,12 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         }
         // $scope.switchView('weather', 'left_swipe');
     });
-
+    $scope.cam_data = {};
     socket.forward('m_camera_dat', $scope);
     $scope.$on("socket:m_camera_dat", function (event, data) {
         console.log(data);
+        $scope.cam_data = data;
+
     });
 
     $scope.add_request = function(){

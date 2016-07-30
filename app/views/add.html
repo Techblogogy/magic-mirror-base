@@ -30,6 +30,17 @@
             </div>
         </div>
     </div>
+
+    <div class="col-xs-4">
+        <div class="Number">
+            <p>{{ cam_data.number }}</p>
+        </div>
+        <img class="item_img" ng-src="http://localhost:5000/clothes/{{cam_data.thumbnail}}" id="img_c" />
+        <h3 class="dresscode">Dresscode: {{ cam_data.dresscode }}</h3>
+        <p class="tags">Tags: First {{cam_data.tags }}</p>
+        <p class="t_wears">Wears: {{ cam_data.t_wears}}</p>
+
+    </div>
 </ui-widget>
 <h2>To start video click or send voice command</h2>
 
