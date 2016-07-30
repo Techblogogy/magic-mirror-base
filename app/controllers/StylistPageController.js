@@ -202,6 +202,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             if (itm_num%9 ==0 ){
                 // $location.path("/add")
                 $scope.switchView('add','left_swipe')
+                // socket.emit("user_on_add");
                 return 0;
             }
             big_item = ""
