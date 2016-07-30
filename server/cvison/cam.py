@@ -91,6 +91,7 @@ class My_Cam():
         self.cam.stop_recording()
         pserve.send("m_camera", "video_end", namespace=IO_SPACE)
 
+        print "[DEBUG] Camera stop"
 
         #TODO: Add socket sending
         pserve.send("m_camera", "compression_begin", namespace=IO_SPACE)
@@ -98,7 +99,7 @@ class My_Cam():
         pserve.send("m_camera", "compression_off", namespace=IO_SPACE)
 
         #TODO: Add socket sending
-        cl = clothes.add("casual", fl+".jpg")
+        cl = clothes.add("casual", t+".jpg")
         pserve.send("m_camera_dat", json.dumps(t), namespace=IO_SPACE)
         # print t
 
