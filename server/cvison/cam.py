@@ -102,7 +102,7 @@ class My_Cam():
 
         #TODO: Add socket sending
         cl = clothes.add("casual", t+".jpg")
-        pserve.send("m_camera_dat", json.dumps(t))
+        pserve.send("m_camera_dat", json.dumps(cl))
         # print t
 
         return t
