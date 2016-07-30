@@ -7,6 +7,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     console.log("INIT");
     socket.emit("user_on_add");
+    // http.post
 
     socket.forward('m_camera', $scope);
     $scope.$on("socket:m_camera", function (event, data) {
@@ -54,7 +55,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.add_request = function(){
         $http.post('http://localhost:5000/wardrobe/add')
         };
-    $scope.add_request();
+
 
     $scope.click = function(){
         console.log("CLICK 2");
@@ -66,7 +67,8 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         else if (document.getElementById('message').style.display == 'block'){
             document.getElementById('message').style.display = 'none';
         }
-        socket.emit("start_loop");
+        // socket.emit("start_loop");
+        $scope.add_request();
     };
 
     $scope.switch_right = function(){
