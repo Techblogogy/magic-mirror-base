@@ -121,7 +121,7 @@ def create_server():
 
     @pserver.socketio.on("user_on_add", namespace=pserver.IO_SPACE)
     def start_cam():
-        mc.start()
+        mc.turn_on()
         pass
 
 
