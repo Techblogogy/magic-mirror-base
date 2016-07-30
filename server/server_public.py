@@ -6,16 +6,16 @@ from minfo import app_dir
 # import eventlet
 # eventlet.monkey_patch()
 
-# from server import PServer
-# pserve = PServer()
+from server import PServer
+pserve = PServer()
 
 from cvison.cam import My_Cam
-mc = My_cam()
+mc = My_Cam()
 
 import os, json, thread, time
 
 #from speech.speech import Speech
-from remote_ctr.remote_ctr import m_remote
+#from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
 import decor
@@ -50,10 +50,10 @@ def create_server():
     pv = PlayVid()
 
     # Start Remote Control
-    try:
-        thread.start_new_thread( m_remote, (0,) )
-    except:
-        print "Error: unable to start thread"
+    #try:
+        #thread.start_new_thread( m_remote, (0,) )
+    #except:
+        #print "Error: unable to start thread"
 
     # Define application routes
     @pserve.app.route('/')
@@ -119,7 +119,7 @@ def create_server():
         print "[TB DUBUG] Stoping video"
         pv.stop_auto()
 
-    @pserver.socketio.on("user_on_add", namespace=pserver.IO_SPACE)
+    @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
     def start_cam():
         mc.start()
         pass

@@ -4,7 +4,7 @@ from flask import Blueprint, redirect, request, url_for
 from cvison.store import clothes
 
 from cvison.cam import My_Cam
-mc = My_cam()
+mc = My_Cam()
 
 import os, json
 
