@@ -11,7 +11,7 @@ from server import PServer
 pserve = PServer()
 
 
-# R_WARM = 2
+R_WARM = 2
 R_REC = 5
 
 # Important Constants
@@ -57,16 +57,13 @@ class My_Cam():
         self.start()
         pserve.send("m_camera", "cam_on")
 
-    # @classmethod
-    def rec(self):
-        #
-        t = str(int(time()))
-
-        #TODO: Add socket sending
         print "warming camera up"
-
         self.cam.start_preview(fullscreen=False, window = (100, 20, 640, 480))
         pserve.send("m_camera", "preview_on")
+
+    # @classmethod
+    def rec(self):
+        t = str(int(time()))
 
         sleep(R_WARM)
 
