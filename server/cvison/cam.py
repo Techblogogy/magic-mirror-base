@@ -5,13 +5,13 @@ from subprocess import call
 
 from minfo import app_dir
 
-import thread
+import thread, json
 
 from server import PServer
 pserve = PServer()
 
 
-R_WARM = 2
+R_WARM = 3
 R_REC = 5
 
 # Important Constants
@@ -61,6 +61,14 @@ class My_Cam():
         self.cam.start_preview(fullscreen=False, window = (100, 20, 640, 480))
         pserve.send("m_camera", "preview_on")
 
+    def turn_off(self):
+        print "Recording stopped"
+        self.cam.stop_preview()
+        pserve.send("m_camera", "preview_off", namespace=IO_SPACE)
+
+        self.cam.close()
+        pserve.send("m_camera", "cam_off", namespace=IO_SPACE)
+
     # @classmethod
     def rec(self):
         t = str(int(time()))
@@ -84,22 +92,14 @@ class My_Cam():
         pserve.send("m_camera", "video_end")
 
         #TODO: Add socket sending
-        print "Recording stopped"
-        self.cam.stop_preview()
-        pserve.send("m_camera", "preview_off")
-
-        self.cam.close()
-        pserve.send("m_camera", "cam_off")
-
-        #TODO: Add socket sending
         pserve.send("m_camera", "compression_begin")
         call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,t, app_dir,t,), shell=True)
         pserve.send("m_camera", "compression_off")
 
         #TODO: Add socket sending
-        pserve.send("m_camera_dat", t)
-
-        print t
+        cl = clothes.add("casual", fl+".jpg")
+        pserve.send("m_camera_dat", json.dumps(t), namespace=IO_SPACE)
+        # print t
 
         return t
 

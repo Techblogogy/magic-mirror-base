@@ -1,7 +1,7 @@
 from dbase.dbase import dbase as db
 from api_cal.weather import Weather
 
-import random
+import random, json
 
 TAG_LIMIT = 5
 
@@ -52,6 +52,8 @@ class clothes:
             "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
             (name, thumbnail, dresscode, )
         )
+
+        return db.qry("SELECT * FROM clothes WHERE id=?", (db.last_id()) )
 
     # Add Tags to items
     @classmethod

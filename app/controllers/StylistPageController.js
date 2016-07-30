@@ -205,7 +205,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
                 // socket.emit("user_on_add");
                 return 0;
             }
-            big_item = ""
+            big_item = "";
             if (voice) {
                 console.log(itm_num);
                 actual_id = itm_num%9;

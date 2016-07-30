@@ -344,15 +344,10 @@ body {
     display: none;
 
 }*/
-#timer_1{
-    display: none;
+#timer{
+    font-size: 56px;
 }
-#timer_2{
-    display: none;
-}
-#timer_capt{
-    display: none;
-}
+
 #message{
     display: none;
 }

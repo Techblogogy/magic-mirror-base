@@ -124,5 +124,10 @@ def create_server():
         mc.turn_on()
         pass
 
+    @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
+    def start_cam():
+        mc.turn_off()
+        pass
+
 
     return (pserve.app, pserve.socketio)
