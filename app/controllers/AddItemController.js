@@ -69,6 +69,14 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         }
         // socket.emit("start_loop");
         $scope.add_request();
+        document.getElementById('timer_2').style.display == 'block';
+        setTimeout(function () {
+            document.getElementById('timer_1').style.display == 'block';
+        }, 1000);
+        setTimeout(function () {
+            document.getElementById('timer_capt').style.display == 'block';
+        }, 2000);
+
     };
 
     $scope.switch_right = function(){
