@@ -53,7 +53,7 @@ class clothes:
             (name, thumbnail, dresscode, )
         )
 
-        return db.qry("SELECT * FROM clothes WHERE id=?", (db.last_id()) )
+        return db.qry("SELECT * FROM clothes WHERE id=?", (db.last_id(), ) )
 
     # Add Tags to items
     @classmethod
