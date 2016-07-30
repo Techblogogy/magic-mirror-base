@@ -1,7 +1,8 @@
 from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 
-import eventlet
+# import eventlet
+# eventlet.monkey_patch()
 
 # from server import PServer
 # pserve = PServer()
