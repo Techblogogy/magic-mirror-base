@@ -44,7 +44,7 @@ class PlayVid:
 		self.playing = True
 
 		vid_id = clothes.get_video(dat)
-			self.set_p(app_dir+"/cls/"+vid_id)
+		self.set_p(app_dir+"/cls/"+vid_id)
 		self.play()
 
 		while self.playing:
