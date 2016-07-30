@@ -15,6 +15,6 @@ in_cmd = [
     v_cmd(["tag", "tags"], "TAG", "add_tags"),
     v_cmd(["show", "stylist"], "AND", "wardrobe_page"),
     v_cmd(["show", "home"], "AND", "home_page"),
-
+    v_cmd(["want", "wear", "today"], "AND", "item_worn"),
 
 ]

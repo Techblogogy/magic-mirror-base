@@ -342,7 +342,11 @@ body {
 #green{
     background: rgb(0, 219, 35);
     display: none;
+
 }*/
+#message{
+    display: none;
+}
 #m_listen{
     display: none;
 }

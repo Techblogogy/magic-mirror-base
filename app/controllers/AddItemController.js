@@ -55,8 +55,19 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         };
     $scope.add_request();
 
-    $scope.switch_right = function(){
+    $scope.click = function(){
+        console.log("CLICK 2");
+        console.log(document.getElementById('message').style.display);
+        // document.getElementById('message').style.display = 'none';
+        if (document.getElementById('message').style.display == '' || document.getElementById('message').style.display == 'none'){
+            document.getElementById('message').style.display = 'block';
+        }
+        else if (document.getElementById('message').style.display == 'block'){
+            document.getElementById('message').style.display = 'none';
+        }
+        socket.emit("start_loop");
     };
+
     $scope.switch_right = function(){
     };
     $scope.switch_right = function(){
@@ -68,4 +79,19 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.switch_right = function(){
     };
 
+    socket.forward('add_tags', $scope);
+    $scope.$on("socket:add_tags", function (event, data) {
+        console.log(data);
+        tags_arr = "";
+        for (var i = 0; i < data.length; i++) {
+            if (i === data.length - 1) {
+                tags_arr += data[i];
+            }
+            else{tags_arr += data[i]+","}
+        }
+        item_id = $scope.get_curitem_id();
+        $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr});
+
+
+    });
 }]);
