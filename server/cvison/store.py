@@ -178,7 +178,7 @@ class clothes:
             FROM clothes
             WHERE deleted=0 LIMIT ? OFFSET ?
         """,
-            (lim, ofs*(lim-1))
+            (lim, ofs*lim)
         )
 
     # Mark item as worn
