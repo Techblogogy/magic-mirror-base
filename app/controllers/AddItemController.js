@@ -6,6 +6,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     };
 
     console.log("INIT");
+    socket.emit("user_on_add");
 
     socket.forward('m_camera', $scope);
     $scope.$on("socket:m_camera", function (event, data) {
