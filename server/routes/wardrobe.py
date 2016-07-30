@@ -46,7 +46,7 @@ def wrd_add():
 
     print "[DEBUG wdobe]: Add request"
     fl = mc.rec()
-    clothes.add("casual", fl+".jpg")
+    # clothes.add("casual", "0.jpg")
 
     return ""
 

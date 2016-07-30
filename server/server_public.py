@@ -119,9 +119,14 @@ def create_server():
         print "[TB DUBUG] Stoping video"
         pv.stop_auto()
 
-    @pserver.socketio.on("user_on_add", namespace=pserver.IO_SPACE)
+    @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
     def start_cam():
         mc.turn_on()
+        pass
+
+    @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
+    def start_cam():
+        mc.turn_off()
         pass
 
 
