@@ -69,12 +69,15 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         }
         // socket.emit("start_loop");
         $scope.add_request();
-        document.getElementById('timer_2').style.display == 'block';
+        document.getElementById('timer_2').style.display = 'block';
+	console.log('timer_2');
         setTimeout(function () {
-            document.getElementById('timer_1').style.display == 'block';
+            console.log('timer_1');
+	    document.getElementById('timer_1').style.display = 'block';
         }, 1000);
         setTimeout(function () {
-            document.getElementById('timer_capt').style.display == 'block';
+	    console.log('timer_cpt');
+            document.getElementById('timer_capt').style.display = 'block';
         }, 2000);
 
     };
