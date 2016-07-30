@@ -57,11 +57,11 @@ class My_Cam():
     # @classmethod
     def turn_on(self):
         self.start()
-        pserve.send("m_camera", "cam_on", namespace=IO_SPACE)
+        pserve.send("m_camera", "cam_on")
 
         print "warming camera up"
         self.cam.start_preview(fullscreen=False, window = (100, 20, 640, 480))
-        pserve.send("m_camera", "preview_on", namespace=IO_SPACE)
+        pserve.send("m_camera", "preview_on")
 
     def turn_off(self):
         print "Recording stopped"
