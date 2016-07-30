@@ -10,7 +10,7 @@ import thread, json
 from server import PServer
 pserve = PServer()
 
-from cvison.store import clothes
+from store import clothes
 
 
 R_WARM = 3
