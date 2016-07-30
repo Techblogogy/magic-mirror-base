@@ -8,8 +8,12 @@ from minfo import app_dir
 from server import PServer
 pserve = PServer()
 
-R_WARM = 2
+import threading
+
+# R_WARM = 2
 R_REC = 5
+
+#
 
 class My_Cam():
 
@@ -37,10 +41,16 @@ class My_Cam():
         self.cam.shutter_speed = 1/500
 
     @classmethod
-    def rec(self):
+    def start_loop
+
+    @classmethod
+    def turn_on(self):
         self.start()
         pserve.send("m_camera", "cam_on", namespace=IO_SPACE)
 
+    @classmethod
+    def rec(self):
+        #
         t = str(int(time()))
 
         #TODO: Add socket sending
