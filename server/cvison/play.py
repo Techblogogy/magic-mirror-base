@@ -58,8 +58,6 @@ class PlayVid:
 				break
 
 			sleep(0.5)
-			# pv.proc.wait()
-			# sleep(5)
 
 		self.stop()
 

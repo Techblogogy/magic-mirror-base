@@ -54,6 +54,7 @@ def wrd_add():
 
     try:
         fl = mc.rec()
+        thread.start_new_thread( mc.play_auto, () )
         # clothes.add("casual", "0.jpg")
     except:
         bl.log_tb("MyCam failed. Are you on Raspberry PI?")
