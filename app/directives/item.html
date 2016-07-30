@@ -1,5 +1,5 @@
 
-<div class="col-xs-4 item_stl current" id="item-{{info.id}}" it-id="{{info.id}}" vid-id="{{info.vid_id}}" ng-if="info.id%9 === 1">
+<div class="col-xs-4 item_stl current" id="item-{{info.number}}" it-id="{{info.number}}" vid-id="{{info.vid_id}}" ng-if="info.id%8 === 1">
     <div class="Number">
         <p>{{ info.number }}</p>
     </div>
@@ -9,7 +9,7 @@
     <p class="t_wears">Wears: {{ info.t_wears}}</p>
 
 </div>
-<div class="col-xs-4 item_stl" id="item-{{info.id}}" it-id="{{info.id}}" vid-id="{{info.vid_id}}" ng-if="info.id%9 !== 1 && info.id%9 !== 0">
+<div class="col-xs-4 item_stl" id="item-{{info.number}}" it-id="{{info.number}}" vid-id="{{info.vid_id}}" ng-if="info.id%8 !== 1">
     <div class="Number">
         <p>{{ info.number}}</p>
     </div>
@@ -19,7 +19,7 @@
     <p class="t_wears">Wears: {{ info.t_wears}}</p>
 
 </div>
-<div class="col-xs-4 item_stl" id="item-{{info.id}}" it-id="{{info.id}}" vid-id="{{info.vid_id}}" ng-if="info.id%9 === 0">
+<!-- <div class="col-xs-4 item_stl" id="item-{{info.id}}" it-id="{{info.id}}" vid-id="{{info.vid_id}}" ng-if="info.id%9 === 0">
     <h1>Add a new item</h1>
     <h1>+</h1>
-</div>
+</div> -->

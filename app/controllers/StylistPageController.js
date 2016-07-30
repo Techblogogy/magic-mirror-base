@@ -8,12 +8,19 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     // $scope.anim = "";
     // $scope.bodge_time = 1; //in milliseconds
 
+    $scope.item_per_page = 8;
+
     console.log("INIT");
 
     $scope.get_curitem_id = function(){
         return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
 
     };
+
+    // $scope.get_curitem_id = function(){
+    //     return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+    // };
+
 
     // Microphone functions
     $scope.mic_active = function(){
@@ -40,7 +47,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         // angular.element(document.querySelectorAll("current")).removeClass("current");
         item_id += 1;
-        if (item_id == $scope.page_num*9 +10) {
+        // if (item_id == $scope.page_num*$scope.item_per_page + $scope.item_per_page+1) {
+        if (item_id == $scope.item_per_page+1) {
             $scope.next_page()
 
         }
@@ -52,12 +60,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         item_id = $scope.get_curitem_id();
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         item_id -= 1;
-        if (item_id == $scope.page_num*9) {
-            $scope.previous_page()
-        }
+
         if (item_id == 0) {
+            if ($scope.page_num !== 0)
+                $scope.previous_page();
+
             item_id = 1;
-        };
+        }
+        // if (p_num == 0 && item_id == 0){
+        //     item_id = 1;
+        // }
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
 
         // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
@@ -69,7 +81,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         // angular.element(document.querySelectorAll("current")).removeClass("current");
         item_id += 3;
-        if (item_id >= $scope.page_num*9 +10) {
+        if (item_id >= $scope.page_num*$scope.item_per_page + $scope.item_per_page+1) {
             $scope.next_page()
 
         }
@@ -87,8 +99,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         if (item_id <= 0){
             item_id = 1;
         }
-        if (item_id <= $scope.page_num*9) {
-            $scope.previous_page()
+        if (item_id <= $scope.page_num*$scope.item_per_page) {
+            $scope.previous_page();
         }
 
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
@@ -111,7 +123,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.page_num = 0;
     $scope.get_page_items = function(p_num){
-        $http.get('http://localhost:5000/wardrobe/get?items='+9+'&page='+p_num)
+        $http.get('http://localhost:5000/wardrobe/get?items='+8+'&page='+p_num)
         .success(function(data){
             if (data.length === 0) {
                 return 0;
@@ -119,16 +131,17 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             $scope.items = data;
 
             // $scope.items.push({"element": 1});
-            var counter = 0;
+            // var counter = 0;
             for (var i = 0; i < $scope.items.length; i++) {
                 $scope.items[i].vid_id = $scope.items[i].id;
-                $scope.items[i]["number"] = i + 1;
-                $scope.items[i]["id"] = p_num*9 + counter  ;
-                if ($scope.items[i]["number"] == 1) {
-                    $scope.items[i]["id"] = p_num*9 + 1 ;
-                    counter += 1;
-                }
-                counter += 1;
+                $scope.items[i].number = i+1;
+
+                // $scope.items[i]["id"] = p_num*9 + counter  ;
+                // if ($scope.items[i]["number"] == 1) {
+                //     $scope.items[i]["id"] = p_num*9 + 1 ;
+                //     counter += 1;
+                // }
+                // counter += 1;
             }
             console.log($scope.items);
             // angular.element(document.querySelectorAll(".row")).children()
