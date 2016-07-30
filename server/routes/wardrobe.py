@@ -3,7 +3,8 @@ import decor
 from flask import Blueprint, redirect, request, url_for
 from cvison.store import clothes
 
-# from cvison.cam import My_Cam
+from cvison.cam import My_Cam
+mc = My_cam()
 
 import os, json
 
@@ -44,7 +45,7 @@ def wrd_add():
     #TODO: Camera take a picture and return path and dresscode
 
     print "[DEBUG wdobe]: Add request"
-    fl = 0 #My_Cam.rec()
+    fl = My_Cam.rec()
     clothes.add("casual", fl+".jpg")
 
     return ""
@@ -67,7 +68,6 @@ def wrd_add_tags(c_id):
 @wrd_api.route("/wear/<int:c_id>", methods=['POST', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_worn(c_id):
-
     return json.dumps(clothes.worn(c_id), indent=JSON_DENT)
 
 # Like clothes item

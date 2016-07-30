@@ -17,9 +17,9 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     };
 
-    // $scope.get_curitem_id = function(){
-    //     return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
-    // };
+    $scope.get_curitem_vid_id = function(){
+        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+    };
 
 
     // Microphone functions
@@ -108,20 +108,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         console.log("it's"+item_id);
     };
 
-    // $scope.add_item();
-    // $scope.get_page_items = function(p_num){
-    //     $http.get('http://localhost:5000/wardrobe/get?items='+9+'&page='+p_num)
-    //     .success(function(data){
-    //         console.log(data);
-    //         $scope.items = data;
-    //         setTimeout(function () {
-    //             console.log($document.find("#item-1"));
-    //             $document.find("#item-1").addClass("current");
-    //             angular.element(document.querySelectorAll("#item-1")).addClass("current");
-    //         }, 1000);
-    //     });
-    //  };
-
     $scope.page_num = 0;
     $scope.get_page_items = function(p_num){
         $http.get('http://localhost:5000/wardrobe/get?items='+8+'&page='+p_num)
@@ -178,11 +164,21 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.previous_page = function(){
         item_id = $scope.get_curitem_id();
-        $scope.page_num -=1
+        $scope.page_num -=1;
         $scope.get_page_items($scope.page_num);
         console.log("pr"+item_id);
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+    };
+    $scope.item_worn = function(){
+        item_id = $scope.get_curitem_id();
+        id_for_db = $scope.get_curitem_vid_id();
+        console.log($scope.items[item_id].t_wears);
+        $scope.items[item_id].t_wears += 1;
+        console.log($scope.items[item_id].t_wears);
+        $http.post('http://localhost:5000/wardrobe/wear/'+id_for_db);
+        // location.reload();
+        $scope.get_page_items($scope.page_num);
     };
 
     // function getOffset(elem) {
@@ -206,6 +202,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             if (itm_num%9 ==0 ){
                 // $location.path("/add")
                 $scope.switchView('add','left_swipe')
+                // socket.emit("user_on_add");
                 return 0;
             }
             big_item = ""
@@ -331,6 +328,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     socket.forward('audio_detected', $scope);
     $scope.$on("socket:audio_detected", function (event, data) {
         $scope.audio_is_detected();
+    });
+    socket.forward('item_worn', $scope);
+    $scope.$on("socket:item_worn", function (event, data) {
+        $scope.item_worn();
+        console.log('WORN');
     });
 
 

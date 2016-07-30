@@ -9,6 +9,9 @@ from minfo import app_dir
 # from server import PServer
 # pserve = PServer()
 
+from cvison.cam import My_Cam
+mc = My_cam()
+
 import os, json, thread, time
 
 #from speech.speech import Speech
@@ -48,8 +51,7 @@ def create_server():
 
     # Start Remote Control
     try:
-        # thread.start_new_thread( m_remote, (0,) )
-        pass
+        thread.start_new_thread( m_remote, (0,) )
     except:
         print "Error: unable to start thread"
 
@@ -116,6 +118,11 @@ def create_server():
     def stop_video():
         print "[TB DUBUG] Stoping video"
         pv.stop_auto()
+
+    @pserver.socketio.on("user_on_add", namespace=pserver.IO_SPACE)
+    def start_cam():
+        mc.start()
+        pass
 
 
     return (pserve.app, pserve.socketio)

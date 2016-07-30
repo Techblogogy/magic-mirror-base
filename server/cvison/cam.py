@@ -5,15 +5,27 @@ from subprocess import call
 
 from minfo import app_dir
 
+import thread
+
 from server import PServer
 pserve = PServer()
 
-R_WARM = 2
+
+# R_WARM = 2
 R_REC = 5
 
-class My_Cam():
+# Important Constants
+class Singleton(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[cls]
 
-    @classmethod
+class My_Cam():
+    __metaclass__ = Singleton
+
+    # @classmethod
     def start(self):
         self.cam = PiCamera()
 
@@ -36,11 +48,18 @@ class My_Cam():
 
         self.cam.shutter_speed = 1/500
 
-    @classmethod
-    def rec(self):
+    # @classmethod
+    # def start_loop():
+    #     thread.start_new_thread( self.rec(), (0,) )
+
+    # @classmethod
+    def turn_on(self):
         self.start()
         pserve.send("m_camera", "cam_on")
 
+    # @classmethod
+    def rec(self):
+        #
         t = str(int(time()))
 
         #TODO: Add socket sending
