@@ -68,7 +68,24 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             document.getElementById('message').style.display = 'none';
         }
         // socket.emit("start_loop");
+        timer_html = "";
         $scope.add_request();
+        setTimeout(function () {
+            timer_html = "2";
+            document.getElementById('timer').innerHTML = timer_html;
+            console.log(timer_html);
+        }, 1000);
+        setTimeout(function () {
+            timer_html = "1";
+            document.getElementById('timer').innerHTML = timer_html;
+            console.log(timer_html);
+        }, 2000);
+        setTimeout(function () {
+            timer_html = "Capturing!";
+            document.getElementById('timer').innerHTML = timer_html;
+            console.log(timer_html);
+        }, 3000);
+
     };
 
     $scope.switch_right = function(){

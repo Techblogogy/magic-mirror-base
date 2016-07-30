@@ -344,6 +344,10 @@ body {
     display: none;
 
 }*/
+#timer{
+    font-size: 56px;
+}
+
 #message{
     display: none;
 }
