@@ -41,14 +41,15 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
 
     $scope.switch_right = function(){
-
+        // $scope.items
         item_id = $scope.get_curitem_id();
         // console.log(item_id);
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         // angular.element(document.querySelectorAll("current")).removeClass("current");
         item_id += 1;
         // if (item_id == $scope.page_num*$scope.item_per_page + $scope.item_per_page+1) {
-        if (item_id == $scope.item_per_page+1) {
+        // if (item_id == $scope.item_per_page+1) {
+        if (item_id == $scope.items.length+2) {
             $scope.next_page()
 
         }

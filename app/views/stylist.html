@@ -36,10 +36,14 @@
     </div>
 
 
-    <div class="container" ng-controller="ItemCtr">
+    <div class="container" ng-controller="ItemCtr">a
         <div class="row" >
             <div class="item" ng-repeat="item in items">
                 <item-dir info="item"></item-dir>
+            </div>
+            <div class="col-xs-4 add_button" id="item-{{items.length+1}}" it-id="9">
+                <h1>Add a new item</h1>
+                <h1>+</h1>
             </div>
                 <!-- <div class="col-xs-3">
                     <img class="" ng-src="{{img.cat}}" id="item_img"/>
