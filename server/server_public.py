@@ -1,8 +1,8 @@
 from flask import Flask, request, send_from_directory, redirect, render_template
 from flask_socketio import SocketIO, emit
 
-import eventlet
-eventlet.monkey_patch()
+# import eventlet
+# eventlet.monkey_patch()
 
 # from server import PServer
 # pserve = PServer()
@@ -39,7 +39,7 @@ def create_server():
 
     # Start voice recognition
     voice = Speech()
-    # voice.start()
+    voice.start()
 
     # Video playing
     pv = PlayVid()

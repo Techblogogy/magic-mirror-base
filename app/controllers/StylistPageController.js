@@ -1,12 +1,12 @@
 
-app.controller('StlCtr', ['$scope','$document', '$http', 'socket','$location','$timeout',function ($scope,$document,$http, socket,$location,$timeout) {
+app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location','$timeout'*/,function ($scope,$document,$http, socket/*,$location,$timeout*/) {
     $scope.loaded = function(){};
     $scope.page_id = "p_stylist";
     $scope.img = {
         cat: "res/pics/cat.jpg"
     };
-    $scope.anim = "";
-    $scope.bodge_time = 1; //in milliseconds
+    // $scope.anim = "";
+    // $scope.bodge_time = 1; //in milliseconds
 
     console.log("INIT");
 
@@ -190,7 +190,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket','$location','$
         // big_item = document.querySelectorAll(".current")[0].innerHTML;
         if (!$scope.item_is_open) {
             if (itm_num%9 ==0 ){
-                $location.path("/add")
+                // $location.path("/add")
+                $scope.switchView('add','left_swipe')
                 return 0;
             }
             big_item = ""
