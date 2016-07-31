@@ -84,6 +84,7 @@ class Speech:
         print "[SNOWBOY] DETECTED"
         self.detected = True
 
+        snowboydecoder.play_audio_file(app_dir+"/voice/dong.wav")
         self.stop()
 
     # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
@@ -112,6 +113,8 @@ class Speech:
                 else:
                     pserve.send(cmd[0], cmd[1])
                     pserve.send("audio_detected","ok")
+
+                snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
                 # pserve.send(cmd[0], cmd[2])
             print("Bing Speech: "+text)
         except sr.UnknownValueError:
