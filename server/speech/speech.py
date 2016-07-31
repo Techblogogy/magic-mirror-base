@@ -29,11 +29,9 @@ class Speech:
         self.detected = False
 
         # Create microphone instance and ajust for noise
+        print ("[DEBUG SPEECH] Ajusting for ambient noise")
         self._m = sr.Microphone(sample_rate=16000)
         self.noise_adjust()
-
-
-
 
     # Starts audio library
     def start(self):
