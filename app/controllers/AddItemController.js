@@ -69,6 +69,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
 
     $scope.click = function(){
+        document.getElementById('item_preview').style.display = 'none';
         console.log("CLICK 2");
         console.log(document.getElementById('message').style.display);
         // document.getElementById('message').style.display = 'none';
@@ -96,6 +97,10 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             document.getElementById('timer').innerHTML = timer_html;
             console.log(timer_html);
         }, 3000);
+        setTimeout(function () {
+            document.getElementById('item_preview').style.display = 'block';
+        }, 10000);
+
 
     };
 

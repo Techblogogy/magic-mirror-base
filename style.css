@@ -344,6 +344,25 @@ body {
     display: none;
 
 }*/
+.add_item{
+    width: auto;
+    font-size: 52px;
+}
+.item_preview{
+    font-size: 48px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+}
+.item_preview img{
+    height: 376px;
+    width: auto;
+}
+.add_h2{
+    font-size: 48px;
+    text-align: center;
+}
 #timer{
     font-size: 56px;
 }
