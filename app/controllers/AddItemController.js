@@ -47,10 +47,19 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         // $scope.switchView('weather', 'left_swipe');
     });
     $scope.cam_data = {};
+
+    // setTimeout(function () {
+    //     $scope.cam_data = {t_wears: 13};
+    //     $scope.$apply();
+    //
+    // }, 2000);
+
+
     socket.forward('m_camera_dat', $scope);
     $scope.$on("socket:m_camera_dat", function (event, data) {
-        console.log(data);
-        $scope.cam_data = data;
+        $scope.cam_data = JSON.parse(data)[0];
+        console.log($scope.cam_data);
+        $scope.$apply();
 
     });
 
@@ -60,6 +69,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
 
     $scope.click = function(){
+        document.getElementById('item_preview').style.display = 'none';
         console.log("CLICK 2");
         console.log(document.getElementById('message').style.display);
         // document.getElementById('message').style.display = 'none';
@@ -87,6 +97,10 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             document.getElementById('timer').innerHTML = timer_html;
             console.log(timer_html);
         }, 3000);
+        setTimeout(function () {
+            document.getElementById('item_preview').style.display = 'block';
+        }, 10000);
+
 
     };
 

@@ -1,16 +1,17 @@
-<ui-widget class="add_item" id="add_item">
-    <!-- <h1>Welcome to your wardowbe</h1> -->
-    <div class="microphone" id="microphone">
-        <div class="circle" id="m_listen">
-            <div class="cssload-container">
-                <div class="cssload-double-torus"></div>
-            </div>
+<div class="microphone" id="microphone">
+    <div class="circle" id="m_listen">
+        <div class="cssload-container">
+            <div class="cssload-double-torus"></div>
         </div>
-        <div class="circle" id="m_detc">
-            <p>some cmd</p>
-        </div>
-        <img  class="microph_img" src="res/microphone.png" alt="" />
     </div>
+    <div class="circle" id="m_detc">
+        <p>some cmd</p>
+    </div>
+    <img  class="microph_img" src="res/microphone.png" alt="" />
+</div>
+<body class="add_item" id="add_item">
+    <!-- <h1>Welcome to your wardowbe</h1> -->
+
     <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
     <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
 
@@ -30,19 +31,20 @@
             </div>
         </div>
     </div>
+    <h2 class="add_h2">To start video click or send voice command</h2>
 
-    <div class="col-xs-4">
+    <div class="col-xs-12 item_preview" id="item_preview">
         <div class="Number">
             <p>{{ cam_data.number }}</p>
         </div>
         <img class="item_img" ng-src="http://localhost:5000/clothes/{{cam_data.thumbnail}}" id="img_c" />
-        <h3 class="dresscode">Dresscode: {{ cam_data.dresscode }}</h3>
+        <p class="dresscode">Dresscode: {{ cam_data.dresscode }}</p>
         <p class="tags">Tags: First {{cam_data.tags }}</p>
         <p class="t_wears">Wears: {{ cam_data.t_wears}}</p>
 
     </div>
-</ui-widget>
-<h2>To start video click or send voice command</h2>
+</body>
+
 
 
 <p ng-click="switchView('stylist','right_swipe')">Back Again (Test)</p>
