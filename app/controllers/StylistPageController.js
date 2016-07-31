@@ -296,7 +296,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     socket.forward('close_item', $scope);
     $scope.$on("socket:close_item", function (event, data) {
-        $scope.close_item();
+        // $scope.close_item();
+        $scope.click(null);
 
     });
 
