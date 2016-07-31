@@ -26,15 +26,13 @@ class Speech:
 
         # Check if running
         self.running = True
-        self.detected = True
+        self.detected = False
 
         # Create microphone instance and ajust for noise
         self._m = sr.Microphone(sample_rate=16000)
         self.noise_adjust()
 
 
-        # Snowboy detector
-        self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=0.5)
 
 
     # Starts audio library
@@ -44,7 +42,8 @@ class Speech:
         # Ajust for ambient noise
         self.running = True
 
-        # Start new thread
+        # Start snowboy thread
+        self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=0.5)
         thread.start_new_thread( self.start_snowboy, () )
 
         # self.stop = self._r.listen_in_background(self._m,self.detect_bing)
@@ -84,8 +83,10 @@ class Speech:
 
     # Voice detection
     def detected_snowboy(self):
+        print "[SNOWBOY] DETECTED"
+        self.detected = True
+
         self.stop()
-        print "DETECTED"
 
     # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
     # Pluses: quite accurate
