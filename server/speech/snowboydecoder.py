@@ -151,6 +151,7 @@ class HotwordDetector(object):
         logger.debug("detecting...")
 
         while True:
+            print "[SNOWBOY]"
             if interrupt_check():
                 logger.debug("detect voice break")
                 break

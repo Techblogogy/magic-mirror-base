@@ -21,30 +21,28 @@ class Speech:
     def __init__(self):
         print "[DEBUG SPEECH] Initializing libraries"
 
-        # self._r = sr.Recognizer()
-        # self._r.dynamic_energy_threshold = False
+        self._r = sr.Recognizer()
+        self._r.dynamic_energy_threshold = False
 
         # Check if running
         self.running = True
+        self.detected = True
+
+        # Create microphone instance and ajust for noise
+        self._m = sr.Microphone(sample_rate=16000)
+        self.noise_adjust()
+
 
         # Snowboy detector
         self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=0.5)
 
-        # Create microphone instance
-        # self._m = sr.Microphone(sample_rate=16000)
 
     # Starts audio library
     def start(self):
-        print ("[DEBUG SPEECH] Started listening for trigger")
+        print ("[DEBUG SPEECH] Starting snowboy")
 
         # Ajust for ambient noise
-        # self.noise_adjust()
-
         self.running = True
-
-        # self.dec.start(detected_callback=self.detect_bing,
-        #     interrupt_check=self.check_interrupt,
-        #     sleep_time=0.03)
 
         # Start new thread
         thread.start_new_thread( self.start_snowboy, () )
@@ -57,13 +55,18 @@ class Speech:
 
     # Starts snowboy voice thread
     def start_snowboy(self):
-        # pass
-        print self
-        self.dec.start(detected_callback=self.detect_bing,
+
+        self.dec.start(detected_callback=self.detected_snowboy,
                        interrupt_check=self.check_interrupt,
                        sleep_time=0.03)
-
         self.dec.terminate()
+
+        print "[DEBUG SPEECH] Stopping snowboy"
+
+        print "[DEBUG SPEECH] Starting Bing"
+        if self.detected:
+            self.detect_bing()
+
 
     # Check for interrupt
     def check_interrupt(self):
@@ -79,38 +82,46 @@ class Speech:
 
         # print "[TB Speech] Threshold: %s" % (self._r.energy_threshold)
 
+    # Voice detection
+    def detected_snowboy(self):
+        self.stop()
+        print "DETECTED"
+
     # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
     # Pluses: quite accurate
     # Minuses: slow, 5000 month quota
     # Verdict: most likely (4 out of 5)
     # def detect_bing(self,recon,audio):
     def detect_bing(self):
-        print "DETECTED"
+        self.detected = False
 
-        # # Listen for phrase
-        # audio = self._r.listen()
-        #
-        # try:
-        #     text = self._r.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
-        #     # pserve.send("mic_active", "smth")
-        #     cmd = get_command(text)
-        #     # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
-        #     if cmd:
-        #         print cmd[1]
-        #         # print cmd[2]
-        #         if cmd[0] == "add_tags":
-        #             pserve.send(cmd[0], cmd[2])
-        #             pserve.send("audio_detected","ok")
-        #         else:
-        #             pserve.send(cmd[0], cmd[1])
-        #             pserve.send("audio_detected","ok")
-        #         # pserve.send(cmd[0], cmd[2])
-        #     print("Bing Speech: "+text)
-        # except sr.UnknownValueError:
-        #     print("Bing unrecognizable")
-        # except sr.RequestError as e:
-        #     print("Bing error; {0}".format(e))
+        # Listen for phrase
+        with self._m as source:
+            audio = self._r.listen(source)
 
+        try:
+            text = self._r.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            # pserve.send("mic_active", "smth")
+            cmd = get_command(text)
+            # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
+            if cmd:
+                print cmd[1]
+                # print cmd[2]
+                if cmd[0] == "add_tags":
+                    pserve.send(cmd[0], cmd[2])
+                    pserve.send("audio_detected","ok")
+                else:
+                    pserve.send(cmd[0], cmd[1])
+                    pserve.send("audio_detected","ok")
+                # pserve.send(cmd[0], cmd[2])
+            print("Bing Speech: "+text)
+        except sr.UnknownValueError:
+            print("Bing unrecognizable")
+        except sr.RequestError as e:
+            print("Bing error; {0}".format(e))
+
+        # Start snowboy in a thread
+        self.start()
 
 # voice = Speech()
 # voice.start()
