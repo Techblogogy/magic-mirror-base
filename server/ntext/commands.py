@@ -16,7 +16,7 @@ in_cmd = [
 
     v_cmd([], "NUM", "fullscreen"), # Number detection item
 
-    v_cmd(["close", "image"], "AND", "close_item"),
+    v_cmd(["close", "back", "list"], "OR", "close_item"),
 
     v_cmd(["tag", "tags"], "TAG", "add_tags"),
 
@@ -25,6 +25,7 @@ in_cmd = [
 
     v_cmd(["show", "stylist"], "AND", "wardrobe_page"),
     v_cmd(["show", "home"], "AND", "home_page"),
+
     v_cmd(["want", "wear", "today"], "AND", "item_worn"),
 
 ]
