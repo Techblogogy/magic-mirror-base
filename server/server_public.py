@@ -6,11 +6,11 @@ from minfo import app_dir
 # import eventlet
 # eventlet.monkey_patch()
 
-from server import PServer
-pserve = PServer()
+# from server import PServer
+# pserve = PServer()
 
-# from cvison.cam import My_Cam
-# mc = My_cam()
+from cvison.cam import My_Cam
+mc = My_cam()
 
 import os, json, thread, time
 
@@ -39,15 +39,15 @@ def create_server():
     from routes.gcal import gcal_api
     pserve.app.register_blueprint(gcal_api)
 
-    # from routes.wardrobe import wrd_api
-    # pserve.app.register_blueprint(wrd_api)
+    from routes.wardrobe import wrd_api
+    pserve.app.register_blueprint(wrd_api)
 
     # Start voice recognition
     voice = Speech()
     voice.start()
 
     # Video playing
-    # pv = PlayVid()
+    pv = PlayVid()
 
     # Start Remote Control
     # try:
