@@ -10,6 +10,9 @@ import thread, json
 from server import PServer
 pserve = PServer()
 
+from cvison.play import PlayVid
+pv = PlayVid()
+
 from store import clothes
 
 
@@ -72,6 +75,10 @@ class My_Cam():
         self.cam.close()
         pserve.send("m_camera", "cam_off")
 
+    def quit(self):
+        pv.stop_auto()
+
+
     # @classmethod
     def rec(self):
         t = str(int(time()))
@@ -105,6 +112,18 @@ class My_Cam():
         cl = clothes.add("casual", t+".jpg")
         pserve.send("m_camera_dat", json.dumps(cl))
         # print t
+
+        try:
+            pv.x = 420
+            pv.y = 105
+            pv.w = 235
+            pv.h = 376
+
+            thread.start_new_thread( pv.play_auto, (cl[0]["id"],) )
+            #clothes.add("casual", fl["thum]".jpg")
+        except:
+            print ("MyCam failed. Are you on Raspberry PI?")
+
 
         return cl
 

@@ -137,12 +137,16 @@ def create_server():
         except:
             bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
-    @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
-    def start_cam():
+    @pserve.socketio.on("user_on_video", namespace=pserve.IO_SPACE)
+    def stop_cam():
         # try:
         mc.turn_off()
         # except:
             # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+
+    @pserve.socketio.on("user_on_quit", namespace=pserve.IO_SPACE)
+    def quit_cam():
+        mc.quit()
 
 
     return (pserve.app, pserve.socketio)
