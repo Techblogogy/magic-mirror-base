@@ -50,7 +50,11 @@ def create_server():
     pserve.app.register_blueprint(wrd_api)
 
     # Start voice recognition
+<<<<<<< HEAD
+    voice = Speech()
+=======
     # voice = Speech()
+>>>>>>> 32f86bc15299d577174c69fb6cc78f0cdba246cc
     # voice.start()
 
     # Video playing

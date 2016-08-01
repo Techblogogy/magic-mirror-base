@@ -7,6 +7,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     };
     // $scope.anim = "";
     // $scope.bodge_time = 1; //in milliseconds
+    $scope.curr_cmd = "";
 
     $scope.item_per_page = 8;
 
@@ -293,6 +294,14 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     //$scope.$on("socket:left", function (event, data) {
     //                $scope.switch_left();
     //});
+    socket.forward('next_page', $scope);
+    $scope.$on("socket:next_page", function (event, data) {
+        $scope.next_page();
+    });
+    socket.forward('previous_page', $scope);
+    $scope.$on("socket:previous_page", function (event, data) {
+        $scope.previous_page();
+    });
 
     socket.forward('fullscreen', $scope);
     $scope.$on("socket:fullscreen", function (event, data) {
@@ -307,8 +316,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     });
 
-    socket.forward('add_tags', $scope);
-    $scope.$on("socket:add_tags", function (event, data) {
+    // socket.forward('add_tags', $scope);
+    // $scope.$on("socket:add_tags", function (event, data) {
+    setTimeout(function () {
+        data = ["hell"];
         console.log(data);
         tags_arr = "";
         for (var i = 0; i < data.length; i++) {
@@ -317,11 +328,21 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             }
             else{tags_arr += data[i]+","}
         }
-        item_id = $scope.get_curitem_id();
-        $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr});
+        item_id = $scope.get_curitem_vid_id();
+        console.log(item_id);
+        console.log(tags_arr);
+        $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr})
+        .then(function (dat) {
+            console.log(dat);
+            setTimeout(function () {
+                $scope.get_page_items($scope.page_num);
+                $scope.$apply();
+            }, 1000);
+        }, function () {console.log("EROR")});
+    }, 4000);
 
 
-    });
+    // });
 
     // socket.forward('mic_active', $scope);
     // $scope.$on("socket:mic_active", function (event, data) {
@@ -335,6 +356,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     socket.forward('audio_detected', $scope);
     $scope.$on("socket:audio_detected", function (event, data) {
         $scope.audio_is_detected();
+        $scope.curr_cmd = data;
     });
     socket.forward('item_worn', $scope);
     $scope.$on("socket:item_worn", function (event, data) {
