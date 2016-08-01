@@ -63,8 +63,7 @@ class My_Cam():
         pserve.send("m_camera", "cam_on")
 
         print "warming camera up"
-        #self.cam.start_preview(fullscreen=False, window = (92, 210, 843, 1350))
-        self.cam.start_preview(fullscreen=False, window = (92, 210, 100, 100))
+        self.cam.start_preview(fullscreen=False, window = (92, 210, 843, 1350))
         pserve.send("m_camera", "preview_on")
 
     def turn_off(self):
