@@ -227,7 +227,7 @@ body {
 
 .item_img{
     /*width: 200px;*/
-    width: 100%;
+    width: 90%;
     margin-top: 10px;
     margin-bottom: 10px;
     /*margin-left: auto;
@@ -259,7 +259,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     border: 5px solid black;
-    height: 530px;
+    height: 590px;
 }
 
 .item_stl h3 {margin-top: -5px;}
