@@ -21,7 +21,7 @@ try:
 except ImportError:
     bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
-from speech.speech import Speech
+# from speech.speech import Speech
 from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
@@ -50,8 +50,8 @@ def create_server():
     pserve.app.register_blueprint(wrd_api)
 
     # Start voice recognition
-    voice = Speech()
-    voice.start()
+    # voice = Speech()
+    # voice.start()
 
     # Video playing
     pv = PlayVid()
@@ -135,10 +135,10 @@ def create_server():
 
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        try:
-            mc.turn_off()
-        except:
-            bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+        # try:
+        mc.turn_off()
+        # except:
+            # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
 
     return (pserve.app, pserve.socketio)
