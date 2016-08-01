@@ -484,6 +484,7 @@ class Recognizer(AudioSource):
         # DEBUG
         print "[Speech API DEBUG]: Energy threshold %d" % (self.energy_threshold)
         pserve.send("mic_is_listening","smth")
+
         # read audio input for phrases until there is a phrase that is long enough
         elapsed_time = 0 # number of seconds of audio read
         while True:
@@ -517,6 +518,7 @@ class Recognizer(AudioSource):
 
             # DEBUG
             print "[Speech API DEBUG]: Audio Detected"
+
             # read audio input until the phrase ends
             pause_count, phrase_count = 0, 0
             while True:
@@ -526,6 +528,9 @@ class Recognizer(AudioSource):
                 if len(buffer) == 0: break # reached end of the stream
                 frames.append(buffer)
                 phrase_count += 1
+
+                # print "[Speech API DEBUG]: elapsed_time %d" % (elapsed_time)
+                # print "[Speech API DEBUG]: phrase_count %d" % (phrase_count)
 
                 # check if speaking has stopped for longer than the pause threshold on the audio input
                 energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal

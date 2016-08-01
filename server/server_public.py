@@ -6,13 +6,20 @@ from minfo import app_dir
 # import eventlet
 # eventlet.monkey_patch()
 
-# from server import PServer
-# pserve = PServer()
+from blogger import Blogger as bl
 
-from cvison.cam import My_Cam
-mc = My_cam()
+from server import PServer
+pserve = PServer()
 
-import os, json, thread, time
+import os, json, thread, time, sys
+from traceback import print_tb
+
+mc = None
+try:
+    from cvison.cam import My_Cam
+    mc = My_Cam()
+except ImportError:
+    bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
 from speech.speech import Speech
 from remote_ctr.remote_ctr import m_remote
@@ -121,13 +128,17 @@ def create_server():
 
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
     def start_cam():
-        mc.turn_on()
-        pass
+        try:
+            mc.turn_on()
+        except:
+            bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        mc.turn_off()
-        pass
+        try:
+            mc.turn_off()
+        except:
+            bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
 
     return (pserve.app, pserve.socketio)

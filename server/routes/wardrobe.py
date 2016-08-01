@@ -3,8 +3,14 @@ import decor
 from flask import Blueprint, redirect, request, url_for
 from cvison.store import clothes
 
-from cvison.cam import My_Cam
-mc = My_Cam()
+from blogger import Blogger as bl
+
+mc = None
+try:
+    from cvison.cam import My_Cam
+    mc = My_Cam()
+except ImportError:
+    bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
 import os, json
 
@@ -45,8 +51,13 @@ def wrd_add():
     #TODO: Camera take a picture and return path and dresscode
 
     print "[DEBUG wdobe]: Add request"
-    fl = mc.rec()
-    # clothes.add("casual", "0.jpg")
+
+    try:
+        fl = mc.rec()
+        thread.start_new_thread( mc.play_auto, () )
+        # clothes.add("casual", "0.jpg")
+    except:
+        bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
     return ""
 
