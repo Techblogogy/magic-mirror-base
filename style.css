@@ -227,7 +227,8 @@ body {
 
 .item_img{
     /*width: 200px;*/
-    width: 300px;
+    width: 250px;
+    margin-left: 16px;
     margin-top: 10px;
     margin-bottom: 10px;
     /*margin-left: auto;
@@ -256,10 +257,11 @@ body {
 .item_stl{
     background-color: rgba(255, 255, 255, 0.1);
     margin: 5px;
+    margin-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
     border: 5px solid black;
-    height: 590px;
+    height: 540px;
 }
 
 .item_stl h3 {margin-top: -5px;}
@@ -306,6 +308,9 @@ body {
        font-size: 40px;
 }
 #parent_popup h3{ font-size: 40px;}
+.del_overf{
+    overflow: hidden;
+}
 .popup_back{
     background-color: rgba(0, 0, 0, 0.9);
     width: 120%;
