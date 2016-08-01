@@ -9,6 +9,38 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     socket.emit("user_on_add");
     // http.post
 
+    // Microphone functions
+    $scope.mic_active = function(){
+        // document.getElementById('red').style.display = 'none';
+        // document.getElementById('green').style.display = 'block';
+    };
+    $scope.mic_is_listening = function(){
+        console.log("Microphone is listening");
+        setTimeout(function () {
+            document.getElementById('m_detc').style.display = 'none';
+        }, 2000);
+        setTimeout(function () {
+            document.getElementById('m_listen').style.display = 'block';
+        }, 3000);
+
+
+    };
+    $scope.audio_is_detected = function(){
+        console.log("Command was detected");
+        document.getElementById('m_listen').style.display = 'none';
+        document.getElementById('m_detc').style.display = 'block';
+    };
+
+    socket.forward('mic_is_listening', $scope);
+    $scope.$on("socket:mic_is_listening", function (event, data) {
+        $scope.mic_is_listening();
+    });
+    socket.forward('audio_detected', $scope);
+    $scope.$on("socket:audio_detected", function (event, data) {
+        $scope.audio_is_detected();
+    });
+
+
     socket.forward('m_camera', $scope);
     $scope.$on("socket:m_camera", function (event, data) {
       	console.log("hello camera works");
@@ -69,6 +101,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
 
     $scope.click = function(){
+        document.getElementById('item_preview').style.display = 'none';
         console.log("CLICK 2");
         console.log(document.getElementById('message').style.display);
         // document.getElementById('message').style.display = 'none';
@@ -96,6 +129,10 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             document.getElementById('timer').innerHTML = timer_html;
             console.log(timer_html);
         }, 3000);
+        setTimeout(function () {
+            document.getElementById('item_preview').style.display = 'block';
+        }, 10000);
+
 
     };
 

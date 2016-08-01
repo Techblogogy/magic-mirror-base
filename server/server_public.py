@@ -6,17 +6,17 @@ from minfo import app_dir
 # import eventlet
 # eventlet.monkey_patch()
 
-from server import PServer
-pserve = PServer()
+# from server import PServer
+# pserve = PServer()
 
 from cvison.cam import My_Cam
-mc = My_Cam()
+mc = My_cam()
 
 import os, json, thread, time
 
-#from speech.speech import Speech
-#from remote_ctr.remote_ctr import m_remote
-from cvison.play import PlayVid
+from speech.speech import Speech
+from remote_ctr.remote_ctr import m_remote
+# from cvison.play import PlayVid
 
 import decor
 
@@ -43,17 +43,17 @@ def create_server():
     pserve.app.register_blueprint(wrd_api)
 
     # Start voice recognition
-    #voice = Speech()
-    #voice.start()
+    voice = Speech()
+    voice.start()
 
     # Video playing
     pv = PlayVid()
 
     # Start Remote Control
-    #try:
-        #thread.start_new_thread( m_remote, (0,) )
-    #except:
-        #print "Error: unable to start thread"
+    # try:
+    #     thread.start_new_thread( m_remote, (0,) )
+    # except:
+    #     print "Error: unable to start thread"
 
     # Define application routes
     @pserve.app.route('/')

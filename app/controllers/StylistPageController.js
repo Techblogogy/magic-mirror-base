@@ -29,8 +29,13 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     };
     $scope.mic_is_listening = function(){
         console.log("Microphone is listening");
-        document.getElementById('m_detc').style.display = 'none';
-        document.getElementById('m_listen').style.display = 'block';
+        setTimeout(function () {
+            document.getElementById('m_detc').style.display = 'none';
+        }, 2000);
+        setTimeout(function () {
+            document.getElementById('m_listen').style.display = 'block';
+        }, 3000);
+
 
     };
     $scope.audio_is_detected = function(){
