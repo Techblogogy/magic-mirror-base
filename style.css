@@ -227,8 +227,8 @@ body {
 
 .item_img{
     /*width: 200px;*/
-    width: 250px;
-    margin-left: 16px;
+    width: 80%;
+    margin-left: 25px;
     margin-top: 10px;
     margin-bottom: 10px;
     /*margin-left: auto;
@@ -262,6 +262,7 @@ body {
     margin-right: auto;
     border: 5px solid black;
     height: 540px;
+    padding-bottom: 3px;
 }
 
 .item_stl h3 {margin-top: -5px;}
@@ -310,6 +311,7 @@ body {
 #parent_popup h3{ font-size: 40px;}
 .del_overf{
     overflow: hidden;
+    /*width: 95%;*/
 }
 .popup_back{
     background-color: rgba(0, 0, 0, 0.9);
@@ -388,14 +390,15 @@ body {
     font-size: 36px;
     width: 300px;
     position: fixed;
-    margin-top: -40px;
+    margin-top: -10px;
     margin-left: -140px;
     z-index: 5000;
+    display: block;
 }
 .microphone{
     margin-left: 49%;
     margin-right: auto;
-    margin-top: 30px;
+    margin-top: 10px;
     margin-bottom: 10px;
     z-index: 5000;
 }

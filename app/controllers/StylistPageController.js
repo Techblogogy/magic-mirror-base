@@ -31,6 +31,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         console.log("Microphone is listening");
         setTimeout(function () {
             document.getElementById('m_detc').style.display = 'none';
+            document.getElementById('microph_img').style.display = 'block';
         }, 2000);
         setTimeout(function () {
             document.getElementById('m_listen').style.display = 'block';
@@ -42,6 +43,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         console.log("Command was detected");
         document.getElementById('m_listen').style.display = 'none';
         document.getElementById('m_detc').style.display = 'block';
+        document.getElementById('microph_img').style.display = 'none';
     };
 
 
