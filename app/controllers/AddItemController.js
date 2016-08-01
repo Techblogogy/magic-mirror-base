@@ -102,6 +102,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.video = false;
     $scope.click = function(){
         if (!$scope.video){
+            $scope.video = true;
             document.getElementById('item_preview').style.display = 'none';
             console.log("CLICK 2");
             console.log(document.getElementById('message').style.display);
