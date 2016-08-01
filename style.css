@@ -354,6 +354,7 @@ body {
     margin-left: auto;
     margin-right: auto;
     display: none;
+    z-index: 200;
 }
 .item_preview img{
     height: 376px;
