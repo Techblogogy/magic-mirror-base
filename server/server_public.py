@@ -117,6 +117,10 @@ def create_server():
         print "[TB DUBUG] Playing video %s" % (dat)
         # pv.play_auto(dat)
         try:
+            pv.x = 92
+            pv.y = 80
+            pv.w = 843
+            pv.h = 1350
             thread.start_new_thread( pv.play_auto, (dat,) )
         except:
             print "Error: unable to start video thread"
