@@ -57,10 +57,10 @@ def create_server():
     pv = PlayVid()
 
     # Start Remote Control
-    try:
-        thread.start_new_thread( m_remote, (0,) )
-    except:
-        print "Error: unable to start thread"
+    # try:
+    #     thread.start_new_thread( m_remote, (0,) )
+    # except:
+    #     print "Error: unable to start thread"
 
     # Define application routes
     @pserve.app.route('/')

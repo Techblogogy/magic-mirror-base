@@ -376,10 +376,19 @@ body {
 #m_detc{
     display: none;
 }
+.mic_cmd{
+    text-align: center;
+    font-size: 36px;
+    width: 300px;
+    position: fixed;
+    margin-top: -40px;
+    margin-left: -140px;
+}
 .microphone{
     margin-left: 49%;
     margin-right: auto;
-    margin-top: 10px;
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 .microph_img{
     margin-top: -5px;
