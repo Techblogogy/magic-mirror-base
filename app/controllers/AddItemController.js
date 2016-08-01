@@ -112,8 +112,10 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             document.getElementById('message').style.display = 'none';
         }
         // socket.emit("start_loop");
+        document.getElementById('timer').style.display = "block";
         timer_html = "";
         $scope.add_request();
+        document.getElementById('add_h2').style.display = 'none';
         setTimeout(function () {
             timer_html = "2";
             document.getElementById('timer').innerHTML = timer_html;
@@ -130,8 +132,13 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             console.log(timer_html);
         }, 3000);
         setTimeout(function () {
+            document.getElementById('timer').style.display = "none";
+        }, 4000);
+        setTimeout(function () {
             document.getElementById('item_preview').style.display = 'block';
             socket.emit("user_on_leave");
+
+
         }, 10000);
 
 
