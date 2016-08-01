@@ -131,7 +131,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         }, 3000);
         setTimeout(function () {
             document.getElementById('item_preview').style.display = 'block';
-            socketio.emit("user_on_leave");
+            socket.emit("user_on_leave");
         }, 10000);
 
 
