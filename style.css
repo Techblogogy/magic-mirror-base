@@ -227,7 +227,7 @@ body {
 
 .item_img{
     /*width: 200px;*/
-    width: 90%;
+    width: 300px;
     margin-top: 10px;
     margin-bottom: 10px;
     /*margin-left: auto;
@@ -334,6 +334,7 @@ body {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+    z-index: 10000;
 }
 /*#red{
     background: rgb(255, 0, 0);
@@ -384,15 +385,18 @@ body {
     position: fixed;
     margin-top: -40px;
     margin-left: -140px;
+    z-index: 5000;
 }
 .microphone{
     margin-left: 49%;
     margin-right: auto;
     margin-top: 30px;
     margin-bottom: 10px;
+    z-index: 5000;
 }
 .microph_img{
     margin-top: -5px;
+    z-index: 5000;
 }
 
 /*MICROPHONE ANIMATION*/
