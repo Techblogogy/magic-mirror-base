@@ -8,9 +8,11 @@ from blogger import Blogger as bl
 mc = None
 try:
     from cvison.cam import My_Cam
-    mc = My_cam()
+    mc = My_Cam()
 except ImportError:
     bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+
+from cvison.play import PlayVid
 
 import os, json
 
@@ -54,7 +56,7 @@ def wrd_add():
 
     try:
         fl = mc.rec()
-        thread.start_new_thread( mc.play_auto, () )
+        thread.start_new_thread( pv.play_auto, (dat,) )
         # clothes.add("casual", "0.jpg")
     except:
         bl.log_tb("MyCam failed. Are you on Raspberry PI?")

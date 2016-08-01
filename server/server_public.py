@@ -17,11 +17,11 @@ from traceback import print_tb
 mc = None
 try:
     from cvison.cam import My_Cam
-    mc = My_cam()
+    mc = My_Cam()
 except ImportError:
     bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
-from speech.speech import Speech
+# from speech.speech import Speech
 from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
@@ -50,7 +50,11 @@ def create_server():
     pserve.app.register_blueprint(wrd_api)
 
     # Start voice recognition
+<<<<<<< HEAD
     voice = Speech()
+=======
+    # voice = Speech()
+>>>>>>> 32f86bc15299d577174c69fb6cc78f0cdba246cc
     # voice.start()
 
     # Video playing
@@ -135,10 +139,10 @@ def create_server():
 
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        try:
-            mc.turn_off()
-        except:
-            bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+        # try:
+        mc.turn_off()
+        # except:
+            # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
 
     return (pserve.app, pserve.socketio)
