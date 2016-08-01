@@ -59,8 +59,8 @@ def wrd_add():
 
     try:
         fl = mc.rec()
-        pv.x = 434
-        pv.y = 62
+        pv.x = 420
+        pv.y = 105
         pv.w = 235
         pv.h = 376
 
