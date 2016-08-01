@@ -58,28 +58,46 @@ class clothes:
     # Add Tags to items
     @classmethod
     def add_tags(self, c_id, tags):
+        # db.qry("DELETE FROM clothes_tags WHERE c_id=?", (c_id,))
+        # return "[]"
+
         count = db.qry("""
             SELECT COUNT(*) as cnt
             FROM clothes_tags
             WHERE c_id=?
-        """, (c_id,))
+        """, (c_id,))[0]["cnt"]
 
-        if count[0]["cnt"] > TAG_LIMIT:
+        print "[TB count]: %d" % (count)
+
+        if count > TAG_LIMIT:
             return "[]"
 
         a_tags = tags.strip().split(",")
         a_list = []
 
-        for a_tag in a_tags:
-            a_list.append( (c_id, a_tag, a_tag) )
 
-        db.qry_many("""
-            INSERT INTO clothes_tags(c_id, tag)
-            SELECT ?,?
-            WHERE NOT EXISTS(SELECT id FROM clothes_tags WHERE tag=?)
-        """, a_list)
 
-        return db.qry("SELECT * FROM clothes_tags")
+        print a_list
+
+        if count == 0:
+            for a_tag in a_tags:
+                a_list.append( (c_id, a_tag,) )
+
+            db.qry_many("""
+                INSERT INTO clothes_tags(c_id, tag)
+                VALUES (?,?)
+            """, a_list)
+        else:
+            for a_tag in a_tags:
+                a_list.append( (c_id, a_tag, a_tag) )
+
+            db.qry_many("""
+                INSERT INTO clothes_tags(c_id, tag)
+                SELECT ?,?
+                WHERE NOT EXISTS(SELECT tag FROM clothes_tags WHERE tag=?)
+            """, a_list)
+
+        return db.qry("SELECT * FROM clothes_tags WHERE c_id=?", (c_id,))
 
     # TODO: Remove tags from items
     @classmethod

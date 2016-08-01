@@ -334,7 +334,6 @@ body {
 }
 
 .circle {
-    margin-bottom: 5px;
     margin-left: 11px;
 	width: 10px;
 	height: 10px;
@@ -352,6 +351,13 @@ body {
     display: none;
 
 }*/
+.add_button{
+    border: 5px solid black;
+    height: 531px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+}
 .add_item{
     width: auto;
     font-size: 52px;
@@ -381,6 +387,7 @@ body {
 }
 #m_listen{
     display: none;
+    position: fixed;
 }
 #m_detc{
     display: none;
@@ -400,27 +407,27 @@ body {
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 100%;
+    height: 35px;
     z-index: 5000;
 }
 .microph_img{
-    margin-top: -5px;
     z-index: 5000;
+    position: absolute;
+    padding-top: 4px;
 }
 
 /*MICROPHONE ANIMATION*/
 .cssload-container {
-	width: 80%;
-	height: 30px;
 	text-align: center;
-    margin-left:-7px;
+    margin-left:-15px;
 }
 
 .cssload-double-torus {
-	width: 25px;
-	height: 25px;
+	width: 40px;
+	height: 40px;
 	border: 3px double;
 	border-radius: 50%;
-	border-color: transparent rgb(255,255,255) rgb(255,255,255);
 	animation: cssload-spin 690ms infinite linear;
 		-o-animation: cssload-spin 690ms infinite linear;
 		-ms-animation: cssload-spin 690ms infinite linear;

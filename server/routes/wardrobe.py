@@ -73,6 +73,7 @@ def wrd_add_test():
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_add_tags(c_id):
     tags = json.loads(request.data)
+    print tags
     return json.dumps( clothes.add_tags(c_id, tags['tags']), indent=JSON_DENT)
 
 # Mark clothes as worn

@@ -51,10 +51,9 @@ class Speech:
                 # print cmd[2]
                 if cmd[0] == "add_tags":
                     pserve.send(cmd[0], cmd[2])
-                    pserve.send("audio_detected","ok")
                 else:
                     pserve.send(cmd[0], cmd[1])
-                    pserve.send("audio_detected","ok")
+                pserve.send("audio_detected",cmd[0])
                 # pserve.send(cmd[0], cmd[2])
             print("Bing Speech: "+text)
         except sr.UnknownValueError:
