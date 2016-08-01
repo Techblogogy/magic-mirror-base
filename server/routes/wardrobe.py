@@ -59,6 +59,11 @@ def wrd_add():
 
     try:
         fl = mc.rec()
+        pv.x = 0
+        pv.y = 0
+        pv.w = 800
+        pv.h = 600
+        
         thread.start_new_thread( pv.play_auto, (fl[0]["id"],) )
         #clothes.add("casual", fl["thum]".jpg")
     except:
