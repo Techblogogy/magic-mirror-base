@@ -99,47 +99,55 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         $http.post('http://localhost:5000/wardrobe/add')
         };
 
-
+    $scope.video = false;
     $scope.click = function(){
-        document.getElementById('item_preview').style.display = 'none';
-        console.log("CLICK 2");
-        console.log(document.getElementById('message').style.display);
-        // document.getElementById('message').style.display = 'none';
-        if (document.getElementById('message').style.display == '' || document.getElementById('message').style.display == 'none'){
-            document.getElementById('message').style.display = 'block';
-        }
-        else if (document.getElementById('message').style.display == 'block'){
-            document.getElementById('message').style.display = 'none';
-        }
-        // socket.emit("start_loop");
-        document.getElementById('timer').style.display = "block";
-        timer_html = "";
-        $scope.add_request();
-        document.getElementById('add_h2').style.display = 'none';
-        setTimeout(function () {
-            timer_html = "2";
-            document.getElementById('timer').innerHTML = timer_html;
-            console.log(timer_html);
-        }, 1000);
-        setTimeout(function () {
-            timer_html = "1";
-            document.getElementById('timer').innerHTML = timer_html;
-            console.log(timer_html);
-        }, 2000);
-        setTimeout(function () {
-            timer_html = "Capturing!";
-            document.getElementById('timer').innerHTML = timer_html;
-            console.log(timer_html);
-        }, 3000);
-        setTimeout(function () {
-            document.getElementById('timer').style.display = "none";
-        }, 4000);
-        setTimeout(function () {
-            document.getElementById('item_preview').style.display = 'block';
-            socket.emit("user_on_leave");
+        if (!$scope.video){
+            document.getElementById('item_preview').style.display = 'none';
+            console.log("CLICK 2");
+            console.log(document.getElementById('message').style.display);
+            // document.getElementById('message').style.display = 'none';
+            if (document.getElementById('message').style.display == '' || document.getElementById('message').style.display == 'none'){
+                document.getElementById('message').style.display = 'block';
+            }
+            else if (document.getElementById('message').style.display == 'block'){
+                document.getElementById('message').style.display = 'none';
+            }
+            // socket.emit("start_loop");
+            document.getElementById('timer').style.display = "block";
+            timer_html = "";
+            $scope.add_request();
+            document.getElementById('add_h2').style.display = 'none';
+            setTimeout(function () {
+                timer_html = "2";
+                document.getElementById('timer').innerHTML = timer_html;
+                console.log(timer_html);
+            }, 1000);
+            setTimeout(function () {
+                timer_html = "1";
+                document.getElementById('timer').innerHTML = timer_html;
+                console.log(timer_html);
+            }, 2000);
+            setTimeout(function () {
+                timer_html = "Capturing!";
+                document.getElementById('timer').innerHTML = timer_html;
+                console.log(timer_html);
+            }, 3000);
+            setTimeout(function () {
+                document.getElementById('timer').style.display = "none";
+            }, 4000);
+            setTimeout(function () {
+                document.getElementById('item_preview').style.display = 'block';
+                socket.emit("user_on_video");
 
 
-        }, 10000);
+            }, 10000);
+        }
+        else {
+            socket.emit("user_on_quit");
+            document.getElementById('item_preview').style.display = 'none';
+            $scope.switchView('stylist','right_swipe')
+
+        }
 
 
     };
