@@ -5,7 +5,6 @@ from cvison.store import clothes
 
 from blogger import Blogger as bl
 
-import thread
 
 mc = None
 try:
@@ -14,8 +13,6 @@ try:
 except ImportError:
     bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
-from cvison.play import PlayVid
-pv = PlayVid()
 
 import os, json
 
@@ -56,18 +53,7 @@ def wrd_add():
     #TODO: Camera take a picture and return path and dresscode
 
     print "[DEBUG wdobe]: Add request"
-
-    try:
-        fl = mc.rec()
-        pv.x = 420
-        pv.y = 105
-        pv.w = 235
-        pv.h = 376
-
-        thread.start_new_thread( pv.play_auto, (fl[0]["id"],) )
-        #clothes.add("casual", fl["thum]".jpg")
-    except:
-        bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+    fl = mc.rec()
 
     return ""
 
