@@ -144,6 +144,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             }, 10000);
         }
         else {
+            $scope.video = false;
             socket.emit("user_on_quit");
             document.getElementById('item_preview').style.display = 'none';
             $scope.switchView('stylist','right_swipe');
