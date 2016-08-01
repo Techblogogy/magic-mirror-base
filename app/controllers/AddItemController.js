@@ -145,6 +145,8 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         else {
             socket.emit("user_on_quit");
             document.getElementById('item_preview').style.display = 'none';
+            $scope.switchView('stylist','right_swipe')
+
         }
 
 
