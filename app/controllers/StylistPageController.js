@@ -342,15 +342,18 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     //     }, function () {console.log("EROR")});
     // }, 4000);
 
-    socket.forward('search', $scope);
-    $scope.$on("socket:search", function (event, data) {
-        console.log(data);
+    // socket.forward('search', $scope);
+    // $scope.$on("socket:search", function (event, data) {
+    // console.log(data);
+    setTimeout(function () {
         p_num = $scope.page_num;
         q = "";
-        q = data;
-        console.log(q);
-        $http.get('http://localhost:5000/wardrobe/get/smart?q='+q+'&items='+8+'&page='+p_num)
+        q = "formal"
+        // q = data;
+        // console.log(q);
+        $http.get('http://localhost:5000/wardrobe/get/smart?q='+q+'&items='+3+'&page='+p_num)
         .success(function(data){
+            console.log(data);
             if (data.length === 0) {
                 return 0;
             }
@@ -363,18 +366,15 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
                     $scope.items[i].vid_id = $scope.items[i].id;
                     $scope.items[i].number = i+1;
                     if (i==0) {
-                        angular.element($scope.items[i]).addClass("curr");
+                        // angular.element($scope.items[i]).addClass("curr");
                         console.log('7777777777777777777777');
                     }
                 };
-                angular.element(document.querySelectorAll("current")).removeClass("current");
-                // angular.element(document.querySelectorAll("curr")).addClass("current");
-                // angular.element(document.querySelectorAll("current")).removeClass("curr");
             }, 1000);
             // $scope.items.push({"element": 1});
             // var counter = 0;
             }, function () {console.log("EROR")});
-    });
+    }, 5000);
 
     socket.forward('show_all', $scope);
     $scope.$on("socket:show_all", function (event, data) {
