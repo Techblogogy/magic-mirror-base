@@ -102,6 +102,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.video = false;
     $scope.click = function(){
         if (!$scope.video){
+            $scope.video = true;
             document.getElementById('item_preview').style.display = 'none';
             console.log("CLICK 2");
             console.log(document.getElementById('message').style.display);
@@ -143,9 +144,10 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             }, 10000);
         }
         else {
+            $scope.video = false;
             socket.emit("user_on_quit");
             document.getElementById('item_preview').style.display = 'none';
-            $scope.switchView('stylist','right_swipe')
+            $scope.switchView('stylist','right_swipe');
 
         }
 

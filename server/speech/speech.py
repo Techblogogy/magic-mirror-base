@@ -51,6 +51,8 @@ class Speech:
                 # print cmd[2]
                 if cmd[0] == "add_tags":
                     pserve.send(cmd[0], cmd[2])
+                elif cmd[0] == "search":
+                    pserve.send(cmd[0], cmd[2])
                 else:
                     pserve.send(cmd[0], cmd[1])
                 pserve.send("audio_detected",cmd[0])
