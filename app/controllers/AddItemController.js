@@ -167,6 +167,8 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         }
         else if ($scope.click_counter == 1 ){
             if (angular.element(document.querySelectorAll("#b_save")).hasClass("current")){
+                document.getElementById('save_tags').style.display = 'none';
+                document.getElementById('timer').innerHTML = "Click again to finish adding and go to wardrobe";
                 $scope.user_clicked_save = true;
                 console.log('TRUUUUUUU');
                 item_id = $scope.super_id;
@@ -186,6 +188,11 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 }, function () {console.log("EROR")}
             );
             }
+            else {
+                document.getElementById('save_tags').style.display = 'none';
+                document.getElementById('timer').innerHTML = "Click again to finish adding and go to wardrobe";
+            }
+
             $scope.click_counter += 1;
         }
         else{
@@ -217,11 +224,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             document.getElementById('save_tags').style.display = "block";
             $scope.super_id = item_id;
             $scope.super_tags =tags_arr;
-
-            if ($scope.user_clicked_save) {
-
-
-            }
+            document.getElementById('save_tags').style.top = "100px";
         }
         // socket.forward('add_tags', $scope);
         // $scope.$on("socket:add_tags", function (event, data) {

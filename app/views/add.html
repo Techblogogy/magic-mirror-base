@@ -20,17 +20,20 @@
 
     <button type="button" name="click" class="selector" ng-click="click()">click</button>
 
-    <div class="col-xs-12" id="save_tags">
-        <p>To save tags click or send voice command</p>
-        <div class="col-xs-2 current" id="b_save">
-            <p>
-                Save
-            </p>
-        </div>
-        <div class="col-xs-2" id="b_dont_save">
-            <p>
-                Don't save
-            </p>
+    <div id="save_tags">
+        <div class="popup_back">
+            <p>To save tags click or send voice command</p>
+            <div class="col-xs-2 current" id="b_save">
+                <p>
+                    Save
+                </p>
+            </div>
+            <div class="col-xs-2" id="b_dont_save">
+                <p>
+                    No tags
+                </p>
+            </div>
+
         </div>
     </div>
 
@@ -53,8 +56,5 @@
         <p class="t_wears">Wears: {{ cam_data.t_wears}}</p>
 
     </div>
+    <p ng-click="switchView('stylist','right_swipe')">Back Again (Test)</p>
 </body>
-
-
-
-<p ng-click="switchView('stylist','right_swipe')">Back Again (Test)</p>
