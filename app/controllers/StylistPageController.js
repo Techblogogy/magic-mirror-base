@@ -8,6 +8,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     // $scope.anim = "";
     // $scope.bodge_time = 1; //in milliseconds
     $scope.curr_cmd = "";
+    $scope.user_search = false;
 
     $scope.item_per_page = 8;
 
@@ -148,14 +149,18 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         });
     };
     $scope.get_page_items(0);
-
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
-        item_id = $scope.get_curitem_id();
-        console.log("next "+item_id);
-        console.log("123");
-        $scope.page_num +=1
-        $scope.get_page_items($scope.page_num);
+        if (user_search) {
+            $scope.page_num +=1;
+            $scope.get_search_results($scope.page_num);
+        }
+        else {
+            item_id = $scope.get_curitem_id();
+
+            $scope.page_num +=1
+            $scope.get_page_items($scope.page_num);
+        }
 
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
@@ -172,9 +177,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.previous_page = function(){
         item_id = $scope.get_curitem_id();
-        $scope.page_num -=1;
-        $scope.get_page_items($scope.page_num);
-        console.log("pr"+item_id);
+        if (user_search) {
+            $scope.page_num -=1;
+            $scope.get_search_results($scope.page_num);
+        }
+        else {
+            item_id = $scope.get_curitem_id();
+            $scope.page_num -=1
+            $scope.get_page_items($scope.page_num);
+        }
+
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
     };
@@ -345,13 +357,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     // socket.forward('search', $scope);
     // $scope.$on("socket:search", function (event, data) {
     // console.log(data);
-    setTimeout(function () {
-        p_num = $scope.page_num;
-        q = "";
-        q = "formal"
-        // q = data;
-        // console.log(q);
-        $http.get('http://localhost:5000/wardrobe/get/smart?q='+q+'&items='+3+'&page='+p_num)
+    $scope.get_search_results = function(p_num){
+        $http.get('http://localhost:5000/wardrobe/get/smart?q='+q+'&items='+10+'&page='+p_num)
         .success(function(data){
             console.log(data);
             if (data.length === 0) {
@@ -365,15 +372,19 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
                 for (var i = 0; i < $scope.items.length; i++) {
                     $scope.items[i].vid_id = $scope.items[i].id;
                     $scope.items[i].number = i+1;
-                    if (i==0) {
-                        // angular.element($scope.items[i]).addClass("curr");
-                        console.log('7777777777777777777777');
-                    }
                 };
             }, 1000);
             // $scope.items.push({"element": 1});
             // var counter = 0;
-            }, function () {console.log("EROR")});
+        }, function () {console.log("EROR")});
+    };
+    setTimeout(function () {
+        p_num = $scope.page_num;
+        q = "";
+        q = "clubwear"
+        $scope.user_search = true;
+        // q = data;
+        // console.log(q);
     }, 5000);
 
     socket.forward('show_all', $scope);
