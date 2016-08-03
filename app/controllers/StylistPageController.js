@@ -48,6 +48,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         document.getElementById('microph_img').style.display = 'none';
     };
 
+    $scope.switch_item = function (id) {
+
+       item_id = $scope.get_curitem_id();
+       angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+
+       item_id = id;
+
+       angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+       console.log("[TB DEBUG Switched To]: "+item_id);
+   }
 
     $scope.switch_right = function(){
         // $scope.items
@@ -163,7 +173,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         }
 
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
-        item_id += 1 ;
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
         // setTimeout(function () {
         //     angular.element(document.querySelectorAll("#item-"+x)).removeClass("current");
@@ -188,7 +197,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             $scope.get_page_items($scope.page_num);
         }
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
-        item_id += 1 ;
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
     };
     $scope.item_worn = function(){
@@ -197,9 +205,14 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         console.log($scope.items[item_id].t_wears);
         $scope.items[item_id].t_wears += 1;
         console.log($scope.items[item_id].t_wears);
-        $http.post('http://localhost:5000/wardrobe/wear/'+id_for_db);
+        $http.post('http://localhost:5000/wardrobe/wear/'+id_for_db)
+         .then(function () {
+             $scope.get_page_items($scope.page_num);
+        }, function () {
+             console.log("ADD ERROR!");
+         });
         // location.reload();
-        $scope.get_page_items($scope.page_num);
+        // $scope.get_page_items($scope.page_num);
     };
 
     // function getOffset(elem) {
@@ -211,60 +224,72 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     // };
     $scope.item_is_open = false;
     $scope.click = function(itm_num){
-        voice = false;
-        // (document.getElementById('parent_popup').style.display === 'none')
-        // getOffset(document.getElementById('popup'));
-        // getOffsetRect()
-        // console.log( document.querySelectorAll('img_c').offset() );
+       voice = false;
+       // (document.getElementById('parent_popup').style.display === 'none')
+       // getOffset(document.getElementById('popup'));
+       // getOffsetRect()
+       // console.log( document.querySelectorAll('img_c').offset() );
 
-        // document.querySelectorAll(".current")[0].style.margin = '100px';
-        // big_item = document.querySelectorAll(".current")[0].innerHTML;
-        if (!$scope.item_is_open) {
-            if (itm_num%9 ==0 ){
-                // $location.path("/add")
-                $scope.switchView('add','left_swipe')
-                // socket.emit("user_on_add");
-                return 0;
-            }
-            big_item = "";
-            if (voice) {
-                console.log(itm_num);
-                actual_id = itm_num%9;
-                if (actual_id == 0) {
-                    actual_id = 9
-                }
-                console.log(actual_id);
-                big_item = document.getElementById("item-"+(actual_id)).innerHTML;
-            } else {
-                // console.log("READ COM");
+       // document.querySelectorAll(".current")[0].style.margin = '100px';
+       // big_item = document.querySelectorAll(".current")[0].innerHTML;
+       if (!$scope.item_is_open) {
+           // if (itm_num%9 == 0 ){
+           //     // $location.path("/add")
+           //     $scope.switchView('add','left_swipe')
+           //     // socket.emit("user_on_add");
+           //     return 0;
+           // }
 
-                big_item = document.getElementById("item-"+(itm_num)).innerHTML;
-            }
+           // big_item = "";
+           // if (voice) {
+           //     // console.log(itm_num);
+           //     actual_id = itm_num%9;
+           //     if (actual_id == 0) {
+           //         actual_id = 9
+           //     }
+           //     // console.log(actual_id);
+           //     big_item = document.getElementById("item-"+(actual_id)).innerHTML;
+           // } else {
+           //     // console.log("READ COM");
+           //
+           //     big_item = document.getElementById("item-"+(itm_num)).innerHTML;
+           // }
 
 
-            document.getElementById('parent_popup').innerHTML = big_item;
-            console.log(big_item);
-            document.getElementById('parent_popup').style.display = 'inline-block';
+           $scope.switch_item(itm_num);
+           it_id = $scope.get_curitem_id();
+           vid_id = $scope.get_curitem_vid_id();
 
-            vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id');
-            console.log(vid_id);
+           if (it_id == $scope.items.length+1) {
+               $scope.switchView('add','left_swipe')
+               return;
+           }
 
-            socket.emit("start_video", vid_id);
-            $scope.item_is_open = true;
+           big_item = document.getElementById("item-"+(it_id)).innerHTML;
 
-            setTimeout(function () {
-                $scope.click(null);
-            }, 30000)
+           document.getElementById('parent_popup').innerHTML = big_item;
+           console.log(big_item);
+           document.getElementById('parent_popup').style.display = 'inline-block';
 
-        }
-        else {
-            if (document.getElementById('parent_popup').style.display === 'inline-block'){
-                document.getElementById('parent_popup').style.display = 'none';
-                socket.emit("closed");
-            }
-            $scope.item_is_open = false;
-        }
-    };
+           // vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id');
+           console.log(vid_id);
+
+           socket.emit("start_video", vid_id);
+           $scope.item_is_open = true;
+
+           // DEBUG timeout
+           setTimeout(function () {
+               $scope.click(null);
+           }, 30000)
+
+       } else {
+           if (document.getElementById('parent_popup').style.display === 'inline-block'){
+               document.getElementById('parent_popup').style.display = 'none';
+               socket.emit("closed");
+           }
+           $scope.item_is_open = false;
+       }
+   };
 
     $scope.add_item = function() {
 
@@ -329,32 +354,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     });
 
-    // socket.forward('add_tags', $scope);
-    // $scope.$on("socket:add_tags", function (event, data) {
-
-    // setTimeout(function () {
-    //     data = ["hell"];
-    //     console.log(data);
-    //     tags_arr = "";
-    //     for (var i = 0; i < data.length; i++) {
-    //         if (i === data.length - 1) {
-    //             tags_arr += data[i];
-    //         }
-    //         else{tags_arr += data[i]+","}
-    //     }
-    //     item_id = $scope.get_curitem_vid_id();
-    //     console.log(item_id);
-    //     console.log(tags_arr);
-    //     $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr})
-    //     .then(function (dat) {
-    //         console.log(dat);
-    //         setTimeout(function () {
-    //             $scope.get_page_items($scope.page_num);
-    //             $scope.$apply();
-    //         }, 1000);
-    //     }, function () {console.log("EROR")});
-    // }, 4000);
-
     // socket.forward('search', $scope);
     // $scope.$on("socket:search", function (event, data) {
     // console.log(data);
@@ -377,15 +376,15 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             // var counter = 0;
         }, function () {console.log("EROR")});
     };
-    setTimeout(function () {
-        p_num = $scope.page_num;
-        q = "";
-        q = "clubwear"
-        $scope.user_search = true;
-        $scope.get_search_results(p_num);
-        // q = data;
-        // console.log(q);
-    }, 5000);
+    // setTimeout(function () {
+    //     p_num = $scope.page_num;
+    //     q = "";
+    //     q = "clubwear"
+    //     $scope.user_search = true;
+    //     $scope.get_search_results(p_num);
+    //     // q = data;
+    //     // console.log(q);
+    // }, 5000);
 
     socket.forward('show_all', $scope);
     $scope.$on("socket:show_all", function (event, data) {

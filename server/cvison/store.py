@@ -201,6 +201,22 @@ class clothes:
             (lim, ofs*lim)
         )
 
+    # Get item by id
+    @classmethod
+    def get_item(self, id):
+        return db.qry("""
+            SELECT
+                id, thumbnail, dresscode, t_wears,
+                    (SELECT group_concat(tag, ', ') as tags
+                    FROM clothes_tags
+                    WHERE clothes_tags.c_id = clothes.id
+                    GROUP BY c_id) as tags
+            FROM clothes
+            WHERE deleted=0 AND id=?
+        """,
+            (id,)
+        )
+
     # Mark item as worn
     @classmethod
     def worn(self, id):

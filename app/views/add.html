@@ -20,6 +20,19 @@
 
     <button type="button" name="click" class="selector" ng-click="click()">click</button>
 
+    <div class="col-xs-12" id="save_tags">
+        <p>To save tags click or send voice command</p>
+        <div class="col-xs-2 current" id="b_save">
+            <p>
+                Save
+            </p>
+        </div>
+        <div class="col-xs-2" id="b_dont_save">
+            <p>
+                Don't save
+            </p>
+        </div>
+    </div>
 
     <div id="message">
         <div class="popup_back">
@@ -27,16 +40,16 @@
                 <!-- <p>
                     something
                 </p> -->
-                 <h1 id="timer">2</h1>
+                 <h1 id="timer">2</h1><br>
+
             </div>
         </div>
     </div>
     <h2 class="add_h2" id="add_h2">To start video click or send voice command</h2>
-
     <div class="col-xs-12 item_preview" id="item_preview">
         <img class="item_img" ng-src="http://localhost:5000/clothes/{{cam_data.thumbnail}}" id="img_c" />
         <p class="dresscode">Dresscode: {{ cam_data.dresscode }}</p>
-        <p class="tags">Tags: First {{cam_data.tags }}</p>
+        <p class="tags">Tags: {{cam_data.tags }}</p>
         <p class="t_wears">Wears: {{ cam_data.t_wears}}</p>
 
     </div>
