@@ -208,6 +208,26 @@ body {
     width: 400px;
     display: none;
 }
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+::-webkit-scrollbar:horizontal {
+    display: none;
+}
+::-webkit-scrollbar-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+::-webkit-scrollbar-corner {
+    background-color: rgba(0,0,0,0);
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: rgba(0,0,0,0.2);
+}
+
 /*
 #g_map {
     width: 100%;
@@ -215,7 +235,14 @@ body {
 }*/
 /*-----------------------------*/
 /*Stylist start*/
-
+.small_clock{
+    font-size: 40px;
+    padding-top: 15px;
+    font-weight: 700;
+}
+#stylist{
+    overflow: hidden;
+}
 #stylist h1{
     text-align: center;
     margin: 20px;
@@ -298,6 +325,8 @@ body {
     -webkit-animation: moveFromLeft .9s ease both;
 	animation: moveFromLeft .9s ease both;
 
+    height: 100%;
+
     background-color: rgba(0, 0, 0, 0.9);
        /*width: 95%;*/
        position: fixed;
@@ -321,10 +350,8 @@ body {
 #popup {
   /*background-color: rgba(255, 255, 255, 0.5);*/
   background-color: rgb(0, 0, 0);
-  position: fixed;
   /*color: rgb(0, 0, 0);*/
   color: rgb(255, 255, 255);
-  width: 80%;
 
   font-size: 60px;
   margin-left: auto;
@@ -350,6 +377,10 @@ body {
     display: none;
 
 }*/
+#auth_message{
+    display: none;
+    text-align: center;
+}
 .add_button{
     border: 5px solid black;
     height: 531px;
@@ -362,6 +393,7 @@ body {
     font-size: 52px;
 }
 .item_preview{
+    margin-top: 300px;
     font-size: 48px;
     text-align: center;
     margin-left: auto;
@@ -379,23 +411,29 @@ body {
 }
 #timer{
     font-size: 56px;
-    padding-right: 250px;
-    padding-left: 30px;
     text-align: center;
 }
 #save_tags{
-    margin-top: 100px;
+    top: 350px;
     font-size: 48px;
     text-align: center;
+    display: none;
+    z-index: 10;
 }
 
+.big_big_item{
+    width: 100%;
+    padding-bottom: 200px;
+}
 #b_dont_save{
     width: 300px;
     margin: 20px;
+    font-size: 40px;
 }
 #b_save{
     width: 300px;
     margin: 20px;
+    font-size: 40px;
     margin-left: 180px;
 }
 
@@ -409,6 +447,10 @@ body {
 #m_detc{
     display: none;
 }
+.w_message{
+    display: none;
+    text-align: center;
+}
 .mic_cmd{
     text-align: center;
     font-size: 36px;
@@ -420,18 +462,17 @@ body {
     display: block;
 }
 .microphone{
-    margin-left: 49%;
+    margin-left: 90%;
     margin-right: auto;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 10px;
-    width: 100%;
     height: 35px;
-    z-index: 5000;
+    z-index: 50;
 }
 .microph_img{
-    z-index: 5000;
+    z-index: 51;
+    padding-top: 5px;
     position: absolute;
-    padding-top: 4px;
 }
 
 /*MICROPHONE ANIMATION*/

@@ -20,7 +20,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     };
 
     $scope.get_curitem_vid_id = function(){
-        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id') );
     };
 
 
@@ -272,7 +272,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
            document.getElementById('parent_popup').style.display = 'inline-block';
 
            // vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id');
-           console.log(vid_id);
+           console.log("[VIDEO DEBUG] "+vid_id);
 
            socket.emit("start_video", vid_id);
            $scope.item_is_open = true;
@@ -350,7 +350,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     socket.forward('close_item', $scope);
     $scope.$on("socket:close_item", function (event, data) {
-        $scope.close_item();
+        $scope.click(null);
 
     });
 
@@ -416,6 +416,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.$on("socket:item_worn", function (event, data) {
         $scope.item_worn();
         console.log('WORN');
+    });
+
+    socket.forward('add_page', $scope);
+    $scope.$on("socket:add_page", function (event, data) {
+        $scope.switchView('add','left_swipe');
     });
 
 

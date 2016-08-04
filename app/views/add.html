@@ -1,13 +1,20 @@
-<div class="microphone" id="microphone">
-    <div class="circle" id="m_listen">
-        <div class="cssload-container">
-            <div class="cssload-double-torus"></div>
+<div ng-controller="ClockCtr" class="row">
+    <div class="col-xs-6">
+        <p class="small_clock">{{ time | date:'HH:mm'}}</p>
+    </div>
+    <div class="col-xs-6">
+        <div class="microphone" id="microphone">
+            <div class="circle" id="m_listen">
+                <div class="cssload-container">
+                    <div class="cssload-double-torus"></div>
+                </div>
+            </div>
+            <div class="circle" id="m_detc">
+                <p class="mic_cmd">{{curr_cmd}}</p>
+            </div>
+            <img  class="microph_img" id="microph_img" src="res/microphone.png" alt="" />
         </div>
     </div>
-    <div class="circle" id="m_detc">
-        <p class="mic_cmd">{{curr_cmd}}</p>
-    </div>
-    <img  class="microph_img" src="res/microphone.png" alt="" />
 </div>
 <body class="add_item" id="add_item">
     <!-- <h1>Welcome to your wardowbe</h1> -->
@@ -20,17 +27,20 @@
 
     <button type="button" name="click" class="selector" ng-click="click()">click</button>
 
-    <div class="col-xs-12" id="save_tags">
-        <p>To save tags click or send voice command</p>
-        <div class="col-xs-2 current" id="b_save">
-            <p>
-                Save
-            </p>
-        </div>
-        <div class="col-xs-2" id="b_dont_save">
-            <p>
-                Don't save
-            </p>
+    <div id="save_tags">
+        <div class="popup_back">
+            <p>To save tags click or send voice command</p>
+            <div class="col-xs-2 current" id="b_save">
+                <p>
+                    Save
+                </p>
+            </div>
+            <div class="col-xs-2" id="b_dont_save">
+                <p>
+                    No tags
+                </p>
+            </div>
+
         </div>
     </div>
 
@@ -53,8 +63,5 @@
         <p class="t_wears">Wears: {{ cam_data.t_wears}}</p>
 
     </div>
+    <p ng-click="switchView('stylist','right_swipe')">Back Again (Test)</p>
 </body>
-
-
-
-<p ng-click="switchView('stylist','right_swipe')">Back Again (Test)</p>
