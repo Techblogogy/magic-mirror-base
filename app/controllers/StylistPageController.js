@@ -350,7 +350,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     socket.forward('close_item', $scope);
     $scope.$on("socket:close_item", function (event, data) {
-        $scope.close_item();
+        $scope.click(null);
 
     });
 
@@ -416,6 +416,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.$on("socket:item_worn", function (event, data) {
         $scope.item_worn();
         console.log('WORN');
+    });
+
+    socket.forward('add_page', $scope);
+    $scope.$on("socket:add_page", function (event, data) {
+        $scope.switchView('add','left_swipe');
     });
 
 

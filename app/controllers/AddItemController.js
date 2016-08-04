@@ -226,31 +226,31 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             $scope.super_tags =tags_arr;
             document.getElementById('save_tags').style.top = "100px";
         }
-        // socket.forward('add_tags', $scope);
-        // $scope.$on("socket:add_tags", function (event, data) {
-
-        // setTimeout(function () {
-        //     data = ["hell"];
-        //     console.log(data);
-        //     tags_arr = "";
-        //     for (var i = 0; i < data.length; i++) {
-        //         if (i === data.length - 1) {
-        //             tags_arr += data[i];
-        //         }
-        //         else{tags_arr += data[i]+","}
-        //     }
-        //     item_id = $scope.get_curitem_vid_id();
-        //     console.log(item_id);
-        //     console.log(tags_arr);
-        //     $http.post('http://localhost:5000/wardrobe/add/tags/'+item_id,{tags: tags_arr})
-        //     .then(function (dat) {
-        //         console.log(dat);
-        //         setTimeout(function () {
-        //             $scope.get_page_items($scope.page_num);
-        //             $scope.$apply();
-        //         }, 1000);
-        //     }, function () {console.log("EROR")});
-        // }, 4000);
-
     });
+
+    socket.forward('start_cmd', $scope);
+    $scope.$on("socket:start_cmd", function (event, data) {
+        $scope.click();
+    });
+
+    socket.forward('save_tags', $scope);
+    $scope.$on("socket:save_tags", function (event, data) {
+        $scope.click();
+    });
+
+    socket.forward('finish_tags', $scope);
+    $scope.$on("socket:finish_tags", function (event, data) {
+        $scope.click();
+    });
+
+    socket.forward('left', $scope);
+    $scope.$on("socket:finish_tags", function (event, data) {
+        $scope.switch_left();
+    });
+
+    socket.forward('right', $scope);
+    $scope.$on("socket:right", function (event, data) {
+        $scope.switch_right();
+    });
+
 }]);

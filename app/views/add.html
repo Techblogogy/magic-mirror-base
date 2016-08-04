@@ -1,24 +1,31 @@
-<div class="microphone" id="microphone">
-    <div class="circle" id="m_listen">
-        <div class="cssload-container">
-            <div class="cssload-double-torus"></div>
+<div ng-controller="ClockCtr" class="row">
+    <div class="col-xs-6">
+        <p class="small_clock">{{ time | date:'HH:mm'}}</p>
+    </div>
+    <div class="col-xs-6">
+        <div class="microphone" id="microphone">
+            <div class="circle" id="m_listen">
+                <div class="cssload-container">
+                    <div class="cssload-double-torus"></div>
+                </div>
+            </div>
+            <div class="circle" id="m_detc">
+                <p class="mic_cmd">{{curr_cmd}}</p>
+            </div>
+            <img  class="microph_img" id="microph_img" src="res/microphone.png" alt="" />
         </div>
     </div>
-    <div class="circle" id="m_detc">
-        <p class="mic_cmd">{{curr_cmd}}</p>
-    </div>
-    <img  class="microph_img" src="res/microphone.png" alt="" />
 </div>
 <body class="add_item" id="add_item">
     <!-- <h1>Welcome to your wardowbe</h1> -->
 
-    <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
+    <!-- <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
     <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
 
     <button type="button" name="next_page" class="selector" ng-click="next_page()">next page</button>
     <button type="button" name="previous_page" class="selector" ng-click="previous_page()">previous page</button>
 
-    <button type="button" name="click" class="selector" ng-click="click()">click</button>
+    <button type="button" name="click" class="selector" ng-click="click()">click</button> -->
 
     <div id="save_tags">
         <div class="popup_back">
