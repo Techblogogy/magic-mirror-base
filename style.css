@@ -208,6 +208,26 @@ body {
     width: 400px;
     display: none;
 }
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+::-webkit-scrollbar:horizontal {
+    display: none;
+}
+::-webkit-scrollbar-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+::-webkit-scrollbar-corner {
+    background-color: rgba(0,0,0,0);
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: rgba(0,0,0,0.2);
+}
+
 /*
 #g_map {
     width: 100%;
