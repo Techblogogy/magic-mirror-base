@@ -13,6 +13,11 @@ setup_blp = Blueprint('setup_blp', __name__, url_prefix="/setup")
 
 # Authenication routes
 # Save calendars
+
+@setup_blp.route('/pos/isconf')
+def setup_istblex():
+    return json.dumps({'is_confirmed': setup.if_setup_tbl()})
+
 @setup_blp.route("/pos", methods=['POST','OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def setup_save_u_pos():

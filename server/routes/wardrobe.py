@@ -55,13 +55,18 @@ def wrd_add():
     print "[DEBUG wdobe]: Add request"
 
     try:
-        fl = mc.rec()
-        thread.start_new_thread( pv.play_auto, (dat,) )
-        # clothes.add("casual", "0.jpg")
+        # fl = mc.rec()
+        # thread.start_new_thread( pv.play_auto, (dat,) )
+        return json.dumps(clothes.add("casual", "0.jpg"))
     except:
         bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
     return ""
+# Get item by id
+@wrd_api.route("/get/item/<int:id>", methods=['GET', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_get_item(id):
+    return json.dumps(clothes.get_item(id), indent=JSON_DENT)
 
 # Generates random testing data
 @wrd_api.route("/add/test", methods=['POST', 'OPTIONS'])

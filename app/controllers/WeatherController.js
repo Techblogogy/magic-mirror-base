@@ -1,5 +1,5 @@
 // Weather Data Controller
-app.controller('WeatherCtr', ['$scope', '$http', function ($scope, $http) {
+app.controller('WeatherCtr', ['$scope', '$http', 'socket',function ($scope, $http, socket) {
 
     $scope.name = "Weather";
     $scope.show_title = false;
@@ -9,8 +9,8 @@ app.controller('WeatherCtr', ['$scope', '$http', function ($scope, $http) {
     .then(function(d) {
         // Get weather data\
         $scope.w_dat.temp = d.data.main.temp;
-        $scope.w_dat.icon = "res/icons/weather/"+d.data.weather[0].icon+".png"
-        console.log(123);
+        $scope.w_dat.icon = "res/icons/weather/"+d.data.weather[0].icon+".png";
+        $scope.w_dat.descr = d.data.weather[0].description;
     }, function (e) {});};
     $scope.get_min_max_weather = function(){
         $http.get('http://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lng+'&units=metric&appid=ea1b2a690767c4cffc1832b89fe81d68')
@@ -57,14 +57,30 @@ app.controller('WeatherCtr', ['$scope', '$http', function ($scope, $http) {
     });
 
 
-
     // Weather data placeholder
     $scope.w_dat = {
         temp: "res/icons/weather/loading.gif",
         min_temp: "res/icons/weather/loading.gif",
         max_temp: "res/icons/weather/loading.gif",
-        icon: "" // Cloudy, Sunny, etc.
+        icon: "" // Cloudy, Sunny, etc
     };
+
+    socket.forward('weather_warning', $scope);
+    $scope.$on("socket:weather_warning", function (event, data) {
+        console.log("WEATHER WARNING");
+        console.log($scope.w_dat.descr);
+        w_message = "";
+        w_message = $scope.w_dat.descr;
+        switch ($scope.w_dat.descr) {
+            case "shower rain":
+                w_message = "You'd better take an umbrella";
+                break;
+        };
+        document.getElementById('w_message').innerHTML = w_message;
+        document.getElementById('w_message').style.display = "block";
+    });
+
+
 }]);
 
 app.filter('tempC', function () {

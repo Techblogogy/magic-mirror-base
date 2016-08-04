@@ -21,7 +21,7 @@ try:
 except ImportError:
     bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
-# from speech.speech import Speech
+from speech.speech import Speech
 from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
