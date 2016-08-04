@@ -20,7 +20,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     };
 
     $scope.get_curitem_vid_id = function(){
-        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id') );
     };
 
 
@@ -272,7 +272,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
            document.getElementById('parent_popup').style.display = 'inline-block';
 
            // vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id');
-           console.log(vid_id);
+           console.log("[VIDEO DEBUG] "+vid_id);
 
            socket.emit("start_video", vid_id);
            $scope.item_is_open = true;
