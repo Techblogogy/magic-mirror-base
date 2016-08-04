@@ -3,6 +3,9 @@ from flask_socketio import SocketIO, emit
 
 from minfo import app_dir
 
+import ntext.dresscode
+ntext.dresscode.get_dresscode()
+
 # import eventlet
 # eventlet.monkey_patch()
 
