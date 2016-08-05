@@ -114,7 +114,7 @@ body {
 
     /*font-family: "Arial";*/
     font-family: Poiret One;
-
+    margin-top: 50px;
     margin-bottom: 100px;
     margin-left: auto;
     margin-right: auto;
@@ -447,9 +447,18 @@ body {
 #m_detc{
     display: none;
 }
-.w_message{
-    display: none;
+.msg_active{
+    position: fixed;
     text-align: center;
+    font-size: 48px;
+    -webkit-transition-delay: 1s;
+    -webkit-animation: moveFromLeft .9s ease both;
+	animation: moveFromLeft .9s ease both;
+}
+.msg{
+    display: none;
+    -webkit-animation: moveFromRight .9s ease both;
+	animation: moveFromRight .9s ease both;
 }
 .mic_cmd{
     text-align: center;
