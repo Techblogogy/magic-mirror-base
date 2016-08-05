@@ -1,6 +1,8 @@
 import slib as sr
 from flask_socketio import emit
 
+import pyaudio
+
 from server import PServer
 pserve = PServer()
 
@@ -14,10 +16,27 @@ S_DEBUG = True
 class Speech:
 
     def __init__(self):
-        print "test"
+        print "[DEBUG SPEECH] Microphone list:"
+
+        # p = pyaudio.PyAudio()
+        # for i in range(p.get_device_count()):
+        #     dev = p.get_device_info_by_index(i)
+        #     print((i,dev['name'],dev['maxInputChannels']))
+
+        # pyaudio.PyAudio().get_device_info_by_index(2)
+
+        # mics = sr.Microphone.list_microphone_names()
+        # print mics[4]
+
+        # for microphone_name in sr.Microphone.list_microphone_names():
+        #     if microphone_name == "sysdefault":
+        #         # m = Microphone(i)
+        #         print i
+
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = False
-        self._m = sr.Microphone(sample_rate=16000)
+        # self._m = sr.Microphone(sample_rate=16000)
+        self._m = sr.Microphone(device_index=2, sample_rate=48000)
 
     def start(self):
         print ("Starting")
