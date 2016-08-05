@@ -52,6 +52,9 @@ def create_server():
     from routes.wardrobe import wrd_api
     pserve.app.register_blueprint(wrd_api)
 
+    from routes.WDmanager import wd_manager_api
+    pserve.app.register_blueprint(wd_manager_api)
+
     # Start voice recognition
     # voice = Speech()
     # voice.start()
@@ -103,6 +106,8 @@ def create_server():
             c_len = len(gcal.get_cals()),
             # pos = setup_get_pos()x
         )
+
+
 
     # SocketIO Connection
     @pserve.socketio.on("connect", namespace=pserve.IO_SPACE)
