@@ -12,6 +12,7 @@ server/gcal_credentials
 server/client_secret.json
 
 server/uploads
+server/s_env/*
 
 server/venv
 
