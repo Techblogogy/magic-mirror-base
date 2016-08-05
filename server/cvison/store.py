@@ -201,6 +201,12 @@ class clothes:
             (lim, ofs*lim)
         )
 
+    # Get page items
+    def page_count(self, pp):
+        all_items = db.qry("SELECT COUNT(*) as ct FROM clothes")[0]["ct"]
+
+        return all_items/pp 
+
     # Get item by id
     @classmethod
     def get_item(self, id):
@@ -259,6 +265,12 @@ class clothes:
             "UPDATE clothes SET liked=? WHERE id=?",
             (id, like, )
         )
+
+    @classmethod
+    def delete(self, id):
+        db.qry("DELETE FROM clothes WHERE id=?", (id, ))
+        db.qry("DELETE FROM clothes_meta WHERE id=?", (id, ))
+        db.qry("DELETE FROM clothes_tags WHERE id=?", (id, ))
 
     # NOTE: Testing data fill
     @classmethod

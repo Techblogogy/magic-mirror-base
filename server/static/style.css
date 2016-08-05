@@ -13,9 +13,15 @@ h1 {
     color: rgb(71, 71, 71);
 
 }
-
-
+h6{
+    margin-top: -40px;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
 /*Page 404 start*/
+.manager_general{
+    background-image: url(bg.png);
+}
 .notf{
     background-image: url(bg.png);
     margin: 100px;
@@ -53,8 +59,6 @@ a .out{
     color: white;
     font-size: 20px;
     width: 100%;
-    padding-left: 10px;
-    padding-right: 10px;
     margin-left: auto;
     margin-right: auto;
     font-family: 'Poiret One';
@@ -97,11 +101,9 @@ a .out{
     padding: 30px;
 }
 p{
-    text-align: center;
     margin-left: auto;
     margin-right: auto;
     font-size: 24px;
-    font-family: Josefin Sans;
 }
 .row{
     margin-left: auto;
@@ -152,12 +154,12 @@ a.not-main{
 
 }
 
-.container {
+.my_container {
     text-align: center;
     font-family: 'Poiret One', cursive;
 }
 
-.container .btn {
+.my_container .btn {
     display: inline-block;
     margin: 2%;
     /*border: 4px solid white;*/
@@ -190,7 +192,7 @@ a.not-main{
 ul{
     text-align: left;
     list-style: none;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 button[type="submit"]{
@@ -206,4 +208,42 @@ button[type="submit"]{
     height: 400px;
 }
 
+.del{
+    font-size: 32px;
+    margin-left: 160px;
+    z-index: 10;
+    margin-bottom: -20px;
+}
+.item_stl{
+    background-color: rgba(210, 238, 255, 0.36);
+    margin-left: auto;
+    margin-right: auto;
+    border: 5px solid rgba(255, 255, 255, 0.19);
+    position: relative;
+
+}
+.bold_txt{
+    font-weight: 600;
+    color: rgb(85, 85, 85);
+}
+.dresscode{
+    margin-top: -15px;
+}
+.item_infirm{
+    margin-left: 30px;
+    font-size: 24px;
+}
+.item_img{
+    /*width: 200px;*/
+    height: 360px;
+    width: auto;
+    margin-left: -30px;
+    /*margin-left: auto;
+    margin-right: auto;*/
+
+}
+
+.items{
+    font-family: 'Poiret One';
+}
 /*Setup page finish*/
