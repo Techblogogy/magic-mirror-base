@@ -8,9 +8,11 @@ from blogger import Blogger as bl
 mc = None
 try:
     from cvison.cam import My_Cam
-    mc = My_cam()
+    mc = My_Cam()
 except ImportError:
     bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+
+from cvison.play import PlayVid
 
 import os, json
 
@@ -54,12 +56,17 @@ def wrd_add():
 
     try:
         fl = mc.rec()
-        thread.start_new_thread( mc.play_auto, () )
-        # clothes.add("casual", "0.jpg")
+        # thread.start_new_thread( pv.play_auto, (dat,) )
+        # return json.dumps(clothes.add("te", "thum1.jpg"))
     except:
         bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
     return ""
+# Get item by id
+@wrd_api.route("/get/item/<int:id>", methods=['GET', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_get_item(id):
+    return json.dumps(clothes.get_item(id), indent=JSON_DENT)
 
 # Generates random testing data
 @wrd_api.route("/add/test", methods=['POST', 'OPTIONS'])
@@ -73,7 +80,15 @@ def wrd_add_test():
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_add_tags(c_id):
     tags = json.loads(request.data)
+    print tags
     return json.dumps( clothes.add_tags(c_id, tags['tags']), indent=JSON_DENT)
+#edit dresscode
+@wrd_api.route("/add/dresscode/<int:c_id>", methods=['POST', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_dresscode(c_id):
+    dresscode = json.loads(request.data)
+    print dresscode
+    return json.dumps( clothes.edit_dresscode(c_id, dresscode['dresscode']), indent=JSON_DENT)
 
 # Mark clothes as worn
 @wrd_api.route("/wear/<int:c_id>", methods=['POST', 'OPTIONS'])

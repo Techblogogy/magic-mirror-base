@@ -73,7 +73,7 @@ body {
     top:0;
     bottom:0;
     /*border: 2px solid white;*/
-    width:100%;
+    /*width:100%;*/
     /*text-align:center;*/
 }
 
@@ -114,7 +114,7 @@ body {
 
     /*font-family: "Arial";*/
     font-family: Poiret One;
-
+    margin-top: 50px;
     margin-bottom: 100px;
     margin-left: auto;
     margin-right: auto;
@@ -206,15 +206,43 @@ body {
 /* Maps Widget */
 #map-widget .ui-widget {
     width: 400px;
+    display: none;
 }
+
+::-webkit-scrollbar {
+    width: 0px;
+}
+::-webkit-scrollbar:horizontal {
+    display: none;
+}
+::-webkit-scrollbar-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+::-webkit-scrollbar-corner {
+    background-color: rgba(0,0,0,0);
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: rgba(0,0,0,0.2);
+}
+
+/*
 #g_map {
     width: 100%;
     height: 400px;
-}
-
+}*/
 /*-----------------------------*/
 /*Stylist start*/
-
+.small_clock{
+    font-size: 40px;
+    padding-top: 15px;
+    font-weight: 700;
+}
+#stylist{
+    overflow: hidden;
+}
 #stylist h1{
     text-align: center;
     margin: 20px;
@@ -222,12 +250,13 @@ body {
 }
 .stylist .ui-widget{
     width: auto;
-    align-items: center;;
+    align-items: center;
 }
 
 .item_img{
     /*width: 200px;*/
-    width: 100%;
+    width: 80%;
+    margin-left: 25px;
     margin-top: 10px;
     margin-bottom: 10px;
     /*margin-left: auto;
@@ -256,10 +285,12 @@ body {
 .item_stl{
     background-color: rgba(255, 255, 255, 0.1);
     margin: 5px;
+    margin-bottom: 5px;
     margin-left: auto;
     margin-right: auto;
     border: 5px solid black;
-    height: 590px;
+    height: 540px;
+    padding-bottom: 3px;
 }
 
 .item_stl h3 {margin-top: -5px;}
@@ -294,8 +325,10 @@ body {
     -webkit-animation: moveFromLeft .9s ease both;
 	animation: moveFromLeft .9s ease both;
 
+    height: 100%;
+
     background-color: rgba(0, 0, 0, 0.9);
-       width: 95%;
+       /*width: 95%;*/
        position: fixed;
        top: 0;
        z-index: 1000;
@@ -306,19 +339,19 @@ body {
        font-size: 40px;
 }
 #parent_popup h3{ font-size: 40px;}
+.del_overf{
+    overflow: hidden;
+    /*width: 95%;*/
+}
 .popup_back{
     background-color: rgba(0, 0, 0, 0.9);
-    width: 120%;
-    height: 120%;
 
 }
 #popup {
   /*background-color: rgba(255, 255, 255, 0.5);*/
   background-color: rgb(0, 0, 0);
-  position: fixed;
   /*color: rgb(0, 0, 0);*/
   color: rgb(255, 255, 255);
-  width: 80%;
 
   font-size: 60px;
   margin-left: auto;
@@ -327,13 +360,13 @@ body {
 }
 
 .circle {
-    margin-bottom: 5px;
     margin-left: 11px;
 	width: 10px;
 	height: 10px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
+    z-index: 10000;
 }
 /*#red{
     background: rgb(255, 0, 0);
@@ -344,8 +377,64 @@ body {
     display: none;
 
 }*/
+#auth_message{
+    display: none;
+    text-align: center;
+}
+.add_button{
+    border: 5px solid black;
+    height: 531px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+}
+.add_item{
+    /*width: auto;*/
+    font-size: 52px;
+}
+.item_preview{
+    margin-top: 300px;
+    font-size: 48px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+    z-index: 200;
+}
+.item_preview img{
+    height: 376px;
+    width: auto;
+}
+.add_h2{
+    font-size: 48px;
+    text-align: center;
+}
 #timer{
     font-size: 56px;
+    text-align: center;
+}
+#save_tags{
+    top: 350px;
+    font-size: 48px;
+    text-align: center;
+    display: none;
+    z-index: 10;
+}
+
+.big_big_item{
+    width: 100%;
+    padding-bottom: 200px;
+}
+#b_dont_save{
+    width: 300px;
+    margin: 20px;
+    font-size: 40px;
+}
+#b_save{
+    width: 300px;
+    margin: 20px;
+    font-size: 40px;
+    margin-left: 180px;
 }
 
 #message{
@@ -353,33 +442,59 @@ body {
 }
 #m_listen{
     display: none;
+    position: fixed;
 }
 #m_detc{
     display: none;
 }
+.msg_active{
+    position: fixed;
+    text-align: center;
+    font-size: 48px;
+    -webkit-transition-delay: 1s;
+    -webkit-animation: moveFromLeft .9s ease both;
+	animation: moveFromLeft .9s ease both;
+}
+.msg{
+    display: none;
+    -webkit-animation: moveFromRight .9s ease both;
+	animation: moveFromRight .9s ease both;
+}
+.mic_cmd{
+    text-align: center;
+    font-size: 36px;
+    width: 300px;
+    position: fixed;
+    margin-top: -10px;
+    margin-left: -140px;
+    z-index: 5000;
+    display: block;
+}
 .microphone{
-    margin-left: 49%;
+    margin-left: 90%;
     margin-right: auto;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    height: 35px;
+    z-index: 50;
 }
 .microph_img{
-    margin-top: -5px;
+    z-index: 51;
+    padding-top: 5px;
+    position: absolute;
 }
 
 /*MICROPHONE ANIMATION*/
 .cssload-container {
-	width: 80%;
-	height: 30px;
 	text-align: center;
-    margin-left:-7px;
+    margin-left:-15px;
 }
 
 .cssload-double-torus {
-	width: 25px;
-	height: 25px;
+	width: 40px;
+	height: 40px;
 	border: 3px double;
 	border-radius: 50%;
-	border-color: transparent rgb(255,255,255) rgb(255,255,255);
 	animation: cssload-spin 690ms infinite linear;
 		-o-animation: cssload-spin 690ms infinite linear;
 		-ms-animation: cssload-spin 690ms infinite linear;

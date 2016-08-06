@@ -13,7 +13,7 @@
 </head>
 
 <body class="setup">
-    <div class="container">
+    <div class="container my_container">
         <h1><a href="/">MAGIC MIRROR</a></h1>
         {% if auth %}
         <div class="google_button">
@@ -27,7 +27,7 @@
         {% endif %}
         <div class="col-md-12">
             <h1>Manage your calendars right here<h1>
-                <p>Pick the calendars you want to display</p>
+                <h6>Pick calendars for your Mirror widget:</h6>
                 <form action="/setcal"  method="POST">
                     <div>{% for i in range(0, c_len): %}
                         <ul>

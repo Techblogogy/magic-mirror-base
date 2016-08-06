@@ -3,6 +3,9 @@ from flask_socketio import SocketIO, emit
 
 from minfo import app_dir
 
+import ntext.dresscode
+ntext.dresscode.get_dresscode()
+
 # import eventlet
 # eventlet.monkey_patch()
 
@@ -17,7 +20,7 @@ from traceback import print_tb
 mc = None
 try:
     from cvison.cam import My_Cam
-    mc = My_cam()
+    mc = My_Cam()
 except ImportError:
     bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
@@ -49,6 +52,9 @@ def create_server():
     from routes.wardrobe import wrd_api
     pserve.app.register_blueprint(wrd_api)
 
+    from routes.WDmanager import wd_manager_api
+    pserve.app.register_blueprint(wd_manager_api)
+
     # Start voice recognition
     voice = Speech()
     voice.start()
@@ -57,11 +63,10 @@ def create_server():
     pv = PlayVid()
 
     # Start Remote Control
-    try:
-        # thread.start_new_thread( m_remote, (0,) )
-        pass
-    except:
-        print "Error: unable to start thread"
+    # try:
+    #     thread.start_new_thread( m_remote, (0,) )
+    # except:
+    #     print "Error: unable to start thread"
 
     # Define application routes
     @pserve.app.route('/')
@@ -102,6 +107,8 @@ def create_server():
             # pos = setup_get_pos()x
         )
 
+
+
     # SocketIO Connection
     @pserve.socketio.on("connect", namespace=pserve.IO_SPACE)
     def connected():
@@ -118,6 +125,10 @@ def create_server():
         print "[TB DUBUG] Playing video %s" % (dat)
         # pv.play_auto(dat)
         try:
+            pv.x = 92
+            pv.y = 80
+            pv.w = 843
+            pv.h = 1350
             thread.start_new_thread( pv.play_auto, (dat,) )
         except:
             print "Error: unable to start video thread"
@@ -136,10 +147,10 @@ def create_server():
 
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        try:
-            mc.turn_off()
-        except:
-            bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+        # try:
+        mc.turn_off()
+        # except:
+            # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
 
     return (pserve.app, pserve.socketio)

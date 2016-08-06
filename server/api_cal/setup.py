@@ -6,7 +6,7 @@ import httplib2
 import datetime
 from dbase.dbase import dbase as db
 class setup:
-    
+
     # Creates setup table
     @staticmethod
     def init_setup_tbl():
@@ -17,6 +17,9 @@ class setup:
                 lat REAL NOT NULL
             )
         """)
+    @staticmethod
+    def if_setup_tbl():
+         return db.qry("SELECT name FROM sqlite_master WHERE type='table' AND name='tbl_setup'")
 
     # Saves position
     @staticmethod

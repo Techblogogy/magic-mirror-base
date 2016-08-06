@@ -106,17 +106,14 @@ class Speech:
             # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
             if cmd:
                 print cmd[1]
-
-                if cmd[0] == "add_tags":
+                # print cmd[2]
+                if cmd[0] == "add_tags" or cmd[0] == "edit_dresscode":
                     pserve.send(cmd[0], cmd[2])
                 elif cmd[0] == "search":
                     pserve.send(cmd[0], cmd[2])
-                    print cmd[2]
                 else:
                     pserve.send(cmd[0], cmd[1])
-
-                pserve.send("audio_detected","ok")
-                snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
+                pserve.send("audio_detected",cmd[0])
                 # pserve.send(cmd[0], cmd[2])
             print("Bing Speech: "+text)
         except sr.UnknownValueError:

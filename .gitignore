@@ -11,6 +11,10 @@ server/cvison/frames/*.png
 server/gcal_credentials
 server/client_secret.json
 
+<<<<<<< HEAD
+=======
+server/uploads
+>>>>>>> 4e69722d664c28c211a480f603f112d56178abdd
 server/s_env/*
 
 server/venv

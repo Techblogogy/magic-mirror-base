@@ -1,7 +1,9 @@
 from dbase.dbase import dbase as db
 from api_cal.weather import Weather
 
-import random, json
+from minfo import app_dir
+
+import random, json, requests
 
 TAG_LIMIT = 5
 
@@ -48,9 +50,17 @@ class clothes:
     # Add clothing item
     @classmethod
     def add(self, dresscode, thumbnail, name=None):
+        url = "http://93.73.73.40:8000/"
+        file = {'file': open(app_dir+'/cls/'+thumbnail, 'rb')}
+
+        r = requests.post(url, files=file)
+        cnt = json.loads(r.content)
+
+        print cnt['dress']
+
         db.qry(
-            "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
-            (name, thumbnail, dresscode, )
+        "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
+        (name, thumbnail, cnt['dress'][0]['code'], )
         )
 
         return db.qry("SELECT * FROM clothes WHERE id=?", (db.last_id(), ) )
@@ -58,28 +68,46 @@ class clothes:
     # Add Tags to items
     @classmethod
     def add_tags(self, c_id, tags):
+        # db.qry("DELETE FROM clothes_tags WHERE c_id=?", (c_id,))
+        # return "[]"
+
         count = db.qry("""
             SELECT COUNT(*) as cnt
             FROM clothes_tags
             WHERE c_id=?
-        """, (c_id,))
+        """, (c_id,))[0]["cnt"]
 
-        if count[0]["cnt"] > TAG_LIMIT:
+        print "[TB count]: %d" % (count)
+
+        if count > TAG_LIMIT:
             return "[]"
 
         a_tags = tags.strip().split(",")
         a_list = []
 
-        for a_tag in a_tags:
-            a_list.append( (c_id, a_tag, a_tag) )
 
-        db.qry_many("""
-            INSERT INTO clothes_tags(c_id, tag)
-            SELECT ?,?
-            WHERE NOT EXISTS(SELECT id FROM clothes_tags WHERE tag=?)
-        """, a_list)
 
-        return db.qry("SELECT * FROM clothes_tags")
+        print a_list
+
+        if count == 0:
+            for a_tag in a_tags:
+                a_list.append( (c_id, a_tag,) )
+
+            db.qry_many("""
+                INSERT INTO clothes_tags(c_id, tag)
+                VALUES (?,?)
+            """, a_list)
+        else:
+            for a_tag in a_tags:
+                a_list.append( (c_id, a_tag, a_tag) )
+
+            db.qry_many("""
+                INSERT INTO clothes_tags(c_id, tag)
+                SELECT ?,?
+                WHERE NOT EXISTS(SELECT tag FROM clothes_tags WHERE tag=?)
+            """, a_list)
+
+        return db.qry("SELECT * FROM clothes_tags WHERE c_id=?", (c_id,))
 
     # TODO: Remove tags from items
     @classmethod
@@ -183,6 +211,29 @@ class clothes:
             (lim, ofs*lim)
         )
 
+    # Get page items
+    @classmethod
+    def page_count(self, pp):
+        all_items = db.qry("SELECT COUNT(*) as ct FROM clothes")[0]["ct"]
+
+        return all_items/pp
+
+    # Get item by id
+    @classmethod
+    def get_item(self, id):
+        return db.qry("""
+            SELECT
+                id, thumbnail, dresscode, t_wears,
+                    (SELECT group_concat(tag, ', ') as tags
+                    FROM clothes_tags
+                    WHERE clothes_tags.c_id = clothes.id
+                    GROUP BY c_id) as tags
+            FROM clothes
+            WHERE deleted=0 AND id=?
+        """,
+            (id,)
+        )
+
     # Mark item as worn
     @classmethod
     def worn(self, id):
@@ -226,6 +277,12 @@ class clothes:
             (id, like, )
         )
 
+    @classmethod
+    def delete(self, id):
+        db.qry("DELETE FROM clothes WHERE id=?", (id, ))
+        db.qry("DELETE FROM clothes_meta WHERE id=?", (id, ))
+        db.qry("DELETE FROM clothes_tags WHERE id=?", (id, ))
+
     # NOTE: Testing data fill
     @classmethod
     def fill_junk(self):
@@ -266,6 +323,13 @@ class clothes:
                 self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,8), random.randint(1,30) ) )
 
         return self.get_all()
+
+    # EDIT dresscode
+
+    @classmethod
+    def edit_dresscode(self, c_id, dresscode):
+        db.qry("UPDATE clothes SET dresscode=? WHERE id=?", (dresscode, c_id, ))
+        # return "[]"
 
 
 clothes.setup()

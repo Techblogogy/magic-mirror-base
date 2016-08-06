@@ -27,6 +27,10 @@ class gcal:
             )
         """)
 
+    @staticmethod
+    def if_cal_tbl():
+         return db.qry("SELECT name FROM sqlite_master WHERE type='table' AND name='tbl_gcal'")
+
     # Get auth flow
     @staticmethod
     def get_flow():
