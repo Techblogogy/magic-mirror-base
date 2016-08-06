@@ -202,10 +202,11 @@ class clothes:
         )
 
     # Get page items
+    @classmethod
     def page_count(self, pp):
         all_items = db.qry("SELECT COUNT(*) as ct FROM clothes")[0]["ct"]
 
-        return all_items/pp 
+        return all_items/pp
 
     # Get item by id
     @classmethod
@@ -312,6 +313,51 @@ class clothes:
                 self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,8), random.randint(1,30) ) )
 
         return self.get_all()
+
+    # EDIT dresscode
+
+    @classmethod
+    def edit_dresscode(self, c_id, dresscode):
+        db.qry("DELETE FROM clothes_ WHERE c_id=?", (c_id,))
+        # return "[]"
+
+        count = db.qry("""
+            SELECT COUNT(*) as cnt
+            FROM clothes_tags
+            WHERE c_id=?
+        """, (c_id,))[0]["cnt"]
+
+        print "[TB count]: %d" % (count)
+
+        if count > TAG_LIMIT:
+            return "[]"
+
+        a_tags = tags.strip().split(",")
+        a_list = []
+
+
+
+        print a_list
+
+        if count == 0:
+            for a_tag in a_tags:
+                a_list.append( (c_id, a_tag,) )
+
+            db.qry_many("""
+                INSERT INTO clothes_tags(c_id, tag)
+                VALUES (?,?)
+            """, a_list)
+        else:
+            for a_tag in a_tags:
+                a_list.append( (c_id, a_tag, a_tag) )
+
+            db.qry_many("""
+                INSERT INTO clothes_tags(c_id, tag)
+                SELECT ?,?
+                WHERE NOT EXISTS(SELECT tag FROM clothes_tags WHERE tag=?)
+            """, a_list)
+
+        return db.qry("SELECT * FROM clothes_tags WHERE c_id=?", (c_id,))
 
 
 clothes.setup()

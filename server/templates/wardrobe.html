@@ -17,6 +17,16 @@
 <body class="manager_general">
     <h1>WARDROBE</h1>
     <!-- <script src="js/scripts.js"></script> -->
+    <div class="container btns">
+        <div class="btn">
+            <a class="btns" href="http://localhost:5000/manager?action=nextpage">Next page</a>
+        </div>
+        <div class="btn">
+            <a  class="btns" href="http://localhost:5000/manager?action=prevpage">Previous page</a>
+        </div>
+        <p>Now you are on page {{page_counter + 1}}</p>
+
+    </div>
     <div class="items container">
         <div class="row">
             {% for i in items: %}

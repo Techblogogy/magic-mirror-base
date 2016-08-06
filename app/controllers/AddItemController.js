@@ -227,6 +227,45 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             document.getElementById('save_tags').style.top = "100px";
         }
     });
+    socket.forward('edit_dresscode', $scope);
+    $scope.$on("socket:edit_dresscode", function (event, data) {
+        dresscode = "";
+        for (var i = 0; i < data.length; i++) {
+            if (i === data.length - 1) {
+                dresscode += data[i];
+            }
+            else{dresscode += data[i]+","}
+        }
+        item_id = $scope.cam_data.id;
+        console.log('ID ID ID ID'+item_id);
+
+        dc_html = dresscode;
+        document.getElementById('timer').innerHTML = dc_html;
+        document.getElementById('timer').innerHTML = dc_html;
+        console.log(timer_html);
+        ;
+    });
+
+    socket.forward('save_dc', $scope);
+    $scope.$on("socket:save_dc", function (event, data) {
+        dresscode = document.getElementById('timer').innerHTML;
+        document.getElementById('dresscode').innerHTML = dresscode;
+        item_id = $scope.cam_data.id;
+        $http.post('http://localhost:5000/wardrobe/add/dresscode/'+item_id,{dresscode: dresscode})
+        .success(function (dat) {
+            console.log(dat);
+            $http.get('http://localhost:5000/wardrobe/get/item/'+item_id)
+            .success(function (dat) {
+                $scope.cam_data = dat[0];
+                console.log(dat);
+            }, function () {console.log("EROR")});
+            setTimeout(function (){
+                $scope.$apply();
+                console.log('tasaaaaaa');
+            }, 1000);
+        }, function () {console.log("EROR")}
+    });
+
 
     socket.forward('start_cmd', $scope);
     $scope.$on("socket:start_cmd", function (event, data) {

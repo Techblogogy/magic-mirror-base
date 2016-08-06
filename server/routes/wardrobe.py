@@ -82,6 +82,13 @@ def wrd_add_tags(c_id):
     tags = json.loads(request.data)
     print tags
     return json.dumps( clothes.add_tags(c_id, tags['tags']), indent=JSON_DENT)
+#edit dresscode
+@wrd_api.route("/add/dresscode/<int:c_id>", methods=['POST', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_add_tags(c_id):
+    dresscode = json.loads(request.data)
+    print dresscode
+    return json.dumps( clothes.edit_dresscode(c_id, dresscode['dresscode']), indent=JSON_DENT)    
 
 # Mark clothes as worn
 @wrd_api.route("/wear/<int:c_id>", methods=['POST', 'OPTIONS'])
