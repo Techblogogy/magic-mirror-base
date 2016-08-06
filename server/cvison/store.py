@@ -2,6 +2,7 @@ from dbase.dbase import dbase as db
 from api_cal.weather import Weather
 
 import random, json
+import requests
 
 TAG_LIMIT = 5
 
@@ -48,9 +49,17 @@ class clothes:
     # Add clothing item
     @classmethod
     def add(self, dresscode, thumbnail, name=None):
+        url = "http://93.73.73.40:8000/"
+        file = {'file': open('static/bg.jpg', 'rb')}
+
+        r = requests.post(url, files=file)
+        cnt = json.loads(r.content)
+
+        print cnt['dress']
+
         db.qry(
             "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
-            (name, thumbnail, dresscode, )
+            (name, thumbnail, cnt['dress'], )
         )
 
         return db.qry("SELECT * FROM clothes WHERE id=?", (db.last_id(), ) )
@@ -205,7 +214,7 @@ class clothes:
     def page_count(self, pp):
         all_items = db.qry("SELECT COUNT(*) as ct FROM clothes")[0]["ct"]
 
-        return all_items/pp 
+        return all_items/pp
 
     # Get item by id
     @classmethod
