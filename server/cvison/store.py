@@ -1,6 +1,8 @@
 from dbase.dbase import dbase as db
 from api_cal.weather import Weather
 
+from minfo import app_dir
+
 import random, json, requests
 
 TAG_LIMIT = 5
