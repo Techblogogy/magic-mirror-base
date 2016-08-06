@@ -11,6 +11,8 @@ server/cvison/frames/*.png
 server/gcal_credentials
 server/client_secret.json
 
+server/s_env/*
+
 server/venv
 
 mirror.db
