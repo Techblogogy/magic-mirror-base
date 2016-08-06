@@ -162,7 +162,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 console.log(timer_html);
                 document.getElementById('timer').style.display = "block";
                 // document.getElementById('timer').
-            }, 5000);
+            }, 10000);
             $scope.click_counter += 1;
         }
         else if ($scope.click_counter == 1 ){
