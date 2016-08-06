@@ -91,6 +91,15 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.$on("socket:m_camera_dat", function (event, data) {
         $scope.cam_data = JSON.parse(data)[0];
         console.log($scope.cam_data);
+
+        document.getElementById('item_preview').style.display = 'block';
+        socket.emit("user_on_leave");
+        $scope.time_to_add_tags = true;
+        timer_html = "It's time to add some tags to your item, use voice command your tag words (you can add as many as you want)  + word 'tag' in the end";
+        document.getElementById('timer').innerHTML = timer_html;
+        console.log(timer_html);
+        document.getElementById('timer').style.display = "block";
+
         $scope.$apply();
 
     });
@@ -154,13 +163,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 document.getElementById('timer').style.display = "none";
             }, 4000);
             setTimeout(function () {
-                document.getElementById('item_preview').style.display = 'block';
-                socket.emit("user_on_leave");
-                $scope.time_to_add_tags = true;
-                timer_html = "It's time to add some tags to your item, use voice command your tag words (you can add as many as you want)  + word 'tag' in the end";
-                document.getElementById('timer').innerHTML = timer_html;
-                console.log(timer_html);
-                document.getElementById('timer').style.display = "block";
+
                 // document.getElementById('timer').
             }, 10000);
             $scope.click_counter += 1;
