@@ -99,9 +99,9 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         $http.post('http://localhost:5000/wardrobe/add')
         .success(function (data){
             // $scope.cam_data = JSON.parse(data)[0];
-            console.log(data);
-            $scope.cam_data = (data)[0];
-            console.log($scope.cam_data);
+            // console.log(data);
+            // $scope.cam_data = data[0];
+            // console.log($scope.cam_data);
         });
         };
 
