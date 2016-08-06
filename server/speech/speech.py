@@ -110,8 +110,8 @@ class Speech:
             # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
             if cmd:
                 print cmd[1]
-
-                if cmd[0] == "add_tags":
+                # print cmd[2]
+                if cmd[0] == "add_tags" or cmd[0] == "edit_dresscode":
                     pserve.send(cmd[0], cmd[2])
                 elif cmd[0] == "search":
                     pserve.send(cmd[0], cmd[2])

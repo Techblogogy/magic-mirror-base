@@ -3,6 +3,9 @@ from flask_socketio import SocketIO, emit
 
 from minfo import app_dir
 
+#import ntext.dresscode
+#ntext.dresscode.get_dresscode()
+
 # import eventlet
 # eventlet.monkey_patch()
 
@@ -48,6 +51,9 @@ def create_server():
 
     from routes.wardrobe import wrd_api
     pserve.app.register_blueprint(wrd_api)
+
+    from routes.WDmanager import wd_manager_api
+    pserve.app.register_blueprint(wd_manager_api)
 
     # Start voice recognition
     voice = Speech()
@@ -101,6 +107,8 @@ def create_server():
             c_len = len(gcal.get_cals()),
             # pos = setup_get_pos()x
         )
+
+
 
     # SocketIO Connection
     @pserve.socketio.on("connect", namespace=pserve.IO_SPACE)

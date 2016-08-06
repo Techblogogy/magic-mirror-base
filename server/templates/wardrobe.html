@@ -1,0 +1,55 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Wardrobe Manager</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="../static/style.css" />
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body class="manager_general">
+    <h1>WARDROBE</h1>
+    <!-- <script src="js/scripts.js"></script> -->
+    <div class="container btns">
+        <div class="btn">
+            <a class="btns" href="http://localhost:5000/manager?action=nextpage">Next page</a>
+        </div>
+        <div class="btn">
+            <a  class="btns" href="http://localhost:5000/manager?action=prevpage">Previous page</a>
+        </div>
+        <p>Now you are on page {{page_counter + 1}}</p>
+
+    </div>
+    <div class="items container">
+        <div class="row">
+            {% for i in items: %}
+            <div class="col-xs-6 item_stl">
+                <div class="col-xs-6">
+                    <img class="item_img" src="http://localhost:5000/clothes/{{ i.thumbnail }}" >
+                </div>
+                <div class="col-xs-6 item_inform">
+                    <div class="btn del">
+                        <a href="http://localhost:5000/manager?action=delete&id={{ i.id }}">Delete</a>
+                    </div>
+                    <h3 class="bold_txt">Dresscode:<h3><h3 class="dresscode">{{ i.dresscode }}</h3>
+                    <p class="tags"><span style="font-weight:600">Tags: </span>{{ i.tags }}</p>
+                    <p class="t_wears"><span style="font-weight:600">Wears:</span> {{ i.t_wears }}</p>
+
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

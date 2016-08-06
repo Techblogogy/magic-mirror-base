@@ -1,7 +1,7 @@
 from dbase.dbase import dbase as db
 from api_cal.weather import Weather
 
-import random, json
+import random, json, requests
 
 TAG_LIMIT = 5
 
@@ -48,9 +48,17 @@ class clothes:
     # Add clothing item
     @classmethod
     def add(self, dresscode, thumbnail, name=None):
+        url = "http://93.73.73.40:8000/"
+        file = {'file': open(app_dir+'/'+thumbnail, 'rb')}
+
+        r = requests.post(url, files=file)
+        cnt = json.loads(r.content)
+
+        print cnt['dress']
+
         db.qry(
-            "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
-            (name, thumbnail, dresscode, )
+        "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
+        (name, thumbnail, cnt['dress'][0], )
         )
 
         return db.qry("SELECT * FROM clothes WHERE id=?", (db.last_id(), ) )
@@ -201,6 +209,13 @@ class clothes:
             (lim, ofs*lim)
         )
 
+    # Get page items
+    @classmethod
+    def page_count(self, pp):
+        all_items = db.qry("SELECT COUNT(*) as ct FROM clothes")[0]["ct"]
+
+        return all_items/pp
+
     # Get item by id
     @classmethod
     def get_item(self, id):
@@ -260,6 +275,12 @@ class clothes:
             (id, like, )
         )
 
+    @classmethod
+    def delete(self, id):
+        db.qry("DELETE FROM clothes WHERE id=?", (id, ))
+        db.qry("DELETE FROM clothes_meta WHERE id=?", (id, ))
+        db.qry("DELETE FROM clothes_tags WHERE id=?", (id, ))
+
     # NOTE: Testing data fill
     @classmethod
     def fill_junk(self):
@@ -300,6 +321,13 @@ class clothes:
                 self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,8), random.randint(1,30) ) )
 
         return self.get_all()
+
+    # EDIT dresscode
+
+    @classmethod
+    def edit_dresscode(self, c_id, dresscode):
+        db.qry("UPDATE clothes SET dresscode=? WHERE id=?", (dresscode, c_id, ))
+        # return "[]"
 
 
 clothes.setup()
