@@ -43,17 +43,27 @@ def get_dresscode(image_path):
         # Sort to show labels of first prediction in order of confidence
         top_k = predictions[0].argsort()[-len(predictions[0]):][::-1]
 
+        codes = []
         for node_id in top_k:
             human_string = label_lines[node_id]
             score = predictions[0][node_id]
-            print('%s (score = %.5f)' % (human_string, score))
+            # codes.append( {'code': human_string, 'score': format(score, "0.2f")} )
+            codes.append( {'code': human_string, 'score': int(score * 100)} )
+
+            # print('%s (score = %.5f)' % (human_string, score))
+
+        return codes
 
 
 @app.route("/", methods=['POST'])
 def upload_thumb():
+    resp = {"status": 200}
     if 'file' not in request.files:
+        resp["status"] = 500
         print "[ERROR] File not found"
         return '[ERROR]'
+
+    print resp
 
     file = request.files['file']
     filename = secure_filename(file.filename)
@@ -62,10 +72,14 @@ def upload_thumb():
     file.save(filepath)
 
     dcode = get_dresscode(filepath)
+    # print json.dumps(dcode, indent=4)
+    resp["dress"] = dcode
 
     os.remove(filepath)
 
-    return '[UPLOADED]'
+    # print json.dumps(resp, indent=4)
+    return json.dumps(resp, indent=4)
+
 
 
 if __name__ == "__main__":

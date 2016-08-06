@@ -5,6 +5,6 @@ def upload():
     file = {'file': open('static/bg.jpg', 'rb')}
 
     r = requests.post(url, files=file)
-    print r
+    print r.content
 
 upload()
