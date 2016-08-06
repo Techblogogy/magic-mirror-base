@@ -56,8 +56,8 @@ def create_server():
     pserve.app.register_blueprint(wd_manager_api)
 
     # Start voice recognition
-    # voice = Speech()
-    # voice.start()
+    voice = Speech()
+    voice.start()
 
     # Video playing
     pv = PlayVid()

@@ -229,6 +229,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     });
     socket.forward('edit_dresscode', $scope);
     $scope.$on("socket:edit_dresscode", function (event, data) {
+        console.log(data);
         dresscode = "";
         for (var i = 0; i < data.length; i++) {
             if (i === data.length - 1) {
@@ -242,7 +243,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         dc_html = dresscode;
         document.getElementById('timer').innerHTML = dc_html;
         document.getElementById('timer').innerHTML = dc_html;
-        console.log(timer_html);
+        console.log(dc_html);
         ;
     });
 
@@ -263,7 +264,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 $scope.$apply();
                 console.log('tasaaaaaa');
             }, 1000);
-        }, function () {console.log("EROR")}
+        }), function () {console.log("EROR")}
     });
 
 
