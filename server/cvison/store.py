@@ -1,6 +1,8 @@
 from dbase.dbase import dbase as db
 from api_cal.weather import Weather
 
+from minfo import app_dir
+
 import random, json
 import requests
 
@@ -50,7 +52,7 @@ class clothes:
     @classmethod
     def add(self, dresscode, thumbnail, name=None):
         url = "http://93.73.73.40:8000/"
-        file = {'file': open('static/bg.jpg', 'rb')}
+        file = {'file': open(app_dir+'/'+thumbnail, 'rb')}
 
         r = requests.post(url, files=file)
         cnt = json.loads(r.content)
