@@ -60,7 +60,7 @@ class clothes:
 
         db.qry(
         "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
-        (name, thumbnail, cnt['dress'][0], )
+        (name, thumbnail, cnt['dress'][0]['code'], )
         )
 
         return db.qry("SELECT * FROM clothes WHERE id=?", (db.last_id(), ) )
