@@ -8,7 +8,7 @@ import wave
 import os
 import logging
 
-logging.basicConfig()
+logging.basicConfig(filename='snow.log',level=logging.DEBUG)
 logger = logging.getLogger("snowboy")
 logger.setLevel(logging.INFO)
 TOP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -106,6 +106,7 @@ class HotwordDetector(object):
             self.detector.NumChannels() * self.detector.SampleRate() * 5)
         self.audio = pyaudio.PyAudio()
         self.stream_in = self.audio.open(
+            # input_device_index=2,
             input=True, output=False,
             format=self.audio.get_format_from_width(
                 self.detector.BitsPerSample() / 8),
@@ -151,6 +152,8 @@ class HotwordDetector(object):
         logger.debug("detecting...")
 
         while True:
+            print "LISTENING"
+
             if interrupt_check():
                 logger.debug("detect voice break")
                 break
