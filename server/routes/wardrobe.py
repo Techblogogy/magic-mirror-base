@@ -55,9 +55,9 @@ def wrd_add():
     print "[DEBUG wdobe]: Add request"
 
     try:
-        # fl = mc.rec()
+        fl = mc.rec()
         # thread.start_new_thread( pv.play_auto, (dat,) )
-        return json.dumps(clothes.add("casual", "0.jpg"))
+        # return json.dumps(clothes.add("casual", "0.jpg"))
     except:
         bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
