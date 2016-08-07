@@ -20,6 +20,12 @@ ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
 wrd_api = Blueprint('wrd_api', __name__, url_prefix="/wardrobe")
 
+# Returns number of pages
+@wrd_api.route("/pamount", methods=['GET', 'OPTIONS'])
+@decor.crossdomain(origin=ALLOWED_ORIGIN)
+def wrd_p_amount():
+    return json.dumps(clothes.page_count(8), indent=JSON_DENT)
+
 # Returns Wardrobe items page
 @wrd_api.route("/get", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)

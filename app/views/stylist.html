@@ -18,7 +18,17 @@
             </div>
         </div>
     </div>
-    
+    <div class="page_switcher container" >
+        <ul class="hr container" >
+            <li class="current" id="page-{{$index}}" ng-repeat="i in getNumber(p_amount) track by $index" ng-if="$index === page_num">{{$index+1}}</li>
+            <li id="page-{{$index}}" ng-repeat="i in getNumber(p_amount) track by $index" ng-if=" $index !== page_num">{{$index+1}}</li>
+        </ul>
+        <div>
+
+        </div>
+
+
+    </div>
     <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
     <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
 

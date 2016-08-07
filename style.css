@@ -268,6 +268,18 @@ body {
 #item_descr{
     font-size: 24px;
 }
+
+ul.hr {
+   margin: 0; /* Обнуляем значение отступов */
+   padding: 4px; /* Значение полей */
+  }
+ul.hr li {
+   display: inline; /* Отображать как строчный элемент */
+   margin-right: 5px; /* Отступ слева */
+   border: 1px solid #000; /* Рамка вокруг текста */
+   padding: 7px; /* Поля вокруг текста */
+   font-size: 24px;
+  }
 .Number {
     position: inherit;
     left: 213px;

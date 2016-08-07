@@ -30,5 +30,4 @@ in_cmd = [
     v_cmd(["edit","dresscode","code"], "TAG", "edit_dresscode"),
     v_cmd(["save","dresscode"], "AND", "save_dc"),
 
-
 ]
