@@ -15,6 +15,7 @@ JSON_DENT = 4
 setup_blp = Blueprint('setup_blp', __name__, url_prefix="/setup")
 
 IF_NAME = "en0"
+IF_PORT = "5000"
 
 # Get IP Address
 @setup_blp.route('/getip')
@@ -26,7 +27,7 @@ def get_ip():
     #     struct.pack("256s", IF_NAME[:15])
     # )[20:24])
 
-    return sct.gethostbyname(sct.gethostname())
+    return "%s:%s" % (sct.gethostbyname(sct.gethostname()), IF_PORT)
 
 # Authenication routes
 # Save calendars
