@@ -11,8 +11,6 @@ def dict_factory(cursor, row):
         d[col[0]] = row[idx]
     return d
 
-db_queue = {}
-db_data = {}
 in_queue = False
 
 class dbase:
@@ -53,9 +51,9 @@ class dbase:
     # Querry Database
     @classmethod
     def qry(self, qry, params=()):
-        global db_queue, db_data, in_queue
+        global in_queue
 
-        # Wait if in doing in another thread
+        # Wait for another thread
         if in_queue:
             while in_queue:
                 sleep(0.01)
@@ -68,52 +66,35 @@ class dbase:
         self.close()
         in_queue = False
 
-        # inx = uuid.uuid1()
-        # db_queue[inx] = (qry, params)
-        # # db_queue.append( (threading.current_thread().ident, qry, params) )
-        #
-        # if not in_queue:
-        #     thread.start_new_thread(self.qry_queue, ())
-        #
-        # while not(inx in db_data):
-        #     # print db_data
-        #     sleep(0.01)
-        #     pass
-        #
-        # dat = db_data[inx]
         return dat
 
     # Querry Database
     @classmethod
     def qry_many(self, qry, params=[]):
-        self.connect()
-        dat = self.exe_many(qry,params)
-        self.close()
+        global in_queue
 
-        return dat
-
-    @classmethod
-    def qry_queue(self):
-        global in_queue, db_queue
+        # Wait for another thread
+        if in_queue:
+            while in_queue:
+                sleep(0.01)
 
         in_queue = True
         self.connect()
 
-        for k, q in db_queue.iteritems():
-            print "[DEBUG] Proc thread: %s" % (k,)
-            db_data[k] = self.exe(q[0], q[1])
-            # db_queue[i][3] = False
+        dat = self.exe_many(qry,params)
 
         self.close()
         in_queue = False
 
+        return dat
+
     # Only execute querry
     @classmethod
     def exe(self, qry, params=()):
-        print "\n <==="
-        print "[DEBUG INFO] Querry: %s; Thread:" % (qry)
-        print threading.current_thread().ident
-        print "\n ===>"
+        # print "\n <==="
+        # print "[DEBUG INFO] Querry: %s; Thread:" % (qry)
+        # print threading.current_thread().ident
+        # print "\n ===>"
 
         self._db.execute(qry,params)
         return self._db.fetchall()
