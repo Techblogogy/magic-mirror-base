@@ -146,7 +146,7 @@ body {
 }
 #weather h1 {
     font-size: 56pt;
-    font-weight: 700;
+    /*font-weight: 700;*/
     margin-left: 20px;
     -webkit-transition-delay: 1s;
     -webkit-animation: moveFromLeft .9s ease both;
@@ -185,7 +185,7 @@ body {
 
 #schedule .time {
     padding-left: 5;
-    font-weight: 700;
+    /*font-weight: 700;*/
     font-size: 32pt;
     border-left: 2px solid white;
     /*font-size: 24pt;*/
@@ -194,7 +194,7 @@ body {
 
 #schedule .plan {
     /*padding-right: 0;*/
-    font-weight: 700;
+    /*font-weight: 700;*/
     font-size: 32pt;
     margin-left: auto;
 }
