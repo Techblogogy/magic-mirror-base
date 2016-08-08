@@ -121,11 +121,11 @@ body {
 }
 
 #clock > .ui-widget > .body > h1 {
-    font-weight: 700;
+    /*font-weight: 700;*/
     font-size: 148pt;
 }
 #clock > .ui-widget > .body > h2 {
-    font-weight: 600;
+    /*font-weight: 600;*/
     margin-top: -10px;
     text-align: left;
     font-size: 56pt;
@@ -146,7 +146,7 @@ body {
 }
 #weather h1 {
     font-size: 56pt;
-    font-weight: 700;
+    /*font-weight: 700;*/
     margin-left: 20px;
     -webkit-transition-delay: 1s;
     -webkit-animation: moveFromLeft .9s ease both;
@@ -173,7 +173,7 @@ body {
 
 }
 #schedule h1{
-    font-weight: 700;
+    /*font-weight: 700;*/
     font-size: 56pt;
 }
 #schedule .s_item {
@@ -185,7 +185,7 @@ body {
 
 #schedule .time {
     padding-left: 5;
-    font-weight: 700;
+    /*font-weight: 700;*/
     font-size: 32pt;
     border-left: 2px solid white;
     /*font-size: 24pt;*/
@@ -194,7 +194,7 @@ body {
 
 #schedule .plan {
     /*padding-right: 0;*/
-    font-weight: 700;
+    /*font-weight: 700;*/
     font-size: 32pt;
     margin-left: auto;
 }
@@ -228,6 +228,22 @@ body {
     background-color: rgba(0,0,0,0.2);
 }
 
+
+.help{
+    width: 1050px;
+    height: 100%;
+    display: none;
+    position: absolute;
+    z-index: 22;
+    background-color: rgba(0, 0, 0, 0.93)
+}
+.help li{
+    font-size: 36px;
+}
+.help h1{
+    font-size: 40px;
+    font-weight: 600;
+}
 /*
 #g_map {
     width: 100%;
@@ -268,6 +284,33 @@ body {
 #item_descr{
     font-size: 24px;
 }
+.tutorial{
+    width: 1050px;
+    height: 100%;
+    display: block;
+    position: absolute;
+    z-index: 21;
+}
+.tutorial h1{
+    text-align: center;
+    font-size: 72px;
+    font-weight: 600;
+}
+.tutorial h2{
+    text-align: center;
+    font-size: 64px;
+}
+ul.hr {
+   margin: 0; /* Обнуляем значение отступов */
+   padding: 4px; /* Значение полей */
+  }
+ul.hr li {
+   display: inline; /* Отображать как строчный элемент */
+   margin-right: 5px; /* Отступ слева */
+   border: 1px solid #000; /* Рамка вокруг текста */
+   padding: 7px; /* Поля вокруг текста */
+   font-size: 24px;
+  }
 .Number {
     position: inherit;
     left: 213px;

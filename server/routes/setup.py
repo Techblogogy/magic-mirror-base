@@ -7,8 +7,8 @@ from api_cal.setup import setup
 
 import os, json
 
-import socket as sct
-import fcntl, struct
+# import socket as sct
+# import fcntl, struct
 
 ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
@@ -26,8 +26,31 @@ def get_ip():
     #     0x8915,
     #     struct.pack("256s", IF_NAME[:15])
     # )[20:24])
+    return "192.168.1.103:5000"
+    # return "%s:%s" % (sct.gethostbyname(sct.gethostname()), IF_PORT)
 
-    return "%s:%s" % (sct.gethostbyname(sct.gethostname()), IF_PORT)
+##################################
+#                                #
+#  Saving if tutorial was opened #
+#                                #
+##################################
+
+# Tanya this returns a "bool" if person has finnished your qute little tutorial
+@setup_blp.route('/is_tut')
+def is_tut():
+    return json.dumps( setup.is_tut(), indent=JSON_DENT )
+
+# Tanya whenever you send a GET request to this thing, it will save that user has completed tutorial stuffjjj
+@setup_blp.route('/set_tut')
+def set_tut():
+    setup.save_tut()
+    return ""
+
+##################################
+#                                #
+#  Back to the borring stuff ^_^ #
+#                                #
+##################################
 
 # Authenication routes
 # Save calendars

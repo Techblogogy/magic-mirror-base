@@ -71,13 +71,13 @@ class clothes:
         # db.qry("DELETE FROM clothes_tags WHERE c_id=?", (c_id,))
         # return "[]"
 
-        count = db.qry("""
-            SELECT COUNT(*) as cnt
-            FROM clothes_tags
-            WHERE c_id=?
-        """, (c_id,))[0]["cnt"]
-
-        print "[TB count]: %d" % (count)
+        # count = db.qry("""
+        #     SELECT COUNT(*) as cnt
+        #     FROM clothes_tags
+        #     WHERE c_id=?
+        # """, (c_id,))[0]["cnt"]
+        #
+        # print "[TB count]: %d" % (count)
 
         if count > TAG_LIMIT:
             return "[]"
@@ -85,27 +85,16 @@ class clothes:
         a_tags = tags.strip().split(",")
         a_list = []
 
+        # print a_list
 
+        for a_tag in a_tags:
+            a_list.append( (c_id, a_tag, c_id, a_tag) )
 
-        print a_list
-
-        if count == 0:
-            for a_tag in a_tags:
-                a_list.append( (c_id, a_tag,) )
-
-            db.qry_many("""
-                INSERT INTO clothes_tags(c_id, tag)
-                VALUES (?,?)
-            """, a_list)
-        else:
-            for a_tag in a_tags:
-                a_list.append( (c_id, a_tag, a_tag) )
-
-            db.qry_many("""
-                INSERT INTO clothes_tags(c_id, tag)
-                SELECT ?,?
-                WHERE NOT EXISTS(SELECT tag FROM clothes_tags WHERE tag=?)
-            """, a_list)
+        db.qry_many("""
+            INSERT INTO clothes_tags(c_id, tag)
+            SELECT ?,?
+            WHERE NOT EXISTS(SELECT tag FROM clothes_tags WHERE c_id=? AND tag=?)
+        """, a_list)
 
         return db.qry("SELECT * FROM clothes_tags WHERE c_id=?", (c_id,))
 
