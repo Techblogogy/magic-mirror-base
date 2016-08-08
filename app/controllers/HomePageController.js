@@ -2,11 +2,42 @@ app.controller('HomePageController', ['$scope','socket','$http', function ($scop
 
     $scope.page_id = "p_home";
 
+
+
     socket.forward('add_page', $scope);
     $scope.$on("socket:add_page", function (event, data) {
         $scope.switchView('add','left_swipe');
     });
 
+    //TUTORIAL
+    socket.forward('tutorial', $scope);
+    $scope.$on("socket:tutorial", function (event, data) {
+        document.getElementById('tutorial').style.display = "block";
+    });
+    //CLOSE TUTORIAL
+    socket.forward('tutorial_close', $scope);
+    $scope.$on("socket:tutorial_close", function (event, data) {
+        document.getElementById('tutorial').style.display = "none";
+    });
+
+
+    //Voice command to get list of VoiceCommands
+    socket.forward('list_vcmd', $scope);
+    $scope.$on("socket:list_vcmd", function (event, data) {
+        document.getElementById('help').style.display = "block";
+    });
+    //CLOSE LIST OF VCs
+    socket.forward('list_vcmd_close', $scope);
+    $scope.$on("socket:list_vcmd_close", function (event, data) {
+        document.getElementById('help').style.display = "none";
+    });
+    // GET IP
+    $http.get('http://localhost:5000/setup/getip')
+    .success(function(data){
+        ip = data;
+        $scope.ip = ip;
+        console.log(ip);
+    });
     // SETUP STATE
     $http.get('http://localhost:5000/gcal/isauth')
     .success(function(data){

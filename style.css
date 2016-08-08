@@ -121,11 +121,11 @@ body {
 }
 
 #clock > .ui-widget > .body > h1 {
-    font-weight: 700;
+    /*font-weight: 700;*/
     font-size: 148pt;
 }
 #clock > .ui-widget > .body > h2 {
-    font-weight: 600;
+    /*font-weight: 600;*/
     margin-top: -10px;
     text-align: left;
     font-size: 56pt;
@@ -173,7 +173,7 @@ body {
 
 }
 #schedule h1{
-    font-weight: 700;
+    /*font-weight: 700;*/
     font-size: 56pt;
 }
 #schedule .s_item {
@@ -228,6 +228,22 @@ body {
     background-color: rgba(0,0,0,0.2);
 }
 
+
+.help{
+    width: 1050px;
+    height: 100%;
+    display: none;
+    position: absolute;
+    z-index: 22;
+    background-color: rgba(0, 0, 0, 0.93)
+}
+.help li{
+    font-size: 36px;
+}
+.help h1{
+    font-size: 40px;
+    font-weight: 600;
+}
 /*
 #g_map {
     width: 100%;
@@ -268,7 +284,22 @@ body {
 #item_descr{
     font-size: 24px;
 }
-
+.tutorial{
+    width: 1050px;
+    height: 100%;
+    display: block;
+    position: absolute;
+    z-index: 21;
+}
+.tutorial h1{
+    text-align: center;
+    font-size: 72px;
+    font-weight: 600;
+}
+.tutorial h2{
+    text-align: center;
+    font-size: 64px;
+}
 ul.hr {
    margin: 0; /* Обнуляем значение отступов */
    padding: 4px; /* Значение полей */

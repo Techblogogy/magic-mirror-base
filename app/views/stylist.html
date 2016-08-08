@@ -1,3 +1,46 @@
+<!-- HELP LIST OF VOICE COMMANDS -->
+<div class="popup_back help container" id="help">
+    <div class="col-xs-12">
+         <ul>
+             <h1>Commands to switch page:</h1>
+             <li>Key words to open wardrobe: "dress"+"today"   or   "show"+"stylist"</li>
+             <li>Key words to open home page: "show"+"home"</li>
+             <li>To add new item to your wardrobe: "add"+"new"</li>
+
+             <h1>Home page commands:</h1>
+             <li>To check weather: "what"+"about"+"weather"</li>
+
+             <h1>Wardrobe page commands:</h1>
+             <li>Next page: "next"+"page"</li>
+             <li>Previous page: "previous"+"page"</li>
+             <li>Say number of item to see big image</li>
+             <li>Say "close"+"item" to return to wardrobe gallery</li>
+             <li>To mark item as worn: "want"+"wear"+"today"</li>
+             <li>To find all items with a specific tag or dresscode: <br>"find"+"(your word)"</li>
+             <li>To return to wardrobe gallery after search: "show"+"all"</li>
+
+             <h1>Add page commands:</h1>
+             <li>Next page: "next"+"page"</li>
+             <li>Previous page: "previous"+"page"</li>
+             <li>Say number of item to see big image</li>
+             <li>Say "close"+"item" to return to wardrobe gallery</li>
+
+             <h1>Clothes adding page commands:</h1>
+             <li>Start item adding: "start" or "begin"</li>
+             <li>Add tag: "tag"+"(tag word)"</li>
+             <li>Save tag(s): "save" or "confirm"</li>
+             <li>Edit dresscode: "edit"  or  "code"</li>
+             <li>Save dresscode: "save"  or  "code"</li>
+             <li>Finnish adding item: "finnish" or "quit"</li>
+
+
+             <br>
+             <li>To close list of voice commands: "close"+"help"</li>
+             <li>To close tutorial: "close"+"tutorial"</li>
+             <li>Your setup adress is: {{ip}}</li>
+         </ul>
+    </div>
+</div>
 <ui-widget class="stylist" id="stylist">
     <!-- <h1>Welcome to your wardowbe</h1> -->
     <div ng-controller="ClockCtr" class="row">
@@ -20,8 +63,8 @@
     </div>
     <div class="page_switcher container" >
         <ul class="hr container" >
-            <li class="current" id="page-{{$index}}" ng-repeat="i in getNumber(p_amount) track by $index" ng-if="$index === page_num">{{$index+1}}</li>
-            <li id="page-{{$index}}" ng-repeat="i in getNumber(p_amount) track by $index" ng-if=" $index !== page_num">{{$index+1}}</li>
+            <li class="current" id="page-{{$index}}" ng-repeat="i in getNumber(p_amount) track by $index" ng-if="$index === 0">{{$index+1}}</li>
+            <li id="page-{{$index}}" ng-repeat="i in getNumber(p_amount) track by $index" ng-if=" $index !== 0">{{$index+1}}</li>
         </ul>
         <div>
 

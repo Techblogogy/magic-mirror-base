@@ -12,6 +12,19 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.item_per_page = 8;
 
+    //Voice command to get list of VoiceCommands
+    socket.forward('list_vcmd', $scope);
+    $scope.$on("socket:list_vcmd", function (event, data) {
+        document.getElementById('help').style.display = "block";
+    });
+    //CLOSE LIST OF VCs
+    socket.forward('list_vcmd_close', $scope);
+    $scope.$on("socket:list_vcmd_close", function (event, data) {
+        document.getElementById('help').style.display = "none";
+    });
+
+
+
     // $scope.p_cnt = 0;
     $scope.getNumber = function(num) {
         return new Array(num);
@@ -173,17 +186,25 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
         if ($scope.page_num !== $scope.p_amount) {
+            p_num = $scope.page_num + 1;
             if ($scope.user_search) {
+                console.log(p_num);
+                angular.element(document.querySelectorAll("#page-"+p_num)).removeClass("current");
                 item_id = $scope.get_curitem_id();
-                $scope.page_num +=1;
+                $scope.page_num += 1;
                 $scope.get_search_results($scope.page_num);
             }
             else {
+                angular.element(document.querySelectorAll("#page-"+p_num)).removeClass("current");
                 item_id = $scope.get_curitem_id();
                 $scope.page_num +=1
                 $scope.get_page_items($scope.page_num);
                 // $scope.p_cnt +=1;
             }
+
+            console.log(p_num);
+
+            angular.element(document.querySelectorAll("#page-"+p_num)).addClass("current");
 
             angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
             angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
