@@ -22,7 +22,7 @@ class setup:
          return db.qry("SELECT name FROM sqlite_master WHERE type='table' AND name='tbl_setup'")
 
     @staticmethod
-    def save_tut():
+    def create_tut():
         # Create Table if not exists
         db.qry("""
             CREATE TABLE IF NOT EXISTS tbl_tutorial (
@@ -31,15 +31,21 @@ class setup:
             )
         """)
 
+    @staticmethod
+    def save_tut():
+        setup.create_tut()
+
         # Save table setup state
         db.qry("""
             INSERT INTO tbl_tutorial(tut_comp)
-            SELECT ?
+            SELECT 1
             WHERE NOT EXISTS(SELECT id FROM tbl_tutorial WHERE id=1)
         """)
 
     @staticmethod
     def is_tut():
+        setup.create_tut()
+
         dt = db.qry("SELECT tut_comp FROM tbl_tutorial WHERE id=1")
 
         if len(dt) == 0:
