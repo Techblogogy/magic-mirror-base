@@ -40,11 +40,17 @@ def get_ip():
 def is_tut():
     return json.dumps( setup.is_tut(), indent=JSON_DENT )
 
-# Tanya whenever you send a GET request to this thing, it will save that user has completed tutorial stuff
+# Tanya whenever you send a GET request to this thing, it will save that user has completed tutorial stuffjjj
 @setup_blp.route('/set_tut')
 def set_tut():
     setup.save_tut()
     return ""
+
+##################################
+#                                #
+#  Back to the borring stuff ^_^ #
+#                                #
+##################################
 
 # Authenication routes
 # Save calendars
