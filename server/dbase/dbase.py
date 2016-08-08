@@ -1,11 +1,17 @@
 import sqlite3
+import threading, thread, uuid
+
 from minfo import app_dir
+
+from time import sleep
 
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
         d[col[0]] = row[idx]
     return d
+
+in_queue = False
 
 class dbase:
     _dbpath = '/mirror.db'
@@ -45,24 +51,51 @@ class dbase:
     # Querry Database
     @classmethod
     def qry(self, qry, params=()):
+        global in_queue
+
+        # Wait for another thread
+        if in_queue:
+            while in_queue:
+                sleep(0.01)
+
+        in_queue = True
         self.connect()
+
         dat = self.exe(qry,params)
+
         self.close()
+        in_queue = False
 
         return dat
 
     # Querry Database
     @classmethod
     def qry_many(self, qry, params=[]):
+        global in_queue
+
+        # Wait for another thread
+        if in_queue:
+            while in_queue:
+                sleep(0.01)
+
+        in_queue = True
         self.connect()
+
         dat = self.exe_many(qry,params)
+
         self.close()
+        in_queue = False
 
         return dat
 
     # Only execute querry
     @classmethod
     def exe(self, qry, params=()):
+        # print "\n <==="
+        # print "[DEBUG INFO] Querry: %s; Thread:" % (qry)
+        # print threading.current_thread().ident
+        # print "\n ===>"
+
         self._db.execute(qry,params)
         return self._db.fetchall()
 

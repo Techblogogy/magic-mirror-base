@@ -121,6 +121,9 @@ class Speech:
 
                 pserve.send("audio_detected","ok")
                 snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
+                else:
+                    pserve.send(cmd[0], cmd[1])
+                pserve.send("audio_detected",cmd[0])
                 # pserve.send(cmd[0], cmd[2])
             print("Bing Speech: "+text)
         except sr.UnknownValueError:

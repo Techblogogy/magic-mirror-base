@@ -49,14 +49,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.switch_item = function (id) {
 
-       item_id = $scope.get_curitem_id();
-       angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
 
-       item_id = id;
-
-       angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
-       console.log("[TB DEBUG Switched To]: "+item_id);
-   }
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+        console.log("[TB DEBUG Switched To]: "+item_id);
+    }
+>>>>>>> 33857a67613f47cc8ab0aca4f4c372dbd62fcb13
 
     $scope.switch_right = function(){
 
@@ -216,13 +213,43 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     //     if (elem.getBoundingClientRect) {
     //         return getOffsetRect(elem);
     //     } else {
-    //     return getOffsetSum(elem);
     //     }
     // };
     $scope.item_is_open = false;
     $scope.click = function(itm_num){
         voice = false;
         if (!$scope.item_is_open) {
+       voice = false;
+       // (document.getElementById('parent_popup').style.display === 'none')
+       // getOffset(document.getElementById('popup'));
+       // getOffsetRect()
+       // console.log( document.querySelectorAll('img_c').offset() );
+
+       // document.querySelectorAll(".current")[0].style.margin = '100px';
+       // big_item = document.querySelectorAll(".current")[0].innerHTML;
+       if (!$scope.item_is_open) {
+           // if (itm_num%9 == 0 ){
+           //     // $location.path("/add")
+           //     $scope.switchView('add','left_swipe')
+           //     // socket.emit("user_on_add");
+           //     return 0;
+           // }
+
+           // big_item = "";
+           // if (voice) {
+           //     // console.log(itm_num);
+           //     actual_id = itm_num%9;
+           //     if (actual_id == 0) {
+           //         actual_id = 9
+           //     }
+           //     // console.log(actual_id);
+           //     big_item = document.getElementById("item-"+(actual_id)).innerHTML;
+           // } else {
+           //     // console.log("READ COM");
+           //
+           //     big_item = document.getElementById("item-"+(itm_num)).innerHTML;
+           // }
+
 
            $scope.switch_item(itm_num);
            it_id = $scope.get_curitem_id();
@@ -258,7 +285,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
            $scope.item_is_open = false;
        }
    };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 33857a67613f47cc8ab0aca4f4c372dbd62fcb13
 
     $scope.add_item = function() {
 

@@ -7,13 +7,30 @@ from api_cal.setup import setup
 
 import os, json
 
+import socket as sct
+import fcntl, struct
+
 ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
 setup_blp = Blueprint('setup_blp', __name__, url_prefix="/setup")
 
+IF_NAME = "en0"
+IF_PORT = "5000"
+
+# Get IP Address
+@setup_blp.route('/getip')
+def get_ip():
+    # soc = sct.socket(sct.AF_INET, sct.SOCK_DGRAM)
+    # return sct.inet_ntoa(fcntl.ioctl(
+    #     soc.fileno(),
+    #     0x8915,
+    #     struct.pack("256s", IF_NAME[:15])
+    # )[20:24])
+
+    return "%s:%s" % (sct.gethostbyname(sct.gethostname()), IF_PORT)
+
 # Authenication routes
 # Save calendars
-
 @setup_blp.route('/pos/isconf')
 def setup_istblex():
     return json.dumps({'is_confirmed': setup.if_setup_tbl()})
