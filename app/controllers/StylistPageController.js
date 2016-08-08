@@ -186,25 +186,23 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
         if ($scope.page_num !== $scope.p_amount) {
-            p_num = $scope.page_num + 1;
+            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
             if ($scope.user_search) {
-                console.log(p_num);
-                angular.element(document.querySelectorAll("#page-"+p_num)).removeClass("current");
+                console.log($scope.page_num);
+                angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
                 item_id = $scope.get_curitem_id();
                 $scope.page_num += 1;
                 $scope.get_search_results($scope.page_num);
             }
             else {
-                angular.element(document.querySelectorAll("#page-"+p_num)).removeClass("current");
+
                 item_id = $scope.get_curitem_id();
                 $scope.page_num +=1
                 $scope.get_page_items($scope.page_num);
                 // $scope.p_cnt +=1;
             }
 
-            console.log(p_num);
-
-            angular.element(document.querySelectorAll("#page-"+p_num)).addClass("current");
+            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).addClass("current");
 
             angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
             angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
