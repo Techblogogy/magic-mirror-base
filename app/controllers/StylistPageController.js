@@ -12,6 +12,30 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.item_per_page = 8;
 
+    //Voice command to get list of VoiceCommands
+    socket.forward('list_vcmd', $scope);
+    $scope.$on("socket:list_vcmd", function (event, data) {
+        document.getElementById('help').style.display = "block";
+    });
+    //CLOSE LIST OF VCs
+    socket.forward('list_vcmd_close', $scope);
+    $scope.$on("socket:list_vcmd_close", function (event, data) {
+        document.getElementById('help').style.display = "none";
+    });
+
+
+
+    // $scope.p_cnt = 0;
+    $scope.getNumber = function(num) {
+        return new Array(num);
+    };
+    $http.get('http://localhost:5000/wardrobe/pamount')
+    .success(function(data){
+        $scope.p_amount = Number(data);
+        console.log($scope.p_amount);
+    });
+    console.log($scope.p_amount);
+
     console.log("INIT");
 
     $scope.get_curitem_id = function(){
@@ -157,19 +181,29 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.get_page_items(0);
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
-        if ($scope.user_search) {
-            item_id = $scope.get_curitem_id();
-            $scope.page_num +=1;
-            $scope.get_search_results($scope.page_num);
-        }
-        else {
-            item_id = $scope.get_curitem_id();
-            $scope.page_num +=1
-            $scope.get_page_items($scope.page_num);
-        }
+        if ($scope.page_num !== $scope.p_amount) {
+            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
+            if ($scope.user_search) {
+                console.log($scope.page_num);
+                angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
+                item_id = $scope.get_curitem_id();
+                $scope.page_num += 1;
+                $scope.get_search_results($scope.page_num);
+            }
+            else {
 
-        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
-        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+                item_id = $scope.get_curitem_id();
+                $scope.page_num +=1
+                $scope.get_page_items($scope.page_num);
+                // $scope.p_cnt +=1;
+            }
+
+            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).addClass("current");
+
+            angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+            angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+
+        }
         // setTimeout(function () {
         //     angular.element(document.querySelectorAll("#item-"+x)).removeClass("current");
         //     x = $scope.page_num*9 +1;
@@ -183,17 +217,23 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.previous_page = function(){
         item_id = $scope.get_curitem_id();
-        if ($scope.user_search) {
-            $scope.page_num -=1;
-            $scope.get_search_results($scope.page_num);
+        if ($scope.page_num !== 0) {
+            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
+            if ($scope.user_search) {
+                $scope.page_num -=1;
+                $scope.get_search_results($scope.page_num);
+            }
+            else {
+                item_id = $scope.get_curitem_id();
+                $scope.page_num -=1
+                $scope.get_page_items($scope.page_num);
+            }
+            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).addClass("current");
+            
+            angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+            angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+
         }
-        else {
-            item_id = $scope.get_curitem_id();
-            $scope.page_num -=1
-            $scope.get_page_items($scope.page_num);
-        }
-        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
-        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
     };
     $scope.item_worn = function(){
         item_id = $scope.get_curitem_id();

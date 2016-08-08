@@ -9,6 +9,17 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     socket.emit("user_on_add");
     // http.post
 
+    //Voice command to get list of VoiceCommands
+    socket.forward('list_vcmd', $scope);
+    $scope.$on("socket:list_vcmd", function (event, data) {
+        document.getElementById('help').style.display = "block";
+    });
+    //CLOSE LIST OF VCs
+    socket.forward('list_vcmd_close', $scope);
+    $scope.$on("socket:list_vcmd_close", function (event, data) {
+        document.getElementById('help').style.display = "none";
+    });
+    
     // Microphone functions
     $scope.mic_active = function(){
         // document.getElementById('red').style.display = 'none';
