@@ -42,7 +42,7 @@ class Speech:
     # Verdict: most likely (4 out of 5)
     def detect_bing(self,recon,audio):
         try:
-            text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            text = recon.recognize_bing(audio, key="fcf79b55364840a384f7316318168927")
             # pserve.send("mic_active", "smth")
             cmd = get_command(text)
             # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words

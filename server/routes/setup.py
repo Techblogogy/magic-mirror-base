@@ -29,9 +29,31 @@ def get_ip():
     return "192.168.1.103:5000"
     # return "%s:%s" % (sct.gethostbyname(sct.gethostname()), IF_PORT)
 
+##################################
+#                                #
+#  Saving if tutorial was opened #
+#                                #
+##################################
+
+# Tanya this returns a "bool" if person has finnished your qute little tutorial
+@setup_blp.route('/is_tut')
+def is_tut():
+    return json.dumps( setup.is_tut(), indent=JSON_DENT )
+
+# Tanya whenever you send a GET request to this thing, it will save that user has completed tutorial stuffjjj
+@setup_blp.route('/set_tut')
+def set_tut():
+    setup.save_tut()
+    return ""
+
+##################################
+#                                #
+#  Back to the borring stuff ^_^ #
+#                                #
+##################################
+
 # Authenication routes
 # Save calendars
-
 @setup_blp.route('/pos/isconf')
 def setup_istblex():
     return json.dumps({'is_confirmed': setup.if_setup_tbl()})
