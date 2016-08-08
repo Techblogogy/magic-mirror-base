@@ -21,6 +21,38 @@ class setup:
     def if_setup_tbl():
          return db.qry("SELECT name FROM sqlite_master WHERE type='table' AND name='tbl_setup'")
 
+    @staticmethod
+    def save_tut():
+        # Create Table if not exists
+        db.qry("""
+            CREATE TABLE IF NOT EXISTS tbl_tutorial (
+                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                tut_comp INTEGER NOT NULL
+            )
+        """)
+
+        # Save table setup state
+        db.qry("""
+            INSERT INTO tbl_tutorial(tut_comp)
+            SELECT ?
+            WHERE NOT EXISTS(SELECT id FROM tbl_tutorial WHERE id=1)
+        """)
+
+    @staticmethod
+    def is_tut():
+        dt = db.qry("SELECT tut_comp FROM tbl_tutorial WHERE id=1")
+
+        if len(dt) == 0:
+            return {"bool": False}
+
+        if dt[0]['tut_comp'] == 0:
+            return {"bool": False}
+        else:
+            return {"bool": True}
+
+        return ""
+
+
     # Saves position
     @staticmethod
     def save_pos(u_lng, u_lat):

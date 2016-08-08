@@ -29,9 +29,16 @@ def get_ip():
     return "192.168.1.103:5000"
     # return "%s:%s" % (sct.gethostbyname(sct.gethostname()), IF_PORT)
 
+@setup_blp.route('/is_tut'):
+def is_tut():
+    return json.dumps( setup.is_tut(), indent=JSON_DENT )
+
+@setup_blp.route('/set_tut'):
+def set_tut():
+    setup.save_tut()
+
 # Authenication routes
 # Save calendars
-
 @setup_blp.route('/pos/isconf')
 def setup_istblex():
     return json.dumps({'is_confirmed': setup.if_setup_tbl()})
