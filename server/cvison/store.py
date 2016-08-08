@@ -87,16 +87,6 @@ class clothes:
 
         # print a_list
 
-        # if count == 0:
-        #     for a_tag in a_tags:
-        #         a_list.append( (c_id, a_tag,) )
-        #
-        #     db.qry_many("""
-        #         INSERT INTO clothes_tags(c_id, tag)
-        #         VALUES (?,?)
-        #     """, a_list)
-        # else:
-
         for a_tag in a_tags:
             a_list.append( (c_id, a_tag, c_id, a_tag) )
 
