@@ -36,7 +36,8 @@ def get_ip():
 ##################################
 
 # Tanya this returns a "bool" if person has finnished your qute little tutorial
-@setup_blp.route('/is_tut')
+# Thanks, but it's cute, not qute ^^
+@setup_blp.route('/istut')
 def is_tut():
     return json.dumps( setup.is_tut(), indent=JSON_DENT )
 

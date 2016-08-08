@@ -222,6 +222,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.previous_page = function(){
         item_id = $scope.get_curitem_id();
         if ($scope.page_num !== 0) {
+            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
             if ($scope.user_search) {
                 $scope.page_num -=1;
                 $scope.get_search_results($scope.page_num);
@@ -231,6 +232,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
                 $scope.page_num -=1
                 $scope.get_page_items($scope.page_num);
             }
+            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).addClass("current");
+            
             angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
             angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
 
