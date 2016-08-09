@@ -1,7 +1,7 @@
 import requests, json
 
 def upload():
-    url = "http://93.73.73.40:8000/"
+    url = "http://52.174.96.93/"
     file = {'file': open('static/bg.jpg', 'rb')}
 
     r = requests.post(url, files=file)
