@@ -10,23 +10,14 @@ app.controller('HomePageController', ['$scope','socket','$http', function ($scop
     });
 
     //TUTORIAL
-    $http.get('http://localhost:5000/setup/istut')
-    .success(function(data){
-        console.log(data.bool);
-        if (data.bool) {
-            document.getElementById('tutorial').style.display = "none";
-        }
-        else {
-            document.getElementById('tutorial').style.display = "block";
-        }
+    socket.forward('tutorial', $scope);
+    $scope.$on("socket:tutorial", function (event, data) {
+        document.getElementById('tutorial').style.display = "block";
     });
     //CLOSE TUTORIAL
     socket.forward('tutorial_close', $scope);
     $scope.$on("socket:tutorial_close", function (event, data) {
         document.getElementById('tutorial').style.display = "none";
-        $http.get('http://localhost:5000/setup/set_tut')
-        .success(function(data){
-        });
     });
 
 

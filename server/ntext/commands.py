@@ -8,18 +8,14 @@ in_cmd = [
     v_cmd(["what","about","weather"], "AND", "weather_warning"),
     # v_cmd(["calendar", "plans"], "OR", "c3"), # Calendar keywords
     # v_cmd(["weather", "jacket", "umbrella"], "OR", "c4"), # Weather keywords
-
     v_cmd(["next", "page"], "AND", "next_page"),
     v_cmd(["previous", "page"], "AND", "previous_page"),
-
     v_cmd(["go","right"], "AND", "right"),
     v_cmd(["go","left"], "AND", "left"),
-
     v_cmd([], "NUM", "fullscreen"),
     v_cmd(["close", "item"], "AND", "close_item"),
     v_cmd(["show", "stylist"], "AND", "wardrobe_page"),
     v_cmd(["show", "home"], "AND", "home_page"),
-
     v_cmd(["want", "wear", "today"], "AND", "item_worn"),
     v_cmd(["find"], "TAG", "search"),
     v_cmd(["show", "all"], "AND", "show_all"),

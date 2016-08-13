@@ -63,10 +63,11 @@ def create_server():
     pv = PlayVid()
 
     # Start Remote Control
-    # try:
-    #     thread.start_new_thread( m_remote, (0,) )
-    # except:
-    #     print "Error: unable to start thread"
+    try:
+        # thread.start_new_thread( m_remote, (0,) )
+        pass
+    except:
+        print "Error: unable to start thread"
 
     # Define application routes
     @pserve.app.route('/')
@@ -152,5 +153,8 @@ def create_server():
         # except:
             # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
+    # os.system("electron . &")
+    os.system("electron /home/pi/master_3/magic-mirror-base/ &")
+    print "[DEBUG] Starting electron"
 
     return (pserve.app, pserve.socketio)

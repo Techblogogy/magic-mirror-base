@@ -30,8 +30,9 @@ class Speech:
 
         # Create microphone instance and ajust for noise
         print ("[DEBUG SPEECH] Ajusting for ambient noise")
-        self._m = sr.Microphone(sample_rate=16000)
-        self.noise_adjust()
+        self._m = sr.Microphone(device_index=2, sample_rate=48000)
+    	print self._m.list_microphone_names()
+        #self.noise_adjust()
 
     # Starts audio library
     def start(self):
@@ -41,7 +42,7 @@ class Speech:
         self.running = True
 
         # Start snowboy thread
-        self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=0.5)
+        self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=1, audio_gain=5)
         thread.start_new_thread( self.start_snowboy, () )
 
         # self.stop = self._r.listen_in_background(self._m,self.detect_bing)
@@ -64,6 +65,7 @@ class Speech:
         if self.detected:
             self.detect_bing()
 
+        # self.detect_bing()
 
     # Check for interrupt
     def check_interrupt(self):
@@ -114,6 +116,8 @@ class Speech:
                 else:
                     pserve.send(cmd[0], cmd[1])
                 pserve.send("audio_detected",cmd[0])
+
+                snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
                 # pserve.send(cmd[0], cmd[2])
             print("Bing Speech: "+text)
         except sr.UnknownValueError:

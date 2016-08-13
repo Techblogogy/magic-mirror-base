@@ -73,14 +73,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.switch_item = function (id) {
 
-        item_id = $scope.get_curitem_id();
-        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
-
-        item_id = id;
 
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
         console.log("[TB DEBUG Switched To]: "+item_id);
     }
+>>>>>>> 33857a67613f47cc8ab0aca4f4c372dbd62fcb13
 
     $scope.switch_right = function(){
 
@@ -218,7 +215,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.previous_page = function(){
         item_id = $scope.get_curitem_id();
         if ($scope.page_num !== 0) {
-            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
             if ($scope.user_search) {
                 $scope.page_num -=1;
                 $scope.get_search_results($scope.page_num);
@@ -228,8 +224,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
                 $scope.page_num -=1
                 $scope.get_page_items($scope.page_num);
             }
-            angular.element(document.querySelectorAll("#page-"+$scope.page_num)).addClass("current");
-            
             angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
             angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
 
@@ -256,11 +250,12 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     //     if (elem.getBoundingClientRect) {
     //         return getOffsetRect(elem);
     //     } else {
-    //     return getOffsetSum(elem);
     //     }
     // };
     $scope.item_is_open = false;
     $scope.click = function(itm_num){
+        voice = false;
+        if (!$scope.item_is_open) {
        voice = false;
        // (document.getElementById('parent_popup').style.display === 'none')
        // getOffset(document.getElementById('popup'));
@@ -327,6 +322,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
            $scope.item_is_open = false;
        }
    };
+<<<<<<< HEAD
+
+=======
+>>>>>>> 33857a67613f47cc8ab0aca4f4c372dbd62fcb13
 
     $scope.add_item = function() {
 

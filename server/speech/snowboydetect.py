@@ -126,6 +126,7 @@ class SnowboyDetect(_object):
         return _snowboydetect.SnowboyDetect_NumHotwords(self)
 
     def SampleRate(self):
+        # return 48000
         return _snowboydetect.SnowboyDetect_SampleRate(self)
 
     def NumChannels(self):
@@ -139,5 +140,3 @@ SnowboyDetect_swigregister = _snowboydetect.SnowboyDetect_swigregister
 SnowboyDetect_swigregister(SnowboyDetect)
 
 # This file is compatible with both classic and new-style classes.
-
-

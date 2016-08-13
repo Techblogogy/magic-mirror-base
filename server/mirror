@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from server_public import create_server
 # from gevent.event import Event
 #
