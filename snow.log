@@ -35,3 +35,50 @@ INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:09] "GET /gcal/isauth HTTP/1.1" 2
 INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/fabricator.me%40gmail.com/events?orderBy=startTime&timeMax=2016-08-13T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-13T15%3A06%3A08.488640Z&alt=json
 INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:09] "GET /gcal/today HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:07:08] "GET /socket.io/?EIO=3&transport=polling&t=LQ4S550&sid=a6907130539441a59b081a04834be11c HTTP/1.1" 400 -
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:00] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WAhr HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:00] "POST /socket.io/?EIO=3&transport=polling&t=LQ4WAiX&sid=f18bfae026f441eca1f4ec5a45c78256 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:00] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WAib&sid=f18bfae026f441eca1f4ec5a45c78256 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:00] "GET /setup/getip HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:00] "GET /gcal/istblexist HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:00] "GET /setup/pos/isconf HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/plus/v1/people/me?alt=json
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:00] "GET /setup/pos/get HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/fedorbobylev%40gmail.com/events?orderBy=startTime&timeMax=2016-08-13T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-13T15%3A24%3A00.262626Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:01] "GET /gcal/isauth HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/fabricator.me%40gmail.com/events?orderBy=startTime&timeMax=2016-08-13T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-13T15%3A24%3A00.262626Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:02] "GET /gcal/today HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:29] "POST /socket.io/?EIO=3&transport=polling&t=LQ4WHlf&sid=f18bfae026f441eca1f4ec5a45c78256 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:29] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WAlq&sid=f18bfae026f441eca1f4ec5a45c78256 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:54] "POST /socket.io/?EIO=3&transport=polling&t=LQ4WNtD&sid=f18bfae026f441eca1f4ec5a45c78256 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:54] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WHmW&sid=f18bfae026f441eca1f4ec5a45c78256 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:55] "POST /socket.io/?EIO=3&transport=polling&t=LQ4WO7R&sid=f18bfae026f441eca1f4ec5a45c78256 HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:55] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WOEZ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:55] "POST /socket.io/?EIO=3&transport=polling&t=LQ4WOEw&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:24:55] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WOEz&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:25:25] "POST /socket.io/?EIO=3&transport=polling&t=LQ4WVTe&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:25:25] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WOH3&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:25:50] "POST /socket.io/?EIO=3&transport=polling&t=LQ4Wbcr&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:25:50] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WVUI&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:25:54] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WNtl&sid=f18bfae026f441eca1f4ec5a45c78256 HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:26:16] "POST /socket.io/?EIO=3&transport=polling&t=LQ4WhzG&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:26:16] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WbdK&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:26:42] "POST /socket.io/?EIO=3&transport=polling&t=LQ4WoJS&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:26:42] "GET /socket.io/?EIO=3&transport=polling&t=LQ4Whzv&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:08] "POST /socket.io/?EIO=3&transport=polling&t=LQ4Wufq&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:08] "GET /socket.io/?EIO=3&transport=polling&t=LQ4WoKD&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:34] "POST /socket.io/?EIO=3&transport=polling&t=LQ4W-_x&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:34] "GET /socket.io/?EIO=3&transport=polling&t=LQ4Wugt&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:47] "POST /socket.io/?EIO=3&transport=polling&t=LQ4X27s&sid=f7d01c7e464740319f86f86cff32ffe2 HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:47] "GET /socket.io/?EIO=3&transport=polling&t=LQ4X2IK HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:47] "POST /socket.io/?EIO=3&transport=polling&t=LQ4X2JS&sid=bcd5450f722545c181a88509c14d5829 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:47] "GET /socket.io/?EIO=3&transport=polling&t=LQ4X2Jb&sid=bcd5450f722545c181a88509c14d5829 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:48] "GET /wardrobe/pamount HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:48] "GET /wardrobe/get?items=8&page=0 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:48] "GET /clothes/thum13.jpg HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:48] "GET /clothes/thum11.jpg HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:48] "GET /clothes/thum12.jpg HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:48] "GET /clothes/thum2.jpg HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:48] "GET /clothes/thum6.jpg HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:27:48] "GET /clothes/thum9.jpg HTTP/1.1" 404 -
