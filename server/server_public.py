@@ -154,7 +154,8 @@ def create_server():
             # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
     # os.system("electron . &")
-    os.system("electron /home/pi/master_3/magic-mirror-base/ &")
+    # os.system("electron /home/pi/master_3/magic-mirror-base/ &")
+    os.system("electron . &")
     print "[DEBUG] Starting electron"
 
     return (pserve.app, pserve.socketio)

@@ -1,0 +1,37 @@
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:23] "GET /socket.io/?EIO=3&transport=polling&t=LQ4Q_Z- HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:23] "POST /socket.io/?EIO=3&transport=polling&t=LQ4Q_aZ&sid=9e41043640be43fbafcf98d9aa1c8363 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:23] "GET /socket.io/?EIO=3&transport=polling&t=LQ4Q_af&sid=9e41043640be43fbafcf98d9aa1c8363 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:23] "GET /setup/getip HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:23] "GET /gcal/istblexist HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/discovery/v1/apis/plus/v1/rest
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:23] "GET /setup/pos/get HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:23] "GET /setup/pos/isconf HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/fedorbobylev%40gmail.com/events?orderBy=startTime&timeMax=2016-08-13T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-13T15%3A01%3A25.913550Z&alt=json
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/plus/v1/people/me?alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/fabricator.me%40gmail.com/events?orderBy=startTime&timeMax=2016-08-13T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-13T15%3A01%3A25.913550Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:27] "GET /gcal/isauth HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:01:27] "GET /gcal/today HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-13 18:01:31
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:02:24] "GET /socket.io/?EIO=3&transport=polling&t=LQ4Q_dh&sid=9e41043640be43fbafcf98d9aa1c8363 HTTP/1.1" 400 -
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:08] "GET /socket.io/?EIO=3&transport=polling&t=LQ4S51T HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:08] "POST /socket.io/?EIO=3&transport=polling&t=LQ4S526&sid=a6907130539441a59b081a04834be11c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:08] "GET /socket.io/?EIO=3&transport=polling&t=LQ4S52A&sid=a6907130539441a59b081a04834be11c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:08] "GET /setup/getip HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:08] "GET /gcal/istblexist HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:08] "GET /setup/pos/get HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:08] "GET /setup/pos/isconf HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/plus/v1/people/me?alt=json
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/fedorbobylev%40gmail.com/events?orderBy=startTime&timeMax=2016-08-13T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-13T15%3A06%3A08.488640Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:09] "GET /gcal/isauth HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/fabricator.me%40gmail.com/events?orderBy=startTime&timeMax=2016-08-13T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-13T15%3A06%3A08.488640Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:06:09] "GET /gcal/today HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Aug/2016 18:07:08] "GET /socket.io/?EIO=3&transport=polling&t=LQ4S550&sid=a6907130539441a59b081a04834be11c HTTP/1.1" 400 -

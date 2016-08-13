@@ -4981,3 +4981,7 @@ INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:20] "POST /socket.io/?EIO=3&trans
 INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:20] "GET /socket.io/?EIO=3&transport=polling&t=LPzpwSK&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:46] "POST /socket.io/?EIO=3&transport=polling&t=LPzq6gO&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:46] "GET /socket.io/?EIO=3&transport=polling&t=LPzq0Zl&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
