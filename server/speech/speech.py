@@ -31,8 +31,8 @@ class Speech:
         # Create microphone instance and ajust for noise
         print ("[DEBUG SPEECH] Ajusting for ambient noise")
         self._m = sr.Microphone(device_index=2, sample_rate=48000)
-    	print self._m.list_microphone_names()
-        #self.noise_adjust()
+    	# print self._m.list_microphone_names()
+        self.noise_adjust()
 
     # Starts audio library
     def start(self):
@@ -76,8 +76,10 @@ class Speech:
         with self._m as source:
             self._r.adjust_for_ambient_noise(source, duration=2)
 
-        if self._r.energy_threshold <= 300:
-            self._r.energy_threshold = 300
+        #if self._r.energy_threshold <= 300:
+        # self._r.energy_threshold /= 2
+
+	print self._r.energy_threshold
 
         # print "[TB Speech] Threshold: %s" % (self._r.energy_threshold)
 

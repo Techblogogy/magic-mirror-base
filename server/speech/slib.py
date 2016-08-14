@@ -9,6 +9,8 @@ import math, audioop, collections, threading
 import platform, stat, random, uuid
 import json
 
+import numpy, struct
+
 # import eventlet
 # eventlet.monkey_patch()
 
@@ -402,6 +404,7 @@ class Recognizer(AudioSource):
         self.pause_threshold = 0.8 # seconds of non-speaking audio before a phrase is considered complete
         self.phrase_threshold = 0.3 # minimum seconds of speaking audio before we consider the speaking audio a phrase - values below this are ignored (for filtering out clicks and pops)
         self.non_speaking_duration = 0.5 # seconds of non-speaking audio to keep on both sides of the recording
+        self.audio_gain = 5
 
 
     def record(self, source, duration = None, offset = None):
@@ -457,6 +460,11 @@ class Recognizer(AudioSource):
             elapsed_time += seconds_per_buffer
             if elapsed_time > duration: break
             buffer = source.stream.read(source.CHUNK)
+
+            # Amplify volume
+            buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
+            buffer = struct.pack('h'*len(buffer), *buffer)
+
             energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
 
             # dynamically adjust the energy threshold using assymmetric weighted average
@@ -497,6 +505,11 @@ class Recognizer(AudioSource):
                     raise WaitTimeoutError("listening timed out")
 
                 buffer = source.stream.read(source.CHUNK)
+
+                # Amplify volume
+                buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
+                buffer = struct.pack('h'*len(buffer), *buffer)
+
                 if len(buffer) == 0: break # reached end of the stream
                 frames.append(buffer)
                 if len(frames) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
@@ -525,6 +538,11 @@ class Recognizer(AudioSource):
                 elapsed_time += seconds_per_buffer
 
                 buffer = source.stream.read(source.CHUNK)
+
+                # Amplify volume
+                buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
+                buffer = struct.pack('h'*len(buffer), *buffer)
+
                 if len(buffer) == 0: break # reached end of the stream
                 frames.append(buffer)
                 phrase_count += 1
