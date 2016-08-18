@@ -62,9 +62,12 @@ def create_server():
     # Video playing
     pv = PlayVid()
 
+    # Connect bluetooth bluetooth remote control
+    os.system("rfcomm bind 0 20:16:01:11:92:31")
+
     # Start Remote Control
     try:
-        # thread.start_new_thread( m_remote, (0,) )
+        thread.start_new_thread( m_remote, (0,) )
         pass
     except:
         print "Error: unable to start thread"
@@ -154,8 +157,7 @@ def create_server():
             # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
     # os.system("electron . &")
-    # os.system("electron /home/pi/master_3/magic-mirror-base/ &")
-    os.system("electron . &")
+    os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     print "[DEBUG] Starting electron"
 
     return (pserve.app, pserve.socketio)
