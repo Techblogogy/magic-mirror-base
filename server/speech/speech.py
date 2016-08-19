@@ -15,6 +15,7 @@ import thread, platform
 # Custom voice listening function based on sound and vision
 
 S_DEBUG = True
+S_SNOWBOY = False
 
 class Speech:
 
@@ -44,16 +45,18 @@ class Speech:
 
     # Starts audio library
     def start(self):
-        print ("[DEBUG SPEECH] Starting snowboy")
+        if S_SNOWBOY:
+            print ("[DEBUG SPEECH] Starting snowboy")
 
-        # Ajust for ambient noise
-        self.running = True
+            # Ajust for ambient noise
+            self.running = True
 
-        # Start snowboy thread
-        self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=1, audio_gain=5)
-        thread.start_new_thread( self.start_snowboy, () )
+            # Start snowboy thread
+            self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=1, audio_gain=5)
+            thread.start_new_thread( self.start_snowboy, () )
 
-        # self.stop = self._r.listen_in_background(self._m,self.detect_bing)
+        else:
+            self.stop = self._r.listen_in_background(self._m,self.detect_bing)
 
     # Stops audio libarary
     def stop(self):
@@ -71,7 +74,7 @@ class Speech:
 
         print "[DEBUG SPEECH] Starting Bing"
         if self.detected:
-            self.detect_bing()
+            self.bing_snowboy()
 
         # self.detect_bing()
 
@@ -87,7 +90,7 @@ class Speech:
         #if self._r.energy_threshold <= 300:
         # self._r.energy_threshold /= 2
 
-	print self._r.energy_threshold
+    	# print self._r.energy_threshold
 
         # print "[TB Speech] Threshold: %s" % (self._r.energy_threshold)
 
@@ -103,16 +106,23 @@ class Speech:
     # Pluses: quite accurate
     # Minuses: slow, 5000 month quota
     # Verdict: most likely (4 out of 5)
-    # def detect_bing(self,recon,audio):
-    def detect_bing(self):
+    def bing_snowboy(self):
         self.detected = False
 
         # Listen for phrase
         with self._m as source:
             audio = self._r.listen(source)
 
+        # Send audio to bing
+        self.detect_bing(self._r, audio)
+
+        # Start snowboy in a thread
+        self.start()
+
+    def detect_bing(self,recon,audio):
         try:
-            text = self._r.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            # text = self._r.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
             # pserve.send("mic_active", "smth")
             cmd = get_command(text)
             # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
@@ -135,8 +145,6 @@ class Speech:
         except sr.RequestError as e:
             print("Bing error; {0}".format(e))
 
-        # Start snowboy in a thread
-        self.start()
 
 # voice = Speech()
 # voice.start()
