@@ -30,7 +30,8 @@ class Speech:
 
         # Create microphone instance and ajust for noise
         print ("[DEBUG SPEECH] Ajusting for ambient noise")
-        self._m = sr.Microphone(device_index=2, sample_rate=48000)
+        # self._m = sr.Microphone(device_index=2, sample_rate=48000)
+        self._m = sr.Microphone(sample_rate=48000)
     	# print self._m.list_microphone_names()
         self.noise_adjust()
 

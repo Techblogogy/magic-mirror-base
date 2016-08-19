@@ -39,12 +39,12 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     console.log("INIT");
 
     $scope.get_curitem_id = function(){
-        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        return Number( angular.element( angular.element(document.querySelectorAll(".current.item_stl") )[0] ).attr('it-id') );
 
     };
 
     $scope.get_curitem_vid_id = function(){
-        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id') );
+        return Number( angular.element( angular.element(document.querySelectorAll(".current.item_stl") )[0] ).attr('vid-id') );
     };
 
 
@@ -85,6 +85,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.switch_right = function(){
         // $scope.items
+        console.log($scope.get_curitem_id());
         item_id = $scope.get_curitem_id();
         // console.log(item_id);
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
