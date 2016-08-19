@@ -85,7 +85,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.switch_right = function(){
         // $scope.items
-        console.log($scope.get_curitem_id());
         item_id = $scope.get_curitem_id();
         // console.log(item_id);
         angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
