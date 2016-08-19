@@ -9,6 +9,8 @@ from minfo import app_dir
 # import eventlet
 # eventlet.monkey_patch()
 
+import platform
+
 from blogger import Blogger as bl
 
 from server import PServer
@@ -38,6 +40,9 @@ from api_cal.gcal import gcal
 # JSON_DENT = 4
 
 def create_server():
+    machine_plt = platform.machine()[:3]
+    ml_pt = (machine_plt == "arm")
+
     # Create server singleton instance
     from server import PServer
     pserve = PServer()
@@ -63,7 +68,8 @@ def create_server():
     pv = PlayVid()
 
     # Connect bluetooth bluetooth remote control
-    os.system("rfcomm bind 0 20:16:01:11:92:31")
+    if ml_pt:
+        os.system("rfcomm bind 0 20:16:01:11:92:31")
 
     # Start Remote Control
     try:
@@ -156,8 +162,11 @@ def create_server():
         # except:
             # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
 
-    os.system("electron . &")
-    # os.system("electron /home/pi/master_3/magic-mirror-base/ &")
+    if ml_pt:
+        os.system("electron /home/pi/master_3/magic-mirror-base/ &")
+    else:
+        os.system("electron . &")
+
     print "[DEBUG] Starting electron"
 
     return (pserve.app, pserve.socketio)

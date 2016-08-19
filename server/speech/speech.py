@@ -9,7 +9,7 @@ from ntext.ntext import get_command
 import snowboydecoder
 from minfo import app_dir
 
-import thread
+import thread, platform
 
 # from server import IO_SPACE, socketio
 # Custom voice listening function based on sound and vision
@@ -30,8 +30,15 @@ class Speech:
 
         # Create microphone instance and ajust for noise
         print ("[DEBUG SPEECH] Ajusting for ambient noise")
-        # self._m = sr.Microphone(device_index=2, sample_rate=48000)
-        self._m = sr.Microphone(sample_rate=48000)
+
+        machine_plt = platform.machine()[:3]
+        ml_pt = (machine_plt == "arm")
+
+        if ml_pt:
+            self._m = sr.Microphone(device_index=2, sample_rate=48000)
+        else:
+            self._m = sr.Microphone(sample_rate=16000)
+
     	# print self._m.list_microphone_names()
         self.noise_adjust()
 
