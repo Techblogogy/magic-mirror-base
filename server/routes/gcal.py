@@ -5,6 +5,9 @@ from api_cal.gcal import gcal
 
 import os, json
 
+import logging
+logger = logging.getLogger("TB")
+
 ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
 gcal_api = Blueprint('gcal_api', __name__, url_prefix="/gcal")

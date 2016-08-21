@@ -6,6 +6,9 @@ item_number = 0
 from v_cmd import v_cmd
 from commands import in_cmd
 
+import logging
+logger = logging.getLogger("TB")
+
 # nltk.download()
 
 # Key base
@@ -75,20 +78,11 @@ def get_command(cm):
 
         # Output command
         if br:
+            logger.debug(c.cmd)
 
-            # try:
-            #     thread.start_new_thread( send_left, (0,) )
-            # except:
-            #     print "Error: unable to start thread"
-
-            # pserve.send()
-
-            # pserve.socketio.emit("c2", "", namespace=pserve.IO_SPACE)
-            # pserve.socketio.emit(c.cmd, "", namespace=pserve.IO_SPACE)
-            print c.cmd
             return (c.cmd, item_number, tokens)
             break
 
 
 get_command("Mirror, mirror on the wall")
-print item_number
+logger.debug(item_number)

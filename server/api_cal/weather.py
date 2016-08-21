@@ -3,6 +3,9 @@ import json
 
 from api_cal.setup import setup
 
+import logging
+logger = logging.getLogger("TB")
+
 API_WEATHER_KEY = "ea1b2a690767c4cffc1832b89fe81d68"
 
 class Weather:

@@ -5,6 +5,9 @@ from minfo import app_dir
 
 import random, json, requests
 
+import logging
+logger = logging.getLogger("TB")
+
 TAG_LIMIT = 5
 
 class clothes:
@@ -56,7 +59,7 @@ class clothes:
         r = requests.post(url, files=file)
         cnt = json.loads(r.content)
 
-        print cnt['dress']
+        logger.debug(cnt['dress'])
 
         db.qry(
         "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
@@ -111,7 +114,8 @@ class clothes:
     # Returns video id
     @classmethod
     def get_video(self, id):
-        print "[DEBUG] id is: %s" % (id)
+        logger.debug("id is: %s", (id))
+
         path = db.qry("SELECT thumbnail FROM clothes WHERE id=?", (id,))[0]['thumbnail']
         path = path.split(".")
 
@@ -160,8 +164,8 @@ class clothes:
         w_rng = Weather.w_temp_range()[0]
         w_temp = db._temp_group(w_rng)
 
-        print "[DEBUG] Current temperatue: %d" % (w_rng)
-        print "[DEBUG] Temperature Range: %d" % (w_temp)
+        logger.debug("[DEBUG] Current temperatue: %d", (w_rng))
+        logger.debug("[DEBUG] Temperature Range: %d", (w_temp))
 
         try:
             d_codes.index(query)

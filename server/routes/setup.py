@@ -7,6 +7,9 @@ from api_cal.setup import setup
 
 import os, json
 
+import logging
+logger = logging.getLogger("TB")
+
 # import socket as sct
 # import fcntl, struct
 
@@ -61,11 +64,10 @@ def setup_istblex():
 @setup_blp.route("/pos", methods=['POST','OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def setup_save_u_pos():
-    # print request.form.getlist('ids[]')
     setup.save_pos(request.form.get('u_lng'), request.form.get('u_lat'))
-    print request.form
-    # redirect(url_for('setcal'))
-    # return json.dumps(gcal.get_ucals(), indent=JSON_DENT)
+
+    logger.debug(request.form)
+
     return '<meta http-equiv="refresh" content ="1000; URL=http://localhost:5000/setcal">'
 
 @setup_blp.route('/pos/get', methods=['GET','OPTIONS'])

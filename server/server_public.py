@@ -78,10 +78,6 @@ def create_server():
     # Video playing
     pv = PlayVid()
 
-    # Connect bluetooth bluetooth remote control
-    if ml_pt:
-        os.system("rfcomm bind 0 20:16:01:11:92:31")
-
     # Start Remote Control
     try:
         thread.start_new_thread( m_remote, (0,) )
@@ -127,8 +123,6 @@ def create_server():
             # pos = setup_get_pos()x
         )
 
-
-
     # SocketIO Connection
     @pserve.socketio.on("connect", namespace=pserve.IO_SPACE)
     def connected():
@@ -142,8 +136,8 @@ def create_server():
     # Play video
     @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
     def play_video(dat):
-        print "[TB DUBUG] Playing video %s" % (dat)
-        # pv.play_auto(dat)
+        logger.info("Playing video %s", (dat))
+
         try:
             pv.x = 92
             pv.y = 80
@@ -151,11 +145,11 @@ def create_server():
             pv.h = 1350
             thread.start_new_thread( pv.play_auto, (dat,) )
         except:
-            print "Error: unable to start video thread"
+            logger.exception("Unable to start video thread")
 
     @pserve.socketio.on("closed", namespace=pserve.IO_SPACE)
     def stop_video():
-        print "[TB DUBUG] Stoping video"
+        logger.info("Stoping video")
         pv.stop_auto()
 
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
@@ -163,20 +157,20 @@ def create_server():
         try:
             mc.turn_on()
         except:
-            bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+            logger.warning("MyCam failed. Are you on Raspberry PI?")
 
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        # try:
-        mc.turn_off()
-        # except:
-            # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+        try:
+            mc.turn_off()
+        except:
+            logger.warning("MyCam failed. Are you on Raspberry PI?")
 
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
         os.system("electron ../ &")
 
-    print "[DEBUG] Starting electron"
+    logger.info("Starting electron")
 
     return (pserve.app, pserve.socketio)

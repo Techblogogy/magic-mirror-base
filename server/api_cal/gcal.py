@@ -12,6 +12,9 @@ import httplib2
 import datetime
 from dbase.dbase import dbase as db
 
+import logging
+logger = logging.getLogger("TB")
+
 class gcal:
     #Inits Calendar tables
     @staticmethod
@@ -51,7 +54,7 @@ class gcal:
             store = Storage(app_dir+'/gcal_credentials')
             return store.locked_get()
         except:
-            print "ERROR!", sys.exc_info()[0]
+            logger.exception(sys.exc_info()[0])
             return None
 
     # Put credential
@@ -70,7 +73,7 @@ class gcal:
             store = Storage(app_dir+'/gcal_credentials')
             store.locked_delete()
         except:
-            print "ERROR!", sys.exc_info()[0]
+            logger.exception(sys.exc_info()[0])
             return None
 
     # Checks for need of authentication
@@ -87,7 +90,7 @@ class gcal:
     # De authenticate user
     @staticmethod
     def deauth_usr():
-        print "removing auth"
+        logger.debug("removing auth")
 
         if gcal.get_cred() != None:
             gcal.get_cred().revoke(httplib2.Http())

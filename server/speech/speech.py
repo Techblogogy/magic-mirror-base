@@ -11,6 +11,9 @@ from minfo import app_dir
 
 import thread, platform
 
+import logging
+logger = logging.getLogger("TB")
+
 # from server import IO_SPACE, socketio
 # Custom voice listening function based on sound and vision
 
@@ -20,7 +23,7 @@ S_SNOWBOY = False
 class Speech:
 
     def __init__(self):
-        print "[DEBUG SPEECH] Initializing libraries"
+        logger.info("Initializing libraries")
 
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = False
@@ -30,7 +33,7 @@ class Speech:
         self.detected = False
 
         # Create microphone instance and ajust for noise
-        print ("[DEBUG SPEECH] Ajusting for ambient noise")
+        logger.info("Ajusting for ambient noise")
 
         machine_plt = platform.machine()[:3]
         ml_pt = (machine_plt == "arm")
@@ -46,7 +49,7 @@ class Speech:
     # Starts audio library
     def start(self):
         if S_SNOWBOY:
-            print ("[DEBUG SPEECH] Starting snowboy")
+            logger.info("Starting snowboy")
 
             # Ajust for ambient noise
             self.running = True
@@ -70,9 +73,9 @@ class Speech:
                        sleep_time=0.03)
         self.dec.terminate()
 
-        print "[DEBUG SPEECH] Stopping snowboy"
+        logger.info("Stopping snowboy")
 
-        print "[DEBUG SPEECH] Starting Bing"
+        logger.info("Starting Bing")
         if self.detected:
             self.bing_snowboy()
 
@@ -96,7 +99,7 @@ class Speech:
 
     # Voice detection
     def detected_snowboy(self):
-        print "[SNOWBOY] DETECTED"
+        logger.info("SNOWBOY DETECTED")
         self.detected = True
 
         snowboydecoder.play_audio_file(app_dir+"/voice/dong.wav")
@@ -121,30 +124,26 @@ class Speech:
 
     def detect_bing(self,recon,audio):
         try:
-            # text = self._r.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+
             text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
-            # pserve.send("mic_active", "smth")
             cmd = get_command(text)
-            # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
+
             if cmd:
-                print cmd[1]
-                # print cmd[2]
+                logger.debug("Item Number: %d", cmd[1])
+
                 if cmd[0] == "add_tags" or cmd[0] == "edit_dresscode":
                     pserve.send(cmd[0], cmd[2])
                 elif cmd[0] == "search":
                     pserve.send(cmd[0], cmd[2])
                 else:
                     pserve.send(cmd[0], cmd[1])
+
                 pserve.send("audio_detected",cmd[0])
 
                 snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
-                # pserve.send(cmd[0], cmd[2])
-            print("Bing Speech: "+text)
+
+            logger.debug("Bing Speech: %s", text)
         except sr.UnknownValueError:
-            print("Bing unrecognizable")
+            logger.info("Bing unrecognizable")
         except sr.RequestError as e:
-            print("Bing error; {0}".format(e))
-
-
-# voice = Speech()
-# voice.start()
+            logger.error("Bing error; {0}".format(e))

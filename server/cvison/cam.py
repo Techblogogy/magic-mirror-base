@@ -15,6 +15,8 @@ pv = PlayVid()
 
 from store import clothes
 
+import logging
+logger = logging.getLogger("TB")
 
 R_WARM = 3
 R_REC = 5
@@ -64,7 +66,7 @@ class My_Cam():
         self.start()
         pserve.send("m_camera", "cam_on")
 
-        print "warming camera up"
+        logger.info("warming camera up")
         if BIG_CAM:
             self.cam.start_preview(fullscreen=False, window = (92, 210, 843, 1350))
         else:
@@ -72,7 +74,8 @@ class My_Cam():
         pserve.send("m_camera", "preview_on")
 
     def turn_off(self):
-        print "Recording stopped"
+        logger.info("Recording stopped")
+
         self.cam.stop_preview()
         pserve.send("m_camera", "preview_off")
 
@@ -82,20 +85,17 @@ class My_Cam():
     def quit(self):
         pv.stop_auto()
 
-
     # @classmethod
     def rec(self):
         t = str(int(time()))
 
         sleep(R_WARM)
 
-        #TODO: Add socket sending
-        print "Capturing thumbnail"
+        logger.info("Capturing thumbnail")
         self.cam.capture('%s/cls/%s.jpg' % (app_dir,t,))
         pserve.send("m_camera", "thumb_captured")
 
-        #TODO: Add socket sending
-        print "Recording video"
+        logger.info("Recording video")
         pserve.send("m_camera", "video_start")
         self.cam.start_recording("%s/cls/%s.h264" % (app_dir,t,))
 
@@ -105,7 +105,7 @@ class My_Cam():
         self.cam.stop_recording()
         pserve.send("m_camera", "video_end")
 
-        print "[DEBUG] Camera stop"
+        logger.info("Camera stop")
 
         #TODO: Add socket sending
         pserve.send("m_camera", "compression_begin")
@@ -126,8 +126,7 @@ class My_Cam():
             thread.start_new_thread( pv.play_auto, (cl[0]["id"],) )
             #clothes.add("casual", fl["thum]".jpg")
         except:
-            print ("MyCam failed. Are you on Raspberry PI?")
-
+            logger.error("Playing video failed")
 
         return cl
 

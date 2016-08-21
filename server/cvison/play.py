@@ -6,6 +6,9 @@ from time import sleep
 from store import clothes
 from minfo import app_dir
 
+import logging
+logger = logging.getLogger("TB")
+
 class PlayVid:
 
 	def __init__(self):
@@ -48,8 +51,8 @@ class PlayVid:
 		self.play()
 
 		while self.playing:
-			print "[PlayVid DEBUG] Playing video %s" % (self.file)
-			print self.proc.poll()
+			logger.info("[PlayVid DEBUG] Playing video %s", (self.file))
+			logger.debug(self.proc.poll())
 
 			if self.proc.poll() == 0:
 				self.play()

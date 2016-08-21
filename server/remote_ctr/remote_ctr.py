@@ -1,7 +1,5 @@
-import math
-import time
 # import turtle
-import serial
+import serial, os, time, math
 # import bluetooth
 
 #from server import socketio
@@ -11,9 +9,15 @@ import serial
 from server import PServer
 pserve = PServer()
 
-B_COM =  "COM4" #"/dev/rfcomm0"
+B_COM =  "/dev/rfcomm0" #"COM4"
 
 def m_remote(t):
+
+    # Connect bluetooth remote control
+    # if ml_pt:
+
+    os.system("rfcomm bind 0 20:16:01:11:92:31")
+
     ser = serial.Serial(
         port=B_COM,
         baudrate=9600,

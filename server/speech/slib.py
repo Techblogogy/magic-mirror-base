@@ -14,6 +14,9 @@ import numpy, struct
 # import eventlet
 # eventlet.monkey_patch()
 
+import logging
+logger = logging.getLogger("TB")
+
 from server import PServer
 pserve = PServer()
 
@@ -490,7 +493,7 @@ class Recognizer(AudioSource):
         non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
 
         # DEBUG
-        print "[Speech API DEBUG]: Energy threshold %d" % (self.energy_threshold)
+        logger.info("Energy threshold %d", (self.energy_threshold))
         pserve.send("mic_is_listening","smth")
 
         # read audio input for phrases until there is a phrase that is long enough
@@ -530,7 +533,7 @@ class Recognizer(AudioSource):
                     self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
 
             # DEBUG
-            print "[Speech API DEBUG]: Audio Detected"
+            logger.info("Audio Detected")
 
             # read audio input until the phrase ends
             pause_count, phrase_count = 0, 0
@@ -565,11 +568,11 @@ class Recognizer(AudioSource):
                 break # phrase is long enough, stop listening
             else:
                 # DEBUG
-                print "[Speech API DEBUG]: Phase is not long enough"
+                logger.info("Phase is not long enough")
 
 
         # DEBUG
-        print "[Speech API DEBUG]: Getting Frame Data"
+        logger.info("Getting Frame Data")
 
         # obtain frame data
         for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
@@ -776,7 +779,7 @@ class Recognizer(AudioSource):
         assert isinstance(language, str), "`language` must be a string"
 
         # DEBUG:
-        print "\n[Speech API DEBUG]: Started Bing Recogntion"
+        logger.info("Started Bing Recogntion")
 
         access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
         allow_caching = True
@@ -816,7 +819,7 @@ class Recognizer(AudioSource):
                 self.bing_cached_access_token_expiry = start_time + expiry_seconds
 
         # DEBUG
-        print "[Speech API DEBUG]: Getting Audio Data"
+        logger.info("Getting Audio Data")
 
         wav_data = audio_data.get_wav_data(
             convert_rate = 16000, # audio samples must be 8kHz or 16 kHz
@@ -839,7 +842,7 @@ class Recognizer(AudioSource):
         })
 
         # DEBUG
-        print "[Speech API DEBUG]: Sending Request"
+        logger.info("Sending Request")
 
         try:
             response = urlopen(request)
@@ -851,7 +854,7 @@ class Recognizer(AudioSource):
         result = json.loads(response_text)
 
         # DEBUG
-        print "[Speech API DEBUG]: Displaying Result"
+        logger.info("Displaying Result")
 
         # return results
         if show_all: return result
