@@ -53,6 +53,7 @@ class clothes:
     # Add clothing item
     @classmethod
     def add(self, dresscode, thumbnail, name=None):
+        # TODO: Import from config file
         url = "http://93.73.73.40:8000/"
         file = {'file': open(app_dir+'/cls/'+thumbnail, 'rb')}
 

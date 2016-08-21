@@ -17,7 +17,6 @@ logger = logging.getLogger("TB")
 # from server import IO_SPACE, socketio
 # Custom voice listening function based on sound and vision
 
-S_DEBUG = True
 S_SNOWBOY = False
 
 class Speech:
