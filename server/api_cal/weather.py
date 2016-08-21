@@ -9,7 +9,7 @@ logger = logging.getLogger("TB")
 from tb_config import conf_file as g_cfg
 cfg = g_cfg().get_cfg()
 
-API_WEATHER_KEY = cgf.get("API KEYS", "weather_map")
+API_WEATHER_KEY = cfg.get("API KEYS", "weather_map")
 
 class Weather:
 

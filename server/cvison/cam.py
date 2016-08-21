@@ -18,6 +18,8 @@ from store import clothes
 import logging
 logger = logging.getLogger("TB")
 
+from tb_config import conf_file as g_cfg
+
 R_WARM = 3
 R_REC = 5
 
@@ -36,26 +38,35 @@ class My_Cam():
 
     # @classmethod
     def start(self):
+        cfg = g_cfg().get_cfg()
+
         self.cam = PiCamera()
 
         self.cam.led = False
         self.cam.framerate = 24
 
         # Camera Controls
-        self.cam.rotation = 90
+        self.cam.rotation = cfg.getint("PI CAMERA", "rotation") #90
         #cam.resolution = (640, 1024)
 
-        self.cam.contrast = 100 # Range -100 100
+        self.cam.contrast = cfg.getint("PI CAMERA", "contrast") #100 # Range -100 100
         #cam.saturation = 100 # Range -100 100
-        self.cam.brightness = 80 # 0 100
+        self.cam.brightness = cfg.getint("PI CAMERA", "brightness") # 80 # 0 100
         #cam.awb_mode = "shade"
 
-        self.cam.iso = 1600
+        self.cam.iso = cfg.getint("PI CAMERA", "iso") # 1600
 
-        self.cam.sensor_mode = 1
+        self.cam.sensor_mode = cfg.getint("PI CAMERA", "sensor_mode") # 1
         #cam.exposure_mode = "nightpreview"
 
-        self.cam.shutter_speed = 1/500
+        self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
+
+        # Preview window
+        self.x = cfg.getint("PI CAMERA", "x")
+        self.y = cfg.getint("PI CAMERA", "y")
+        self.w = cfg.getint("PI CAMERA", "width")
+        self.h = cfg.getint("PI CAMERA", "height")
+
 
     # @classmethod
     # def start_loop():
@@ -67,10 +78,7 @@ class My_Cam():
         pserve.send("m_camera", "cam_on")
 
         logger.info("warming camera up")
-        if BIG_CAM:
-            self.cam.start_preview(fullscreen=False, window = (92, 210, 843, 1350))
-        else:
-            self.cam.start_preview(fullscreen=False, window = (92, 210, 100, 100))
+        self.cam.start_preview(fullscreen=False, window = (self.x, self.y, self.w, self.h))
         pserve.send("m_camera", "preview_on")
 
     def turn_off(self):

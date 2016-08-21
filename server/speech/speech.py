@@ -35,7 +35,7 @@ class Speech:
         self.s_sensitivity = cfg.getint("SPEECH", "snowboy_sensitivity")
         self.s_gain = cfg.getint("SPEECH", "snowboy_gain")
 
-        self.adj_time = cgf.getint("SPEECH", "adjust_time")
+        self.adj_time = cfg.getint("SPEECH", "adjust_time")
 
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = cfg.getboolean("SPEECH", "dynamic_threshold") #False
