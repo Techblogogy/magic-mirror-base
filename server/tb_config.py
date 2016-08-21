@@ -11,6 +11,9 @@ class Singleton(type):
 class conf_file():
     __metaclass__ = Singleton
 
-    def __init__():
+    def __init__(self):
         self.config = ConfigParser.ConfigParser()
         self.config.read('config.cfg')
+
+    def get_cfg(self):
+        return self.config

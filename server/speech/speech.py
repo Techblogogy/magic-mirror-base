@@ -11,6 +11,8 @@ from minfo import app_dir
 
 import thread, platform
 
+from tb_config import conf_file as g_cfg
+
 import logging
 logger = logging.getLogger("TB")
 
@@ -22,10 +24,16 @@ S_SNOWBOY = False
 class Speech:
 
     def __init__(self):
-        logger.info("Initializing libraries")
+        logger.info("Initializing Speech Libraries")
+
+        # Get Configuation File
+        cfg = g_cfg().get_cfg()
+
+        self.snowboy_trigger = cfg.getboolean("SPEECH", "snowboy_trigger")
+        self.api_key = cfg.get("API KEYS", "bing_speech")
 
         self._r = sr.Recognizer()
-        self._r.dynamic_energy_threshold = False
+        self._r.dynamic_energy_threshold = cfg.getboolean("SPEECH", "dynamic_threshold") #False
 
         # Check if running
         self.running = True
@@ -34,13 +42,14 @@ class Speech:
         # Create microphone instance and ajust for noise
         logger.info("Ajusting for ambient noise")
 
-        machine_plt = platform.machine()[:3]
-        ml_pt = (machine_plt == "arm")
+        # machine_plt = platform.machine()[:3]
+        # ml_pt = (machine_plt == "arm")
 
-        if ml_pt:
-            self._m = sr.Microphone(device_index=2, sample_rate=48000)
-        else:
-            self._m = sr.Microphone(sample_rate=16000)
+        logger.debug(cfg.getboolean("SPEECH", "snowboy_trigger"))
+
+        self._m = sr.Microphone(
+            device_index=cfg.getint("SPEECH", "device_index"),
+            sample_rate=cfg.getint("SPEECH", "sample_rate"))
 
     	# print self._m.list_microphone_names()
         self.noise_adjust()
@@ -124,7 +133,7 @@ class Speech:
     def detect_bing(self,recon,audio):
         try:
 
-            text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            text = recon.recognize_bing(audio, key=self.api_key)
             cmd = get_command(text)
 
             if cmd:
