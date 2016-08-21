@@ -9,9 +9,21 @@ from minfo import app_dir
 # import eventlet
 # eventlet.monkey_patch()
 
-import platform
+import platform, logging
 
-from blogger import Blogger as bl
+# Setup logging
+logging.basicConfig(format="[%(name)s %(levelname)s %(module)s]: %(message)s")
+
+logger = logging.getLogger("TB")
+logger.setLevel(logging.DEBUG)
+
+# formatter = logging.Formatter()
+# ch = logging.StreamHandler()
+# ch.setFormatter(formatter);
+# ch.setLevel(logging.DEBUG)
+# logger.addHandler(ch)
+
+# from blogger import Blogger as bl
 
 from server import PServer
 pserve = PServer()
@@ -24,7 +36,7 @@ try:
     from cvison.cam import My_Cam
     mc = My_Cam()
 except ImportError:
-    bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+    logger.warning("MyCam failed. Are you on Raspberry PI?")
 
 from speech.speech import Speech
 from remote_ctr.remote_ctr import m_remote
@@ -34,7 +46,6 @@ import decor
 
 from api_cal.setup import setup
 from api_cal.gcal import gcal
-
 
 # Important Constants
 # JSON_DENT = 4
@@ -74,9 +85,8 @@ def create_server():
     # Start Remote Control
     try:
         thread.start_new_thread( m_remote, (0,) )
-        pass
     except:
-        print "Error: unable to start thread"
+        logger.error("Error: unable to start remote control thread")
 
     # Define application routes
     @pserve.app.route('/')
@@ -122,7 +132,7 @@ def create_server():
     # SocketIO Connection
     @pserve.socketio.on("connect", namespace=pserve.IO_SPACE)
     def connected():
-        print "client %s connected" % (request.sid)
+        logger.info("client %s connected", (request.sid))
 
     # Page 404
     @pserve.app.errorhandler(404)
@@ -165,7 +175,7 @@ def create_server():
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
-        os.system("electron . &")
+        os.system("electron ../ &")
 
     print "[DEBUG] Starting electron"
 

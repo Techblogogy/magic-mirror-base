@@ -3,14 +3,17 @@ import decor
 from flask import Blueprint, redirect, request, url_for
 from cvison.store import clothes
 
-from blogger import Blogger as bl
+# from blogger import Blogger as bl
+
+import logging
+logger = logging.getLogger("TB")
 
 mc = None
 try:
     from cvison.cam import My_Cam
     mc = My_Cam()
 except ImportError:
-    bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+    logger.warning("MyCam failed. Are you on Raspberry PI?")
 
 from cvison.play import PlayVid
 
