@@ -6,15 +6,20 @@ pserve = PServer()
 
 from ntext.ntext import get_command
 
-import snowboydecoder
+import logging
+logger = logging.getLogger("TB")
+
+try:
+    import snowboydecoder
+except:
+    logger.error("Snowboy Not Found :(")
+
 from minfo import app_dir
 
 import thread, platform
 
 from tb_config import conf_file as g_cfg
 
-import logging
-logger = logging.getLogger("TB")
 
 
 class Speech:
@@ -148,7 +153,10 @@ class Speech:
 
                 pserve.send("audio_detected",cmd[0])
 
-                snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
+                try:
+                    snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
+                except:
+                    logger.error("Snowboy error")
 
             logger.debug("Bing Speech: %s", text)
         except sr.UnknownValueError:
