@@ -126,11 +126,12 @@ class My_Cam():
         # print t
 
         try:
-            pv.x = 420
-            pv.y = 105
-            pv.w = 235
-            pv.h = 376
+            # pv.x = 420
+            # pv.y = 105
+            # pv.w = 235
+            # pv.h = 376
 
+            pv.size_add()
             thread.start_new_thread( pv.play_auto, (cl[0]["id"],) )
             #clothes.add("casual", fl["thum]".jpg")
         except:

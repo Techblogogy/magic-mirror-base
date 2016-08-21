@@ -9,15 +9,33 @@ from minfo import app_dir
 import logging
 logger = logging.getLogger("TB")
 
+from tb_config import conf_file as g_cfg
+
 class PlayVid:
 
 	def __init__(self):
 		# Video playback position
-		self.x = 92
-		self.y = 80
+		# self.x = 92
+		# self.y = 80
+		#
+		# self.w = 843
+		# self.h = 1350
 
-		self.w = 843
-		self.h = 1350
+	    cfg = g_cfg().get_cfg()
+
+		self.size_wrd = [
+			cfg.getint("VIDEO WARDROBE", "x"),
+			cfg.getint("VIDEO WARDROBE", "y"),
+			cfg.getint("VIDEO WARDROBE", "width"),
+			cfg.getint("VIDEO WARDROBE", "height")
+		]
+
+		self.size_add = [
+			cfg.getint("VIDEO ADD PAGE", "x"),
+			cfg.getint("VIDEO ADD PAGE", "y"),
+			cfg.getint("VIDEO ADD PAGE", "width"),
+			cfg.getint("VIDEO ADD PAGE", "height")
+		]
 
 		# Video File
 		self.file = ""
@@ -27,6 +45,20 @@ class PlayVid:
 
 		# is playing
 		self.playing = False
+
+	# Sets video for wardrobe
+	def wrd_size():
+		self.x = self.size_wrd[0]
+		self.y = self.size_wrd[1]
+		self.w = self.size_wrd[2]
+		self.h = self.size_wrd[3]
+
+	# Sets video for add page
+	def add_size():
+		self.x = self.size_add[0]
+		self.y = self.size_add[1]
+		self.w = self.size_add[2]
+		self.h = self.size_add[3]
 
 	# Sets Video File Path
 	def set_p(self, p):

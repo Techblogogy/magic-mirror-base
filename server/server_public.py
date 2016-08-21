@@ -139,10 +139,11 @@ def create_server():
         logger.info("Playing video %s", (dat))
 
         try:
-            pv.x = 92
-            pv.y = 80
-            pv.w = 843
-            pv.h = 1350
+            # pv.x = 92
+            # pv.y = 80
+            # pv.w = 843
+            # pv.h = 1350
+            pv.size_wrd()
             thread.start_new_thread( pv.play_auto, (dat,) )
         except:
             logger.exception("Unable to start video thread")
