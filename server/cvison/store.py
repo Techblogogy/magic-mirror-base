@@ -8,7 +8,11 @@ import random, json, requests
 import logging
 logger = logging.getLogger("TB")
 
-TAG_LIMIT = 5
+from tb_config import conf_file as g_cfg
+cfg = g_cfg().get_cfg()
+
+TAG_LIMIT = cfg.getint("DRESS CODE", "tag_limit")
+SITE_URL = cfg.get("DRESS CODE", "dresscode_url")
 
 class clothes:
 
@@ -54,10 +58,10 @@ class clothes:
     @classmethod
     def add(self, dresscode, thumbnail, name=None):
         # TODO: Import from config file
-        url = "http://93.73.73.40:8000/"
+        # url = "http://93.73.73.40:8000/"
         file = {'file': open(app_dir+'/cls/'+thumbnail, 'rb')}
 
-        r = requests.post(url, files=file)
+        r = requests.post(SITE_URL, files=file)
         cnt = json.loads(r.content)
 
         logger.debug(cnt['dress'])
