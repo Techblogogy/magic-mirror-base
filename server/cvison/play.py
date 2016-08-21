@@ -15,13 +15,7 @@ class PlayVid:
 
 	def __init__(self):
 		# Video playback position
-		# self.x = 92
-		# self.y = 80
-		#
-		# self.w = 843
-		# self.h = 1350
-
-	    cfg = g_cfg().get_cfg()
+		cfg = g_cfg().get_cfg()
 
 		self.size_wrd = [
 			cfg.getint("VIDEO WARDROBE", "x"),
