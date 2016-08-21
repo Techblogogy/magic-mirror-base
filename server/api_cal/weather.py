@@ -6,7 +6,10 @@ from api_cal.setup import setup
 import logging
 logger = logging.getLogger("TB")
 
-API_WEATHER_KEY = "ea1b2a690767c4cffc1832b89fe81d68"
+from tb_config import conf_file as g_cfg
+cfg = g_cfg().get_cfg()
+
+API_WEATHER_KEY = cgf.get("API KEYS", "weather_map")
 
 class Weather:
 

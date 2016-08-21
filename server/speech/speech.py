@@ -21,7 +21,6 @@ import thread, platform
 from tb_config import conf_file as g_cfg
 
 
-
 class Speech:
 
     def __init__(self):
@@ -35,6 +34,8 @@ class Speech:
 
         self.s_sensitivity = cfg.getint("SPEECH", "snowboy_sensitivity")
         self.s_gain = cfg.getint("SPEECH", "snowboy_gain")
+
+        self.adj_time = cgf.getint("SPEECH", "adjust_time")
 
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = cfg.getboolean("SPEECH", "dynamic_threshold") #False
@@ -101,7 +102,7 @@ class Speech:
     # Ajust for ambient noise
     def noise_adjust(self):
         with self._m as source:
-            self._r.adjust_for_ambient_noise(source, duration=2)
+            self._r.adjust_for_ambient_noise(source, duration=self.adj_time)
 
         #if self._r.energy_threshold <= 300:
         # self._r.energy_threshold /= 2
