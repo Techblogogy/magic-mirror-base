@@ -9,17 +9,16 @@ import serial, os, time, math
 from server import PServer
 pserve = PServer()
 
-B_COM =  "/dev/rfcomm0" #"COM4"
+from tb_config import conf_file as g_cfg
 
 def m_remote(t):
+    cfg = g_cfg().get_cfg()
 
-    # Connect bluetooth remote control
-    # if ml_pt:
-
-    os.system("rfcomm bind 0 20:16:01:11:92:31")
+    # os.system("rfcomm bind 0 20:16:01:11:92:31")
+    os.system("rfcomm bind %s %s" % (cfg.get("REMOTE","con_port"), cfg.get("REMOTE","mac_address")))
 
     ser = serial.Serial(
-        port=B_COM,
+        port=cfg.get("REMOTE","com_port"),
         baudrate=9600,
         timeout=None,
         parity=serial.PARITY_NONE,

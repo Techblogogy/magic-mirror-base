@@ -16,10 +16,6 @@ from tb_config import conf_file as g_cfg
 import logging
 logger = logging.getLogger("TB")
 
-# from server import IO_SPACE, socketio
-# Custom voice listening function based on sound and vision
-
-S_SNOWBOY = False
 
 class Speech:
 
@@ -32,8 +28,12 @@ class Speech:
         self.snowboy_trigger = cfg.getboolean("SPEECH", "snowboy_trigger")
         self.api_key = cfg.get("API KEYS", "bing_speech")
 
+        self.s_sensitivity = cfg.getint("SPEECH", "snowboy_sensitivity")
+        self.s_gain = cfg.getint("SPEECH", "snowboy_gain")
+
         self._r = sr.Recognizer()
         self._r.dynamic_energy_threshold = cfg.getboolean("SPEECH", "dynamic_threshold") #False
+        self._r.audio_gain = cfg.getint("SPEECH", "audio_gain")
 
         # Check if running
         self.running = True
@@ -42,28 +42,28 @@ class Speech:
         # Create microphone instance and ajust for noise
         logger.info("Ajusting for ambient noise")
 
-        # machine_plt = platform.machine()[:3]
-        # ml_pt = (machine_plt == "arm")
-
-        logger.debug(cfg.getboolean("SPEECH", "snowboy_trigger"))
-
         self._m = sr.Microphone(
             device_index=cfg.getint("SPEECH", "device_index"),
-            sample_rate=cfg.getint("SPEECH", "sample_rate"))
+            sample_rate=cfg.getint("SPEECH", "sample_rate")
+        )
 
     	# print self._m.list_microphone_names()
         self.noise_adjust()
 
     # Starts audio library
     def start(self):
-        if S_SNOWBOY:
+        if self.snowboy_trigger:
             logger.info("Starting snowboy")
 
             # Ajust for ambient noise
             self.running = True
 
             # Start snowboy thread
-            self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=1, audio_gain=5)
+            self.dec = snowboydecoder.HotwordDetector(
+                app_dir+"/voice/snowboy.umdl",
+                sensitivity=self.s_sensitivity,
+                audio_gain=self.s_gain
+            )
             thread.start_new_thread( self.start_snowboy, () )
 
         else:
