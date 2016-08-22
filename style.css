@@ -421,7 +421,7 @@ ul.hr li {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-    z-index: 25;
+    z-index: 23;
 }
 /*#red{
     background: rgb(255, 0, 0);
@@ -522,7 +522,7 @@ ul.hr li {
     position: fixed;
     margin-top: -10px;
     margin-left: -140px;
-    z-index: 25;
+    z-index: 27;
     display: block;
 }
 .microphone{
@@ -531,7 +531,7 @@ ul.hr li {
     margin-top: 20px;
     margin-bottom: 10px;
     height: 35px;
-    z-index: 25;
+    z-index: 24;
 }
 .microph_img{
     z-index: 25;
