@@ -9,7 +9,21 @@ from minfo import app_dir
 # import eventlet
 # eventlet.monkey_patch()
 
-from blogger import Blogger as bl
+import platform, logging
+
+# Setup logging
+logging.basicConfig(format="[%(name)s %(levelname)s %(module)s]: %(message)s")
+
+logger = logging.getLogger("TB")
+logger.setLevel(logging.DEBUG)
+
+# formatter = logging.Formatter()
+# ch = logging.StreamHandler()
+# ch.setFormatter(formatter);
+# ch.setLevel(logging.DEBUG)
+# logger.addHandler(ch)
+
+# from blogger import Blogger as bl
 
 from server import PServer
 pserve = PServer()
@@ -22,7 +36,7 @@ try:
     from cvison.cam import My_Cam
     mc = My_Cam()
 except ImportError:
-    bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+    logger.warning("MyCam failed. Are you on Raspberry PI?")
 
 from speech.speech import Speech
 from remote_ctr.remote_ctr import m_remote
@@ -33,11 +47,13 @@ import decor
 from api_cal.setup import setup
 from api_cal.gcal import gcal
 
-
 # Important Constants
 # JSON_DENT = 4
 
 def create_server():
+    machine_plt = platform.machine()[:3]
+    ml_pt = (machine_plt == "arm")
+
     # Create server singleton instance
     from server import PServer
     pserve = PServer()
@@ -68,9 +84,14 @@ def create_server():
     # Start Remote Control
     try:
         thread.start_new_thread( m_remote, (0,) )
+<<<<<<< HEAD
         pass
     except:
         print "Error: unable to start thread"
+=======
+    except:
+        logger.error("Error: unable to start remote control thread")
+>>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 
     # Define application routes
     @pserve.app.route('/')
@@ -111,12 +132,10 @@ def create_server():
             # pos = setup_get_pos()x
         )
 
-
-
     # SocketIO Connection
     @pserve.socketio.on("connect", namespace=pserve.IO_SPACE)
     def connected():
-        print "client %s connected" % (request.sid)
+        logger.info("client %s connected", (request.sid))
 
     # Page 404
     @pserve.app.errorhandler(404)
@@ -126,20 +145,21 @@ def create_server():
     # Play video
     @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
     def play_video(dat):
-        print "[TB DUBUG] Playing video %s" % (dat)
-        # pv.play_auto(dat)
+        logger.info("Playing video %s", (dat))
+
         try:
-            pv.x = 92
-            pv.y = 80
-            pv.w = 843
-            pv.h = 1350
+            # pv.x = 92
+            # pv.y = 80
+            # pv.w = 843
+            # pv.h = 1350
+            pv.size_wrd()
             thread.start_new_thread( pv.play_auto, (dat,) )
         except:
-            print "Error: unable to start video thread"
+            logger.exception("Unable to start video thread")
 
     @pserve.socketio.on("closed", namespace=pserve.IO_SPACE)
     def stop_video():
-        print "[TB DUBUG] Stoping video"
+        logger.info("Stoping video")
         pv.stop_auto()
 
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
@@ -147,17 +167,26 @@ def create_server():
         try:
             mc.turn_on()
         except:
-            bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+            logger.warning("MyCam failed. Are you on Raspberry PI?")
 
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        # try:
-        mc.turn_off()
-        # except:
-            # bl.log_tb("MyCam failed. Are you on Raspberry PI?")
+        try:
+            mc.turn_off()
+        except:
+            logger.warning("MyCam failed. Are you on Raspberry PI?")
 
+    if ml_pt:
+        os.system("electron /home/pi/master_3/magic-mirror-base/ &")
+    else:
+        os.system("electron ../ &")
+
+<<<<<<< HEAD
     # os.system("electron . &")
     os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     print "[DEBUG] Starting electron"
+=======
+    logger.info("Starting electron")
+>>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 
     return (pserve.app, pserve.socketio)

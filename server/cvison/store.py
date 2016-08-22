@@ -5,7 +5,14 @@ from minfo import app_dir
 
 import random, json, requests
 
-TAG_LIMIT = 5
+import logging
+logger = logging.getLogger("TB")
+
+from tb_config import conf_file as g_cfg
+cfg = g_cfg().get_cfg()
+
+TAG_LIMIT = cfg.getint("DRESS CODE", "tag_limit")
+SITE_URL = cfg.get("DRESS CODE", "dresscode_url")
 
 class clothes:
 
@@ -50,13 +57,14 @@ class clothes:
     # Add clothing item
     @classmethod
     def add(self, dresscode, thumbnail, name=None):
-        url = "http://93.73.73.40:8000/"
+        # TODO: Import from config file
+        # url = "http://93.73.73.40:8000/"
         file = {'file': open(app_dir+'/cls/'+thumbnail, 'rb')}
 
-        r = requests.post(url, files=file)
+        r = requests.post(SITE_URL, files=file)
         cnt = json.loads(r.content)
 
-        print cnt['dress']
+        logger.debug(cnt['dress'])
 
         db.qry(
         "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
@@ -111,7 +119,8 @@ class clothes:
     # Returns video id
     @classmethod
     def get_video(self, id):
-        print "[DEBUG] id is: %s" % (id)
+        logger.debug("id is: %s", (id))
+
         path = db.qry("SELECT thumbnail FROM clothes WHERE id=?", (id,))[0]['thumbnail']
         path = path.split(".")
 
@@ -160,8 +169,8 @@ class clothes:
         w_rng = Weather.w_temp_range()[0]
         w_temp = db._temp_group(w_rng)
 
-        print "[DEBUG] Current temperatue: %d" % (w_rng)
-        print "[DEBUG] Temperature Range: %d" % (w_temp)
+        logger.debug("[DEBUG] Current temperatue: %d", (w_rng))
+        logger.debug("[DEBUG] Temperature Range: %d", (w_temp))
 
         try:
             d_codes.index(query)

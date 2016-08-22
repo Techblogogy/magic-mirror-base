@@ -3,7 +3,13 @@ import json
 
 from api_cal.setup import setup
 
-API_WEATHER_KEY = "ea1b2a690767c4cffc1832b89fe81d68"
+import logging
+logger = logging.getLogger("TB")
+
+from tb_config import conf_file as g_cfg
+cfg = g_cfg().get_cfg()
+
+API_WEATHER_KEY = cfg.get("API KEYS", "weather_map")
 
 class Weather:
 

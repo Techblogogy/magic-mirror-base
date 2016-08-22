@@ -1,8 +1,8 @@
 'use strict'
 
 const electron = require("electron");
-const con = require("connect");
-const stat = require("serve-static");
+// const con = require("connect");
+// const stat = require("serve-static");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 

@@ -5,6 +5,10 @@ import httplib2
 
 import datetime
 from dbase.dbase import dbase as db
+
+import logging
+logger = logging.getLogger("TB")
+
 class setup:
 
     # Creates setup table

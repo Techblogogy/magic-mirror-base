@@ -4,9 +4,10 @@ import decor
 from flask import Blueprint, redirect, request, url_for, render_template
 from cvison.store import clothes
 
-from blogger import Blogger as bl
-
 import os, json
+
+import logging
+logger = logging.getLogger("TB")
 
 ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
@@ -17,7 +18,8 @@ page_counter = 0
 @wd_manager_api.route('/')
 def wardrobe_manager():
     global page_counter
-    print request.args.get("id")
+
+    logger.debug(request.args.get("id"))
 
     if request.args.get('action') == "delete":
         clothes.delete(request.args.get("id"))
@@ -31,11 +33,7 @@ def wardrobe_manager():
 
 
     return (render_template('wardrobe.html', items = clothes.get(24,page_counter), page_counter = page_counter))
-#
-# @wd_manager_api.route('/')
-# def smthr():
-
-
+    
 
 @wd_manager_api.route("/get", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)

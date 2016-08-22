@@ -5,6 +5,9 @@ from minfo import app_dir
 
 from time import sleep
 
+import logging
+logger = logging.getLogger("TB")
+
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):

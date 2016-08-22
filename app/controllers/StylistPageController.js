@@ -39,12 +39,12 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     console.log("INIT");
 
     $scope.get_curitem_id = function(){
-        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('it-id') );
+        return Number( angular.element( angular.element(document.querySelectorAll(".current.item_stl") )[0] ).attr('it-id') );
 
     };
 
     $scope.get_curitem_vid_id = function(){
-        return Number( angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id') );
+        return Number( angular.element( angular.element(document.querySelectorAll(".current.item_stl") )[0] ).attr('vid-id') );
     };
 
 

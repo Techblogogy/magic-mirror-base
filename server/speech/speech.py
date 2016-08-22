@@ -6,46 +6,85 @@ pserve = PServer()
 
 from ntext.ntext import get_command
 
-import snowboydecoder
+import logging
+logger = logging.getLogger("TB")
+
+try:
+    import snowboydecoder
+except:
+    logger.error("Snowboy Not Found :(")
+
 from minfo import app_dir
 
-import thread
+import thread, platform
 
-# from server import IO_SPACE, socketio
-# Custom voice listening function based on sound and vision
+from tb_config import conf_file as g_cfg
 
-S_DEBUG = True
 
 class Speech:
 
     def __init__(self):
-        print "[DEBUG SPEECH] Initializing libraries"
+        logger.info("Initializing Speech Libraries")
+
+        # Get Configuation File
+        cfg = g_cfg().get_cfg()
+
+        self.snowboy_trigger = cfg.getboolean("SPEECH", "snowboy_trigger")
+        self.api_key = cfg.get("API KEYS", "bing_speech")
+
+        self.s_sensitivity = cfg.getint("SPEECH", "snowboy_sensitivity")
+        self.s_gain = cfg.getint("SPEECH", "snowboy_gain")
+
+        self.adj_time = cfg.getint("SPEECH", "adjust_time")
 
         self._r = sr.Recognizer()
-        self._r.dynamic_energy_threshold = False
+        self._r.dynamic_energy_threshold = cfg.getboolean("SPEECH", "dynamic_threshold") #False
+        self._r.audio_gain = cfg.getint("SPEECH", "audio_gain")
 
         # Check if running
         self.running = True
         self.detected = False
 
         # Create microphone instance and ajust for noise
+<<<<<<< HEAD
         print ("[DEBUG SPEECH] Ajusting for ambient noise")
         self._m = sr.Microphone(device_index=2, sample_rate=48000)
+=======
+        logger.info("Ajusting for ambient noise")
+
+        self._m = sr.Microphone(
+            device_index=cfg.getint("SPEECH", "device_index"),
+            sample_rate=cfg.getint("SPEECH", "sample_rate")
+        )
+
+>>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
     	# print self._m.list_microphone_names()
         self.noise_adjust()
 
     # Starts audio library
     def start(self):
-        print ("[DEBUG SPEECH] Starting snowboy")
+        if self.snowboy_trigger:
+            logger.info("Starting snowboy")
 
-        # Ajust for ambient noise
-        self.running = True
+            # Ajust for ambient noise
+            self.running = True
 
+<<<<<<< HEAD
         # Start snowboy thread
         self.dec = snowboydecoder.HotwordDetector(app_dir+"/voice/snowboy.umdl", sensitivity=1, audio_gain=5)
         thread.start_new_thread( self.start_snowboy, () )
+=======
+            # Start snowboy thread
+            self.dec = snowboydecoder.HotwordDetector(
+                app_dir+"/voice/snowboy.umdl",
+                sensitivity=self.s_sensitivity,
+                audio_gain=self.s_gain
+            )
+            thread.start_new_thread( self.start_snowboy, () )
+>>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 
-        # self.stop = self._r.listen_in_background(self._m,self.detect_bing)
+        else:
+            self.stop = self._r.listen_in_background(self._m,self.detect_bing)
 
     # Stops audio libarary
     def stop(self):
@@ -59,11 +98,11 @@ class Speech:
                        sleep_time=0.03)
         self.dec.terminate()
 
-        print "[DEBUG SPEECH] Stopping snowboy"
+        logger.info("Stopping snowboy")
 
-        print "[DEBUG SPEECH] Starting Bing"
+        logger.info("Starting Bing")
         if self.detected:
-            self.detect_bing()
+            self.bing_snowboy()
 
         # self.detect_bing()
 
@@ -74,18 +113,22 @@ class Speech:
     # Ajust for ambient noise
     def noise_adjust(self):
         with self._m as source:
-            self._r.adjust_for_ambient_noise(source, duration=2)
+            self._r.adjust_for_ambient_noise(source, duration=self.adj_time)
 
         #if self._r.energy_threshold <= 300:
         # self._r.energy_threshold /= 2
 
+<<<<<<< HEAD
 	print self._r.energy_threshold
+=======
+    	# print self._r.energy_threshold
+>>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 
         # print "[TB Speech] Threshold: %s" % (self._r.energy_threshold)
 
     # Voice detection
     def detected_snowboy(self):
-        print "[SNOWBOY] DETECTED"
+        logger.info("SNOWBOY DETECTED")
         self.detected = True
 
         snowboydecoder.play_audio_file(app_dir+"/voice/dong.wav")
@@ -95,29 +138,42 @@ class Speech:
     # Pluses: quite accurate
     # Minuses: slow, 5000 month quota
     # Verdict: most likely (4 out of 5)
-    # def detect_bing(self,recon,audio):
-    def detect_bing(self):
+    def bing_snowboy(self):
         self.detected = False
 
         # Listen for phrase
         with self._m as source:
             audio = self._r.listen(source)
 
+        # Send audio to bing
+        self.detect_bing(self._r, audio)
+
+        # Start snowboy in a thread
+        self.start()
+
+    def detect_bing(self,recon,audio):
         try:
+<<<<<<< HEAD
             text = self._r.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
             # pserve.send("mic_active", "smth")
+=======
+
+            text = recon.recognize_bing(audio, key=self.api_key)
+>>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
             cmd = get_command(text)
-            # cmd[0] - name || cmd[1] - item number to show || cmd[2] - tag array of words
+
             if cmd:
-                print cmd[1]
-                # print cmd[2]
+                logger.debug("Item Number: %d", cmd[1])
+
                 if cmd[0] == "add_tags" or cmd[0] == "edit_dresscode":
                     pserve.send(cmd[0], cmd[2])
                 elif cmd[0] == "search":
                     pserve.send(cmd[0], cmd[2])
                 else:
                     pserve.send(cmd[0], cmd[1])
+
                 pserve.send("audio_detected",cmd[0])
+<<<<<<< HEAD
 
                 snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
                 # pserve.send(cmd[0], cmd[2])
@@ -126,9 +182,16 @@ class Speech:
             print("Bing unrecognizable")
         except sr.RequestError as e:
             print("Bing error; {0}".format(e))
+=======
+>>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 
-        # Start snowboy in a thread
-        self.start()
+                try:
+                    snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
+                except:
+                    logger.error("Snowboy error")
 
-# voice = Speech()
-# voice.start()
+            logger.debug("Bing Speech: %s", text)
+        except sr.UnknownValueError:
+            logger.info("Bing unrecognizable")
+        except sr.RequestError as e:
+            logger.error("Bing error; {0}".format(e))

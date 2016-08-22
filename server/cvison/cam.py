@@ -15,9 +15,15 @@ pv = PlayVid()
 
 from store import clothes
 
+import logging
+logger = logging.getLogger("TB")
+
+from tb_config import conf_file as g_cfg
 
 R_WARM = 3
 R_REC = 5
+
+BIG_CAM = True
 
 # Important Constants
 class Singleton(type):
@@ -32,26 +38,35 @@ class My_Cam():
 
     # @classmethod
     def start(self):
+        cfg = g_cfg().get_cfg()
+
         self.cam = PiCamera()
 
         self.cam.led = False
         self.cam.framerate = 24
 
         # Camera Controls
-        self.cam.rotation = 90
+        self.cam.rotation = cfg.getint("PI CAMERA", "rotation") #90
         #cam.resolution = (640, 1024)
 
-        self.cam.contrast = 100 # Range -100 100
+        self.cam.contrast = cfg.getint("PI CAMERA", "contrast") #100 # Range -100 100
         #cam.saturation = 100 # Range -100 100
-        self.cam.brightness = 80 # 0 100
+        self.cam.brightness = cfg.getint("PI CAMERA", "brightness") # 80 # 0 100
         #cam.awb_mode = "shade"
 
-        self.cam.iso = 1600
+        self.cam.iso = cfg.getint("PI CAMERA", "iso") # 1600
 
-        self.cam.sensor_mode = 1
+        self.cam.sensor_mode = cfg.getint("PI CAMERA", "sensor_mode") # 1
         #cam.exposure_mode = "nightpreview"
 
-        self.cam.shutter_speed = 1/500
+        self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
+
+        # Preview window
+        self.x = cfg.getint("PI CAMERA", "x")
+        self.y = cfg.getint("PI CAMERA", "y")
+        self.w = cfg.getint("PI CAMERA", "width")
+        self.h = cfg.getint("PI CAMERA", "height")
+
 
     # @classmethod
     # def start_loop():
@@ -62,13 +77,13 @@ class My_Cam():
         self.start()
         pserve.send("m_camera", "cam_on")
 
-        print "warming camera up"
-        # self.cam.start_preview(fullscreen=False, window = (92, 210, 843, 1350))
-        self.cam.start_preview(fullscreen=False, window = (92, 210, 100, 100))
+        logger.info("warming camera up")
+        self.cam.start_preview(fullscreen=False, window = (self.x, self.y, self.w, self.h))
         pserve.send("m_camera", "preview_on")
 
     def turn_off(self):
-        print "Recording stopped"
+        logger.info("Recording stopped")
+
         self.cam.stop_preview()
         pserve.send("m_camera", "preview_off")
 
@@ -78,20 +93,17 @@ class My_Cam():
     def quit(self):
         pv.stop_auto()
 
-
     # @classmethod
     def rec(self):
         t = str(int(time()))
 
         sleep(R_WARM)
 
-        #TODO: Add socket sending
-        print "Capturing thumbnail"
+        logger.info("Capturing thumbnail")
         self.cam.capture('%s/cls/%s.jpg' % (app_dir,t,))
         pserve.send("m_camera", "thumb_captured")
 
-        #TODO: Add socket sending
-        print "Recording video"
+        logger.info("Recording video")
         pserve.send("m_camera", "video_start")
         self.cam.start_recording("%s/cls/%s.h264" % (app_dir,t,))
 
@@ -101,7 +113,7 @@ class My_Cam():
         self.cam.stop_recording()
         pserve.send("m_camera", "video_end")
 
-        print "[DEBUG] Camera stop"
+        logger.info("Camera stop")
 
         #TODO: Add socket sending
         pserve.send("m_camera", "compression_begin")
@@ -114,16 +126,16 @@ class My_Cam():
         # print t
 
         try:
-            pv.x = 420
-            pv.y = 105
-            pv.w = 235
-            pv.h = 376
+            # pv.x = 420
+            # pv.y = 105
+            # pv.w = 235
+            # pv.h = 376
 
+            pv.size_add()
             thread.start_new_thread( pv.play_auto, (cl[0]["id"],) )
             #clothes.add("casual", fl["thum]".jpg")
         except:
-            print ("MyCam failed. Are you on Raspberry PI?")
-
+            logger.error("Playing video failed")
 
         return cl
 
