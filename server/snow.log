@@ -4193,3 +4193,983 @@ INFO:oauth2client.client:Failed to retrieve access token: {
 INFO:werkzeug:127.0.0.1 - - [08/Aug/2016 09:55:36] "GET /gcal/isauth HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [08/Aug/2016 09:56:23] "GET /socket.io/?EIO=3&transport=polling&t=LPfb0LW&sid=798b16c0754c427bbd982f09533b1e6a HTTP/1.1" 400 -
 INFO:werkzeug:127.0.0.1 - - [08/Aug/2016 09:56:34] "GET /socket.io/?EIO=3&transport=polling&t=LPfb2sg&sid=923cf7f953594e60841222d4bc8c298d HTTP/1.1" 400 -
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:15:52] "GET /socket.io/?EIO=3&transport=polling&t=LPqAcpL HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:15:53] "POST /socket.io/?EIO=3&transport=polling&t=LPqAcvc&sid=74e11e3104814572a4e19403e7063fbd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:15:53] "GET /socket.io/?EIO=3&transport=polling&t=LPqAcw8&sid=74e11e3104814572a4e19403e7063fbd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:15:53] "GET /setup/getip HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:15:53] "GET /gcal/istblexist HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:15:53] "GET /setup/pos/isconf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:15:53] "GET /setup/pos/get HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/discovery/v1/apis/plus/v1/rest
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/plus/v1/people/me?alt=json
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-10T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-10T11%3A16%3A03.082463Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:16:08] "GET /gcal/isauth HTTP/1.1" 200 -
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:16:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:16:18] "POST /socket.io/?EIO=3&transport=polling&t=LPqAj0k&sid=74e11e3104814572a4e19403e7063fbd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:16:18] "GET /socket.io/?EIO=3&transport=polling&t=LPqAd3e&sid=74e11e3104814572a4e19403e7063fbd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:16:43] "POST /socket.io/?EIO=3&transport=polling&t=LPqAp8c&sid=74e11e3104814572a4e19403e7063fbd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:16:43] "GET /socket.io/?EIO=3&transport=polling&t=LPqAj20&sid=74e11e3104814572a4e19403e7063fbd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [10/Aug/2016 11:17:43] "GET /socket.io/?EIO=3&transport=polling&t=LPqApDq&sid=74e11e3104814572a4e19403e7063fbd HTTP/1.1" 400 -
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:06] "GET /socket.io/?EIO=3&transport=polling&t=LPzmlrw HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:06] "POST /socket.io/?EIO=3&transport=polling&t=LPzmlyY&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:06] "GET /socket.io/?EIO=3&transport=polling&t=LPzmlzA&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:07] "GET /gcal/istblexist HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:07] "GET /setup/getip HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:07] "GET /setup/pos/isconf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:07] "GET /setup/pos/get HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/discovery/v1/apis/plus/v1/rest
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T07%3A59%3A07.773301Z&alt=json
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/plus/v1/people/me?alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:10] "GET /gcal/isauth HTTP/1.1" 200 -
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:11] "GET /gcal/today HTTP/1.1" 500 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 07:59:17
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:18] "GET /socket.io/?EIO=3&transport=polling&t=LPzmm7N&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:31] "POST /socket.io/?EIO=3&transport=polling&t=LPzms3j&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:31] "GET /socket.io/?EIO=3&transport=polling&t=LPzmosj&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 07:59:32
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:34] "GET /socket.io/?EIO=3&transport=polling&t=LPzmsh1&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:59] "POST /socket.io/?EIO=3&transport=polling&t=LPzmynX&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 07:59:59] "GET /socket.io/?EIO=3&transport=polling&t=LPzmsr5&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:00:00
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:00] "GET /socket.io/?EIO=3&transport=polling&t=LPzmyo3&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:06] "GET /socket.io/?EIO=3&transport=polling&t=LPzmzEv&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A00%3A07.067667Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:00:23
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:24] "POST /socket.io/?EIO=3&transport=polling&t=LPzn2ui&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:24] "GET /socket.io/?EIO=3&transport=polling&t=LPzm-YQ&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:24] "GET /socket.io/?EIO=3&transport=polling&t=LPzn2vp&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:38] "GET /socket.io/?EIO=3&transport=polling&t=LPzn2zZ&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:00:45
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:47] "GET /socket.io/?EIO=3&transport=polling&t=LPzn6Td&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:49] "POST /socket.io/?EIO=3&transport=polling&t=LPzn90S&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:49] "GET /socket.io/?EIO=3&transport=polling&t=LPzn8eY&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:00:53] "GET /socket.io/?EIO=3&transport=polling&t=LPzn91c&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:01:03
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:01:04] "GET /socket.io/?EIO=3&transport=polling&t=LPznA8Q&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A01%3A07.041711Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:01:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:01:14] "POST /socket.io/?EIO=3&transport=polling&t=LPznF8F&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:01:14] "GET /socket.io/?EIO=3&transport=polling&t=LPznClI&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:01:30
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:01:30] "GET /socket.io/?EIO=3&transport=polling&t=LPznF9C&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:01:35] "GET /socket.io/?EIO=3&transport=polling&t=LPznJDE&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:01:39] "POST /socket.io/?EIO=3&transport=polling&t=LPznLFq&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:01:39] "GET /socket.io/?EIO=3&transport=polling&t=LPznKNc&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:04] "POST /socket.io/?EIO=3&transport=polling&t=LPznRMx&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:04] "GET /socket.io/?EIO=3&transport=polling&t=LPznLGJ&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A02%3A07.061177Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:02:14
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:14] "GET /socket.io/?EIO=3&transport=polling&t=LPznRO3&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:02:26
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:27] "GET /socket.io/?EIO=3&transport=polling&t=LPznTwF&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:29] "POST /socket.io/?EIO=3&transport=polling&t=LPznXUi&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:29] "GET /socket.io/?EIO=3&transport=polling&t=LPznW_l&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:02:34
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:35] "GET /socket.io/?EIO=3&transport=polling&t=LPznXVl&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:02:45
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:46] "GET /socket.io/?EIO=3&transport=polling&t=LPznYtz&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:51] "GET /socket.io/?EIO=3&transport=polling&t=LPznbZ8&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:54] "POST /socket.io/?EIO=3&transport=polling&t=LPzndcO&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:02:54] "GET /socket.io/?EIO=3&transport=polling&t=LPzncp3&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:03:05
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:03:06] "GET /socket.io/?EIO=3&transport=polling&t=LPznddY&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A03%3A08.938393Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:03:09] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:03:19] "POST /socket.io/?EIO=3&transport=polling&t=LPznjkB&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:03:19] "GET /socket.io/?EIO=3&transport=polling&t=LPznh6F&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:03:19
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:03:20] "GET /socket.io/?EIO=3&transport=polling&t=LPznjl2&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:03:44] "POST /socket.io/?EIO=3&transport=polling&t=LPznpri&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:03:44] "GET /socket.io/?EIO=3&transport=polling&t=LPznj_m&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A04%3A07.068634Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:04:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:04:09] "POST /socket.io/?EIO=3&transport=polling&t=LPznvzC&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:04:09] "GET /socket.io/?EIO=3&transport=polling&t=LPznpsZ&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:04:34] "POST /socket.io/?EIO=3&transport=polling&t=LPzo04O&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:04:34] "GET /socket.io/?EIO=3&transport=polling&t=LPznvzl&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:04:59] "POST /socket.io/?EIO=3&transport=polling&t=LPzo6B-&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:04:59] "GET /socket.io/?EIO=3&transport=polling&t=LPzo05K&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A05%3A07.054023Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:05:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:05:24] "POST /socket.io/?EIO=3&transport=polling&t=LPzoCJc&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:05:24] "GET /socket.io/?EIO=3&transport=polling&t=LPzo6Cz&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:05:38
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:05:38] "GET /socket.io/?EIO=3&transport=polling&t=LPzoCKG&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:05:43] "GET /socket.io/?EIO=3&transport=polling&t=LPzoFmK&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:05:49] "POST /socket.io/?EIO=3&transport=polling&t=LPzoIQv&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:05:49] "GET /socket.io/?EIO=3&transport=polling&t=LPzoH1_&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A06%3A07.027240Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:06:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:06:14] "POST /socket.io/?EIO=3&transport=polling&t=LPzoOY5&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:06:14] "GET /socket.io/?EIO=3&transport=polling&t=LPzoIRT&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:06:40] "POST /socket.io/?EIO=3&transport=polling&t=LPzoUf_&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:06:40] "GET /socket.io/?EIO=3&transport=polling&t=LPzoOZN&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:07:05] "GET /socket.io/?EIO=3&transport=polling&t=LPzoUgq&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:07:05] "POST /socket.io/?EIO=3&transport=polling&t=LPzoanT&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A07%3A07.197415Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:07:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:07:30] "POST /socket.io/?EIO=3&transport=polling&t=LPzogug&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:07:30] "GET /socket.io/?EIO=3&transport=polling&t=LPzoao0&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:07:55] "POST /socket.io/?EIO=3&transport=polling&t=LPzon0N&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:07:55] "GET /socket.io/?EIO=3&transport=polling&t=LPzogvl&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:08:02
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:08:03] "GET /socket.io/?EIO=3&transport=polling&t=LPzon13&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A08%3A07.031200Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:08:07] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:08:08] "GET /socket.io/?EIO=3&transport=polling&t=LPzoozM&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:08:20] "POST /socket.io/?EIO=3&transport=polling&t=LPzot7j&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:08:20] "GET /socket.io/?EIO=3&transport=polling&t=LPzoq9-&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:08:45] "POST /socket.io/?EIO=3&transport=polling&t=LPzozFf&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:08:45] "GET /socket.io/?EIO=3&transport=polling&t=LPzot90&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A09%3A07.053894Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:09:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:09:10] "GET /socket.io/?EIO=3&transport=polling&t=LPzozGJ&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:09:10] "POST /socket.io/?EIO=3&transport=polling&t=LPzp3Mz&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:09:28
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:09:29] "GET /socket.io/?EIO=3&transport=polling&t=LPzp3NO&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:09:34] "GET /socket.io/?EIO=3&transport=polling&t=LPzp7xR&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:09:35] "POST /socket.io/?EIO=3&transport=polling&t=LPzp9U2&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:09:35] "GET /socket.io/?EIO=3&transport=polling&t=LPzp9Gw&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:00] "POST /socket.io/?EIO=3&transport=polling&t=LPzpFbW&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:00] "GET /socket.io/?EIO=3&transport=polling&t=LPzp9Ur&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:10:00
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:01] "GET /socket.io/?EIO=3&transport=polling&t=LPzpFdq&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A10%3A07.080883Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:10:10
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:10] "GET /socket.io/?EIO=3&transport=polling&t=LPzpG8l&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:10:20
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:21] "GET /socket.io/?EIO=3&transport=polling&t=LPzpI8Z&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:25] "POST /socket.io/?EIO=3&transport=polling&t=LPzpLkT&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:25] "GET /socket.io/?EIO=3&transport=polling&t=LPzpKpB&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-12 08:10:32
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:33] "GET /socket.io/?EIO=3&transport=polling&t=LPzpLl8&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:38] "GET /socket.io/?EIO=3&transport=polling&t=LPzpNfM&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:50] "POST /socket.io/?EIO=3&transport=polling&t=LPzpRrn&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:10:50] "GET /socket.io/?EIO=3&transport=polling&t=LPzpOvw&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A11%3A07.061234Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:11:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:11:15] "POST /socket.io/?EIO=3&transport=polling&t=LPzpXzU&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:11:15] "GET /socket.io/?EIO=3&transport=polling&t=LPzpRss&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:11:40] "POST /socket.io/?EIO=3&transport=polling&t=LPzpe5B&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:11:40] "GET /socket.io/?EIO=3&transport=polling&t=LPzpX-Y&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:12:05] "POST /socket.io/?EIO=3&transport=polling&t=LPzpkCa&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:12:05] "GET /socket.io/?EIO=3&transport=polling&t=LPzpe5w&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A12%3A07.082951Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:12:07] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:12:30] "POST /socket.io/?EIO=3&transport=polling&t=LPzpqJw&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:12:30] "GET /socket.io/?EIO=3&transport=polling&t=LPzpkDI&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:12:55] "POST /socket.io/?EIO=3&transport=polling&t=LPzpwRW&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:12:55] "GET /socket.io/?EIO=3&transport=polling&t=LPzpqKt&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-12T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-12T08%3A13%3A07.054397Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:08] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:20] "POST /socket.io/?EIO=3&transport=polling&t=LPzq0Yz&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:20] "GET /socket.io/?EIO=3&transport=polling&t=LPzpwSK&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:46] "POST /socket.io/?EIO=3&transport=polling&t=LPzq6gO&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [12/Aug/2016 08:13:46] "GET /socket.io/?EIO=3&transport=polling&t=LPzq0Zl&sid=09718d419eb8453ebd7f08f0b6771c3d HTTP/1.1" 200 -
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:48:33
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:48:48
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:49:08
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:49:29
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:49:51
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:52:27
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:53:37
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:53:46
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:54:46
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 07:54:56
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:06:20
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:08:05
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:08:13
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:09:10
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:09:36
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:10:04
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:10:14
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:10:26
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:10:40
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:11:06
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:11:25
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:11:40
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:11:56
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:12:15
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:12:26
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:12:42
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:20:26
+INFO:snowboy:Keyword 1 detected at time: 2016-08-14 08:21:12
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:15] "GET /socket.io/?EIO=3&transport=polling&t=LQJeAmm HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:16] "POST /socket.io/?EIO=3&transport=polling&t=LQJeAv-&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:16] "GET /socket.io/?EIO=3&transport=polling&t=LQJeAwp&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:17] "GET /setup/getip HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:17] "GET /gcal/istblexist HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:17] "GET /setup/pos/get HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:17] "GET /setup/pos/isconf HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/discovery/v1/apis/plus/v1/rest
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/plus/v1/people/me?alt=json
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T13%3A53%3A21.634562Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:24] "GET /gcal/isauth HTTP/1.1" 200 -
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:25] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:41] "POST /socket.io/?EIO=3&transport=polling&t=LQJeH1D&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:41] "GET /socket.io/?EIO=3&transport=polling&t=LQJeBNc&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-16 13:53:50
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:53:57] "GET /socket.io/?EIO=3&transport=polling&t=LQJeH2A&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:54:06] "POST /socket.io/?EIO=3&transport=polling&t=LQJeN8m&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:54:06] "GET /socket.io/?EIO=3&transport=polling&t=LQJeL2Q&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T13%3A54%3A17.190772Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:54:20] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:54:31] "POST /socket.io/?EIO=3&transport=polling&t=LQJeTG4&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:54:31] "GET /socket.io/?EIO=3&transport=polling&t=LQJeN9O&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:54:56] "POST /socket.io/?EIO=3&transport=polling&t=LQJeZOW&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:54:56] "GET /socket.io/?EIO=3&transport=polling&t=LQJeTHs&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T13%3A55%3A17.128582Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:55:18] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:55:21] "POST /socket.io/?EIO=3&transport=polling&t=LQJefWk&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:55:21] "GET /socket.io/?EIO=3&transport=polling&t=LQJeZQ5&sid=0c36c390ca4b4149a8e8ccf6623594ee HTTP/1.1" 200 -

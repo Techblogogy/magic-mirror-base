@@ -126,6 +126,7 @@ class SnowboyDetect(_object):
         return _snowboydetect.SnowboyDetect_NumHotwords(self)
 
     def SampleRate(self):
+        # return 48000
         return _snowboydetect.SnowboyDetect_SampleRate(self)
 
     def NumChannels(self):
