@@ -383,7 +383,7 @@ ul.hr li {
     height: 100%;
 
     background-color: rgba(0, 0, 0, 0.9);
-       /*width: 95%;*/
+       width: 97%;
        position: fixed;
        top: 0;
        z-index: 1000;
