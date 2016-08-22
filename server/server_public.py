@@ -89,11 +89,14 @@ def create_server():
     # Video playing
     pv = PlayVid()
 
+    # Connect bluetooth bluetooth remote control
+    # os.system("rfcomm bind 0 20:16:01:11:92:31")
+
     # Start Remote Control
-    # try:
-    #     thread.start_new_thread( m_remote, (0,) )
-    # except:
-    #     logger.error("Error: unable to start remote control thread")
+    try:
+        thread.start_new_thread( m_remote, (0,) )
+    except:
+        logger.error("Error: unable to start remote control thread")
 
     # Define application routes
     @pserve.app.route('/')
@@ -189,7 +192,7 @@ def create_server():
         thread.start_new_thread( pserve.sleep_state, (voice,) )
         # pserve.sleep_state(voice)
     except:
-        logger.exception("Unable to start video thread")
+        logger.exception("Unable to sleeping thread")
     # t = threading.Timer(SLEEP_TIME, sleep_state)
     # t.start()
 

@@ -9,10 +9,10 @@ from ntext.ntext import get_command
 import logging
 logger = logging.getLogger("TB")
 
-try:
-    import snowboydecoder
-except:
-    logger.error("Snowboy Not Found :(")
+# try:
+import snowboydecoder
+# except:
+#     logger.error("Snowboy Not Found :(")
 
 from minfo import app_dir
 
