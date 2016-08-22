@@ -93,10 +93,10 @@ def create_server():
     # os.system("rfcomm bind 0 20:16:01:11:92:31")
 
     # Start Remote Control
-    # try:
-    #     thread.start_new_thread( m_remote, (0,) )
-    # except:
-    #     logger.error("Error: unable to start remote control thread")
+    try:
+        thread.start_new_thread( m_remote, (0,) )
+    except:
+        logger.error("Error: unable to start remote control thread")
 
     # Define application routes
     @pserve.app.route('/')
@@ -205,7 +205,7 @@ def create_server():
     try:
         thread.start_new_thread( sleep_state, () )
     except:
-        logger.exception("Unable to start video thread")
+        logger.exception("Unable to sleeping thread")
     # t = threading.Timer(SLEEP_TIME, sleep_state)
     # t.start()
 
