@@ -2,6 +2,9 @@ from flask import Flask, request
 from flask_socketio import SocketIO, emit
 from tb_config import conf_file as g_cfg
 import logging, time
+
+logger = logging.getLogger("TB")
+
 cfg = g_cfg().get_cfg()
 SLEEP_TIME = cfg.getint("GLOBALS", "sleep_time")
 
