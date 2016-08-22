@@ -185,22 +185,9 @@ def create_server():
         subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
 
     logger.info("Starting electron")
-
-    # LIttle spleeper
-    SLEEP_TIME = cfg.getint("GLOBALS", "sleep_time")
-    # s = sched.scheduler(time.time, time.sleep)
-    def sleep_state():
-        time.sleep(SLEEP_TIME)
-        pserve.send("sleep","123")
-        logger.debug("WORKS")
-        voice.stop_all()
-
-        # sleep(SLEEP_TIME)
-
-    # s.enter(SLEEP_TIME, 1, sleep_state, ())
-    # s.run()
     try:
-        thread.start_new_thread( sleep_state, () )
+        thread.start_new_thread( pserve.sleep_state, (voice,) )
+        # pserve.sleep_state(voice)
     except:
         logger.exception("Unable to start video thread")
     # t = threading.Timer(SLEEP_TIME, sleep_state)

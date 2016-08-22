@@ -124,7 +124,14 @@ class Speech:
     def detected_snowboy(self):
         logger.info("SNOWBOY DETECTED")
         self.detected = True
-        pserve.send("wake_up","456")
+        if pserve.is_sleeping:
+            pserve.send("wake_up","456")
+            try:
+                thread.start_new_thread( pserve.sleep_state, (voice) )
+                # pserve.sleep_state(voice)
+            except:
+                logger.exception("Unable to start video thread")
+
         snowboydecoder.play_audio_file(app_dir+"/voice/dong.wav")
         self.stop()
 
