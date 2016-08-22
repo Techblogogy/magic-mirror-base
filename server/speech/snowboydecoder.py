@@ -8,13 +8,9 @@ import wave
 import os
 import logging
 
-<<<<<<< HEAD
-logging.basicConfig(filename='snow.log',level=logging.DEBUG)
-=======
 # logging.basicConfig(filename='snow.log',level=logging.DEBUG)
 # logging.basicConfig(level=logging.DEBUG)
 logging.basicConfig()
->>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 logger = logging.getLogger("snowboy")
 logger.setLevel(logging.INFO)
 TOP_DIR = os.path.dirname(os.path.abspath(__file__))

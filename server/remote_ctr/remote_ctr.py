@@ -9,17 +9,20 @@ import serial, os, time, math
 from server import PServer
 pserve = PServer()
 
-<<<<<<< HEAD
-B_COM =  "/dev/rfcomm0"
-=======
+import logging
+logger = logging.getLogger("TB")
+
+
 from tb_config import conf_file as g_cfg
->>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 
 def m_remote(t):
     cfg = g_cfg().get_cfg()
 
     # os.system("rfcomm bind 0 20:16:01:11:92:31")
-    os.system("rfcomm bind %s %s" % (cfg.get("REMOTE","con_port"), cfg.get("REMOTE","mac_address")))
+    logger.info("Connecting to remote")
+
+    # os.popen('cat /etc/services').read()
+    logger.info( os.popen("rfcomm bind %s %s" % (cfg.get("REMOTE","con_port"), cfg.get("REMOTE","mac_address"))).read() )
 
     ser = serial.Serial(
         port=cfg.get("REMOTE","com_port"),

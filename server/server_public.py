@@ -79,19 +79,13 @@ def create_server():
     pv = PlayVid()
 
     # Connect bluetooth bluetooth remote control
-    os.system("rfcomm bind 0 20:16:01:11:92:31")
+    # os.system("rfcomm bind 0 20:16:01:11:92:31")
 
     # Start Remote Control
     try:
         thread.start_new_thread( m_remote, (0,) )
-<<<<<<< HEAD
-        pass
-    except:
-        print "Error: unable to start thread"
-=======
     except:
         logger.error("Error: unable to start remote control thread")
->>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 
     # Define application routes
     @pserve.app.route('/')
@@ -181,12 +175,6 @@ def create_server():
     else:
         os.system("electron ../ &")
 
-<<<<<<< HEAD
-    # os.system("electron . &")
-    os.system("electron /home/pi/master_3/magic-mirror-base/ &")
-    print "[DEBUG] Starting electron"
-=======
     logger.info("Starting electron")
->>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 
     return (pserve.app, pserve.socketio)

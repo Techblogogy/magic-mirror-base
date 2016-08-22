@@ -7,12 +7,9 @@ from api_cal.setup import setup
 
 import os, json
 
-<<<<<<< HEAD
-=======
 import logging
 logger = logging.getLogger("TB")
 
->>>>>>> 0379efb85e81467a1bc94cc8feee9c45c192eaaf
 # import socket as sct
 # import fcntl, struct
 
