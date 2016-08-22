@@ -99,6 +99,7 @@ class Speech:
         logger.info("Stopping snowboy")
 
         logger.info("Starting Bing")
+        
         if self.detected:
             self.bing_snowboy()
 
@@ -133,7 +134,7 @@ class Speech:
                 logger.exception("Unable to start video thread")
 
         snowboydecoder.play_audio_file(app_dir+"/voice/dong.wav")
-        self.stop()
+        # self.stop()
 
     # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
     # Pluses: quite accurate
