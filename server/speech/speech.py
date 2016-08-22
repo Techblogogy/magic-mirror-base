@@ -69,15 +69,24 @@ class Speech:
                 app_dir+"/voice/snowboy.umdl",
                 sensitivity=self.s_sensitivity,
                 audio_gain=self.s_gain
+
             )
             thread.start_new_thread( self.start_snowboy, () )
 
         else:
-            self.stop = self._r.listen_in_background(self._m,self.detect_bing)
+            self.stop_bing = self._r.listen_in_background(self._m,self.detect_bing)
 
     # Stops audio libarary
     def stop(self):
         self.running = False
+
+    # Stops globally
+    def stop_all(self):
+        if not self.snowboy_trigger:
+            self.stop_bing()
+            self.snowboy_trigger = True
+            self.start()
+
 
     # Starts snowboy voice thread
     def start_snowboy(self):
@@ -115,7 +124,7 @@ class Speech:
     def detected_snowboy(self):
         logger.info("SNOWBOY DETECTED")
         self.detected = True
-
+        pserve.send("wake_up","456")
         snowboydecoder.play_audio_file(app_dir+"/voice/dong.wav")
         self.stop()
 

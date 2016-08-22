@@ -227,7 +227,19 @@ body {
     border-radius: 0px;
     background-color: rgba(0,0,0,0.2);
 }
-
+.sleep_block{
+    -webkit-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    transition: all 2s ease;
+    width: 1050px;
+    height: 1600px;
+    background-color: black;
+    display: block;
+    opacity: 0;
+    z-index: 23;
+    position: absolute;
+}
 
 .help{
     width: 1050px;
