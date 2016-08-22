@@ -26,9 +26,9 @@
         </div>
         {% endif %}
         <div class="col-md-12">
-            <h1>Manage your calendars right here<h1>
+            <h1>Manage your calendars right here</h1>
                 <h6>Pick calendars for your Mirror widget:</h6>
-                <form action="/setcal"  method="POST">
+                <form  class="col-md-12" action="/setcal"  method="POST">
                     <div>{% for i in range(0, c_len): %}
                         <ul>
                             <li>
@@ -49,6 +49,14 @@
 
                 </form>
             </div>
+            <div class="col-md-12">
+                <h1>Upload Snowboy</h1>
+                <h6>Click here to download:</h6>
+                    <form action="/sbupload" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="file">
+                        <input type="submit" value="Upload">
+                    </form>
+                </div>
             <div class="col-md-12">
                 <h1>Confirm your location</h1>
                 {% if resp_g == 201 %}

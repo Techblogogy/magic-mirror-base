@@ -98,6 +98,27 @@ def create_server():
     except:
         logger.error("Error: unable to start remote control thread")
 
+    # Upload snowboy files
+    @pserve.app.route("/sbupload", methods=['POST'])
+    def upload_snowboy():
+        resp = {"status": 200}
+        if 'file' not in request.files:
+            resp["status"] = 500
+            print "[ERROR] File not found"
+            return '[ERROR]'
+
+        print resp
+
+        file = request.files['file']
+        filename = "snowboy.umdl"
+        filepath = os.path.join(app_dir+'/voice', filename)
+
+        file.save(filepath)
+        # print json.dumps(dcode, indent=4)
+        # os.remove(filepath)
+        # print json.dumps(resp, indent=4)
+        return json.dumps(resp, indent=4)
+
     # Define application routes
     @pserve.app.route('/')
     def main():

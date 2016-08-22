@@ -286,7 +286,7 @@ class clothes:
     def fill_junk(self):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
-        d_tags = ["clubwear", "meetups", "beach", "work", "time", "special", "bugs", "whatistag", "needhelp", "Tanya?", "howareyou", "surprise", "nonono", "whatelse"]
+        d_tags = ["clubwear", "meetups", "beach", "work", "time", "special", "bugs", "whatistag", "needhelp", "surprise", "nonono", "whatelse"]
 
         # Clear out clothes table
         db.qry("DELETE FROM clothes")
