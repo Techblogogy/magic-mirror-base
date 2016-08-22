@@ -127,7 +127,7 @@ class Speech:
         if pserve.is_sleeping:
             pserve.send("wake_up","456")
             try:
-                thread.start_new_thread( pserve.sleep_state, (voice) )
+                thread.start_new_thread( pserve.sleep_state, (voice,) )
                 # pserve.sleep_state(voice)
             except:
                 logger.exception("Unable to start video thread")
