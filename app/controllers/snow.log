@@ -1,0 +1,1744 @@
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:04] "GET /setup/getip HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:04] "GET /socket.io/?EIO=3&transport=polling&t=LQJfVXV HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:04] "GET /gcal/istblexist HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:04] "GET /setup/pos/isconf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:04] "GET /setup/pos/get HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/plus/v1/people/me?alt=json
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:05] "POST /socket.io/?EIO=3&transport=polling&t=LQJfWAV&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:05] "GET /socket.io/?EIO=3&transport=polling&t=LQJfWCa&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T13%3A59%3A05.244752Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:07] "GET /gcal/isauth HTTP/1.1" 200 -
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:07] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:30] "POST /socket.io/?EIO=3&transport=polling&t=LQJfcIA&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:30] "GET /socket.io/?EIO=3&transport=polling&t=LQJfWjL&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:55] "POST /socket.io/?EIO=3&transport=polling&t=LQJfiPk&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 13:59:55] "GET /socket.io/?EIO=3&transport=polling&t=LQJfcJ5&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A00%3A04.096551Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:00:06] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:00:20] "POST /socket.io/?EIO=3&transport=polling&t=LQJfoXZ&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:00:20] "GET /socket.io/?EIO=3&transport=polling&t=LQJfiQw&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:00:45] "POST /socket.io/?EIO=3&transport=polling&t=LQJfuez&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:00:45] "GET /socket.io/?EIO=3&transport=polling&t=LQJfoYK&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A01%3A04.078459Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:01:05] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:01:10] "POST /socket.io/?EIO=3&transport=polling&t=LQJf-ms&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:01:11] "GET /socket.io/?EIO=3&transport=polling&t=LQJfugH&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:01:36] "POST /socket.io/?EIO=3&transport=polling&t=LQJg4uo&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:01:36] "GET /socket.io/?EIO=3&transport=polling&t=LQJf-o9&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:02:01] "POST /socket.io/?EIO=3&transport=polling&t=LQJgB15&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:02:01] "GET /socket.io/?EIO=3&transport=polling&t=LQJg4wS&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A02%3A04.098895Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:02:06] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:02:26] "POST /socket.io/?EIO=3&transport=polling&t=LQJgH8v&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:02:26] "GET /socket.io/?EIO=3&transport=polling&t=LQJgB2H&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:02:51] "POST /socket.io/?EIO=3&transport=polling&t=LQJgNGe&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:02:51] "GET /socket.io/?EIO=3&transport=polling&t=LQJgH9_&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A03%3A04.084833Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:03:05] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:03:16] "POST /socket.io/?EIO=3&transport=polling&t=LQJgTOh&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:03:16] "GET /socket.io/?EIO=3&transport=polling&t=LQJgNI2&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:03:41] "POST /socket.io/?EIO=3&transport=polling&t=LQJgZWB&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:03:41] "GET /socket.io/?EIO=3&transport=polling&t=LQJgTPZ&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:03:59] "POST /socket.io/?EIO=3&transport=polling&t=LQJge0a&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:04:06] "GET /socket.io/?EIO=3&transport=polling&t=LQJgfbR HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:04:06] "POST /socket.io/?EIO=3&transport=polling&t=LQJgfjE&sid=f7034d07f1e949b5820021364ee31a00 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:04:06] "GET /socket.io/?EIO=3&transport=polling&t=LQJgfkB&sid=f7034d07f1e949b5820021364ee31a00 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:04:31] "POST /socket.io/?EIO=3&transport=polling&t=LQJglqY&sid=f7034d07f1e949b5820021364ee31a00 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:04:31] "GET /socket.io/?EIO=3&transport=polling&t=LQJgfwi&sid=f7034d07f1e949b5820021364ee31a00 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:04:41] "GET /socket.io/?EIO=3&transport=polling&t=LQJgZXn&sid=46bf6ca19a2f4c81955b0c4cd20dd3cd HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:04:56] "POST /socket.io/?EIO=3&transport=polling&t=LQJgrxo&sid=f7034d07f1e949b5820021364ee31a00 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:04:56] "GET /socket.io/?EIO=3&transport=polling&t=LQJglrA&sid=f7034d07f1e949b5820021364ee31a00 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:05:57] "GET /socket.io/?EIO=3&transport=polling&t=LQJgrz7&sid=f7034d07f1e949b5820021364ee31a00 HTTP/1.1" 400 -
+WARNING:werkzeug:WebSocket transport not available. Install eventlet or gevent and gevent-websocket for improved performance.
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:46] "GET /socket.io/?EIO=3&transport=polling&t=LQJhGfU HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:47] "POST /socket.io/?EIO=3&transport=polling&t=LQJhGoU&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:47] "GET /socket.io/?EIO=3&transport=polling&t=LQJhGpt&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:47] "GET /setup/getip HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:47] "GET /gcal/istblexist HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:47] "GET /setup/pos/isconf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:47] "GET /setup/pos/get HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A06%3A48.467085Z&alt=json
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/plus/v1/people/me?alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:51] "GET /gcal/isauth HTTP/1.1" 200 -
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:06:51] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:07:12] "POST /socket.io/?EIO=3&transport=polling&t=LQJhMwF&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:07:12] "GET /socket.io/?EIO=3&transport=polling&t=LQJhH4r&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:07:37] "POST /socket.io/?EIO=3&transport=polling&t=LQJhT2K&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:07:37] "GET /socket.io/?EIO=3&transport=polling&t=LQJhMxj&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A07%3A47.736694Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:07:50] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:08:02] "POST /socket.io/?EIO=3&transport=polling&t=LQJhZ9i&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:08:02] "GET /socket.io/?EIO=3&transport=polling&t=LQJhT32&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:08:27] "POST /socket.io/?EIO=3&transport=polling&t=LQJhfHD&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:08:27] "GET /socket.io/?EIO=3&transport=polling&t=LQJhZAb&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A08%3A47.704041Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:08:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:08:52] "POST /socket.io/?EIO=3&transport=polling&t=LQJhlOp&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:08:52] "GET /socket.io/?EIO=3&transport=polling&t=LQJhfIB&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:09:17] "POST /socket.io/?EIO=3&transport=polling&t=LQJhrWF&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:09:17] "GET /socket.io/?EIO=3&transport=polling&t=LQJhlPc&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:09:42] "POST /socket.io/?EIO=3&transport=polling&t=LQJhxdj&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:09:42] "GET /socket.io/?EIO=3&transport=polling&t=LQJhrX5&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A09%3A47.676530Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:09:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:10:07] "POST /socket.io/?EIO=3&transport=polling&t=LQJi1l6&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:10:07] "GET /socket.io/?EIO=3&transport=polling&t=LQJhxeT&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:10:32] "POST /socket.io/?EIO=3&transport=polling&t=LQJi7t0&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:10:32] "GET /socket.io/?EIO=3&transport=polling&t=LQJi1mN&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A10%3A47.662963Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:10:48] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:10:57] "POST /socket.io/?EIO=3&transport=polling&t=LQJiD-c&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:10:57] "GET /socket.io/?EIO=3&transport=polling&t=LQJi7ty&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:11:22] "POST /socket.io/?EIO=3&transport=polling&t=LQJiK5p&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:11:22] "GET /socket.io/?EIO=3&transport=polling&t=LQJiD_A&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:11:47] "POST /socket.io/?EIO=3&transport=polling&t=LQJiQDF&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:11:47] "GET /socket.io/?EIO=3&transport=polling&t=LQJiK6c&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A11%3A47.687117Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:11:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:12:12] "POST /socket.io/?EIO=3&transport=polling&t=LQJiWMX&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:12:12] "GET /socket.io/?EIO=3&transport=polling&t=LQJiQFv&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:12:37] "POST /socket.io/?EIO=3&transport=polling&t=LQJicU1&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:12:37] "GET /socket.io/?EIO=3&transport=polling&t=LQJiWNO&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A12%3A47.719451Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:12:48] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:13:02] "POST /socket.io/?EIO=3&transport=polling&t=LQJiibP&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:13:02] "GET /socket.io/?EIO=3&transport=polling&t=LQJicUs&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:13:28] "POST /socket.io/?EIO=3&transport=polling&t=LQJiois&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:13:28] "GET /socket.io/?EIO=3&transport=polling&t=LQJiicD&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A13%3A47.721851Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:13:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:13:53] "POST /socket.io/?EIO=3&transport=polling&t=LQJiuqk&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:13:53] "GET /socket.io/?EIO=3&transport=polling&t=LQJiok5&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:14:18] "POST /socket.io/?EIO=3&transport=polling&t=LQJi-yH&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:14:18] "GET /socket.io/?EIO=3&transport=polling&t=LQJiurf&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:14:43] "POST /socket.io/?EIO=3&transport=polling&t=LQJj53X&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:14:43] "GET /socket.io/?EIO=3&transport=polling&t=LQJi-yv&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A14%3A47.686587Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:14:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:15:08] "POST /socket.io/?EIO=3&transport=polling&t=LQJjBAr&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:15:08] "GET /socket.io/?EIO=3&transport=polling&t=LQJj54D&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:15:33] "POST /socket.io/?EIO=3&transport=polling&t=LQJjHIY&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:15:33] "GET /socket.io/?EIO=3&transport=polling&t=LQJjBBo&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A15%3A47.859519Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:15:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:15:58] "POST /socket.io/?EIO=3&transport=polling&t=LQJjNPy&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:15:58] "GET /socket.io/?EIO=3&transport=polling&t=LQJjHJJ&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:23] "POST /socket.io/?EIO=3&transport=polling&t=LQJjTXX&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:23] "GET /socket.io/?EIO=3&transport=polling&t=LQJjNQu&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-16 14:16:25
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:26] "GET /socket.io/?EIO=3&transport=polling&t=LQJjTYA&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:39] "GET /socket.io/?EIO=3&transport=polling&t=LQJjUA_&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:39] "GET /wardrobe/pamount HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:39] "GET /wardrobe/get?items=8&page=0 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:47] "GET /clothes/thum9.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:47] "GET /clothes/thum4.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:48] "GET /clothes/thum11.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:48] "GET /clothes/thum2.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:48] "GET /clothes/thum5.jpg HTTP/1.1" 304 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A16%3A48.180555Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:48] "POST /socket.io/?EIO=3&transport=polling&t=LQJjZf7&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:48] "GET /socket.io/?EIO=3&transport=polling&t=LQJjXMz&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:48] "GET /clothes/thum7.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:48] "GET /clothes/thum8.jpg HTTP/1.1" 304 -
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:50] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:54] "GET /wardrobe/get?items=8&page=1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:54] "GET /wardrobe/get?items=8&page=4 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:54] "GET /wardrobe/get?items=8&page=2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:54] "GET /wardrobe/get?items=8&page=3 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:56] "GET /clothes/thum13.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:56] "GET /clothes/thum3.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:56] "GET /clothes/thum6.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:56] "GET /clothes/thum1.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:56] "GET /wardrobe/get?items=8&page=5 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:56] "GET /wardrobe/get?items=8&page=6 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:57] "GET /clothes/thum12.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:58] "GET /wardrobe/get?items=8&page=7 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:58] "GET /wardrobe/get?items=8&page=8 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:16:59] "GET /clothes/thum10.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:13] "POST /socket.io/?EIO=3&transport=polling&t=LQJjfpp&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:13] "GET /socket.io/?EIO=3&transport=polling&t=LQJjZjB&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:38] "POST /socket.io/?EIO=3&transport=polling&t=LQJjlxk&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:38] "GET /socket.io/?EIO=3&transport=polling&t=LQJjfr2&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=17 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=9 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=16 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=15 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=11 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=10 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=14 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=12 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /wardrobe/get?items=8&page=13 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /clothes/1470058229.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /clothes/1470059456.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /clothes/1470059480.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /clothes/1470060202.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:46] "GET /clothes/1470060230.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:49] "GET /clothes/1469878695.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:49] "GET /clothes/1469882903.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:49] "GET /clothes/1469881643.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:49] "GET /clothes/1469878664.jpg HTTP/1.1" 304 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A17%3A49.398733Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:50] "GET /clothes/0.jpg HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:50] "GET /clothes/1469882555.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:50] "GET /clothes/1470051200.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:50] "GET /clothes/1470052122.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:50] "GET /clothes/1470054735.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:51] "GET /clothes/1470055221.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:51] "GET /clothes/1470056117.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:51] "GET /clothes/1470056461.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:51] "GET /clothes/1470057032.jpg HTTP/1.1" 304 -
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:51] "GET /clothes/1470057496.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:51] "GET /clothes/1470041794.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:52] "GET /clothes/1470042080.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:52] "GET /clothes/1470043276.jpg HTTP/1.1" 200 -
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:52] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:53] "GET /clothes/1470044120.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:54] "GET /clothes/1470044396.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:54] "GET /clothes/1470044608.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:54] "GET /clothes/1470047501.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:54] "GET /clothes/1470048791.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:55] "GET /clothes/1469799368.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:55] "GET /clothes/1469877425.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:55] "GET /clothes/1469877566.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:55] "GET /clothes/1469878220.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:55] "GET /clothes/1469878516.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:55] "GET /clothes/1469883100.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1469883346.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1469883837.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1469884138.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1469884286.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1470038147.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1470039133.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1470060540.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1470039674.jpg HTTP/1.1" 304 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1470060490.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:17:56] "GET /clothes/1470060444.jpg HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:18:03] "POST /socket.io/?EIO=3&transport=polling&t=LQJjs3k&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:18:03] "GET /socket.io/?EIO=3&transport=polling&t=LQJjlz5&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:18:28] "POST /socket.io/?EIO=3&transport=polling&t=LQJjyBP&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:18:28] "GET /socket.io/?EIO=3&transport=polling&t=LQJjs4n&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-16 14:18:29
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:18:36] "GET /socket.io/?EIO=3&transport=polling&t=LQJjzrR&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A18%3A47.734165Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:18:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-16 14:18:52
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:18:58] "GET /socket.io/?EIO=3&transport=polling&t=LQJj-1S&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:19:00] "POST /socket.io/?EIO=3&transport=polling&t=LQJk3y5&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:19:00] "GET /socket.io/?EIO=3&transport=polling&t=LQJk3Lg&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:19:25] "POST /socket.io/?EIO=3&transport=polling&t=LQJkA4F&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:19:25] "GET /socket.io/?EIO=3&transport=polling&t=LQJk3zd&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A19%3A47.721777Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:19:50] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:19:50] "POST /socket.io/?EIO=3&transport=polling&t=LQJkGBu&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:19:50] "GET /socket.io/?EIO=3&transport=polling&t=LQJkA5E&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-16 14:20:07
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:20:08] "GET /socket.io/?EIO=3&transport=polling&t=LQJkGDE&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:20:16] "POST /socket.io/?EIO=3&transport=polling&t=LQJkMJt&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:20:16] "GET /socket.io/?EIO=3&transport=polling&t=LQJkKWV&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-16 14:20:38
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:20:39] "GET /socket.io/?EIO=3&transport=polling&t=LQJkMLE&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:20:41] "POST /socket.io/?EIO=3&transport=polling&t=LQJkSRt&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:20:41] "GET /socket.io/?EIO=3&transport=polling&t=LQJkRzk&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A20%3A47.804078Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:20:49] "GET /socket.io/?EIO=3&transport=polling&t=LQJkStw&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:20:50] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:21:07] "POST /socket.io/?EIO=3&transport=polling&t=LQJkY-a&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:21:07] "GET /socket.io/?EIO=3&transport=polling&t=LQJkUPP&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:21:32] "POST /socket.io/?EIO=3&transport=polling&t=LQJkf6L&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:21:32] "GET /socket.io/?EIO=3&transport=polling&t=LQJkY_g&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A21%3A47.672795Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:21:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:21:58] "POST /socket.io/?EIO=3&transport=polling&t=LQJklE9&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:21:58] "GET /socket.io/?EIO=3&transport=polling&t=LQJkf7X&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:22:23] "POST /socket.io/?EIO=3&transport=polling&t=LQJkrL_&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:22:23] "GET /socket.io/?EIO=3&transport=polling&t=LQJklFM&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A22%3A47.709009Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:22:48] "POST /socket.io/?EIO=3&transport=polling&t=LQJkxU9&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:22:48] "GET /socket.io/?EIO=3&transport=polling&t=LQJkrNX&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:22:48] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:23:13] "POST /socket.io/?EIO=3&transport=polling&t=LQJl1cM&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:23:13] "GET /socket.io/?EIO=3&transport=polling&t=LQJkxVj&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:23:38] "POST /socket.io/?EIO=3&transport=polling&t=LQJl7k9&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:23:38] "GET /socket.io/?EIO=3&transport=polling&t=LQJl1dX&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A23%3A47.699135Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:23:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:24:03] "POST /socket.io/?EIO=3&transport=polling&t=LQJlDrz&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:24:03] "GET /socket.io/?EIO=3&transport=polling&t=LQJl7lL&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:24:28] "POST /socket.io/?EIO=3&transport=polling&t=LQJlJ-2&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:24:28] "GET /socket.io/?EIO=3&transport=polling&t=LQJlDtQ&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A24%3A47.674582Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:24:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:24:53] "POST /socket.io/?EIO=3&transport=polling&t=LQJlQ5s&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:24:53] "GET /socket.io/?EIO=3&transport=polling&t=LQJlJ_D&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:25:18] "POST /socket.io/?EIO=3&transport=polling&t=LQJlWDI&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:25:18] "GET /socket.io/?EIO=3&transport=polling&t=LQJlQ6f&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:25:43] "POST /socket.io/?EIO=3&transport=polling&t=LQJlcKv&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:25:43] "GET /socket.io/?EIO=3&transport=polling&t=LQJlWEG&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A25%3A47.737611Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:25:48] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:26:08] "POST /socket.io/?EIO=3&transport=polling&t=LQJliT6&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:26:08] "GET /socket.io/?EIO=3&transport=polling&t=LQJlcMT&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:26:33] "POST /socket.io/?EIO=3&transport=polling&t=LQJlob0&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:26:33] "GET /socket.io/?EIO=3&transport=polling&t=LQJliUN&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A26%3A47.729250Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:26:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:26:59] "POST /socket.io/?EIO=3&transport=polling&t=LQJluih&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:26:59] "GET /socket.io/?EIO=3&transport=polling&t=LQJloc2&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:27:24] "POST /socket.io/?EIO=3&transport=polling&t=LQJl-qT&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:27:24] "GET /socket.io/?EIO=3&transport=polling&t=LQJlujp&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A27%3A47.678734Z&alt=json
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:27:49] "POST /socket.io/?EIO=3&transport=polling&t=LQJm4y1&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:27:49] "GET /socket.io/?EIO=3&transport=polling&t=LQJl-rO&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:27:51] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:28:14] "POST /socket.io/?EIO=3&transport=polling&t=LQJmB3P&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:28:14] "GET /socket.io/?EIO=3&transport=polling&t=LQJm4yn&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:28:39] "POST /socket.io/?EIO=3&transport=polling&t=LQJmHKj&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:28:39] "GET /socket.io/?EIO=3&transport=polling&t=LQJmBE4&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 200 -
+INFO:googleapiclient.discovery:URL being requested: GET https://www.googleapis.com/calendar/v3/calendars/tbatsenko%40gmail.com/events?orderBy=startTime&timeMax=2016-08-16T23%3A59%3A59.999999Z&singleEvents=true&maxResults=15&showDeleted=false&timeMin=2016-08-16T14%3A28%3A47.927678Z&alt=json
+INFO:oauth2client.client:Refreshing due to a 401 (attempt 1/2)
+INFO:oauth2client.client:Refreshing access_token
+INFO:oauth2client.client:Failed to retrieve access token: {
+  "error" : "invalid_grant"
+}
+ERROR:server:Exception on /gcal/today [GET]
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python2.7/dist-packages/flask/app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/master_3/magic-mirror-base/server/decor.py", line 30, in wrapped_function
+    resp = make_response(f(*args, **kwargs))
+  File "/home/pi/master_3/magic-mirror-base/server/routes/gcal.py", line 35, in gcal_today
+    return json.dumps(gcal.get_today(), indent=JSON_DENT)
+  File "/home/pi/master_3/magic-mirror-base/server/api_cal/gcal.py", line 223, in get_today
+    orderBy='startTime'
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/util.py", line 135, in positional_wrapper
+    return wrapped(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 827, in execute
+    method=str(self.method), body=self.body, headers=self.headers)
+  File "/usr/local/lib/python2.7/dist-packages/googleapiclient/http.py", line 154, in _retry_request
+    resp, content = http.request(uri, method, *args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 642, in new_request
+    self._refresh(request_orig)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 885, in _refresh
+    self._do_refresh_request(http_request)
+  File "/usr/local/lib/python2.7/dist-packages/oauth2client/client.py", line 942, in _do_refresh_request
+    raise HttpAccessTokenRefreshError(error_msg, status=resp.status)
+HttpAccessTokenRefreshError: invalid_grant
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:28:49] "GET /gcal/today HTTP/1.1" 500 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:28:56] "POST /socket.io/?EIO=3&transport=polling&t=LQJmLLv&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:02] "GET /socket.io/?EIO=3&transport=polling&t=LQJmMpB HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:02] "POST /socket.io/?EIO=3&transport=polling&t=LQJmMxt&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:02] "GET /socket.io/?EIO=3&transport=polling&t=LQJmMyy&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:03] "GET /wardrobe/pamount HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:03] "GET /wardrobe/get?items=8&page=0 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:27] "POST /socket.io/?EIO=3&transport=polling&t=LQJmT36&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:27] "GET /socket.io/?EIO=3&transport=polling&t=LQJmNAq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:30] "GET /wardrobe/get?items=8&page=1 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:31] "GET /wardrobe/get?items=8&page=2 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:31] "GET /wardrobe/get?items=8&page=3 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:32] "GET /wardrobe/get?items=8&page=4 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:32] "GET /wardrobe/get?items=8&page=6 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:32] "GET /wardrobe/get?items=8&page=5 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:33] "GET /wardrobe/get?items=8&page=7 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:33] "GET /wardrobe/get?items=8&page=8 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:33] "GET /wardrobe/get?items=8&page=9 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:33] "GET /wardrobe/get?items=8&page=10 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:33] "GET /wardrobe/get?items=8&page=11 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:39] "GET /socket.io/?EIO=3&transport=polling&t=LQJmHLk&sid=261ebc031a7d4bcf9c4ce57c4a88106c HTTP/1.1" 400 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:41] "GET /wardrobe/get?items=8&page=12 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:42] "GET /wardrobe/get?items=8&page=13 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:43] "GET /wardrobe/get?items=8&page=14 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:43] "GET /wardrobe/get?items=8&page=15 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:43] "GET /wardrobe/get?items=8&page=16 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:43] "GET /wardrobe/get?items=8&page=17 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:52] "POST /socket.io/?EIO=3&transport=polling&t=LQJmZAd&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:52] "GET /socket.io/?EIO=3&transport=polling&t=LQJmT42&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:29:54] "GET /clothes/0.jpg HTTP/1.1" 404 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:30:19] "POST /socket.io/?EIO=3&transport=polling&t=LQJmfaH&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:30:19] "GET /socket.io/?EIO=3&transport=polling&t=LQJmZTf&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:30:44] "POST /socket.io/?EIO=3&transport=polling&t=LQJmlhj&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:30:44] "GET /socket.io/?EIO=3&transport=polling&t=LQJmfb3&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:31:09] "POST /socket.io/?EIO=3&transport=polling&t=LQJmrpC&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:31:09] "GET /socket.io/?EIO=3&transport=polling&t=LQJmliX&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:31:34] "POST /socket.io/?EIO=3&transport=polling&t=LQJmxwj&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:31:34] "GET /socket.io/?EIO=3&transport=polling&t=LQJmrq3&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:31:59] "POST /socket.io/?EIO=3&transport=polling&t=LQJn22x&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:31:59] "GET /socket.io/?EIO=3&transport=polling&t=LQJmxyH&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:32:24] "POST /socket.io/?EIO=3&transport=polling&t=LQJn8AX&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:32:24] "GET /socket.io/?EIO=3&transport=polling&t=LQJn23v&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:32:49] "POST /socket.io/?EIO=3&transport=polling&t=LQJnEIU&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:32:49] "GET /socket.io/?EIO=3&transport=polling&t=LQJn8Br&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:33:14] "POST /socket.io/?EIO=3&transport=polling&t=LQJnKQP&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:33:14] "GET /socket.io/?EIO=3&transport=polling&t=LQJnEJm&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:33:39] "POST /socket.io/?EIO=3&transport=polling&t=LQJnQYD&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:33:39] "GET /socket.io/?EIO=3&transport=polling&t=LQJnKRb&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:34:04] "POST /socket.io/?EIO=3&transport=polling&t=LQJnWfP&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:34:04] "GET /socket.io/?EIO=3&transport=polling&t=LQJnQYm&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:34:29] "POST /socket.io/?EIO=3&transport=polling&t=LQJncma&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:34:29] "GET /socket.io/?EIO=3&transport=polling&t=LQJnWfx&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:34:54] "POST /socket.io/?EIO=3&transport=polling&t=LQJnitu&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:34:54] "GET /socket.io/?EIO=3&transport=polling&t=LQJncnF&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:35:19] "POST /socket.io/?EIO=3&transport=polling&t=LQJno_3&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:35:19] "GET /socket.io/?EIO=3&transport=polling&t=LQJniuP&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:35:44] "POST /socket.io/?EIO=3&transport=polling&t=LQJnv6x&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:35:45] "GET /socket.io/?EIO=3&transport=polling&t=LQJnp0H&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:snowboy:Keyword 1 detected at time: 2016-08-16 14:36:08
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:36:09] "GET /socket.io/?EIO=3&transport=polling&t=LQJnv86&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:36:10] "POST /socket.io/?EIO=3&transport=polling&t=LQJn_El&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:36:10] "GET /socket.io/?EIO=3&transport=polling&t=LQJn_2k&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:36:15] "GET /socket.io/?EIO=3&transport=polling&t=LQJn_FI&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:36:35] "POST /socket.io/?EIO=3&transport=polling&t=LQJo5Lz&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:36:35] "GET /socket.io/?EIO=3&transport=polling&t=LQJo0gx&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:37:00] "POST /socket.io/?EIO=3&transport=polling&t=LQJoBTj&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:37:00] "GET /socket.io/?EIO=3&transport=polling&t=LQJo5N2&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:37:25] "POST /socket.io/?EIO=3&transport=polling&t=LQJoHc2&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:37:25] "GET /socket.io/?EIO=3&transport=polling&t=LQJoBVQ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:37:50] "POST /socket.io/?EIO=3&transport=polling&t=LQJoNjb&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:37:50] "GET /socket.io/?EIO=3&transport=polling&t=LQJoHcy&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:38:15] "POST /socket.io/?EIO=3&transport=polling&t=LQJoTr0&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:38:15] "GET /socket.io/?EIO=3&transport=polling&t=LQJoNkO&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:38:40] "POST /socket.io/?EIO=3&transport=polling&t=LQJoZyv&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:38:40] "GET /socket.io/?EIO=3&transport=polling&t=LQJoTsG&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:39:05] "POST /socket.io/?EIO=3&transport=polling&t=LQJog4K&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:39:05] "GET /socket.io/?EIO=3&transport=polling&t=LQJoZzi&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:39:30] "POST /socket.io/?EIO=3&transport=polling&t=LQJomDM&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:39:30] "GET /socket.io/?EIO=3&transport=polling&t=LQJog6k&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:39:55] "POST /socket.io/?EIO=3&transport=polling&t=LQJosLU&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:39:55] "GET /socket.io/?EIO=3&transport=polling&t=LQJomEl&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:40:20] "POST /socket.io/?EIO=3&transport=polling&t=LQJoyTT&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:40:20] "GET /socket.io/?EIO=3&transport=polling&t=LQJosMr&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:40:45] "POST /socket.io/?EIO=3&transport=polling&t=LQJp2bD&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:40:45] "GET /socket.io/?EIO=3&transport=polling&t=LQJoyUa&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:41:10] "POST /socket.io/?EIO=3&transport=polling&t=LQJp8iy&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:41:11] "GET /socket.io/?EIO=3&transport=polling&t=LQJp2cJ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:41:36] "POST /socket.io/?EIO=3&transport=polling&t=LQJpEr5&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:41:36] "GET /socket.io/?EIO=3&transport=polling&t=LQJp8kS&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:42:01] "POST /socket.io/?EIO=3&transport=polling&t=LQJpKzD&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:42:01] "GET /socket.io/?EIO=3&transport=polling&t=LQJpEsa&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:42:26] "POST /socket.io/?EIO=3&transport=polling&t=LQJpR5H&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:42:26] "GET /socket.io/?EIO=3&transport=polling&t=LQJpK-e&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:42:51] "POST /socket.io/?EIO=3&transport=polling&t=LQJpXCj&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:42:51] "GET /socket.io/?EIO=3&transport=polling&t=LQJpR64&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:43:16] "POST /socket.io/?EIO=3&transport=polling&t=LQJpdKf&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:43:16] "GET /socket.io/?EIO=3&transport=polling&t=LQJpXE0&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:43:41] "POST /socket.io/?EIO=3&transport=polling&t=LQJpjS9&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:43:41] "GET /socket.io/?EIO=3&transport=polling&t=LQJpdLW&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:44:06] "POST /socket.io/?EIO=3&transport=polling&t=LQJppZX&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:44:06] "GET /socket.io/?EIO=3&transport=polling&t=LQJpjSu&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:44:31] "POST /socket.io/?EIO=3&transport=polling&t=LQJpvhL&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:44:31] "GET /socket.io/?EIO=3&transport=polling&t=LQJppai&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:44:56] "POST /socket.io/?EIO=3&transport=polling&t=LQJp_pG&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:44:56] "GET /socket.io/?EIO=3&transport=polling&t=LQJpvid&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:45:21] "POST /socket.io/?EIO=3&transport=polling&t=LQJq5xV&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:45:21] "GET /socket.io/?EIO=3&transport=polling&t=LQJp_qt&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:45:46] "POST /socket.io/?EIO=3&transport=polling&t=LQJqC3I&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:45:46] "GET /socket.io/?EIO=3&transport=polling&t=LQJq5yf&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:46:11] "POST /socket.io/?EIO=3&transport=polling&t=LQJqIB0&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:46:11] "GET /socket.io/?EIO=3&transport=polling&t=LQJqC4O&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:46:36] "POST /socket.io/?EIO=3&transport=polling&t=LQJqOIk&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:46:37] "GET /socket.io/?EIO=3&transport=polling&t=LQJqIC5&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:47:02] "POST /socket.io/?EIO=3&transport=polling&t=LQJqUQp&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:47:02] "GET /socket.io/?EIO=3&transport=polling&t=LQJqOKB&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:47:27] "POST /socket.io/?EIO=3&transport=polling&t=LQJqaYF&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:47:27] "GET /socket.io/?EIO=3&transport=polling&t=LQJqURe&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:47:52] "POST /socket.io/?EIO=3&transport=polling&t=LQJqgfu&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:47:52] "GET /socket.io/?EIO=3&transport=polling&t=LQJqaZF&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:48:17] "POST /socket.io/?EIO=3&transport=polling&t=LQJqmnK&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:48:17] "GET /socket.io/?EIO=3&transport=polling&t=LQJqggh&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:48:42] "POST /socket.io/?EIO=3&transport=polling&t=LQJqsut&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:48:42] "GET /socket.io/?EIO=3&transport=polling&t=LQJqmoE&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:49:07] "POST /socket.io/?EIO=3&transport=polling&t=LQJqz0b&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:49:07] "GET /socket.io/?EIO=3&transport=polling&t=LQJqsvz&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:49:32] "POST /socket.io/?EIO=3&transport=polling&t=LQJr38K&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:49:32] "GET /socket.io/?EIO=3&transport=polling&t=LQJqz1h&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:49:57] "POST /socket.io/?EIO=3&transport=polling&t=LQJr9GA&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:49:57] "GET /socket.io/?EIO=3&transport=polling&t=LQJr39Y&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:50:22] "POST /socket.io/?EIO=3&transport=polling&t=LQJrFNz&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:50:22] "GET /socket.io/?EIO=3&transport=polling&t=LQJr9HK&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:50:47] "POST /socket.io/?EIO=3&transport=polling&t=LQJrLV-&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:50:47] "GET /socket.io/?EIO=3&transport=polling&t=LQJrFPL&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:51:12] "POST /socket.io/?EIO=3&transport=polling&t=LQJrRdx&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:51:12] "GET /socket.io/?EIO=3&transport=polling&t=LQJrLXJ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:51:37] "POST /socket.io/?EIO=3&transport=polling&t=LQJrXlP&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:51:37] "GET /socket.io/?EIO=3&transport=polling&t=LQJrRem&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:52:02] "POST /socket.io/?EIO=3&transport=polling&t=LQJrdsn&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:52:02] "GET /socket.io/?EIO=3&transport=polling&t=LQJrXm9&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:52:27] "POST /socket.io/?EIO=3&transport=polling&t=LQJrj-S&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:52:27] "GET /socket.io/?EIO=3&transport=polling&t=LQJrdtp&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:52:53] "POST /socket.io/?EIO=3&transport=polling&t=LQJrq6X&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:52:53] "GET /socket.io/?EIO=3&transport=polling&t=LQJrj_v&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:53:18] "POST /socket.io/?EIO=3&transport=polling&t=LQJrwF7&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:53:18] "GET /socket.io/?EIO=3&transport=polling&t=LQJrq8U&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:53:43] "POST /socket.io/?EIO=3&transport=polling&t=LQJs0Mr&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:53:43] "GET /socket.io/?EIO=3&transport=polling&t=LQJrwGD&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:54:08] "POST /socket.io/?EIO=3&transport=polling&t=LQJs6UI&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:54:08] "GET /socket.io/?EIO=3&transport=polling&t=LQJs0Nf&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:54:33] "POST /socket.io/?EIO=3&transport=polling&t=LQJsCdg&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:54:33] "GET /socket.io/?EIO=3&transport=polling&t=LQJs6X2&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:54:58] "POST /socket.io/?EIO=3&transport=polling&t=LQJsImC&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:54:58] "GET /socket.io/?EIO=3&transport=polling&t=LQJsCfY&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:55:23] "POST /socket.io/?EIO=3&transport=polling&t=LQJsOtw&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:55:23] "GET /socket.io/?EIO=3&transport=polling&t=LQJsInH&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:55:48] "POST /socket.io/?EIO=3&transport=polling&t=LQJsU_e&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:55:48] "GET /socket.io/?EIO=3&transport=polling&t=LQJsOv0&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:56:13] "POST /socket.io/?EIO=3&transport=polling&t=LQJsb7h&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:56:13] "GET /socket.io/?EIO=3&transport=polling&t=LQJsV13&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:56:38] "POST /socket.io/?EIO=3&transport=polling&t=LQJshFM&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:56:38] "GET /socket.io/?EIO=3&transport=polling&t=LQJsb8j&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:57:03] "POST /socket.io/?EIO=3&transport=polling&t=LQJsnN4&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:57:04] "GET /socket.io/?EIO=3&transport=polling&t=LQJshGR&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:57:29] "POST /socket.io/?EIO=3&transport=polling&t=LQJstU_&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:57:29] "GET /socket.io/?EIO=3&transport=polling&t=LQJsnON&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:57:54] "POST /socket.io/?EIO=3&transport=polling&t=LQJszdD&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:57:54] "GET /socket.io/?EIO=3&transport=polling&t=LQJstWa&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:58:19] "POST /socket.io/?EIO=3&transport=polling&t=LQJt3k-&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:58:19] "GET /socket.io/?EIO=3&transport=polling&t=LQJszeL&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:58:44] "POST /socket.io/?EIO=3&transport=polling&t=LQJt9t7&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:58:44] "GET /socket.io/?EIO=3&transport=polling&t=LQJt3mV&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:59:09] "POST /socket.io/?EIO=3&transport=polling&t=LQJtF-w&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:59:09] "GET /socket.io/?EIO=3&transport=polling&t=LQJt9uH&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:59:34] "POST /socket.io/?EIO=3&transport=polling&t=LQJtM6o&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:59:34] "GET /socket.io/?EIO=3&transport=polling&t=LQJtG0A&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:59:59] "POST /socket.io/?EIO=3&transport=polling&t=LQJtSEU&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 14:59:59] "GET /socket.io/?EIO=3&transport=polling&t=LQJtM7r&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:00:24] "POST /socket.io/?EIO=3&transport=polling&t=LQJtYMc&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:00:24] "GET /socket.io/?EIO=3&transport=polling&t=LQJtSF-&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:00:49] "POST /socket.io/?EIO=3&transport=polling&t=LQJteUV&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:00:49] "GET /socket.io/?EIO=3&transport=polling&t=LQJtYNt&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:01:14] "POST /socket.io/?EIO=3&transport=polling&t=LQJtkc8&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:01:14] "GET /socket.io/?EIO=3&transport=polling&t=LQJteVV&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:01:39] "POST /socket.io/?EIO=3&transport=polling&t=LQJtqjn&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:01:40] "GET /socket.io/?EIO=3&transport=polling&t=LQJtkd8&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:02:05] "POST /socket.io/?EIO=3&transport=polling&t=LQJtwuW&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:02:05] "GET /socket.io/?EIO=3&transport=polling&t=LQJtqnu&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:02:30] "POST /socket.io/?EIO=3&transport=polling&t=LQJu10Y&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:02:30] "GET /socket.io/?EIO=3&transport=polling&t=LQJtwvw&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:02:55] "POST /socket.io/?EIO=3&transport=polling&t=LQJu78R&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:02:55] "GET /socket.io/?EIO=3&transport=polling&t=LQJu11p&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:03:20] "POST /socket.io/?EIO=3&transport=polling&t=LQJuDGG&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:03:20] "GET /socket.io/?EIO=3&transport=polling&t=LQJu79d&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:03:45] "POST /socket.io/?EIO=3&transport=polling&t=LQJuJO9&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:03:45] "GET /socket.io/?EIO=3&transport=polling&t=LQJuDHW&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:04:10] "POST /socket.io/?EIO=3&transport=polling&t=LQJuPVv&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:04:10] "GET /socket.io/?EIO=3&transport=polling&t=LQJuJPH&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:04:35] "POST /socket.io/?EIO=3&transport=polling&t=LQJuVdV&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:04:35] "GET /socket.io/?EIO=3&transport=polling&t=LQJuPWs&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:05:00] "POST /socket.io/?EIO=3&transport=polling&t=LQJublb&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:05:00] "GET /socket.io/?EIO=3&transport=polling&t=LQJuVex&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:05:25] "POST /socket.io/?EIO=3&transport=polling&t=LQJuhtT&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:05:25] "GET /socket.io/?EIO=3&transport=polling&t=LQJubmq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:05:50] "POST /socket.io/?EIO=3&transport=polling&t=LQJun_O&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:05:50] "GET /socket.io/?EIO=3&transport=polling&t=LQJuhun&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:06:15] "POST /socket.io/?EIO=3&transport=polling&t=LQJuu7Y&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:06:16] "GET /socket.io/?EIO=3&transport=polling&t=LQJuo0v&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:06:41] "POST /socket.io/?EIO=3&transport=polling&t=LQJu-GJ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:06:41] "GET /socket.io/?EIO=3&transport=polling&t=LQJuu9g&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:07:06] "POST /socket.io/?EIO=3&transport=polling&t=LQJv4Ni&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:07:06] "GET /socket.io/?EIO=3&transport=polling&t=LQJu-H3&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:07:31] "POST /socket.io/?EIO=3&transport=polling&t=LQJvAVY&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:07:31] "GET /socket.io/?EIO=3&transport=polling&t=LQJv4Ow&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:07:56] "POST /socket.io/?EIO=3&transport=polling&t=LQJvGdX&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:07:56] "GET /socket.io/?EIO=3&transport=polling&t=LQJvAWv&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:08:21] "POST /socket.io/?EIO=3&transport=polling&t=LQJvMlv&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:08:21] "GET /socket.io/?EIO=3&transport=polling&t=LQJvGfG&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:08:46] "POST /socket.io/?EIO=3&transport=polling&t=LQJvStj&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:08:46] "GET /socket.io/?EIO=3&transport=polling&t=LQJvMn4&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:09:11] "POST /socket.io/?EIO=3&transport=polling&t=LQJvZ0A&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:09:11] "GET /socket.io/?EIO=3&transport=polling&t=LQJvSvX&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:09:36] "POST /socket.io/?EIO=3&transport=polling&t=LQJvf7h&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:09:36] "GET /socket.io/?EIO=3&transport=polling&t=LQJvZ12&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:10:01] "POST /socket.io/?EIO=3&transport=polling&t=LQJvlG7&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:10:01] "GET /socket.io/?EIO=3&transport=polling&t=LQJvf9V&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:10:26] "POST /socket.io/?EIO=3&transport=polling&t=LQJvrNg&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:10:26] "GET /socket.io/?EIO=3&transport=polling&t=LQJvlH2&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:10:51] "POST /socket.io/?EIO=3&transport=polling&t=LQJvxVa&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:10:51] "GET /socket.io/?EIO=3&transport=polling&t=LQJvrOy&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:11:17] "POST /socket.io/?EIO=3&transport=polling&t=LQJw1dt&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:11:17] "GET /socket.io/?EIO=3&transport=polling&t=LQJvxXE&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:11:42] "POST /socket.io/?EIO=3&transport=polling&t=LQJw7lS&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:11:42] "GET /socket.io/?EIO=3&transport=polling&t=LQJw1eq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:12:07] "POST /socket.io/?EIO=3&transport=polling&t=LQJwDs-&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:12:07] "GET /socket.io/?EIO=3&transport=polling&t=LQJw7mL&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:12:32] "POST /socket.io/?EIO=3&transport=polling&t=LQJwJ-w&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:12:32] "GET /socket.io/?EIO=3&transport=polling&t=LQJwDuH&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:12:57] "POST /socket.io/?EIO=3&transport=polling&t=LQJwQ6p&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:12:57] "GET /socket.io/?EIO=3&transport=polling&t=LQJwK0B&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:13:22] "POST /socket.io/?EIO=3&transport=polling&t=LQJwWEe&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:13:22] "GET /socket.io/?EIO=3&transport=polling&t=LQJwQ80&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:13:47] "POST /socket.io/?EIO=3&transport=polling&t=LQJwcMD&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:13:47] "GET /socket.io/?EIO=3&transport=polling&t=LQJwWFa&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:14:12] "POST /socket.io/?EIO=3&transport=polling&t=LQJwiUO&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:14:12] "GET /socket.io/?EIO=3&transport=polling&t=LQJwcNm&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:14:37] "POST /socket.io/?EIO=3&transport=polling&t=LQJwoc1&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:14:37] "GET /socket.io/?EIO=3&transport=polling&t=LQJwiVP&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:15:04] "POST /socket.io/?EIO=3&transport=polling&t=LQJwvGk&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:15:04] "GET /socket.io/?EIO=3&transport=polling&t=LQJwpA5&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:15:29] "POST /socket.io/?EIO=3&transport=polling&t=LQJw_OC&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:15:30] "GET /socket.io/?EIO=3&transport=polling&t=LQJwvHZ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:15:55] "POST /socket.io/?EIO=3&transport=polling&t=LQJx5WC&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:15:55] "GET /socket.io/?EIO=3&transport=polling&t=LQJw_PZ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:16:20] "POST /socket.io/?EIO=3&transport=polling&t=LQJxBeB&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:16:20] "GET /socket.io/?EIO=3&transport=polling&t=LQJx5XZ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:16:45] "GET /socket.io/?EIO=3&transport=polling&t=LQJxBet&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:16:45] "POST /socket.io/?EIO=3&transport=polling&t=LQJxHlV&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:17:10] "POST /socket.io/?EIO=3&transport=polling&t=LQJxNt4&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:17:10] "GET /socket.io/?EIO=3&transport=polling&t=LQJxHmS&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:17:35] "POST /socket.io/?EIO=3&transport=polling&t=LQJxT-U&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:17:35] "GET /socket.io/?EIO=3&transport=polling&t=LQJxNts&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:18:00] "POST /socket.io/?EIO=3&transport=polling&t=LQJxa5v&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:18:00] "GET /socket.io/?EIO=3&transport=polling&t=LQJxT_H&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:18:25] "POST /socket.io/?EIO=3&transport=polling&t=LQJxgDP&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:18:25] "GET /socket.io/?EIO=3&transport=polling&t=LQJxa6q&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:18:50] "POST /socket.io/?EIO=3&transport=polling&t=LQJxmLF&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:18:50] "GET /socket.io/?EIO=3&transport=polling&t=LQJxgEc&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:19:15] "POST /socket.io/?EIO=3&transport=polling&t=LQJxsSq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:19:15] "GET /socket.io/?EIO=3&transport=polling&t=LQJxmMC&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:19:40] "POST /socket.io/?EIO=3&transport=polling&t=LQJxyah&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:19:40] "GET /socket.io/?EIO=3&transport=polling&t=LQJxsU3&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:20:05] "POST /socket.io/?EIO=3&transport=polling&t=LQJy2iS&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:20:05] "GET /socket.io/?EIO=3&transport=polling&t=LQJxybq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:20:30] "POST /socket.io/?EIO=3&transport=polling&t=LQJy8q6&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:20:30] "GET /socket.io/?EIO=3&transport=polling&t=LQJy2jU&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:20:55] "POST /socket.io/?EIO=3&transport=polling&t=LQJyEyG&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:20:55] "GET /socket.io/?EIO=3&transport=polling&t=LQJy8rd&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:21:20] "POST /socket.io/?EIO=3&transport=polling&t=LQJyL3p&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:21:20] "GET /socket.io/?EIO=3&transport=polling&t=LQJyEzG&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:21:45] "POST /socket.io/?EIO=3&transport=polling&t=LQJyRB9&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:21:45] "GET /socket.io/?EIO=3&transport=polling&t=LQJyL4X&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:22:10] "POST /socket.io/?EIO=3&transport=polling&t=LQJyXIe&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:22:11] "GET /socket.io/?EIO=3&transport=polling&t=LQJyRB_&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:22:36] "POST /socket.io/?EIO=3&transport=polling&t=LQJydQ3&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:22:36] "GET /socket.io/?EIO=3&transport=polling&t=LQJyXJc&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:23:01] "POST /socket.io/?EIO=3&transport=polling&t=LQJyjXd&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:23:01] "GET /socket.io/?EIO=3&transport=polling&t=LQJydQ-&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:23:26] "POST /socket.io/?EIO=3&transport=polling&t=LQJypfE&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:23:26] "GET /socket.io/?EIO=3&transport=polling&t=LQJyjYc&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:23:51] "POST /socket.io/?EIO=3&transport=polling&t=LQJyvmp&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:23:51] "GET /socket.io/?EIO=3&transport=polling&t=LQJypg3&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:24:16] "POST /socket.io/?EIO=3&transport=polling&t=LQJy_uh&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:24:16] "GET /socket.io/?EIO=3&transport=polling&t=LQJyvnj&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:24:41] "POST /socket.io/?EIO=3&transport=polling&t=LQJz60K&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:24:41] "GET /socket.io/?EIO=3&transport=polling&t=LQJy_vl&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:25:06] "POST /socket.io/?EIO=3&transport=polling&t=LQJzC7e&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:25:06] "GET /socket.io/?EIO=3&transport=polling&t=LQJz610&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:25:31] "POST /socket.io/?EIO=3&transport=polling&t=LQJzIFc&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:25:31] "GET /socket.io/?EIO=3&transport=polling&t=LQJzC8-&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:25:56] "POST /socket.io/?EIO=3&transport=polling&t=LQJzONZ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:25:56] "GET /socket.io/?EIO=3&transport=polling&t=LQJzIGw&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:26:21] "POST /socket.io/?EIO=3&transport=polling&t=LQJzUV7&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:26:21] "GET /socket.io/?EIO=3&transport=polling&t=LQJzOOV&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:26:46] "POST /socket.io/?EIO=3&transport=polling&t=LQJzacX&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:26:46] "GET /socket.io/?EIO=3&transport=polling&t=LQJzUVv&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:27:11] "POST /socket.io/?EIO=3&transport=polling&t=LQJzgkK&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:27:11] "GET /socket.io/?EIO=3&transport=polling&t=LQJzadh&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:27:36] "POST /socket.io/?EIO=3&transport=polling&t=LQJzmt9&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:27:36] "GET /socket.io/?EIO=3&transport=polling&t=LQJzgmW&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:28:01] "POST /socket.io/?EIO=3&transport=polling&t=LQJzs-o&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:28:02] "GET /socket.io/?EIO=3&transport=polling&t=LQJzmu9&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:28:27] "POST /socket.io/?EIO=3&transport=polling&t=LQJzz6T&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:28:27] "GET /socket.io/?EIO=3&transport=polling&t=LQJzs_q&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:28:52] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-3Dz&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:28:52] "GET /socket.io/?EIO=3&transport=polling&t=LQJzz7L&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:29:17] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-9Lm&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:29:17] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-3F7&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:29:42] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-FTK&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:29:42] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-9Mh&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:30:07] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-Laq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:30:07] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-FUC&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:30:32] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-Riq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:30:32] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-LcC&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:30:57] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-XqJ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:30:57] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-Rjg&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:31:22] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-dxp&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:31:22] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-XrB&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:31:47] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-k3c&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:31:47] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-dyy&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:32:12] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-qBu&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:32:12] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-k5G&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:32:37] "POST /socket.io/?EIO=3&transport=polling&t=LQJ-wJd&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:32:37] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-qC_&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:33:02] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_0Qx&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:33:02] "GET /socket.io/?EIO=3&transport=polling&t=LQJ-wKI&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:33:27] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_6YY&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:33:27] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_0Rv&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:33:52] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_CgU&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:33:52] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_6Zr&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:34:18] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_Io4&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:34:18] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_ChR&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:34:43] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_Ov_&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:34:43] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_IpM&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:35:08] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_V1e&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:35:08] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_Ow_&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:35:33] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_b8_&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:35:33] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_V2M&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:35:58] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_hGY&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:35:58] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_b9v&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:36:23] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_nON&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:36:23] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_hHj&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:36:48] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_tWB&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:36:48] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_nPY&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:37:13] "POST /socket.io/?EIO=3&transport=polling&t=LQJ_zdw&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:37:13] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_tXH&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:37:38] "POST /socket.io/?EIO=3&transport=polling&t=LQK03lb&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:37:38] "GET /socket.io/?EIO=3&transport=polling&t=LQJ_zez&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:38:03] "POST /socket.io/?EIO=3&transport=polling&t=LQK09tk&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:38:03] "GET /socket.io/?EIO=3&transport=polling&t=LQK03n4&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:38:28] "POST /socket.io/?EIO=3&transport=polling&t=LQK0F_P&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:38:28] "GET /socket.io/?EIO=3&transport=polling&t=LQK09un&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:38:53] "POST /socket.io/?EIO=3&transport=polling&t=LQK0M7J&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:38:53] "GET /socket.io/?EIO=3&transport=polling&t=LQK0G0h&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:39:18] "POST /socket.io/?EIO=3&transport=polling&t=LQK0SF6&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:39:18] "GET /socket.io/?EIO=3&transport=polling&t=LQK0M8U&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:39:43] "POST /socket.io/?EIO=3&transport=polling&t=LQK0YMy&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:39:43] "GET /socket.io/?EIO=3&transport=polling&t=LQK0SGJ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:40:09] "POST /socket.io/?EIO=3&transport=polling&t=LQK0eUk&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:40:09] "GET /socket.io/?EIO=3&transport=polling&t=LQK0YO5&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:40:34] "POST /socket.io/?EIO=3&transport=polling&t=LQK0kkW&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:40:34] "GET /socket.io/?EIO=3&transport=polling&t=LQK0edt&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:40:59] "POST /socket.io/?EIO=3&transport=polling&t=LQK0qsp&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:40:59] "GET /socket.io/?EIO=3&transport=polling&t=LQK0kmA&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:41:24] "POST /socket.io/?EIO=3&transport=polling&t=LQK0w-f&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:41:24] "GET /socket.io/?EIO=3&transport=polling&t=LQK0qu1&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:41:49] "POST /socket.io/?EIO=3&transport=polling&t=LQK116T&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:41:49] "GET /socket.io/?EIO=3&transport=polling&t=LQK0w_r&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:42:14] "POST /socket.io/?EIO=3&transport=polling&t=LQK17EN&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:42:14] "GET /socket.io/?EIO=3&transport=polling&t=LQK117k&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:42:40] "POST /socket.io/?EIO=3&transport=polling&t=LQK1DM0&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:42:40] "GET /socket.io/?EIO=3&transport=polling&t=LQK17FN&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:43:05] "POST /socket.io/?EIO=3&transport=polling&t=LQK1JTT&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:43:05] "GET /socket.io/?EIO=3&transport=polling&t=LQK1DMq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:43:30] "POST /socket.io/?EIO=3&transport=polling&t=LQK1PbW&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:43:30] "GET /socket.io/?EIO=3&transport=polling&t=LQK1JUt&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:43:55] "POST /socket.io/?EIO=3&transport=polling&t=LQK1VjW&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:43:55] "GET /socket.io/?EIO=3&transport=polling&t=LQK1Pcu&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:44:20] "POST /socket.io/?EIO=3&transport=polling&t=LQK1brG&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:44:20] "GET /socket.io/?EIO=3&transport=polling&t=LQK1Vke&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:44:45] "POST /socket.io/?EIO=3&transport=polling&t=LQK1hy-&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:44:45] "GET /socket.io/?EIO=3&transport=polling&t=LQK1bsL&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:45:10] "POST /socket.io/?EIO=3&transport=polling&t=LQK1o5f&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:45:10] "GET /socket.io/?EIO=3&transport=polling&t=LQK1h_0&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:45:35] "POST /socket.io/?EIO=3&transport=polling&t=LQK1uDY&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:45:35] "GET /socket.io/?EIO=3&transport=polling&t=LQK1o6u&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:46:00] "POST /socket.io/?EIO=3&transport=polling&t=LQK1-LN&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:46:00] "GET /socket.io/?EIO=3&transport=polling&t=LQK1uEk&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:46:25] "POST /socket.io/?EIO=3&transport=polling&t=LQK24Td&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:46:25] "GET /socket.io/?EIO=3&transport=polling&t=LQK1-M_&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:46:50] "POST /socket.io/?EIO=3&transport=polling&t=LQK2Abh&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:46:50] "GET /socket.io/?EIO=3&transport=polling&t=LQK24V2&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:47:15] "POST /socket.io/?EIO=3&transport=polling&t=LQK2GjH&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:47:15] "GET /socket.io/?EIO=3&transport=polling&t=LQK2Ace&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:47:41] "POST /socket.io/?EIO=3&transport=polling&t=LQK2Mqq&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:47:41] "GET /socket.io/?EIO=3&transport=polling&t=LQK2GkB&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:48:06] "POST /socket.io/?EIO=3&transport=polling&t=LQK2SyO&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:48:06] "GET /socket.io/?EIO=3&transport=polling&t=LQK2Mrl&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:48:31] "POST /socket.io/?EIO=3&transport=polling&t=LQK2Z4e&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:48:31] "GET /socket.io/?EIO=3&transport=polling&t=LQK2Sz_&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:48:56] "POST /socket.io/?EIO=3&transport=polling&t=LQK2fCJ&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:48:56] "GET /socket.io/?EIO=3&transport=polling&t=LQK2Z5h&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:49:21] "POST /socket.io/?EIO=3&transport=polling&t=LQK2lJl&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:49:21] "GET /socket.io/?EIO=3&transport=polling&t=LQK2fD6&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:49:46] "POST /socket.io/?EIO=3&transport=polling&t=LQK2rRV&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:49:46] "GET /socket.io/?EIO=3&transport=polling&t=LQK2lKt&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:50:11] "POST /socket.io/?EIO=3&transport=polling&t=LQK2xZD&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:50:11] "GET /socket.io/?EIO=3&transport=polling&t=LQK2rSa&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:50:36] "POST /socket.io/?EIO=3&transport=polling&t=LQK31go&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:50:36] "GET /socket.io/?EIO=3&transport=polling&t=LQK2xaN&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:51:01] "POST /socket.io/?EIO=3&transport=polling&t=LQK37oi&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:51:01] "GET /socket.io/?EIO=3&transport=polling&t=LQK31i3&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:51:26] "POST /socket.io/?EIO=3&transport=polling&t=LQK3Dw-&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:51:26] "GET /socket.io/?EIO=3&transport=polling&t=LQK37qM&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:51:51] "POST /socket.io/?EIO=3&transport=polling&t=LQK3K2p&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [16/Aug/2016 15:51:51] "GET /socket.io/?EIO=3&transport=polling&t=LQK3DyB&sid=e9990af171d549a791cfa2ae10b79832 HTTP/1.1" 200 -
+                                                                                                                                                                                                                                                                                                                       

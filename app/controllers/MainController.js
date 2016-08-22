@@ -32,25 +32,31 @@ function ($scope, $location, socket, $timeout,$document, $http) {
     $scope.switchView = function (view, animation) {
         $scope.anim = animation;
 
-        // THIS IS BULLSHIT!!!! C'MON MAN THIS IS ABSOLUTELY SHIT.
-        // THE WORST BODGE I EVER HAD TO MAKE, LIKE EVER.
-        // YOU CAN'T MONITOR CLASS CHNAGES, SO YOU'VE GOT TO WAIT 1 FUCKING MILLISECOND
-        // AND ONLY THEN CHANGE THE FLIPPING PATH
-        // I'M DONE WITH THIS. BACK IN AN HOUR AFTER A RELAXING BICYCLE RIDE!
-        // I'VE WAISTED HALF OF MY DAY TRYING TO DO THIS PROPERLY, AHHHHHHH!!!!
         $timeout(function () {
             $location.path(view);
         }, $scope.bodge_time);
     }
 
+    socket.forward('wake_up', $scope);
+    $scope.$on("socket:wake_up", function (event, data) {
+        document.getElementById('sleep_block').style.opacity = '0';
+    });
+
     socket.forward('wardrobe_page', $scope);
     $scope.$on("socket:wardrobe_page", function (event, data) {
-                    $scope.switchView('stylist','left_swipe');
-                });
+        $scope.switchView('stylist','left_swipe');
+    });
     socket.forward('home_page', $scope);
     $scope.$on("socket:home_page", function (event, data) {
-                    $scope.switchView('','right_swipe');
-                });
+        $scope.switchView('','right_swipe');
+    });
+
+    //SLEEP
+    socket.forward('sleep', $scope);
+    $scope.$on("socket:sleep", function (event, data) {
+        console.log(document.getElementById('sleep_block').style.opacity = '1');
+        document.getElementById('sleep_block').style.opacity = '1';
+    });
 
 
 }]);

@@ -227,7 +227,19 @@ body {
     border-radius: 0px;
     background-color: rgba(0,0,0,0.2);
 }
-
+.sleep_block{
+    -webkit-transition: all 2s ease;
+    -o-transition: all 2s ease;
+    -moz-transition: all 2s ease;
+    transition: all 2s ease;
+    width: 1050px;
+    height: 1800px;
+    background-color: black;
+    display: block;
+    opacity: 0;
+    z-index: 2345;
+    position: absolute;
+}
 
 .help{
     width: 1050px;
@@ -371,7 +383,7 @@ ul.hr li {
     height: 100%;
 
     background-color: rgba(0, 0, 0, 0.9);
-       /*width: 95%;*/
+       width: 97%;
        position: fixed;
        top: 0;
        z-index: 1000;
@@ -409,7 +421,7 @@ ul.hr li {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-    z-index: 10000;
+    z-index: 23;
 }
 /*#red{
     background: rgb(255, 0, 0);
@@ -510,7 +522,7 @@ ul.hr li {
     position: fixed;
     margin-top: -10px;
     margin-left: -140px;
-    z-index: 5000;
+    z-index: 27;
     display: block;
 }
 .microphone{
@@ -519,10 +531,10 @@ ul.hr li {
     margin-top: 20px;
     margin-bottom: 10px;
     height: 35px;
-    z-index: 50;
+    z-index: 24;
 }
 .microph_img{
-    z-index: 51;
+    z-index: 25;
     padding-top: 5px;
     position: absolute;
 }

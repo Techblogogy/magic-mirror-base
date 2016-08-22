@@ -1,5 +1,13 @@
 from flask import Flask, request
 from flask_socketio import SocketIO, emit
+from tb_config import conf_file as g_cfg
+import logging, time
+
+logger = logging.getLogger("TB")
+
+cfg = g_cfg().get_cfg()
+SLEEP_TIME = cfg.getint("GLOBALS", "sleep_time")
+
 
 # Important Constants
 class Singleton(type):
@@ -24,8 +32,21 @@ class PServer():
         # self.socketio = SocketIO(self.app)
         self.socketio = SocketIO(self.app, async_mode='threading')
 
+    # LIttle spleeper
+    @staticmethod
+    def sleep_state(voice):
+        global pserve
+        time.sleep(SLEEP_TIME)
+        pserve.send("sleep","123")
+        logger.debug("WORKS")
+        voice.stop_all()
+        pserve.is_sleeping = True
+
+
     def send(self, event, data):
         self.socketio.emit(event, data, namespace="/io")
 
     def start(self):
         print "[STARTING SERVERS]"
+
+pserve = PServer()

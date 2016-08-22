@@ -304,6 +304,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
                $scope.switchView('add','left_swipe')
                return;
            }
+           console.log(it_id);
 
            big_item = document.getElementById("item-"+(it_id)).innerHTML;
 

@@ -28,8 +28,10 @@ logger.setLevel(logging.DEBUG)
 from server import PServer
 pserve = PServer()
 
-import os, json, thread, time, sys
+import os, json, thread, time, sys, sched
 from traceback import print_tb
+
+from tb_config import conf_file as g_cfg
 
 mc = None
 try:
@@ -44,13 +46,20 @@ from cvison.play import PlayVid
 
 import decor
 
+import subprocess
+
 from api_cal.setup import setup
 from api_cal.gcal import gcal
+
+
+SLEEP_TIME = 0
 
 # Important Constants
 # JSON_DENT = 4
 
 def create_server():
+    cfg = g_cfg().get_cfg()
+
     machine_plt = platform.machine()[:3]
     ml_pt = (machine_plt == "arm")
 
@@ -75,8 +84,13 @@ def create_server():
     voice = Speech()
     voice.start()
 
+
+
     # Video playing
     pv = PlayVid()
+
+    # Connect bluetooth bluetooth remote control
+    # os.system("rfcomm bind 0 20:16:01:11:92:31")
 
     # Start Remote Control
     try:
@@ -191,8 +205,18 @@ def create_server():
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
-        os.system("electron ../ &")
+        # os.system("start \"electron ../\"")
+        subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
 
     logger.info("Starting electron")
+    try:
+        thread.start_new_thread( pserve.sleep_state, (voice,) )
+        # pserve.sleep_state(voice)
+    except:
+        logger.exception("Unable to sleeping thread")
+    # t = threading.Timer(SLEEP_TIME, sleep_state)
+    # t.start()
+
+    logger.debug("THIS ACTJALLY")
 
     return (pserve.app, pserve.socketio)
