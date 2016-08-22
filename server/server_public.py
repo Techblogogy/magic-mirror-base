@@ -28,8 +28,10 @@ logger.setLevel(logging.DEBUG)
 from server import PServer
 pserve = PServer()
 
-import os, json, thread, time, sys
+import os, json, thread, time, sys, sched
 from traceback import print_tb
+
+from tb_config import conf_file as g_cfg
 
 mc = None
 try:
@@ -44,13 +46,20 @@ from cvison.play import PlayVid
 
 import decor
 
+import subprocess
+
 from api_cal.setup import setup
 from api_cal.gcal import gcal
+
+
+SLEEP_TIME = 0
 
 # Important Constants
 # JSON_DENT = 4
 
 def create_server():
+    cfg = g_cfg().get_cfg()
+
     machine_plt = platform.machine()[:3]
     ml_pt = (machine_plt == "arm")
 
@@ -75,6 +84,8 @@ def create_server():
     voice = Speech()
     voice.start()
 
+
+
     # Video playing
     pv = PlayVid()
 
@@ -82,10 +93,10 @@ def create_server():
     # os.system("rfcomm bind 0 20:16:01:11:92:31")
 
     # Start Remote Control
-    try:
-        thread.start_new_thread( m_remote, (0,) )
-    except:
-        logger.error("Error: unable to start remote control thread")
+    # try:
+    #     thread.start_new_thread( m_remote, (0,) )
+    # except:
+    #     logger.error("Error: unable to start remote control thread")
 
     # Define application routes
     @pserve.app.route('/')
@@ -173,8 +184,31 @@ def create_server():
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
-        os.system("electron ../ &")
+        # os.system("start \"electron ../\"")
+        subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
 
     logger.info("Starting electron")
+
+    # LIttle spleeper
+    SLEEP_TIME = cfg.getint("GLOBALS", "sleep_time")
+    # s = sched.scheduler(time.time, time.sleep)
+    def sleep_state():
+        time.sleep(SLEEP_TIME)
+        pserve.send("sleep","123")
+        logger.debug("WORKS")
+        voice.stop_all()
+
+        # sleep(SLEEP_TIME)
+
+    # s.enter(SLEEP_TIME, 1, sleep_state, ())
+    # s.run()
+    try:
+        thread.start_new_thread( sleep_state, () )
+    except:
+        logger.exception("Unable to start video thread")
+    # t = threading.Timer(SLEEP_TIME, sleep_state)
+    # t.start()
+
+    logger.debug("THIS ACTJALLY")
 
     return (pserve.app, pserve.socketio)
