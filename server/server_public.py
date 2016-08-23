@@ -178,7 +178,7 @@ def create_server():
             # pv.y = 80
             # pv.w = 843
             # pv.h = 1350
-            pv.size_wrd()
+            pv.wrd_size()
             thread.start_new_thread( pv.play_auto, (dat,) )
         except:
             logger.exception("Unable to start video thread")
