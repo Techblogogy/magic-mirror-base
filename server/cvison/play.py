@@ -41,14 +41,14 @@ class PlayVid:
 		self.playing = False
 
 	# Sets video for wardrobe
-	def wrd_size():
+	def wrd_size(self):
 		self.x = self.size_wrd[0]
 		self.y = self.size_wrd[1]
 		self.w = self.size_wrd[2]
 		self.h = self.size_wrd[3]
 
 	# Sets video for add page
-	def add_size():
+	def add_size(self):
 		self.x = self.size_add[0]
 		self.y = self.size_add[1]
 		self.w = self.size_add[2]
