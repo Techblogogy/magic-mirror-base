@@ -375,7 +375,7 @@ ul.hr li {
 }
 
 .home_mic {
-    position: absolute;
+    /*position: absolute;*/
     right: 0;
 }
 #parent_popup {
