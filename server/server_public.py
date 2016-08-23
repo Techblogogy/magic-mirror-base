@@ -190,17 +190,17 @@ def create_server():
 
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
     def start_cam():
-        try:
-            mc.turn_on()
-        except:
-            logger.warning("MyCam failed. Are you on Raspberry PI?")
+        # try:
+        mc.turn_on()
+        # except:
+        #     logger.warning("MyCam failed. Are you on Raspberry PI?")
 
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        try:
-            mc.turn_off()
-        except:
-            logger.warning("MyCam failed. Are you on Raspberry PI?")
+        # try:
+        mc.turn_off()
+        # except:
+        #     logger.warning("MyCam failed. Are you on Raspberry PI?")
 
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
