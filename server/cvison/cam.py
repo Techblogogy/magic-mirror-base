@@ -7,6 +7,8 @@ from minfo import app_dir
 
 import thread, json
 
+import RPi.GPIO
+
 from server import PServer
 pserve = PServer()
 
