@@ -94,7 +94,12 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         // if (item_id == $scope.item_per_page+1) {
         if (item_id == $scope.items.length+2) {
             $scope.next_page()
-
+        }
+        if (item_id == $scope.items.length-1) {
+            $scope.next_page()
+        }
+        if (item_id == $scope.items.length-4) {
+            $scope.next_page()
         }
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
         console.log("it's"+item_id);
@@ -110,6 +115,18 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
                 $scope.previous_page();
 
             item_id = 1;
+        }
+        if (item_id == 3) {
+            if ($scope.page_num !== 0)
+                $scope.previous_page();
+
+            item_id = 4;
+        }
+        if (item_id == 6) {
+            if ($scope.page_num !== 0)
+                $scope.previous_page();
+
+            item_id = 7;
         }
         // if (p_num == 0 && item_id == 0){
         //     item_id = 1;
