@@ -41,14 +41,14 @@ class PlayVid:
 		self.playing = False
 
 	# Sets video for wardrobe
-	def wrd_size():
+	def wrd_size(self):
 		self.x = self.size_wrd[0]
 		self.y = self.size_wrd[1]
 		self.w = self.size_wrd[2]
 		self.h = self.size_wrd[3]
 
 	# Sets video for add page
-	def add_size():
+	def add_size(self):
 		self.x = self.size_add[0]
 		self.y = self.size_add[1]
 		self.w = self.size_add[2]
@@ -60,7 +60,11 @@ class PlayVid:
 
 	# Plays Video File
 	def play(self):
-		self.proc = subprocess.Popen('omxplayer '+self.file+' --win "'+str(self.x)+','+str(self.y)+','+str(self.x+self.w)+','+str(self.y+self.h)+'"', shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
+		# self.proc = subprocess.Popen('omxplayer '+self.file+' --win "'+str(self.x)+','+str(self.y)+','+str(self.x+self.w)+','+str(self.y+self.h)+'"', shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
+
+		logger.debug('omxplayer %s --win %d %d %d %d' % (self.file, self.x, self.y, self.x+self.w, self.y+self.h))
+
+		self.proc = subprocess.Popen('omxplayer %s --win %d %d %d %d' % (self.file, self.x, self.y, self.x+self.w, self.y+self.h), shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
 
 	# Stops Video File
 	def stop(self):

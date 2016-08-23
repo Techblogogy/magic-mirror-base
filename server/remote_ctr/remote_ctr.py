@@ -44,7 +44,7 @@ def m_remote(t):
             x = ser.readline()
             try:
                 x = int(x)
-		logger.debug(x)
+		# logger.debug(x)
             except ValueError:
                 x = 500;
 
@@ -54,7 +54,7 @@ def m_remote(t):
                     pserve.socketio.emit("r_ctr", "up", namespace="/io")
                     #pserve.send("r_ctr", "up")
                     t = time.time()
-            if x < 10 :
+            if x < 100 :
                 if time.time() > t + 0.3 :
                     t = time.time()
                     print 'Down'

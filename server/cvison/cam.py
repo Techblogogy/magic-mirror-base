@@ -62,6 +62,7 @@ class My_Cam():
         self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
 
         # Preview window
+        
         self.x = cfg.getint("PI CAMERA", "x")
         self.y = cfg.getint("PI CAMERA", "y")
         self.w = cfg.getint("PI CAMERA", "width")
@@ -131,7 +132,7 @@ class My_Cam():
             # pv.w = 235
             # pv.h = 376
 
-            pv.size_add()
+            pv.add_size()
             thread.start_new_thread( pv.play_auto, (cl[0]["id"],) )
             #clothes.add("casual", fl["thum]".jpg")
         except:
