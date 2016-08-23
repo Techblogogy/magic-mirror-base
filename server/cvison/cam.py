@@ -7,6 +7,8 @@ from minfo import app_dir
 
 import thread, json
 
+import RPi.GPIO
+
 from server import PServer
 pserve = PServer()
 
@@ -62,7 +64,7 @@ class My_Cam():
         self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
 
         # Preview window
-        
+
         self.x = cfg.getint("PI CAMERA", "x")
         self.y = cfg.getint("PI CAMERA", "y")
         self.w = cfg.getint("PI CAMERA", "width")

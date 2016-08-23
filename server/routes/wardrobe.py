@@ -7,11 +7,11 @@ import logging
 logger = logging.getLogger("TB")
 
 mc = None
-try:
-    from cvison.cam import My_Cam
-    mc = My_Cam()
-except ImportError:
-    logger.warning("MyCam failed. Are you on Raspberry PI?")
+# try:
+from cvison.cam import My_Cam
+mc = My_Cam()
+# except ImportError:
+#     logger.warning("MyCam failed. Are you on Raspberry PI?")
 
 from cvison.play import PlayVid
 
@@ -61,12 +61,12 @@ def wrd_add():
 
     logger.debug("Add request")
 
-    try:
-        fl = mc.rec()
-        # thread.start_new_thread( pv.play_auto, (dat,) )
-        # return json.dumps(clothes.add("te", "thum1.jpg"))
-    except:
-        logger.warning("MyCam failed. Are you on Raspberry PI?")
+    # try:
+    fl = mc.rec()
+    # thread.start_new_thread( pv.play_auto, (dat,) )
+    # return json.dumps(clothes.add("te", "thum1.jpg"))
+    # except:
+    #     logger.warning("MyCam failed. Are you on Raspberry PI?")
 
     return ""
 # Get item by id
