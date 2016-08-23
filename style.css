@@ -374,7 +374,10 @@ ul.hr li {
     width: 600px;
 }
 
-
+.home_mic {
+    position: absolute;
+    right: 0;
+}
 #parent_popup {
     -webkit-transition-delay: 1s;
     -webkit-animation: moveFromLeft .9s ease both;
