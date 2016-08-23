@@ -44,7 +44,7 @@ class My_Cam():
 
         self.cam = PiCamera()
 
-        self.cam.led = False
+        # self.cam.led = False
         self.cam.framerate = 24
 
         # Camera Controls
