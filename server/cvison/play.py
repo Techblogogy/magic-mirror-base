@@ -60,7 +60,11 @@ class PlayVid:
 
 	# Plays Video File
 	def play(self):
-		self.proc = subprocess.Popen('omxplayer '+self.file+' --win "'+str(self.x)+','+str(self.y)+','+str(self.x+self.w)+','+str(self.y+self.h)+'"', shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
+		# self.proc = subprocess.Popen('omxplayer '+self.file+' --win "'+str(self.x)+','+str(self.y)+','+str(self.x+self.w)+','+str(self.y+self.h)+'"', shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
+
+		logger.debug('omxplayer %s --win %d %d %d %d' % (self.file, self.x, self.y, self.x+self.w, self.y+self.h))
+
+		self.proc = subprocess.Popen('omxplayer %s --win %d %d %d %d' % (self.file, self.x, self.y, self.x+self.w, self.y+self.h), shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
 
 	# Stops Video File
 	def stop(self):
