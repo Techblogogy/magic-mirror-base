@@ -216,7 +216,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         } else {
             $scope.video = false;
             // socket.emit("user_on_quit");
-            socket.emit("user_on_quit");
+            socket.emit("user_on_leave");
 
             document.getElementById('item_preview').style.display = 'none';
             $scope.switchView('stylist','right_swipe');
