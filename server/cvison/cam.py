@@ -65,6 +65,8 @@ class My_Cam():
         s_speed = cfg.get("PI CAMERA", "shutter_speed")
         s_speed = s_speed.split("/")
 
+        logger.debug(s_speed)
+
         self.cam.shutter_speed = float(s_speed[0]/s_speed[1]) if len(s_speed < 2) else float(s_speed[0])
 
         # self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
