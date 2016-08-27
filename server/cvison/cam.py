@@ -60,12 +60,14 @@ class My_Cam():
         #cam.exposure_mode = "nightpreview"
 
         # Calculate shutter speed
-        s_speed = cfg.get("PI CAMERA", "shutter_speed")
-        s_speed = s_speed.split("/")
+        # s_speed = cfg.get("PI CAMERA", "shutter_speed")
 
-        self.cam.shutter_speed = float(s_speed[0])/float(s_speed[1]) if len(s_speed < 2) else float(s_speed[0])
+        # logger.debug(1/500)
 
-        # self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
+        # self.cam.shutter_speed = int(s_speed[0])/int(s_speed[1]) if len(s_speed) < 2 else int(s_speed[0])
+
+
+        self.cam.shutter_speed = 1 / cfg.getint("PI CAMERA", "shutter_speed")
 
         # Preview window
         self.x = cfg.getint("PI CAMERA", "x")
