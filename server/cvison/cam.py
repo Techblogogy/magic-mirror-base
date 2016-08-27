@@ -61,7 +61,13 @@ class My_Cam():
         self.cam.sensor_mode = cfg.getint("PI CAMERA", "sensor_mode") # 1
         #cam.exposure_mode = "nightpreview"
 
-        self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
+        # Calculate shutter speed
+        s_speed = cfg.get("PI CAMERA", "shutter_speed")
+        s_speed = s_speed.split("/")
+
+        self.cam.shutter_speed = float(s_speed[0]/s_speed[1]) if len(s_speed < 2) else float(s_speed[0])
+
+        # self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
 
         # Preview window
         self.x = cfg.getint("PI CAMERA", "x")
@@ -79,13 +85,17 @@ class My_Cam():
         pserve.send("m_camera", "preview_on")
 
     def turn_off(self):
-        logger.info("Recording stopped")
+        # Stop Preview Video
+        self.quit()
 
+        # Stop Camera Preview
         self.cam.stop_preview()
         pserve.send("m_camera", "preview_off")
 
+        # Close off camera class
         self.cam.close()
         pserve.send("m_camera", "cam_off")
+
 
     def quit(self):
         pv.stop_auto()
@@ -108,6 +118,7 @@ class My_Cam():
         sleep(R_REC)
 
         self.cam.stop_recording()
+        logger.info("Recording stopped")
         pserve.send("m_camera", "video_end")
 
         pserve.send("m_camera", "compression_begin")
@@ -126,6 +137,5 @@ class My_Cam():
             thread.start_new_thread( pv.play_auto, (cl[0]["id"],) )
         except:
             logger.error("Playing video failed")
-
 
         return cl
