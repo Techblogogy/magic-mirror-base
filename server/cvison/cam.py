@@ -59,21 +59,21 @@ class My_Cam():
         self.cam.sensor_mode = cfg.getint("PI CAMERA", "sensor_mode") # 1
         #cam.exposure_mode = "nightpreview"
 
-        self.cam.shutter_speed = 1/500 # cfg.getfloat("PI CAMERA", "shutter_speed") # 1/500
+        # Calculate shutter speed
+        s_speed = cfg.get("PI CAMERA", "shutter_speed")
+        s_speed = s_speed.split("/")
+
+        self.cam.shutter_speed = float(s_speed[0])/float(s_speed[1]) if len(s_speed < 2) else float(s_speed[0])
+
+        # self.cam.shutter_speed = cfg.getint("PI CAMERA", "shutter_speed") # 1/500
 
         # Preview window
-
         self.x = cfg.getint("PI CAMERA", "x")
         self.y = cfg.getint("PI CAMERA", "y")
         self.w = cfg.getint("PI CAMERA", "width")
         self.h = cfg.getint("PI CAMERA", "height")
 
 
-    # @classmethod
-    # def start_loop():
-    #     thread.start_new_thread( self.rec(), (0,) )
-
-    # @classmethod
     def turn_on(self):
         self.start()
         pserve.send("m_camera", "cam_on")
@@ -83,13 +83,17 @@ class My_Cam():
         pserve.send("m_camera", "preview_on")
 
     def turn_off(self):
-        logger.info("Recording stopped")
+        # Stop Preview Video
+        self.quit()
 
+        # Stop Camera Preview
         self.cam.stop_preview()
         pserve.send("m_camera", "preview_off")
 
+        # Close off camera class
         self.cam.close()
         pserve.send("m_camera", "cam_off")
+
 
     def quit(self):
         pv.stop_auto()
@@ -112,33 +116,24 @@ class My_Cam():
         sleep(R_REC)
 
         self.cam.stop_recording()
+        logger.info("Recording stopped")
         pserve.send("m_camera", "video_end")
 
-        logger.info("Camera stop")
-
-        #TODO: Add socket sending
         pserve.send("m_camera", "compression_begin")
         call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,t, app_dir,t,), shell=True)
         pserve.send("m_camera", "compression_off")
 
-        #TODO: Add socket sending
+        pserve.send("m_camera", "getting_dresscode")
         cl = clothes.add("casual", t+".jpg")
         pserve.send("m_camera_dat", json.dumps(cl))
-        # print t
+
+        logger.info("Camera stop")
+        self.cam.stop_preview()
 
         try:
-            # pv.x = 420
-            # pv.y = 105
-            # pv.w = 235
-            # pv.h = 376
-
             pv.add_size()
             thread.start_new_thread( pv.play_auto, (cl[0]["id"],) )
-            #clothes.add("casual", fl["thum]".jpg")
         except:
             logger.error("Playing video failed")
 
         return cl
-
-# cam = My_Cam()
-# My_Cam.rec()

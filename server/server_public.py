@@ -17,14 +17,6 @@ logging.basicConfig(format="[%(name)s %(levelname)s %(module)s]: %(message)s")
 logger = logging.getLogger("TB")
 logger.setLevel(logging.DEBUG)
 
-# formatter = logging.Formatter()
-# ch = logging.StreamHandler()
-# ch.setFormatter(formatter);
-# ch.setLevel(logging.DEBUG)
-# logger.addHandler(ch)
-
-# from blogger import Blogger as bl
-
 from server import PServer
 pserve = PServer()
 
@@ -85,12 +77,8 @@ def create_server():
     voice.start()
 
 
-
     # Video playing
     pv = PlayVid()
-
-    # Connect bluetooth bluetooth remote control
-    # os.system("rfcomm bind 0 20:16:01:11:92:31")
 
     # Start Remote Control
     try:
@@ -114,9 +102,7 @@ def create_server():
         filepath = os.path.join(app_dir+'/voice', filename)
 
         file.save(filepath)
-        # print json.dumps(dcode, indent=4)
-        # os.remove(filepath)
-        # print json.dumps(resp, indent=4)
+
         return json.dumps(resp, indent=4)
 
     # Define application routes
@@ -168,26 +154,24 @@ def create_server():
     def page_not_found(e):
         return render_template('404.html'), 404
 
-    # Play video
+    # Play video on wardrobe page
     @pserve.socketio.on("start_video", namespace=pserve.IO_SPACE)
     def play_video(dat):
         logger.info("Playing video %s", (dat))
 
         try:
-            # pv.x = 92
-            # pv.y = 80
-            # pv.w = 843
-            # pv.h = 1350
             pv.wrd_size()
             thread.start_new_thread( pv.play_auto, (dat,) )
         except:
             logger.exception("Unable to start video thread")
 
+    # Stop video on wardrobe page
     @pserve.socketio.on("closed", namespace=pserve.IO_SPACE)
     def stop_video():
         logger.info("Stoping video")
         pv.stop_auto()
 
+    # Turn on camera
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
     def start_cam():
         # try:
@@ -195,6 +179,7 @@ def create_server():
         # except:
         #     logger.warning("MyCam failed. Are you on Raspberry PI?")
 
+    # Turn off camera
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
         # try:
