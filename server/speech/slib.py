@@ -9,6 +9,8 @@ import math, audioop, collections, threading
 import platform, stat, random, uuid
 import json
 
+import httplib
+
 import numpy, struct
 
 # import eventlet
@@ -825,7 +827,9 @@ class Recognizer(AudioSource):
             convert_rate = 16000, # audio samples must be 8kHz or 16 kHz
             convert_width = 2 # audio samples should be 16-bit
         )
-        url = "https://speech.platform.bing.com/recognize/query?{0}".format(urlencode({
+
+        # url = "https://speech.platform.bing.com/recognize/query?{0}".format(urlencode({
+        url = "/recognize/query?{0}".format(urlencode({
             "version": "3.0",
             "requestid": uuid.uuid4(),
             "appID": "D4D52672-91D7-4C74-8AD8-42B1D98141A5",
@@ -836,20 +840,44 @@ class Recognizer(AudioSource):
             "instanceid": uuid.uuid4(),
             "result.profanitymarkup": "0",
         }))
-        request = Request(url, data = wav_data, headers = {
+
+        headers = {
             "Authorization": "Bearer {0}".format(access_token),
-            "Content-Type": "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate),
-        })
+            "Content-Type": "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate)
+        }
+
+        # params = urlencode({
+        #     "version": "3.0",
+        #     "requestid": uuid.uuid4(),
+        #     "appID": "D4D52672-91D7-4C74-8AD8-42B1D98141A5",
+        #     "format": "json",
+        #     "locale": language,
+        #     "device.os": "wp7",
+        #     "scenarios": "ulm",
+        #     "instanceid": uuid.uuid4(),
+        #     "result.profanitymarkup": "0",
+        # })
+
+        conn = httplib.HTTPSConnection("speech.platform.bing.com")
+        conn.request("POST", url, wav_data, headers)
+
+        # request = Request(url, data = wav_data, headers = {
+        #     "Authorization": "Bearer {0}".format(access_token),
+        #     "Content-Type": "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate),
+        # })
 
         # DEBUG
         logger.info("Sending Request")
 
         try:
-            response = urlopen(request)
+            response = conn.getresponse() # urlopen(request)
         except HTTPError as e:
             raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
         except URLError as e:
             raise RequestError("recognition connection failed: {0}".format(e.reason))
+
+        print response.status, response.reason
+
         response_text = response.read().decode("utf-8")
         result = json.loads(response_text)
 

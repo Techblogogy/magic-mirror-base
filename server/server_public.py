@@ -26,11 +26,11 @@ from traceback import print_tb
 from tb_config import conf_file as g_cfg
 
 mc = None
-# try:
-from cvison.cam import My_Cam
-mc = My_Cam()
-# except ImportError:
-#     logger.warning("MyCam failed. Are you on Raspberry PI?")
+try:
+    from cvison.cam import My_Cam
+    mc = My_Cam()
+except ImportError:
+    logger.warning("MyCam failed. Are you on Raspberry PI?")
 
 from speech.speech import Speech
 from remote_ctr.remote_ctr import m_remote
@@ -187,11 +187,11 @@ def create_server():
         # except:
         #     logger.warning("MyCam failed. Are you on Raspberry PI?")
 
-    if ml_pt:
-        os.system("electron /home/pi/master_3/magic-mirror-base/ &")
-    else:
-        # os.system("start \"electron ../\"")
-        subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
+    # if ml_pt:
+    #     os.system("electron /home/pi/master_3/magic-mirror-base/ &")
+    # else:
+    #     # os.system("start \"electron ../\"")
+    #     subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
 
     logger.info("Starting electron")
     try:
