@@ -829,7 +829,7 @@ class Recognizer(AudioSource):
         )
 
         # url = "https://speech.platform.bing.com/recognize/query?{0}".format(urlencode({
-        url = "/recognize/query?{0}".format(urlencode({
+        url = "/recognize?{0}".format(urlencode({
             "version": "3.0",
             "requestid": uuid.uuid4(),
             "appID": "D4D52672-91D7-4C74-8AD8-42B1D98141A5",
@@ -841,10 +841,10 @@ class Recognizer(AudioSource):
             "result.profanitymarkup": "0",
         }))
 
-        headers = {
-            "Authorization": "Bearer {0}".format(access_token),
-            "Content-Type": "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate)
-        }
+        # headers = {
+        #     "Authorization": "Bearer {0}".format(access_token),
+        #     "Content-Type": "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate)
+        # }
 
         # params = urlencode({
         #     "version": "3.0",
@@ -858,8 +858,37 @@ class Recognizer(AudioSource):
         #     "result.profanitymarkup": "0",
         # })
 
+        httplib.HTTPSConnection.debuglevel = 1
+
         conn = httplib.HTTPSConnection("speech.platform.bing.com")
-        conn.request("POST", url, wav_data, headers)
+        conn.connect()
+
+
+        # Set headers
+        conn.putrequest("POST", url)
+
+        # conn.putheader("Content-Length", 0)
+        # conn.putheader("Content-Length", len(wav_data))
+        conn.putheader('Transfer-Encoding', 'chunked')
+        # conn.putheader('Connection', 'Keep-Alive')
+        # conn.putheader('Cache-Control', 'no-cache')
+        conn.putheader("Authorization", "Bearer {0}".format(access_token))
+        conn.putheader("Content-Type", "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate))
+        conn.endheaders()
+
+        # conn.send(wav_data)
+
+        # Send Chunk
+        conn.send("%s\r\n" % hex(len(wav_data))[2:])
+        conn.send("%s\r\n" % wav_data)
+
+        # conn.send(wav_data)
+
+        # Finnish chunked
+        conn.send("0\r\n")
+        conn.send("\r\n")
+
+        # conn.request("POST", url, wav_data, headers)
 
         # request = Request(url, data = wav_data, headers = {
         #     "Authorization": "Bearer {0}".format(access_token),
