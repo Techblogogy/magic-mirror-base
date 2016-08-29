@@ -5,6 +5,8 @@ from subprocess import call
 
 from minfo import app_dir
 
+from PIL import Image
+
 import thread, json
 
 from server import PServer
@@ -106,8 +108,14 @@ class My_Cam():
 
         sleep(R_WARM)
 
+        # Campure thumbnail
         logger.info("Capturing thumbnail")
         self.cam.capture('%s/cls/%s.jpg' % (app_dir,t,))
+
+        # Compress image
+        cmp_im = Image.open('%s/cls/%s.jpg' % (app_dir,t,))
+        cmp_img.save('%s/cls/%s.jpg' % (app_dir,t,), optimize=True, quality=80)
+
         pserve.send("m_camera", "thumb_captured")
 
         logger.info("Recording video")
