@@ -7,7 +7,7 @@ from minfo import app_dir
 
 from PIL import Image
 
-import thread, json
+import thread, json, os
 
 from server import PServer
 pserve = PServer()
@@ -114,7 +114,7 @@ class My_Cam():
 
         # Compress image
         cmp_im = Image.open('%s/cls/%s.jpg' % (app_dir,t,))
-        cmp_img.save('%s/cls/%s.jpg' % (app_dir,t,), optimize=True, quality=80)
+        cmp_im.save('%s/cls/%s.jpg' % (app_dir,t,), optimize=True, quality=80)
 
         pserve.send("m_camera", "thumb_captured")
 
@@ -132,6 +132,8 @@ class My_Cam():
         pserve.send("m_camera", "compression_begin")
         call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,t, app_dir,t,), shell=True)
         pserve.send("m_camera", "compression_off")
+
+        os.remove("%s/cls/%s.h264"%(app_dir,t,))
 
         pserve.send("m_camera", "getting_dresscode")
         cl = clothes.add("casual", t+".jpg")
