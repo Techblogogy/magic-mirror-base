@@ -15,7 +15,7 @@ app.factory('socket', function (socketFactory) {
 // Routes Configuration
 app.config(function ($routeProvider) {
     $routeProvider
-    .when('/add', {
+    .when('/', {
         controller: 'HomePageController',
         templateUrl: 'app/views/home.html'
         // animation: 'left_swipe'
@@ -24,7 +24,7 @@ app.config(function ($routeProvider) {
         controller: "StlCtr",
         templateUrl: 'app/views/stylist.html'
     })
-    .when('/', {
+    .when('/add', {
         controller: "AddCtr",
         templateUrl: 'app/views/add.html'
     });

@@ -204,7 +204,9 @@ class clothes:
                 WHERE clothes_tags.c_id = clothes.id
                 GROUP BY c_id) as tags
             FROM clothes
-            WHERE deleted=0 LIMIT ? OFFSET ?
+            WHERE deleted=0
+            ORDER BY id DESC
+            LIMIT ? OFFSET ?
         """,
             (lim, ofs*lim)
         )
