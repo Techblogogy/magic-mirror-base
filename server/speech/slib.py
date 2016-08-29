@@ -541,6 +541,8 @@ class Recognizer(AudioSource):
             pause_count, phrase_count = 0, 0
             while True:
                 elapsed_time += seconds_per_buffer
+                if timeout and elapsed_time > 5: # handle timeout if specified
+                    break;
 
                 buffer = source.stream.read(source.CHUNK)
 
@@ -581,6 +583,322 @@ class Recognizer(AudioSource):
         frame_data = b"".join(list(frames))
 
         return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
+
+    def get_raw_data_streaming(self, raw_data, convert_rate = None, convert_width = None):
+        """
+        Returns a byte string representing the raw frame data for the audio represented by the ``AudioData`` instance.
+
+        If ``convert_rate`` is specified and the audio sample rate is not ``convert_rate`` Hz, the resulting audio is resampled to match.
+
+        If ``convert_width`` is specified and the audio samples are not ``convert_width`` bytes each, the resulting audio is converted to match.
+
+        Writing these bytes directly to a file results in a valid `RAW/PCM audio file <https://en.wikipedia.org/wiki/Raw_audio_format>`__.
+        """
+        assert convert_rate is None or convert_rate > 0, "Sample rate to convert to must be a positive integer"
+        assert convert_width is None or (convert_width % 1 == 0 and 1 <= convert_width <= 4), "Sample width to convert to must be between 1 and 4 inclusive"
+
+        # raw_data = self.frame_data
+
+        # make sure unsigned 8-bit audio (which uses unsigned samples) is handled like higher sample width audio (which uses signed samples)
+        if self.sample_width == 1:
+            raw_data = audioop.bias(raw_data, 1, -128) # subtract 128 from every sample to make them act like signed samples
+
+        # resample audio at the desired rate if specified
+        if convert_rate is not None and self.sample_rate != convert_rate:
+            raw_data, _ = audioop.ratecv(raw_data, self.sample_width, 1, self.sample_rate, convert_rate, None)
+
+        # convert samples to desired sample width if specified
+        if convert_width is not None and self.sample_width != convert_width:
+            if convert_width == 3: # we're converting the audio into 24-bit (workaround for https://bugs.python.org/issue12866)
+                raw_data = audioop.lin2lin(raw_data, self.sample_width, 4) # convert audio into 32-bit first, which is always supported
+                try: audioop.bias(b"", 3, 0) # test whether 24-bit audio is supported (for example, ``audioop`` in Python 3.3 and below don't support sample width 3, while Python 3.4+ do)
+                except audioop.error: # this version of audioop doesn't support 24-bit audio (probably Python 3.3 or less)
+                    raw_data = b"".join(raw_data[i + 1:i + 4] for i in range(0, len(raw_data), 4)) # since we're in little endian, we discard the first byte from each 32-bit sample to get a 24-bit sample
+                else: # 24-bit audio fully supported, we don't need to shim anything
+                    raw_data = audioop.lin2lin(raw_data, self.sample_width, convert_width)
+            else:
+                raw_data = audioop.lin2lin(raw_data, self.sample_width, convert_width)
+
+        # if the output is 8-bit audio with unsigned samples, convert the samples we've been treating as signed to unsigned again
+        if convert_width == 1:
+            raw_data = audioop.bias(raw_data, 1, 128) # add 128 to every sample to make them act like unsigned samples again
+
+        return raw_data
+
+    def get_wav_data_streaming(self, raw_data, convert_rate = None, convert_width = None):
+        convert_rate = 1600
+        convert_width = 2
+
+        raw_data = self.get_raw_data_streaming(raw_data, convert_rate, convert_width)
+
+        sample_rate = self.sample_rate if convert_rate is None else convert_rate
+        sample_width = self.sample_width if convert_width is None else convert_width
+
+        # generate the WAV file contents
+        with io.BytesIO() as wav_file:
+            wav_writer = wave.open(wav_file, "wb")
+            try: # note that we can't use context manager, since that was only added in Python 3.4
+
+                wav_file._headerwritten = True
+
+                wav_writer.setframerate(sample_rate)
+                wav_writer.setsampwidth(sample_width)
+                wav_writer.setnchannels(1)
+
+                wav_writer.writeframesraw(raw_data)
+                wav_data = wav_file.getvalue()
+            finally:  # make sure resources are cleaned up
+                wav_writer.close()
+        return wav_data
+
+    def get_wav_data_streaming_header(self, raw_data, convert_rate = None, convert_width = None):
+        convert_rate = 1600
+        convert_width = 2
+
+        raw_data = self.get_raw_data_streaming(raw_data, convert_rate, convert_width)
+
+        sample_rate = self.sample_rate if convert_rate is None else convert_rate
+        sample_width = self.sample_width if convert_width is None else convert_width
+
+        # generate the WAV file contents
+        with io.BytesIO() as wav_file:
+            wav_writer = wave.open(wav_file, "wb")
+            try: # note that we can't use context manager, since that was only added in Python 3.4
+
+                wav_writer.setparams((1, sample_width, sample_rate, 500000, 'NONE', 'not compressed'))
+                wav_writer._ensure_header_written(500000)
+
+                # wav_writer.setframerate(sample_rate)
+                # wav_writer.setsampwidth(sample_width)
+                # wav_writer.setnchannels(1)
+
+                # wav_writer.writeframes(raw_data)
+                wav_data = wav_file.getvalue()
+            finally:  # make sure resources are cleaned up
+                wav_writer.close()
+        return wav_data
+
+    def listen_stream(self, source, timeout = None):
+        """
+        Records a single phrase from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance, which it returns.
+
+        This is done by waiting until the audio has an energy above ``recognizer_instance.energy_threshold`` (the user has started speaking), and then recording until it encounters ``recognizer_instance.pause_threshold`` seconds of non-speaking or there is no more audio input. The ending silence is not included.
+
+        The ``timeout`` parameter is the maximum number of seconds that it will wait for a phrase to start before giving up and throwing an ``speech_recognition.WaitTimeoutError`` exception. If ``timeout`` is ``None``, it will wait indefinitely.
+        """
+        assert isinstance(source, AudioSource), "Source must be an audio source"
+        assert source.stream is not None, "Audio source must be entered before listening, see documentation for `AudioSource`; are you using `source` outside of a `with` statement?"
+        assert self.pause_threshold >= self.non_speaking_duration >= 0
+
+        seconds_per_buffer = (source.CHUNK + 0.0) / source.SAMPLE_RATE
+        pause_buffer_count = int(math.ceil(self.pause_threshold / seconds_per_buffer)) # number of buffers of non-speaking audio before the phrase is complete
+        phrase_buffer_count = int(math.ceil(self.phrase_threshold / seconds_per_buffer)) # minimum number of buffers of speaking audio before we consider the speaking audio a phrase
+        non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
+
+        # DEBUG
+        logger.info("Energy threshold %d", (self.energy_threshold))
+        pserve.send("mic_is_listening","smth")
+
+        # assert isinstance(key, str), "`key` must be a string"
+        # assert isinstance(language, str), "`language` must be a string"
+
+        key = "fcf79b55364840a384f7316318168927"
+        language = "en-US"
+
+        # DEBUG:
+        # logger.info("Started Bing Recogntion")
+
+        access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
+        allow_caching = True
+        try:
+            from time import monotonic # we need monotonic time to avoid being affected by system clock changes, but this is only available in Python 3.3+
+        except ImportError:
+            try:
+                from monotonic import monotonic # use time.monotonic backport for Python 2 if available (from https://pypi.python.org/pypi/monotonic)
+            except (ImportError, RuntimeError):
+                print "caching not allowed"
+                expire_time = None # monotonic time not available, don't cache access tokens
+                allow_caching = False # don't allow caching, since monotonic time isn't available
+        if expire_time is None or monotonic() > expire_time: # caching not enabled, first credential request, or the access token from the previous one expired
+            # get an access token using OAuth
+            credential_url = "https://oxford-speech.cloudapp.net/token/issueToken"
+            credential_request = Request(credential_url, data = urlencode({
+              "grant_type": "client_credentials",
+              "client_id": "python",
+              "client_secret": key,
+              "scope": "https://speech.platform.bing.com"
+            }).encode("utf-8"))
+            if allow_caching:
+                start_time = monotonic()
+            try:
+                credential_response = urlopen(credential_request)
+            except HTTPError as e:
+                raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
+            except URLError as e:
+                raise RequestError("recognition connection failed: {0}".format(e.reason))
+            credential_text = credential_response.read().decode("utf-8")
+            credentials = json.loads(credential_text)
+            access_token, expiry_seconds = credentials["access_token"], float(credentials["expires_in"])
+
+            if allow_caching:
+                # save the token for the duration it is valid for
+                self.bing_cached_access_token = access_token
+                self.bing_cached_access_token_expiry = start_time + expiry_seconds
+
+        url = "/recognize?{0}".format(urlencode({
+            "version": "3.0",
+            "requestid": uuid.uuid4(),
+            "appID": "D4D52672-91D7-4C74-8AD8-42B1D98141A5",
+            "format": "json",
+            "locale": language,
+            "device.os": "wp7",
+            "scenarios": "ulm",
+            "instanceid": uuid.uuid4(),
+            "result.profanitymarkup": "0",
+        }))
+
+        httplib.HTTPSConnection.debuglevel = 1
+
+        # read audio input for phrases until there is a phrase that is long enough
+        elapsed_time = 0 # number of seconds of audio read
+        while True:
+            frames = collections.deque()
+
+            # store audio input until the phrase starts
+            while True:
+                elapsed_time += seconds_per_buffer
+                if timeout and elapsed_time > timeout: # handle timeout if specified
+                    raise WaitTimeoutError("listening timed out")
+
+                buffer = source.stream.read(source.CHUNK)
+
+                # Amplify volume
+                buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
+                buffer = struct.pack('h'*len(buffer), *buffer)
+
+                if len(buffer) == 0: break # reached end of the stream
+                frames.append(buffer)
+                if len(frames) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
+                    frames.popleft()
+
+                # detect whether speaking has started on audio input
+                energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
+
+                # DEBUG
+                # print "[Speech API DEBUG]: Audio Energy %d" % (energy)
+
+                if energy > self.energy_threshold: break
+
+                # dynamically adjust the energy threshold using assymmetric weighted average
+                if self.dynamic_energy_threshold:
+                    damping = self.dynamic_energy_adjustment_damping ** seconds_per_buffer # account for different chunk sizes and rates
+                    target_energy = energy * self.dynamic_energy_ratio
+                    self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
+
+            # DEBUG
+            logger.info("Audio Detected")
+
+            self.sample_rate = source.SAMPLE_RATE
+            self.sample_width = source.SAMPLE_WIDTH
+
+
+            conn = httplib.HTTPSConnection("speech.platform.bing.com")
+            conn.connect()
+
+            conn.putrequest("POST", url)
+            conn.putheader('Transfer-Encoding', 'chunked')
+            conn.putheader("Authorization", "Bearer {0}".format(access_token))
+            conn.putheader("Content-Type", "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(self.sample_rate))
+            conn.endheaders()
+
+            w_head = self.get_wav_data_streaming_header("", source.SAMPLE_RATE, source.SAMPLE_WIDTH)
+
+            conn.send("%s\r\n" % hex(len(w_head))[2:])
+            conn.send("%s\r\n" % w_head)
+
+
+            # read audio input until the phrase ends
+            pause_count, phrase_count = 0, 0
+            while True:
+                elapsed_time += seconds_per_buffer
+
+                buffer = source.stream.read(source.CHUNK)
+
+                # Amplify volume
+                buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
+                buffer = struct.pack('h'*len(buffer), *buffer)
+
+                if len(buffer) == 0: break # reached end of the stream
+                frames.append(buffer)
+
+                # append to bing
+                s_buff = self.get_wav_data_streaming(buffer, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
+                # import array
+                # a = array.array(_array_fmts[self._sampwidth])
+                # a.fromstring(data)
+                # data = a
+                # assert data.itemsize == self._sampwidth
+                # data.byteswap()
+                # data.tofile(self._file)
+                # self._datawritten = self._datawritten + len(data) * self._sampwidth
+
+                conn.send("%s\r\n" % hex(len(s_buff))[2:])
+                conn.send("%s\r\n" % s_buff)
+
+                phrase_count += 1
+
+                # check if speaking has stopped for longer than the pause threshold on the audio input
+                energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
+                if energy > self.energy_threshold:
+                    pause_count = 0
+                else:
+                    pause_count += 1
+                if pause_count > pause_buffer_count: # end of the phrase
+                    break
+
+            conn.send("0\r\n")
+            conn.send("\r\n")
+            break;
+            # check how long the detected phrase is, and retry listening if the phrase is too short
+            # phrase_count -= pause_count
+            # if phrase_count >= phrase_buffer_count:
+            #     break # phrase is long enough, stop listening
+            # else:
+            #     # DEBUG
+            #     logger.info("Phase is not long enough")
+
+
+        # DEBUG
+        logger.info("Getting Frame Data")
+
+        logger.debug(len(frames))
+
+        # DEBUG
+        logger.info("Sending Request")
+
+        try:
+            response = conn.getresponse() # urlopen(request)
+        except HTTPError as e:
+            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
+        except URLError as e:
+            raise RequestError("recognition connection failed: {0}".format(e.reason))
+
+        print response.status, response.reason
+
+        response_text = response.read().decode("utf-8")
+        result = json.loads(response_text)
+
+        conn.close()
+
+        # DEBUG
+        logger.info("Displaying Result")
+        logger.info(result)
+
+        # obtain frame data
+        # for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
+        # frame_data = b"".join(list(frames))
+        #
+        # return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
 
     def listen_in_background(self, source, callback):
         """
@@ -828,7 +1146,6 @@ class Recognizer(AudioSource):
             convert_width = 2 # audio samples should be 16-bit
         )
 
-        # url = "https://speech.platform.bing.com/recognize/query?{0}".format(urlencode({
         url = "/recognize?{0}".format(urlencode({
             "version": "3.0",
             "requestid": uuid.uuid4(),
@@ -841,59 +1158,33 @@ class Recognizer(AudioSource):
             "result.profanitymarkup": "0",
         }))
 
-        # headers = {
-        #     "Authorization": "Bearer {0}".format(access_token),
-        #     "Content-Type": "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate)
-        # }
-
-        # params = urlencode({
-        #     "version": "3.0",
-        #     "requestid": uuid.uuid4(),
-        #     "appID": "D4D52672-91D7-4C74-8AD8-42B1D98141A5",
-        #     "format": "json",
-        #     "locale": language,
-        #     "device.os": "wp7",
-        #     "scenarios": "ulm",
-        #     "instanceid": uuid.uuid4(),
-        #     "result.profanitymarkup": "0",
-        # })
+        logger.debug(len(wav_data))
 
         httplib.HTTPSConnection.debuglevel = 1
 
         conn = httplib.HTTPSConnection("speech.platform.bing.com")
         conn.connect()
 
-
         # Set headers
         conn.putrequest("POST", url)
 
-        # conn.putheader("Content-Length", 0)
-        # conn.putheader("Content-Length", len(wav_data))
         conn.putheader('Transfer-Encoding', 'chunked')
-        # conn.putheader('Connection', 'Keep-Alive')
-        # conn.putheader('Cache-Control', 'no-cache')
         conn.putheader("Authorization", "Bearer {0}".format(access_token))
         conn.putheader("Content-Type", "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate))
         conn.endheaders()
-
-        # conn.send(wav_data)
 
         # Send Chunk
         conn.send("%s\r\n" % hex(len(wav_data))[2:])
         conn.send("%s\r\n" % wav_data)
 
-        # conn.send(wav_data)
+        # Send second time
+        # conn.send("%s\r\n" % hex(len(wav_data))[2:])
+        # conn.send("%s\r\n" % wav_data)
+
 
         # Finnish chunked
         conn.send("0\r\n")
         conn.send("\r\n")
-
-        # conn.request("POST", url, wav_data, headers)
-
-        # request = Request(url, data = wav_data, headers = {
-        #     "Authorization": "Bearer {0}".format(access_token),
-        #     "Content-Type": "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate),
-        # })
 
         # DEBUG
         logger.info("Sending Request")
@@ -917,6 +1208,7 @@ class Recognizer(AudioSource):
         if show_all: return result
         if "header" not in result or "lexical" not in result["header"]: raise UnknownValueError()
         return result["header"]["lexical"]
+        return ""
 
     def recognize_api(self, audio_data, client_access_token, language = "en", session_id = None, show_all = False):
         """
