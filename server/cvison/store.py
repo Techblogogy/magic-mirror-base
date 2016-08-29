@@ -1,9 +1,13 @@
 from dbase.dbase import dbase as db
+from dbase.dbase import
 from api_cal.weather import Weather
 
 from minfo import app_dir
 
 import random, json, requests
+
+# from Queue import Queue
+# from threading import Thread
 
 import logging
 logger = logging.getLogger("TB")
@@ -13,6 +17,8 @@ cfg = g_cfg().get_cfg()
 
 TAG_LIMIT = cfg.getint("DRESS CODE", "tag_limit")
 SITE_URL = cfg.get("DRESS CODE", "dresscode_url")
+
+# d_q = Queue()
 
 class clothes:
 
@@ -224,6 +230,20 @@ class clothes:
             (lim, ofs*lim)
         )
 
+    # Memory que
+    def get_cache(self):
+        self._cn = sqlite3.connect(app_dir+self._dbpath) # Created Database "connection"
+
+        # Add custom functions
+        self._cn.create_function("sign", 1, self._sign)
+        self._cn.create_function("temp_group", 1, self._temp_group)
+
+        self._cn.row_factory = dict_factory
+        self._db = self._cn.cursor() # Databse Cursor
+
+        while True:
+            pass
+
     # Get page items
     @classmethod
     def page_count(self, pp):
@@ -346,6 +366,13 @@ class clothes:
 
 
 clothes.setup()
+
+# Create background thread
+
+# t_q = Thread(target=clothes.get_cache)
+# t_q.daemon = True
+# t_q.start()
+
 # clothes.add("casual", "1.png", 20, "somthing 1", "cool, winter")
 # clothes.worn(1)
 # print clothes.get_all()
