@@ -23,7 +23,7 @@ def m_remote(t):
 
     # os.popen('cat /etc/services').read()
     # logger.info( os.popen("rfcomm bind %s %s" % (cfg.get("REMOTE","con_port"), cfg.get("REMOTE","mac_address"))).read() )
-    con_proc = subprocess.Popen("rfcomm bind %s %s" % (cfg.get("REMOTE","con_port"), cfg.get("REMOTE","mac_address")), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    con_proc = subprocess.Popen("sudo rfcomm bind %s %s" % (cfg.get("REMOTE","con_port"), cfg.get("REMOTE","mac_address")), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
     con_proc.communicate(cfg.get("REMOTE","passwd")+"\n")
 
