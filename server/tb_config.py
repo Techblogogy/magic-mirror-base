@@ -1,5 +1,6 @@
 import ConfigParser
 
+from minfo import app_dir
 
 class Singleton(type):
     _instances = {}
@@ -13,7 +14,7 @@ class conf_file():
 
     def __init__(self):
         self.config = ConfigParser.ConfigParser()
-        self.config.read('config.cfg')
+        self.config.read('%s/config.cfg'%(app_dir))
 
     def get_cfg(self):
         return self.config
