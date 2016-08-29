@@ -54,6 +54,17 @@ class clothes:
             )
         """)
 
+    @classmethod
+    def setup_indexes(self):
+        # Create indexes to speed up perfomance
+        db.qry("CREATE INDEX IF NOT EXISTS code_dx ON clothes(dresscode)")
+        db.qry("CREATE INDEX IF NOT EXISTS wears_dx ON clothes(t_wears)")
+
+        db.qry("CREATE INDEX IF NOT EXISTS tag_dx ON clothes_tags(tag)")
+
+        db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
+        db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
+
     # Add clothing item
     @classmethod
     def add(self, dresscode, thumbnail, name=None):
@@ -197,6 +208,8 @@ class clothes:
     # Get items in range
     @classmethod
     def get(self, lim, ofs):
+        self.setup_indexes()
+
         return db.qry("""
             SELECT id, thumbnail, dresscode, t_wears,
                 (SELECT group_concat(tag, ', ') as tags
