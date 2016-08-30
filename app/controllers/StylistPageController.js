@@ -186,25 +186,23 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
         if ($scope.page_num !== $scope.p_amount) {
+            console.log($scope.page_num);
+
+            item_id = $scope.get_curitem_id();
+
             angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
             angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
 
-            if ($scope.user_search) {
-                console.log($scope.page_num);
-                item_id = $scope.get_curitem_id();
-                $scope.page_num += 1;
-                $scope.get_search_results($scope.page_num);
-            }
-            else {
+            $scope.page_num +=1
 
-                item_id = $scope.get_curitem_id();
-                $scope.page_num +=1
+            if ($scope.user_search) {
+                $scope.get_search_results($scope.page_num);
+            } else {
                 $scope.get_page_items($scope.page_num);
                 // $scope.p_cnt +=1;
             }
 
             angular.element(document.querySelectorAll("#page-"+$scope.page_num)).addClass("current");
-            // angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
             angular.element(document.querySelectorAll("#item-1")).addClass("current");
 
         }
@@ -318,16 +316,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         // $scope.switchView('weather', 'left_swipe');
     });
 
-    //socket.forward('right', $scope);
-    //$scope.$on("socket:right", function (event, data) {
-    //    console.log("RIGHT!!!");
-    //    $scope.switch_right();
-    //});
-
-    //socket.forward('left', $scope);
-    //$scope.$on("socket:left", function (event, data) {
-    //                $scope.switch_left();
-    //});
     socket.forward('next_page', $scope);
     $scope.$on("socket:next_page", function (event, data) {
         $scope.next_page();
