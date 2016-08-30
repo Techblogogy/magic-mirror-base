@@ -230,16 +230,19 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     };
     $scope.item_worn = function(){
         item_id = $scope.get_curitem_id();
+
         id_for_db = $scope.get_curitem_vid_id();
         console.log($scope.items[item_id].t_wears);
+
         $scope.items[item_id].t_wears += 1;
         console.log($scope.items[item_id].t_wears);
+
         $http.post('http://localhost:5000/wardrobe/wear/'+id_for_db)
          .then(function () {
              $scope.get_page_items($scope.page_num);
         }, function () {
              console.log("ADD ERROR!");
-         });
+        });
     };
 
 
@@ -360,15 +363,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             // var counter = 0;
         }, function () {console.log("EROR")});
     };
-    // setTimeout(function () {
-    //     p_num = $scope.page_num;
-    //     q = "";
-    //     q = "clubwear"
-    //     $scope.user_search = true;
-    //     $scope.get_search_results(p_num);
-    //     // q = data;
-    //     // console.log(q);
-    // }, 5000);
 
     socket.forward('show_all', $scope);
     $scope.$on("socket:show_all", function (event, data) {
@@ -376,16 +370,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         p_num = $scope.page_num;
         $scope.get_page_items(p_num);
     });
-
-
-
-
-    // });
-
-    // socket.forward('mic_active', $scope);
-    // $scope.$on("socket:mic_active", function (event, data) {
-    //                 $scope.mic_active();
-    //             });
 
     socket.forward('mic_is_listening', $scope);
     $scope.$on("socket:mic_is_listening", function (event, data) {
