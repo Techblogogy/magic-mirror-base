@@ -12,18 +12,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.item_per_page = 8;
 
-    //Voice command to get list of VoiceCommands
-    socket.forward('list_vcmd', $scope);
-    $scope.$on("socket:list_vcmd", function (event, data) {
-        document.getElementById('help').style.display = "block";
-    });
-    //CLOSE LIST OF VCs
-    socket.forward('list_vcmd_close', $scope);
-    $scope.$on("socket:list_vcmd_close", function (event, data) {
-        document.getElementById('help').style.display = "none";
-    });
-
-
 
     // $scope.p_cnt = 0;
     $scope.getNumber = function(num) {

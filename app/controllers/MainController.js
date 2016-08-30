@@ -37,6 +37,18 @@ function ($scope, $location, socket, $timeout,$document, $http) {
         }, $scope.bodge_time);
     }
 
+    // Help page stuff
+    //Voice command to get list of VoiceCommands
+    socket.forward('list_vcmd', $scope);
+    $scope.$on("socket:list_vcmd", function (event, data) {
+        document.getElementById('help').style.display = "block";
+    });
+    //CLOSE LIST OF VCs
+    socket.forward('list_vcmd_close', $scope);
+    $scope.$on("socket:list_vcmd_close", function (event, data) {
+        document.getElementById('help').style.display = "none";
+    });
+
     socket.forward('wake_up', $scope);
     $scope.$on("socket:wake_up", function (event, data) {
         document.getElementById('sleep_block').style.opacity = '0';
