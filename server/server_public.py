@@ -187,11 +187,11 @@ def create_server():
         # except:
         #     logger.warning("MyCam failed. Are you on Raspberry PI?")
 
-    # if ml_pt:
-    #     os.system("electron /home/pi/master_3/magic-mirror-base/ &")
-    # else:
-    #     # os.system("start \"electron ../\"")
-    #     subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
+    if ml_pt:
+        os.system("electron /home/pi/master_3/magic-mirror-base/ &")
+    else:
+        # os.system("start \"electron ../\"")
+        subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
 
     logger.info("Starting electron")
     try:

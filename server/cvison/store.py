@@ -1,5 +1,4 @@
 from dbase.dbase import dbase as db
-from dbase.dbase import
 from api_cal.weather import Weather
 
 from minfo import app_dir

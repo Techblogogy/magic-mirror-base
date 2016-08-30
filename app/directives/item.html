@@ -1,5 +1,5 @@
 
-<div class="col-xs-4 item_stl current" id="item-{{info.number}}" it-id="{{info.number}}" vid-id="{{info.vid_id}}" ng-if="info.number%8 === 1">
+<!-- <div class="col-xs-4 item_stl current" id="item-{{info.number}}" it-id="{{info.number}}" vid-id="{{info.vid_id}}" ng-if="info.number%8 === 1">
     <div class="Number">
         <p>{{ info.number }}</p>
     </div>
@@ -8,8 +8,8 @@
     <p class="tags">Tags: First {{ info.tags }}</p>
     <p class="t_wears">Wears: {{ info.t_wears}}</p>
 
-</div>
-<div class="col-xs-4 item_stl" id="item-{{info.number}}" it-id="{{info.number}}" vid-id="{{info.vid_id}}" ng-if="info.number%8 !== 1">
+</div> -->
+<div class="col-xs-4 item_stl" ng-class="{current:$first}" id="item-{{info.number}}" it-id="{{info.number}}" vid-id="{{info.vid_id}}" >
     <div class="Number">
         <p>{{ info.number}}</p>
     </div>
@@ -17,5 +17,4 @@
     <h3 class="dresscode">Dresscode: {{ info.dresscode }}</h3>
     <p class="tags">Tags: {{ info.tags }}</p>
     <p class="t_wears">Wears: {{ info.t_wears}}</p>
-
 </div>

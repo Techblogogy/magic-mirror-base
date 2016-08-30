@@ -1,44 +1,44 @@
 <!-- HELP LIST OF VOICE COMMANDS -->
 <div class="popup_back help container" id="help">
     <div class="col-xs-12">
-         <ul>
-             <h1>Commands to switch page:</h1>
-             <li>Key words to open wardrobe: "dress"+"today"   or   "show"+"stylist"</li>
-             <li>Key words to open home page: "show"+"home"</li>
-             <li>To add new item to your wardrobe: "add"+"new"</li>
+        <ul>
+            <h1>Commands to switch page:</h1>
+            <li>Key words to open wardrobe: "dress"+"today"   or   "show"+"stylist"</li>
+            <li>Key words to open home page: "show"+"home"</li>
+            <li>To add new item to your wardrobe: "add"+"new"</li>
 
-             <h1>Home page commands:</h1>
-             <li>To check weather: "what"+"about"+"weather"</li>
+            <h1>Home page commands:</h1>
+            <li>To check weather: "what"+"about"+"weather"</li>
 
-             <h1>Wardrobe page commands:</h1>
-             <li>Next page: "next"+"page"</li>
-             <li>Previous page: "previous"+"page"</li>
-             <li>Say number of item to see big image</li>
-             <li>Say "close"+"item" to return to wardrobe gallery</li>
-             <li>To mark item as worn: "want"+"wear"+"today"</li>
-             <li>To find all items with a specific tag or dresscode: <br>"find"+"(your word)"</li>
-             <li>To return to wardrobe gallery after search: "show"+"all"</li>
+            <h1>Wardrobe page commands:</h1>
+            <li>Next page: "next"+"page"</li>
+            <li>Previous page: "previous"+"page"</li>
+            <li>Say number of item to see big image</li>
+            <li>Say "close"+"item" to return to wardrobe gallery</li>
+            <li>To mark item as worn: "want"+"wear"+"today"</li>
+            <li>To find all items with a specific tag or dresscode: <br>"find"+"(your word)"</li>
+            <li>To return to wardrobe gallery after search: "show"+"all"</li>
 
-             <h1>Add page commands:</h1>
-             <li>Next page: "next"+"page"</li>
-             <li>Previous page: "previous"+"page"</li>
-             <li>Say number of item to see big image</li>
-             <li>Say "close"+"item" to return to wardrobe gallery</li>
+            <h1>Add page commands:</h1>
+            <li>Next page: "next"+"page"</li>
+            <li>Previous page: "previous"+"page"</li>
+            <li>Say number of item to see big image</li>
+            <li>Say "close"+"item" to return to wardrobe gallery</li>
 
-             <h1>Clothes adding page commands:</h1>
-             <li>Start item adding: "start" or "begin"</li>
-             <li>Add tag: "tag"+"(tag word)"</li>
-             <li>Save tag(s): "save" or "confirm"</li>
-             <li>Edit dresscode: "edit"  or  "code"</li>
-             <li>Save dresscode: "save"  or  "code"</li>
-             <li>Finnish adding item: "finnish" or "quit"</li>
+            <h1>Clothes adding page commands:</h1>
+            <li>Start item adding: "start" or "begin"</li>
+            <li>Add tag: "tag"+"(tag word)"</li>
+            <li>Save tag(s): "save" or "confirm"</li>
+            <li>Edit dresscode: "edit"  or  "code"</li>
+            <li>Save dresscode: "save"  or  "code"</li>
+            <li>Finnish adding item: "finnish" or "quit"</li>
 
 
-             <br>
-             <li>To close list of voice commands: "close"+"help"</li>
-             <li>To close tutorial: "close"+"tutorial"</li>
-             <li>Your setup adress is: {{ip}}</li>
-         </ul>
+            <br>
+            <li>To close list of voice commands: "close"+"help"</li>
+            <li>To close tutorial: "close"+"tutorial"</li>
+            <li>Your setup adress is: {{ip}}</li>
+        </ul>
     </div>
 </div>
 <ui-widget class="stylist" id="stylist">
@@ -99,29 +99,27 @@
 
     <div class="container" ng-controller="ItemCtr">
         <div class="row del_overf" >
+
             <div class="item" ng-repeat="item in items">
-                <item-dir info="item"></item-dir>
+                <div class="col-xs-4 item_stl" ng-class="{current:$first}" id="item-{{item.number}}" it-id="{{item.number}}" vid-id="{{item.vid_id}}" >
+                    <div class="Number"> <p>{{ item.number }}</p> </div>
+
+                    <img class="item_img" ng-src="http://localhost:5000/clothes/{{item.thumbnail}}" >
+
+                    <h3 class="dresscode">Dresscode: {{ item.dresscode }}</h3>
+                    <p class="tags">Tags: {{ item.tags }}</p>
+                    <p class="t_wears">Wears: {{ item.t_wears}}</p>
+                </div>
             </div>
+
             <div class="col-xs-4 item_stl add_button" id="item-{{items.length+1}}" it-id="{{items.length+1}}">
                 <h1>Add a new item</h1>
                 <h1>+</h1>
             </div>
-                <!-- <div class="col-xs-3">
-                    <img class="" ng-src="{{img.cat}}" id="item_img"/>
-                </div>
-                <div class="col-xs-3" id="item_descr">
-                    <p> style: casual<br>stars:4<br>last worn: date<br>style: casual<br>stars:4<br>last worn: date<br></p>
-                </div> -->
-            </div>
         </div>
     </div>
+<!-- </div> -->
 </ui-widget>
-
-<!-- Item directives -->
-
-<!-- <script src="js/directives/installApp.js"></script> -->
-
-<!-- <p ng-click="testView('')">Switch Tag</p> -->
 
 <p ng-click="switchView('','right_swipe')">Back Again (Test)</p>
 <p ng-click="switchView('add','left_swipe')">To add item(Test)</p>

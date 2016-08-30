@@ -175,28 +175,13 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             if (data.length === 0) {
                 return 0;
             }
-            $scope.items = data;
 
-            // $scope.items.push({"element": 1});
-            // var counter = 0;
-            for (var i = 0; i < $scope.items.length; i++) {
-                $scope.items[i].vid_id = $scope.items[i].id;
-                $scope.items[i].number = i+1;
-
-                // $scope.items[i]["id"] = p_num*9 + counter  ;
-                // if ($scope.items[i]["number"] == 1) {
-                //     $scope.items[i]["id"] = p_num*9 + 1 ;
-                //     counter += 1;
-                // }
-                // counter += 1;
+            for (var i = 0; i < data.length; i++) {
+                data[i].vid_id = data[i].id;
+                data[i].number = i+1;
             }
-            console.log($scope.items);
-            // angular.element(document.querySelectorAll(".row")).children()
-            // setTimeout(function () {
-            //     console.log($document.find("#item-1"));
-            //     // $document.find("#item-1").addClass("current");
-            //     angular.element(document.querySelectorAll("#item-1")).addClass("current");
-            // }, 1000);
+
+            $scope.items = data;
         });
     };
     $scope.get_page_items(0);
@@ -225,15 +210,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
 
         }
-        // setTimeout(function () {
-        //     angular.element(document.querySelectorAll("#item-"+x)).removeClass("current");
-        //     x = $scope.page_num*9 +1;
-        //     console.log(x);
-        //     angular.element(document.querySelectorAll("#item-"+x)).addClass("current");
-        // }, 1000);
-
-
-        // angular.element(document.querySelectorAll("#item-{{x}}")).addClass("current");
     };
 
     $scope.previous_page = function(){
@@ -268,50 +244,14 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         }, function () {
              console.log("ADD ERROR!");
          });
-        // location.reload();
-        // $scope.get_page_items($scope.page_num);
     };
 
-    // function getOffset(elem) {
-    //     if (elem.getBoundingClientRect) {
-    //         return getOffsetRect(elem);
-    //     } else {
-    //     return getOffsetSum(elem);
-    //     }
-    // };
+
     $scope.item_is_open = false;
     $scope.click = function(itm_num){
        voice = false;
-       // (document.getElementById('parent_popup').style.display === 'none')
-       // getOffset(document.getElementById('popup'));
-       // getOffsetRect()
-       // console.log( document.querySelectorAll('img_c').offset() );
 
-       // document.querySelectorAll(".current")[0].style.margin = '100px';
-       // big_item = document.querySelectorAll(".current")[0].innerHTML;
-       if (!$scope.item_is_open) {
-           // if (itm_num%9 == 0 ){
-           //     // $location.path("/add")
-           //     $scope.switchView('add','left_swipe')
-           //     // socket.emit("user_on_add");
-           //     return 0;
-           // }
-
-           // big_item = "";
-           // if (voice) {
-           //     // console.log(itm_num);
-           //     actual_id = itm_num%9;
-           //     if (actual_id == 0) {
-           //         actual_id = 9
-           //     }
-           //     // console.log(actual_id);
-           //     big_item = document.getElementById("item-"+(actual_id)).innerHTML;
-           // } else {
-           //     // console.log("READ COM");
-           //
-           //     big_item = document.getElementById("item-"+(itm_num)).innerHTML;
-           // }
-
+      if (!$scope.item_is_open) {
 
            $scope.switch_item(itm_num);
            it_id = $scope.get_curitem_id();
