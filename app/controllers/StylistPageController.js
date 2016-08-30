@@ -172,9 +172,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.get_page_items = function(p_num){
         $http.get('http://localhost:5000/wardrobe/get?items='+8+'&page='+p_num)
         .success(function(data){
-            if (data.length === 0) {
-                return 0;
-            }
+            if (data.length === 0) return 0;
 
             for (var i = 0; i < data.length; i++) {
                 data[i].vid_id = data[i].id;
@@ -189,9 +187,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         // $document.find("current").removeClass("current");
         if ($scope.page_num !== $scope.p_amount) {
             angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
+            angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+
             if ($scope.user_search) {
                 console.log($scope.page_num);
-                angular.element(document.querySelectorAll("#page-"+$scope.page_num)).removeClass("current");
                 item_id = $scope.get_curitem_id();
                 $scope.page_num += 1;
                 $scope.get_search_results($scope.page_num);
@@ -205,9 +204,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             }
 
             angular.element(document.querySelectorAll("#page-"+$scope.page_num)).addClass("current");
-
-            angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
-            angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+            // angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+            angular.element(document.querySelectorAll("#item-1")).addClass("current");
 
         }
     };
