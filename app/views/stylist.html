@@ -100,7 +100,7 @@
     <div class="container" ng-controller="ItemCtr">
         <div class="row del_overf" >
 
-            <div class="item" ng-repeat="item in items">
+            <div class="item" ng-repeat="item in items track by item.number">
                 <div class="col-xs-4 item_stl" ng-class="{current:$first}" id="item-{{item.number}}" it-id="{{item.number}}" vid-id="{{item.vid_id}}" >
                     <div class="Number"> <p>{{ item.number }}</p> </div>
 
