@@ -35,31 +35,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         return Number( angular.element( angular.element(document.querySelectorAll(".current.item_stl") )[0] ).attr('vid-id') );
     };
 
-
-    // Microphone functions
-    $scope.mic_active = function(){
-        // document.getElementById('red').style.display = 'none';
-        // document.getElementById('green').style.display = 'block';
-    };
-    $scope.mic_is_listening = function(){
-        console.log("Microphone is listening");
-        setTimeout(function () {
-            document.getElementById('m_detc').style.display = 'none';
-            document.getElementById('microph_img').style.display = 'block';
-        }, 2000);
-        setTimeout(function () {
-            document.getElementById('m_listen').style.display = 'block';
-        }, 3000);
-
-
-    };
-    $scope.audio_is_detected = function(){
-        console.log("Command was detected");
-        document.getElementById('m_listen').style.display = 'none';
-        document.getElementById('m_detc').style.display = 'block';
-        document.getElementById('microph_img').style.display = 'none';
-    };
-
     $scope.switch_item = function (id) {
 
        item_id = $scope.get_curitem_id();
@@ -359,15 +334,6 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         $scope.get_page_items(p_num);
     });
 
-    socket.forward('mic_is_listening', $scope);
-    $scope.$on("socket:mic_is_listening", function (event, data) {
-        $scope.mic_is_listening();
-    });
-    socket.forward('audio_detected', $scope);
-    $scope.$on("socket:audio_detected", function (event, data) {
-        $scope.audio_is_detected();
-        $scope.curr_cmd = data;
-    });
     socket.forward('item_worn', $scope);
     $scope.$on("socket:item_worn", function (event, data) {
         $scope.item_worn();
@@ -378,11 +344,5 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.$on("socket:add_page", function (event, data) {
         $scope.switchView('add','left_swipe');
     });
-
-
-
-    // setTimeout(function () {
-    //     $http.post('http://localhost:5000/wardrobe/add/tags/'+1,{tags: "tags,lags,bugs"});
-    // }, 1000)
 
 }]);

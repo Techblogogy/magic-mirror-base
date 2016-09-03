@@ -6,44 +6,6 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     socket.emit("user_on_add");
 
-
-
-    /* TODO: This is a junkily copy pasted code. Move it up */
-
-    // Microphone functions
-    $scope.mic_active = function(){
-        // document.getElementById('red').style.display = 'none';
-        // document.getElementById('green').style.display = 'block';
-    };
-    $scope.mic_is_listening = function(){
-        console.log("Microphone is listening");
-        setTimeout(function () {
-            document.getElementById('m_detc').style.display = 'none';
-        }, 2000);
-        setTimeout(function () {
-            document.getElementById('m_listen').style.display = 'block';
-        }, 3000);
-
-
-    };
-    $scope.audio_is_detected = function(){
-        console.log("Command was detected");
-        document.getElementById('m_listen').style.display = 'none';
-        document.getElementById('m_detc').style.display = 'block';
-    };
-
-    socket.forward('mic_is_listening', $scope);
-    $scope.$on("socket:mic_is_listening", function (event, data) {
-        $scope.mic_is_listening();
-    });
-    socket.forward('audio_detected', $scope);
-    $scope.$on("socket:audio_detected", function (event, data) {
-        $scope.audio_is_detected();
-    });
-
-
-
-
     /* TODO: Were actuall adding begins */
 
     // Recieves and switches basic camera events

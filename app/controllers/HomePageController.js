@@ -20,30 +20,6 @@ app.controller('HomePageController', ['$scope','socket','$http', function ($scop
         document.getElementById('tutorial').style.display = "none";
     });
 
-    // Microphone functions
-    $scope.mic_active = function(){
-        // document.getElementById('red').style.display = 'none';
-        // document.getElementById('green').style.display = 'block';
-    };
-    $scope.mic_is_listening = function(){
-        console.log("Microphone is listening");
-        setTimeout(function () {
-            document.getElementById('m_detc').style.display = 'none';
-            document.getElementById('microph_img').style.display = 'block';
-        }, 2000);
-        setTimeout(function () {
-            document.getElementById('m_listen').style.display = 'block';
-        }, 3000);
-
-
-    };
-    $scope.audio_is_detected = function(){
-        console.log("Command was detected");
-        document.getElementById('m_listen').style.display = 'none';
-        document.getElementById('m_detc').style.display = 'block';
-        document.getElementById('microph_img').style.display = 'none';
-    };
-
     // GET IP
     $http.get('http://localhost:5000/setup/getip')
     .success(function(data){

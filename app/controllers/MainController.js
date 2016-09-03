@@ -70,5 +70,39 @@ function ($scope, $location, socket, $timeout,$document, $http) {
         document.getElementById('sleep_block').style.opacity = '1';
     });
 
+    // Microphone functions
+    $scope.mic_active = function(){
+        // document.getElementById('red').style.display = 'none';
+        // document.getElementById('green').style.display = 'block';
+    };
+    $scope.mic_is_listening = function(){
+        console.log("Microphone is listening");
+        setTimeout(function () {
+            document.getElementById('m_detc').style.display = 'none';
+            document.getElementById('microph_img').style.display = 'block';
+        }, 2000);
+        setTimeout(function () {
+            document.getElementById('m_listen').style.display = 'block';
+        }, 3000);
+
+
+    };
+    $scope.audio_is_detected = function(){
+        console.log("Command was detected");
+        document.getElementById('m_listen').style.display = 'none';
+        document.getElementById('m_detc').style.display = 'block';
+        document.getElementById('microph_img').style.display = 'none';
+    };
+
+
+    socket.forward('mic_is_listening', $scope);
+    $scope.$on("socket:mic_is_listening", function (event, data) {
+        $scope.mic_is_listening();
+    });
+    socket.forward('audio_detected', $scope);
+    $scope.$on("socket:audio_detected", function (event, data) {
+        $scope.audio_is_detected();
+        $scope.curr_cmd = data;
+    });
 
 }]);
