@@ -22,12 +22,12 @@
 
     <div class="page_switcher container" >
         <ul class="hr container" >
-            <li class="current" id="page-{{$index}}" ng-repeat="i in getNumber(p_amount) track by $index" ng-if="$index === 0">{{$index+1}}</li>
-            <li id="page-{{$index}}" ng-repeat="i in getNumber(p_amount) track by $index" ng-if=" $index !== 0">{{$index+1}}</li>
+            <li class="current" id="page-{{$index}}" ng-repeat="i in getNumber(p_amount+1) track by $index" ng-if="$index === 0">{{$index+1}}</li>
+            <li id="page-{{$index}}" ng-repeat="i in getNumber(p_amount+1) track by $index" ng-if=" $index !== 0">{{$index+1}}</li>
         </ul>
     </div>
 
-    <!-- <div class="debug_controlls">
+    <div class="debug_controlls">
         <button type="button" name="left" class="selector" ng-click="switch_left()">left</button>
         <button type="button" name="right" class="selector" ng-click="switch_right()">right</button>
         <button type="button" name="switch_down" class="selector" ng-click="switch_down()">down</button>
@@ -35,7 +35,7 @@
         <button type="button" name="next_page" class="selector" ng-click="next_page()">next page</button>
         <button type="button" name="previous_page" class="selector" ng-click="previous_page()">previous page</button>
         <button type="button" name="click" class="selector" ng-click="click(get_curitem_id())">click</button>
-    </div> -->
+    </div>
 
 
     <div id="parent_popup">
