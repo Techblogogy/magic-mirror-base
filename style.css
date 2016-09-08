@@ -1,3 +1,4 @@
+/*---------------------------------------------------------------------GENERAL--------------------------------------------------------------*/
 @import url(https://fonts.googleapis.com/css?family=Poiret+One);
 body {
     background-color: #000;
@@ -76,9 +77,49 @@ body {
     /*width:100%;*/
     /*text-align:center;*/
 }
+::-webkit-scrollbar {
+    width: 0px;
+}
+::-webkit-scrollbar:horizontal {
+    display: none;
+}
+::-webkit-scrollbar-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+::-webkit-scrollbar-corner {
+    background-color: rgba(0,0,0,0);
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 0px;
+    background-color: rgba(0,0,0,0.2);
+}
 
+@keyframes cssload-spin {
+	100%{ transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-o-keyframes cssload-spin {
+	100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-ms-keyframes cssload-spin {
+	100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-webkit-keyframes cssload-spin {
+	100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-moz-keyframes cssload-spin {
+	100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+/*---------------------------------------------------------------------END GENERAL--------------------------------------------------------------*/
 /* Widget Style */
+@media (max-width: 1051px) {
 
+}
 .ui-widget {
     /*display: inline-block;*/
     width: 250px;
@@ -170,7 +211,6 @@ body {
     width: auto;
     -webkit-animation: moveFromLeft .9s ease-in-out both;
 	animation: moveFromLeft .9s ease-in-out both;
-
 }
 #schedule h1{
     /*font-weight: 700;*/
@@ -209,24 +249,6 @@ body {
     display: none;
 }
 
-::-webkit-scrollbar {
-    width: 0px;
-}
-::-webkit-scrollbar:horizontal {
-    display: none;
-}
-::-webkit-scrollbar-track {
-    position: absolute;
-    left: 0;
-    right: 0;
-}
-::-webkit-scrollbar-corner {
-    background-color: rgba(0,0,0,0);
-}
-::-webkit-scrollbar-thumb {
-    border-radius: 0px;
-    background-color: rgba(0,0,0,0.2);
-}
 .sleep_block{
     -webkit-transition: all 2s ease;
     -o-transition: all 2s ease;
@@ -558,26 +580,4 @@ ul.hr li {
 		-ms-animation: cssload-spin 690ms infinite linear;
 		-webkit-animation: cssload-spin 690ms infinite linear;
 		-moz-animation: cssload-spin 690ms infinite linear;
-}
-
-
-
-@keyframes cssload-spin {
-	100%{ transform: rotate(360deg); transform: rotate(360deg); }
-}
-
-@-o-keyframes cssload-spin {
-	100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
-}
-
-@-ms-keyframes cssload-spin {
-	100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
-}
-
-@-webkit-keyframes cssload-spin {
-	100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
-}
-
-@-moz-keyframes cssload-spin {
-	100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
 }

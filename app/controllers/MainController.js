@@ -1,6 +1,7 @@
 app.controller('MainController', ['$scope', '$location', 'socket', '$timeout','$document','$http',
 function ($scope, $location, socket, $timeout,$document, $http) {
 
+    $scope.curr_cmd = "";
     $scope.anim = "";
     $scope.bodge_time = 1; //in milliseconds
 
@@ -93,6 +94,12 @@ function ($scope, $location, socket, $timeout,$document, $http) {
         document.getElementById('m_detc').style.display = 'block';
         document.getElementById('microph_img').style.display = 'none';
     };
+    $scope.audio_was_recorded = function(){
+        console.log("Command was detected");
+        // document.getElementById('m_listen').style.color = 'red';
+        document.getElementById('mic_cmd').style.display = 'block';
+        // document.getElementById('microph_img').style.display = 'none';
+    };
 
 
     socket.forward('mic_is_listening', $scope);
@@ -103,6 +110,30 @@ function ($scope, $location, socket, $timeout,$document, $http) {
     $scope.$on("socket:audio_detected", function (event, data) {
         $scope.audio_is_detected();
         $scope.curr_cmd = data;
+    });
+
+    socket.forward('mic_record', $scope);
+    $scope.$on("socket:mic_record", function (event, data) {
+        setTimeout(function () {
+            console.log("MIC_RECORD");
+            $scope.curr_cmd = "recording...";
+            $scope.audio_was_recorded();
+
+        }, 2000);
+
+    });
+
+    socket.forward('mic_send', $scope);
+    $scope.$on("socket:mic_send", function (event, data) {
+        setTimeout(function () {
+            console.log("MIC_SEND");
+            $scope.curr_cmd = "Command was sent";
+            console.log($scope.curr_cmd);
+            document.getElementById('mic_cmd').style.display = 'block';
+
+
+        }, 3000);
+
     });
 
 }]);

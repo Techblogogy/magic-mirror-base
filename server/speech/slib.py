@@ -536,6 +536,7 @@ class Recognizer(AudioSource):
 
             # DEBUG
             logger.info("Audio Detected")
+            pserve.send("mic_record","smth")
 
             # read audio input until the phrase ends
             pause_count, phrase_count = 0, 0
@@ -1100,6 +1101,7 @@ class Recognizer(AudioSource):
 
         # DEBUG:
         logger.info("Started Bing Recogntion")
+        pserve.send("mic_send","smth")
 
         access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
         allow_caching = True
@@ -1203,6 +1205,7 @@ class Recognizer(AudioSource):
 
         # DEBUG
         logger.info("Displaying Result")
+        pserve.send("audio_detected","cmd")
 
         # return results
         if show_all: return result

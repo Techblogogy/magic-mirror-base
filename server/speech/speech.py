@@ -157,7 +157,8 @@ class Speech:
     def detect_bing(self,recon,audio):
         try:
 
-            text = recon.recognize_bing(audio, key=self.api_key)
+            # text = recon.recognize_bing(audio, key=self.api_key)
+            text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
             cmd = get_command(text)
 
             if cmd:
