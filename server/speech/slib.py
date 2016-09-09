@@ -573,6 +573,7 @@ class Recognizer(AudioSource):
             else:
                 # DEBUG
                 logger.info("Phase is not long enough")
+                pserve.send("audio_error", "shortphase")
 
 
         # DEBUG

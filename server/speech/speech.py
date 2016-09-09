@@ -177,9 +177,14 @@ class Speech:
                     snowboydecoder.play_audio_file(app_dir+"/voice/ding.wav")
                 except:
                     logger.error("Snowboy error")
+            else:
+                pserve.send("audio_error", "unknown_command")
 
             logger.debug("Bing Speech: %s", text)
+
         except sr.UnknownValueError:
             logger.info("Bing unrecognizable")
+            pserve.send("audio_error", "unrecognizable")
         except sr.RequestError as e:
             logger.error("Bing error; {0}".format(e))
+            pserve.send("audio_error", "bing_error")
