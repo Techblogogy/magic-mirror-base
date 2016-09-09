@@ -78,61 +78,65 @@ function ($scope, $location, socket, $timeout,$document, $http) {
     };
     $scope.mic_is_listening = function(){
         console.log("Microphone is listening");
-        setTimeout(function () {
+
+        // setTimeout(function () {
             document.getElementById('m_detc').style.display = 'none';
             document.getElementById('microph_img').style.display = 'block';
-        }, 2000);
-        setTimeout(function () {
+        // }, 2000);
+
+        // setTimeout(function () {
             document.getElementById('m_listen').style.display = 'block';
-        }, 3000);
+        // }, 3000);
 
 
     };
     $scope.audio_is_detected = function(){
         console.log("Command was detected");
+
         document.getElementById('m_listen').style.display = 'none';
         document.getElementById('m_detc').style.display = 'block';
         document.getElementById('microph_img').style.display = 'none';
     };
-    $scope.audio_was_recorded = function(){
-        console.log("Command was detected");
-        // document.getElementById('m_listen').style.color = 'red';
-        document.getElementById('mic_cmd').style.display = 'block';
-        // document.getElementById('microph_img').style.display = 'none';
-    };
+    // $scope.audio_was_recorded = function(){
+    //     console.log("Command was detected");
+    //     // document.getElementById('m_listen').style.color = 'red';
+    //     document.getElementById('mic_cmd').style.display = 'block';
+    //     // document.getElementById('microph_img').style.display = 'none';
+    // };
 
 
-    socket.forward('mic_is_listening', $scope);
-    $scope.$on("socket:mic_is_listening", function (event, data) {
+    socket.forward('audio_found', $scope);
+    $scope.$on("socket:audio_found", function (event, data) {
         $scope.mic_is_listening();
     });
+
     socket.forward('audio_detected', $scope);
     $scope.$on("socket:audio_detected", function (event, data) {
         $scope.audio_is_detected();
         $scope.curr_cmd = data;
     });
 
-    socket.forward('mic_record', $scope);
-    $scope.$on("socket:mic_record", function (event, data) {
-        setTimeout(function () {
-            console.log("MIC_RECORD");
-            $scope.curr_cmd = "recording...";
-            $scope.audio_was_recorded();
+    // socket.forward('mic_record', $scope);
+    // $scope.$on("socket:mic_record", function (event, data) {
+    //     setTimeout(function () {
+    //         console.log("MIC_RECORD");
+    //
+    //         $scope.curr_cmd = "recording...";
+    //         $scope.audio_was_recorded();
+    //
+    //     }, 2000);
+    //
+    // });
 
-        }, 2000);
-
-    });
-
-    socket.forward('mic_send', $scope);
-    $scope.$on("socket:mic_send", function (event, data) {
-        setTimeout(function () {
+    socket.forward('audio_uploading', $scope);
+    $scope.$on("socket:audio_uploading", function (event, data) {
+        // setTimeout(function () {
             console.log("MIC_SEND");
+
             $scope.curr_cmd = "Command was sent";
             console.log($scope.curr_cmd);
             document.getElementById('mic_cmd').style.display = 'block';
-
-
-        }, 3000);
+        // }, 3000);
 
     });
 

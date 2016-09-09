@@ -114,8 +114,8 @@ class Speech:
         with self._m as source:
             self._r.adjust_for_ambient_noise(source, duration=self.adj_time)
 
-        #if self._r.energy_threshold <= 300:
-        # self._r.energy_threshold /= 2
+        if self._r.energy_threshold <= 300:
+            self._r.energy_threshold = 300
 
     	# print self._r.energy_threshold
 
@@ -156,9 +156,9 @@ class Speech:
 
     def detect_bing(self,recon,audio):
         try:
+            pserve.send("audio_uploading","")
 
-            # text = recon.recognize_bing(audio, key=self.api_key)
-            text = recon.recognize_bing(audio, key="c91e3cabd56a4dbbacd4af392a857661")
+            text = recon.recognize_bing(audio, key=self.api_key)
             cmd = get_command(text)
 
             if cmd:

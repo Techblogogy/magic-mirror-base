@@ -496,7 +496,6 @@ class Recognizer(AudioSource):
 
         # DEBUG
         logger.info("Energy threshold %d", (self.energy_threshold))
-        pserve.send("mic_is_listening","smth")
 
         # read audio input for phrases until there is a phrase that is long enough
         elapsed_time = 0 # number of seconds of audio read
@@ -536,7 +535,7 @@ class Recognizer(AudioSource):
 
             # DEBUG
             logger.info("Audio Detected")
-            pserve.send("mic_record","smth")
+            pserve.send("audio_found","")
 
             # read audio input until the phrase ends
             pause_count, phrase_count = 0, 0
@@ -698,7 +697,7 @@ class Recognizer(AudioSource):
 
         # DEBUG
         logger.info("Energy threshold %d", (self.energy_threshold))
-        pserve.send("mic_is_listening","smth")
+        pserve.send("mic_is_listening","")
 
         # assert isinstance(key, str), "`key` must be a string"
         # assert isinstance(language, str), "`language` must be a string"
@@ -1101,7 +1100,6 @@ class Recognizer(AudioSource):
 
         # DEBUG:
         logger.info("Started Bing Recogntion")
-        pserve.send("mic_send","smth")
 
         access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
         allow_caching = True
@@ -1205,7 +1203,7 @@ class Recognizer(AudioSource):
 
         # DEBUG
         logger.info("Displaying Result")
-        pserve.send("audio_detected","cmd")
+        # pserve.send("audio_detected","cmd")
 
         # return results
         if show_all: return result
