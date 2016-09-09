@@ -20,6 +20,13 @@ import thread, platform
 
 from tb_config import conf_file as g_cfg
 
+# audio_errors:
+
+# - unrecognizable
+# - bing_error
+# - shortphase
+# - unknown_command
+
 
 class Speech:
 
