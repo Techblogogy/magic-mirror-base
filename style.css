@@ -583,11 +583,15 @@ ul.hr li {
 
 }
 @keyframes blink {
-  0% { opacity: 0;}
-  /*25% { opacity: 0.25; }
-  50% { opacity: 0.5; }
-  75% { opacity: 0.75; }*/
-  100% { opacity: 1; }
+    0% { opacity: 0;}
+    12% { opacity: 0.25; }
+    25% { opacity: 0.5; }
+    38% { opacity: 0.75; }
+    50% { opacity: 1; }
+    62% { opacity: 0.75;}
+    75% { opacity: 0.5; }
+    87% { opacity: 0.25; }
+    100% { opacity: 0; }
 }
 
 .cssload-double-torus {
@@ -608,10 +612,10 @@ ul.hr li {
 	height: 40px;
 	border: 3px double;
 	border-radius: 50%;
-	animation: blink 0.5s infinite, cssload-spin 690ms infinite linear;
-		-o-animation: blink 0.5s infinite,cssload-spin 690ms infinite linear;
-		-ms-animation: blink 0.5s infinite,cssload-spin 690ms infinite linear;
-		-webkit-animation: blink 0.5s infinite,cssload-spin 690ms infinite linear;
-		-moz-animation: blink 0.5s infinite,cssload-spin 690ms infinite linear;
 
+	animation: blink 1s infinite;
+		-o-animation: blink 1s infinite;
+		-ms-animation: blink 1s infinite;
+		-webkit-animation: blink 1s infinite;
+		-moz-animation: blink 1s infinite;
 }
