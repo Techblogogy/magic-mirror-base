@@ -106,7 +106,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         // angular.element(document.querySelectorAll("current")).removeClass("current");
         item_id += 3;
         console.log($scope.page_num*($scope.item_per_page+1)+1);
-        if (item_id >= $scope.item_per_page+1) {
+        if (item_id >= $scope.item_per_page+2) {
             $scope.next_page()
         }
         angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
