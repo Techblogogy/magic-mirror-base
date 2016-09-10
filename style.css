@@ -562,12 +562,32 @@ ul.hr li {
     z-index: 25;
     padding-top: 5px;
     position: absolute;
+    /*keyframes: */
 }
 
 /*MICROPHONE ANIMATION*/
 .cssload-container {
 	text-align: center;
     margin-left:-15px;
+}
+@-webkit-keyframes blink {
+  0% { opacity: 0;}
+  12% { opacity: 0.25; }
+  25% { opacity: 0.5; }
+  38% { opacity: 0.75; }
+  50% { opacity: 1; }
+  62% { opacity: 0.75;}
+  75% { opacity: 0.5; }
+  87% { opacity: 0.25; }
+  100% { opacity: 0; }
+
+}
+@keyframes blink {
+  0% { opacity: 0;}
+  /*25% { opacity: 0.25; }
+  50% { opacity: 0.5; }
+  75% { opacity: 0.75; }*/
+  100% { opacity: 1; }
 }
 
 .cssload-double-torus {
@@ -580,4 +600,18 @@ ul.hr li {
 		-ms-animation: cssload-spin 690ms infinite linear;
 		-webkit-animation: cssload-spin 690ms infinite linear;
 		-moz-animation: cssload-spin 690ms infinite linear;
+}
+
+.cssload-double-torus-blink {
+    display: none;
+	width: 40px;
+	height: 40px;
+	border: 3px double;
+	border-radius: 50%;
+	animation: blink 0.5s infinite, cssload-spin 690ms infinite linear;
+		-o-animation: blink 0.5s infinite,cssload-spin 690ms infinite linear;
+		-ms-animation: blink 0.5s infinite,cssload-spin 690ms infinite linear;
+		-webkit-animation: blink 0.5s infinite,cssload-spin 690ms infinite linear;
+		-moz-animation: blink 0.5s infinite,cssload-spin 690ms infinite linear;
+
 }
