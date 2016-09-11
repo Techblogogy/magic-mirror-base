@@ -261,7 +261,6 @@ body {
     opacity: 0;
     z-index: 2345;
     position: absolute;
-    display: none;
 }
 
 .help{
@@ -571,19 +570,16 @@ ul.hr li {
 	text-align: center;
     margin-left:-15px;
 }
+@-webkit-keyframes blink {
+  0% { opacity: 1;}
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 
+}
 @keyframes blink {
     0% { opacity: 1;}
     50% { opacity: 0; }
     100% { opacity: 1; }
-
-}
-
-@-webkit-keyframes blink {
-    0% { opacity: 1;}
-    50% { opacity: 0; }
-    100% { opacity: 1; }
-
 }
 
 .cssload-double-torus {
@@ -592,10 +588,22 @@ ul.hr li {
 	border: 3px double;
 	border-radius: 50%;
 	animation: cssload-spin 690ms infinite linear;
-    -webkit-animation: cssload-spin 690ms infinite linear;
+		-o-animation: cssload-spin 690ms infinite linear;
+		-ms-animation: cssload-spin 690ms infinite linear;
+		-webkit-animation: cssload-spin 690ms infinite linear;
+		-moz-animation: cssload-spin 690ms infinite linear;
 }
 
-.blink {
+.cssload-double-torus-blink {
+    display: none;
+	width: 40px;
+	height: 40px;
+	border: 3px double;
+	border-radius: 50%;
+
 	animation: blink 1s infinite;
-    -webkit-animation: blink 1s infinite;
+		-o-animation: blink 1s infinite;
+		-ms-animation: blink 1s infinite;
+		-webkit-animation: blink 1s infinite;
+		-moz-animation: blink 1s infinite;
 }

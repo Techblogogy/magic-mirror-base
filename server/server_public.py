@@ -171,6 +171,15 @@ def create_server():
         logger.info("Stoping video")
         pv.stop_auto()
 
+    @pserve.socketio.on("record_start", namespace=pserve.IO_SPACE)
+    def start_recording():
+        mc.rec_start()
+
+    @pserve.socketio.on("record_stop", namespace=pserve.IO_SPACE)
+    def stop_recording():
+        mc.rec_stop()
+
+
     # Turn on camera
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
     def start_cam():
