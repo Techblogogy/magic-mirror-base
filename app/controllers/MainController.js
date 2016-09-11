@@ -103,7 +103,7 @@ function ($scope, $location, socket, $timeout,$document, $http) {
 
         document.getElementById('m_detc').style.display = 'none';
         document.getElementById('microph_img').style.display = 'block';
-        angular.element(document.querySelectorAll('.cssload-double-torus').removeClass("blink");
+        angular.element(document.querySelectorAll('.cssload-double-torus')).removeClass("blink");
         document.getElementById('m_listen').style.display = 'block';
     });
 
@@ -121,7 +121,7 @@ function ($scope, $location, socket, $timeout,$document, $http) {
 
     socket.forward('audio_uploading', $scope);
     $scope.$on("socket:audio_uploading", function (event, data) {
-        angular.element(document.querySelectorAll('.cssload-double-torus').addClass("blink");
+        angular.element(document.querySelectorAll('.cssload-double-torus')).addClass("blink");
     });
 
 }]);

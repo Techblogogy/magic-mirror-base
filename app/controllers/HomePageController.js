@@ -93,12 +93,12 @@ app.controller('HomePageController', ['$scope','socket','$http', function ($scop
             case "right":
                     $scope.switchView('stylist','left_swipe');
                     break;
-            // case "up":
-            //         $scope.switch_up();
-            //         break;
-            // case "down":
-            //         $scope.switch_down();
-            //         break;
+            case "up":
+                    $scope.curr_plans_page -= 1;
+                    break;
+            case "down":
+                    $scope.curr_plans_page += 1;
+                    break;
             // case "click":
             //         $scope.click();
             //         break;

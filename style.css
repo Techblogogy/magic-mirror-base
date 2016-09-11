@@ -261,6 +261,7 @@ body {
     opacity: 0;
     z-index: 2345;
     position: absolute;
+    display: none;
 }
 
 .help{

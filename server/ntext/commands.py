@@ -35,5 +35,9 @@ in_cmd = [
     v_cmd(["list", "close"], "AND", "list_vcmd_close"),
 
     v_cmd(["guide", "close"], "AND", "tutorial_close"),
+    #PLANS COMMANDS
+    v_cmd(["more", "plans"], "AND", "next_plans_page"),
+    v_cmd(["current", "plans"], "AND", "prev_plans_page")
+
 
 ]

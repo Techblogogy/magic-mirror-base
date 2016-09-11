@@ -37,7 +37,7 @@
         <div class="microphone" id="microphone">
             <div class="circle" id="m_listen">
                 <div class="cssload-container">
-                    <div class="cssload-double-torus"></div>
+                    <div class="cssload-double-torus" id="cssload-double-torus"></div>
                 </div>
             </div>
             <div class="circle" id="m_detc">
@@ -75,11 +75,10 @@
 <div ng-controller="ScheduleCtr" id="ScheduleCtr">
     <ui-widget id="schedule">
         <h1>Plans for Today:</h1>
-        <div ng-repeat="i in plans" class="s_item">
+        <div ng-repeat="i in plans[curr_plans_page]" class="s_item">
             <div class="col-xs-4 time">
                 <span>{{ i.start.dateTime | date:"H:mm" }} {{ i.end.dateTime | date:"H:mm" }}</span>
             </div>
-
             <div class="col-xs-8 plan">
                 <span>{{ i.summary }}</span>
             </div>
