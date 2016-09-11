@@ -261,6 +261,7 @@ body {
     opacity: 0;
     z-index: 2345;
     position: absolute;
+    display: none;
 }
 
 .help{
@@ -588,22 +589,10 @@ ul.hr li {
 	border: 3px double;
 	border-radius: 50%;
 	animation: cssload-spin 690ms infinite linear;
-		-o-animation: cssload-spin 690ms infinite linear;
-		-ms-animation: cssload-spin 690ms infinite linear;
 		-webkit-animation: cssload-spin 690ms infinite linear;
-		-moz-animation: cssload-spin 690ms infinite linear;
 }
 
-.cssload-double-torus-blink {
-    display: none;
-	width: 40px;
-	height: 40px;
-	border: 3px double;
-	border-radius: 50%;
-
+.blink {
 	animation: blink 1s infinite;
-		-o-animation: blink 1s infinite;
-		-ms-animation: blink 1s infinite;
-		-webkit-animation: blink 1s infinite;
-		-moz-animation: blink 1s infinite;
+	-webkit-animation: blink 1s infinite;
 }

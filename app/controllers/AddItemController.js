@@ -50,16 +50,16 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     $scope.cam_data = {};
 
-
+    $scope.state_one = true;
+    $scope.state_two = false;
     // Recieves basic info about item
     socket.forward('m_camera_dat', $scope);
     $scope.$on("socket:m_camera_dat", function (event, data) {
+        $scope.state_one = false;
+        $scope.state_two = true;
         // Get data from json parser
         $scope.cam_data = JSON.parse(data)[0];
         console.log($scope.cam_data);
-
-        // socket.emit("user_on_leave");
-
         document.getElementById('item_preview').style.display = 'block';
         $scope.time_to_add_tags = true;
         timer_html = "It's time to add some tags to your item, use voice command your tag words (you can add as many as you want)  + word 'tag' in the end";
@@ -70,15 +70,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         $scope.$apply();
 
     });
-
-    // Send add item request
-    $scope.add_request = function(){
-        $http.post('http://localhost:5000/wardrobe/add')
-        .success(function (data){
-        });
-    };
-
-    // I'm not really sure what this is. Any ideas??? HELP!
+    // SAVE TAGS OR NOT - THING FOR REMOTE CONTROL
     $scope.switch_right = function(){
         angular.element(document.querySelectorAll("#b_save")).removeClass("current");
         angular.element(document.querySelectorAll("#b_dont_save")).addClass("current");
@@ -88,61 +80,38 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         angular.element(document.querySelectorAll("#b_save")).addClass("current");
 
     };
-
-    // Click function. This does a lot, time to figure it out
-    $scope.user_clicked_save = false;
-    $scope.click_counter = 0;
-    $scope.click = function(){
-        if ($scope.click_counter == 0 ) {
+//ALL MAGIC STARTS HERE
+    // -----------------------STATE ONE STARTED -------------------------------
+    $scope.user_clicked_save = false; // VARIABLE FOR SAVING TAGS
+    $scope.click_counter = 0;   //MAGIC VARIABLE
+    $scope.click_code = function(){
+        if ($scope.click_counter == 0 && $scope.state_one) {
             $scope.video = true;
-
             // Hide info message
+            document.getElementById('add_h2').style.display = 'none';
             document.getElementById('item_preview').style.display = 'none';
-
             if (document.getElementById('message').style.display == '' ||
             document.getElementById('message').style.display == 'none')
             {
                 document.getElementById('message').style.display = 'block';
-            }
-            else if (document.getElementById('message').style.display == 'block')
+            }else if (document.getElementById('message').style.display == 'block')
             {
                 document.getElementById('message').style.display = 'none';
             }
-
             document.getElementById('timer').style.display = "block";
             timer_html = "";
-            $scope.add_request();
-
-            document.getElementById('add_h2').style.display = 'none';
-            setTimeout(function () {
-                timer_html = "2";
-                document.getElementById('timer').innerHTML = timer_html;
-                console.log(timer_html);
-            }, 1000);
-            setTimeout(function () {
-                timer_html = "1";
-                document.getElementById('timer').innerHTML = timer_html;
-                console.log(timer_html);
-            }, 2000);
-            setTimeout(function () {
-                timer_html = "Capturing!";
-                document.getElementById('timer').innerHTML = timer_html;
-                console.log(timer_html);
-            }, 3000);
-
-
-            setTimeout(function () {
-                document.getElementById('timer').style.display = "none";
-            }, 4000);
-
-            setTimeout(function () {
-                // document.getElementById('timer').
-            }, 10000);
+            socket.emit("record_start");
             $scope.click_counter += 1;
 
-        } else if ($scope.click_counter == 1 ) {
-            if (angular.element(document.querySelectorAll("#b_save")).hasClass("current")){
+        } else if ($scope.click_counter == 1 && $scope.state_one) {
+            socket.emit("record_stop");
+            $scope.click_counter += 1;
+        }
+        // -----------------------STATE ONE FINISHED -------------------------------
 
+        // -----------------------STATE TWO STARTED -------------------------------
+        if ($scope.state_two && $scope.click_counter == 2) {
+            if (angular.element(document.querySelectorAll("#b_save")).hasClass("current")){
                 document.getElementById('save_tags').style.display = 'none';
                 document.getElementById('timer').innerHTML = "Click again to finish adding and go to wardrobe";
 
@@ -168,9 +137,11 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
                 document.getElementById('save_tags').style.display = 'none';
                 document.getElementById('timer').innerHTML = "Click again to finish adding and go to wardrobe";
             }
-
-            $scope.click_counter += 1;
-        } else {
+        // $scope.state_one = false;
+        // $scope.state_two = true;
+        $scope.click_counter += 1;
+        }
+        if ($scope.state_two && $scope.click_counter == 3) {
             $scope.video = false;
             // socket.emit("user_on_quit");
             socket.emit("user_on_leave");
@@ -179,6 +150,8 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             $scope.switchView('stylist','right_swipe');
         }
     }
+    // -----------------------STATE TWO FINISHED -------------------------------
+
 
     // Adding tags event
     $scope.super_id = 0;
@@ -204,6 +177,7 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
             $scope.super_id = item_id;
             $scope.super_tags =tags_arr;
             document.getElementById('save_tags').style.top = "100px";
+
         }
     });
 
@@ -252,17 +226,18 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     socket.forward('start_cmd', $scope);
     $scope.$on("socket:start_cmd", function (event, data) {
-        $scope.click();
+        $scope.click_code();
     });
 
     socket.forward('save_tags', $scope);
     $scope.$on("socket:save_tags", function (event, data) {
-        $scope.click();
+        $scope.click_code();
+        $scope.state_two = true;
     });
 
     socket.forward('finish_tags', $scope);
     $scope.$on("socket:finish_tags", function (event, data) {
-        $scope.click();
+        $scope.click_code();
     });
 
     socket.forward('left', $scope);

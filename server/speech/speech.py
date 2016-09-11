@@ -166,6 +166,7 @@ class Speech:
             pserve.send("audio_uploading","")
 
             text = recon.recognize_bing(audio, key=self.api_key)
+            # text = recon.recognize_google(audio)
             cmd = get_command(text)
 
             if cmd:
