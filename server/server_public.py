@@ -85,6 +85,7 @@ def create_server():
     except:
         logger.error("Error: unable to start remote control thread")
 
+
     # Upload snowboy files
     @pserve.app.route("/sbupload", methods=['POST'])
     def upload_snowboy():

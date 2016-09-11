@@ -1,7 +1,9 @@
 import decor
 
-from flask import Blueprint, redirect, request, url_for
+from flask import Blueprint, redirect, request, url_for, g
 from cvison.store import clothes
+
+import time
 
 import logging
 logger = logging.getLogger("TB")
@@ -21,6 +23,12 @@ ALLOWED_ORIGIN = "*"
 JSON_DENT = 4
 wrd_api = Blueprint('wrd_api', __name__, url_prefix="/wardrobe")
 
+@wrd_api.before_request
+def before_request():
+    g.request_start_time = time.time()
+    g.request_time = lambda: "%.5fs" % (time.time() - g.request_start_time)
+
+
 # Returns number of pages
 @wrd_api.route("/pamount", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
@@ -31,7 +39,9 @@ def wrd_p_amount():
 @wrd_api.route("/get", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def wrd_get():
-    return json.dumps(clothes.get(int(request.args.get("items")), int(request.args.get("page"))), indent=JSON_DENT)
+    rsp = json.dumps(clothes.get(int(request.args.get("items")), int(request.args.get("page"))), indent=JSON_DENT)
+    logger.debug("Execution %s", g.request_time())
+    return rsp
 
 
 # NOTE: Returns smartly wardrobe items page
