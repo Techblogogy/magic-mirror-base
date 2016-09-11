@@ -42,23 +42,23 @@ class My_Cam():
     def start(self):
         cfg = g_cfg().get_cfg()
 
-        self.cam = PiCamera()
+        # self.cam = PiCamera()
 
-        # self.cam.led = False
-        self.cam.framerate = 24
+        # # self.cam.led = False
+        # self.cam.framerate = 24
 
         # Camera Controls
-        self.cam.rotation = cfg.getint("PI CAMERA", "rotation") #90
+        # self.cam.rotation = cfg.getint("PI CAMERA", "rotation") #90
         #cam.resolution = (640, 1024)
 
-        self.cam.contrast = cfg.getint("PI CAMERA", "contrast") #100 # Range -100 100
+        # self.cam.contrast = cfg.getint("PI CAMERA", "contrast") #100 # Range -100 100
         #cam.saturation = 100 # Range -100 100
-        self.cam.brightness = cfg.getint("PI CAMERA", "brightness") # 80 # 0 100
+        # self.cam.brightness = cfg.getint("PI CAMERA", "brightness") # 80 # 0 100
         #cam.awb_mode = "shade"
 
-        self.cam.iso = cfg.getint("PI CAMERA", "iso") # 1600
+        # self.cam.iso = cfg.getint("PI CAMERA", "iso") # 1600
 
-        self.cam.sensor_mode = cfg.getint("PI CAMERA", "sensor_mode") # 1
+        # self.cam.sensor_mode = cfg.getint("PI CAMERA", "sensor_mode") # 1
         #cam.exposure_mode = "nightpreview"
 
         # Calculate shutter speed
@@ -66,10 +66,10 @@ class My_Cam():
 
         # logger.debug(1/500)
 
-        # self.cam.shutter_speed = int(s_speed[0])/int(s_speed[1]) if len(s_speed) < 2 else int(s_speed[0])
+        # # self.cam.shutter_speed = int(s_speed[0])/int(s_speed[1]) if len(s_speed) < 2 else int(s_speed[0])
 
 
-        self.cam.shutter_speed = 1 / cfg.getint("PI CAMERA", "shutter_speed")
+        # self.cam.shutter_speed = 1 / cfg.getint("PI CAMERA", "shutter_speed")
 
         # Preview window
         self.x = cfg.getint("PI CAMERA", "x")
@@ -83,7 +83,7 @@ class My_Cam():
         pserve.send("m_camera", "cam_on")
 
         logger.info("warming camera up")
-        self.cam.start_preview(fullscreen=False, window = (self.x, self.y, self.w, self.h))
+        # self.cam.start_preview(fullscreen=False, window = (self.x, self.y, self.w, self.h))
         pserve.send("m_camera", "preview_on")
 
     def turn_off(self):
@@ -91,11 +91,11 @@ class My_Cam():
         self.quit()
 
         # Stop Camera Preview
-        self.cam.stop_preview()
+        # self.cam.stop_preview()
         pserve.send("m_camera", "preview_off")
 
         # Close off camera class
-        self.cam.close()
+        # self.cam.close()
         pserve.send("m_camera", "cam_off")
 
 
@@ -110,7 +110,7 @@ class My_Cam():
 
         # Campure thumbnail
         logger.info("Capturing thumbnail")
-        self.cam.capture('%s/cls/%s.jpg' % (app_dir,self.t,))
+        # self.cam.capture('%s/cls/%s.jpg' % (app_dir,self.t,))
 
         # Compress image
         cmp_im = Image.open('%s/cls/%s.jpg' % (app_dir,self.t,))
@@ -120,13 +120,13 @@ class My_Cam():
 
         logger.info("Recording video")
         pserve.send("m_camera", "video_start")
-        self.cam.start_recording("%s/cls/%s.h264" % (app_dir,self.t,))
+        # self.cam.start_recording("%s/cls/%s.h264" % (app_dir,self.t,))
 
     def rec_stop(self):
         # Wait record time
         # sleep(R_REC)
 
-        self.cam.stop_recording()
+        # self.cam.stop_recording()
         logger.info("Recording stopped")
         pserve.send("m_camera", "video_end")
 
@@ -142,7 +142,7 @@ class My_Cam():
         pserve.send("m_camera_dat", json.dumps(cl))
 
         logger.info("Camera stop")
-        self.cam.stop_preview()
+        # self.cam.stop_preview()
 
         try:
             pv.add_size()

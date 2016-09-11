@@ -95,11 +95,11 @@ class clothes:
         # db.qry("DELETE FROM clothes_tags WHERE c_id=?", (c_id,))
         # return "[]"
 
-        # count = db.qry("""
-        #     SELECT COUNT(*) as cnt
-        #     FROM clothes_tags
-        #     WHERE c_id=?
-        # """, (c_id,))[0]["cnt"]
+        count = db.qry("""
+            SELECT COUNT(*) as cnt
+            FROM clothes_tags
+            WHERE c_id=?
+        """, (c_id,))[0]["cnt"]
         #
         # print "[TB count]: %d" % (count)
 
