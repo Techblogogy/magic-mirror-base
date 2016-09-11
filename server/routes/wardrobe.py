@@ -54,21 +54,21 @@ def wrd_get_meta():
 
 
 # Starts camera thumbnail and video recording sequence and saves stuff to database
-@wrd_api.route("/add", methods=['POST', 'OPTIONS'])
-@decor.crossdomain(origin=ALLOWED_ORIGIN)
-def wrd_add():
-    #TODO: Camera take a picture and return path and dresscode
-
-    logger.debug("Add request")
-
-    # try:
-    fl = mc.rec()
-    # thread.start_new_thread( pv.play_auto, (dat,) )
-    # return json.dumps(clothes.add("te", "thum1.jpg"))
-    # except:
-    #     logger.warning("MyCam failed. Are you on Raspberry PI?")
-
-    return ""
+# @wrd_api.route("/add", methods=['POST', 'OPTIONS'])
+# @decor.crossdomain(origin=ALLOWED_ORIGIN)
+# def wrd_add():
+#     #TODO: Camera take a picture and return path and dresscode
+#
+#     logger.debug("Add request")
+#
+#     # try:
+#     fl = mc.start_rec()
+#     # thread.start_new_thread( pv.play_auto, (dat,) )
+#     # return json.dumps(clothes.add("te", "thum1.jpg"))
+#     # except:
+#     #     logger.warning("MyCam failed. Are you on Raspberry PI?")
+#
+#     return ""
 # Get item by id
 @wrd_api.route("/get/item/<int:id>", methods=['GET', 'OPTIONS'])
 @decor.crossdomain(origin=ALLOWED_ORIGIN)

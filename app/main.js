@@ -15,12 +15,12 @@ app.factory('socket', function (socketFactory) {
 // Routes Configuration
 app.config(function ($routeProvider) {
     $routeProvider
-    .when('/stylist', {
+    .when('/', {
         controller: 'HomePageController',
         templateUrl: 'app/views/home.html'
         // animation: 'left_swipe'
     })
-    .when('/', {
+    .when('/stylist', {
         controller: "StlCtr",
         templateUrl: 'app/views/stylist.html'
     })

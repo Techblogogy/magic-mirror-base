@@ -571,27 +571,15 @@ ul.hr li {
     margin-left:-15px;
 }
 @-webkit-keyframes blink {
-  0% { opacity: 0;}
-  12% { opacity: 0.25; }
-  25% { opacity: 0.5; }
-  38% { opacity: 0.75; }
-  50% { opacity: 1; }
-  62% { opacity: 0.75;}
-  75% { opacity: 0.5; }
-  87% { opacity: 0.25; }
-  100% { opacity: 0; }
+  0% { opacity: 1;}
+  50% { opacity: 0; }
+  100% { opacity: 1; }
 
 }
 @keyframes blink {
-    0% { opacity: 0;}
-    12% { opacity: 0.25; }
-    25% { opacity: 0.5; }
-    38% { opacity: 0.75; }
-    50% { opacity: 1; }
-    62% { opacity: 0.75;}
-    75% { opacity: 0.5; }
-    87% { opacity: 0.25; }
-    100% { opacity: 0; }
+    0% { opacity: 1;}
+    50% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 .cssload-double-torus {

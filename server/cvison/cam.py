@@ -103,40 +103,42 @@ class My_Cam():
         pv.stop_auto()
 
     # @classmethod
-    def rec(self):
-        t = str(int(time()))
+    def rec_start(self):
+        self.t = str(int(time()))
 
-        sleep(R_WARM)
+        # sleep(R_WARM)
 
         # Campure thumbnail
         logger.info("Capturing thumbnail")
-        self.cam.capture('%s/cls/%s.jpg' % (app_dir,t,))
+        self.cam.capture('%s/cls/%s.jpg' % (app_dir,self.t,))
 
         # Compress image
-        cmp_im = Image.open('%s/cls/%s.jpg' % (app_dir,t,))
-        cmp_im.save('%s/cls/%s.jpg' % (app_dir,t,), optimize=True, quality=80)
+        cmp_im = Image.open('%s/cls/%s.jpg' % (app_dir,self.t,))
+        cmp_im.save('%s/cls/%s.jpg' % (app_dir,self.t,), optimize=True, quality=80)
 
         pserve.send("m_camera", "thumb_captured")
 
         logger.info("Recording video")
         pserve.send("m_camera", "video_start")
-        self.cam.start_recording("%s/cls/%s.h264" % (app_dir,t,))
+        self.cam.start_recording("%s/cls/%s.h264" % (app_dir,self.t,))
 
+    def rec_stop(self):
         # Wait record time
-        sleep(R_REC)
+        # sleep(R_REC)
 
         self.cam.stop_recording()
         logger.info("Recording stopped")
         pserve.send("m_camera", "video_end")
 
+        # Compress video
         pserve.send("m_camera", "compression_begin")
-        call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,t, app_dir,t,), shell=True)
+        call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,self.t, app_dir,self.t,), shell=True)
         pserve.send("m_camera", "compression_off")
 
-        os.remove("%s/cls/%s.h264"%(app_dir,t,))
+        os.remove("%s/cls/%s.h264"%(app_dir,self.t,))
 
         pserve.send("m_camera", "getting_dresscode")
-        cl = clothes.add("casual", t+".jpg")
+        cl = clothes.add("casual", self.t+".jpg")
         pserve.send("m_camera_dat", json.dumps(cl))
 
         logger.info("Camera stop")
