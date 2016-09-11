@@ -1,11 +1,11 @@
-from picamera import PiCamera
+# from picamera import PiCamera
 from time import sleep
 from time import time
 from subprocess import call
 
 from minfo import app_dir
 
-from PIL import Image
+# from PIL import Image
 
 import thread, json, os
 
@@ -113,8 +113,8 @@ class My_Cam():
         # self.cam.capture('%s/cls/%s.jpg' % (app_dir,self.t,))
 
         # Compress image
-        cmp_im = Image.open('%s/cls/%s.jpg' % (app_dir,self.t,))
-        cmp_im.save('%s/cls/%s.jpg' % (app_dir,self.t,), optimize=True, quality=80)
+        # cmp_im = Image.open('%s/cls/%s.jpg' % (app_dir,self.t,))
+        # cmp_im.save('%s/cls/%s.jpg' % (app_dir,self.t,), optimize=True, quality=80)
 
         pserve.send("m_camera", "thumb_captured")
 
@@ -132,10 +132,10 @@ class My_Cam():
 
         # Compress video
         pserve.send("m_camera", "compression_begin")
-        call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,self.t, app_dir,self.t,), shell=True)
+        # call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,self.t, app_dir,self.t,), shell=True)
         pserve.send("m_camera", "compression_off")
 
-        os.remove("%s/cls/%s.h264"%(app_dir,self.t,))
+        # os.remove("%s/cls/%s.h264"%(app_dir,self.t,))
 
         pserve.send("m_camera", "getting_dresscode")
         cl = clothes.add("casual", self.t+".jpg")

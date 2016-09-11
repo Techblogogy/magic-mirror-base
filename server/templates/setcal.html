@@ -56,7 +56,15 @@
                         <input type="file" name="file">
                         <input type="submit" value="Upload">
                     </form>
-                </div>
+            </div>
+            <div class="col-md-12">
+                <h1>Upload Snowboy</h1>
+                <h6>Click here to download:</h6>
+                    <form action="/sbupload" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="file">
+                        <input type="submit" value="Upload">
+                    </form>
+            </div>
             <div class="col-md-12">
                 <h1>Confirm your location</h1>
                 {% if resp_g == 201 %}

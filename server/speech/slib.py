@@ -872,7 +872,7 @@ class Recognizer(AudioSource):
         # DEBUG
         logger.info("Getting Frame Data")
 
-        logger.debug(len(frames))
+        # logger.debug(len(frames))
 
         # DEBUG
         logger.info("Sending Request")
@@ -1159,9 +1159,9 @@ class Recognizer(AudioSource):
             "result.profanitymarkup": "0",
         }))
 
-        logger.debug(len(wav_data))
+        # logger.debug(len(wav_data))
 
-        httplib.HTTPSConnection.debuglevel = 1
+        httplib.HTTPSConnection.debuglevel = 0
 
         conn = httplib.HTTPSConnection("speech.platform.bing.com")
         conn.connect()

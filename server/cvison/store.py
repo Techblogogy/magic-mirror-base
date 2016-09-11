@@ -75,10 +75,11 @@ class clothes:
     def add(self, dresscode, thumbnail, name=None):
         # TODO: Import from config file
         # url = "http://93.73.73.40:8000/"
-        file = {'file': open(app_dir+'/cls/'+thumbnail, 'rb')}
+        # file = {'file': open(app_dir+'/cls/'+thumbnail, 'rb')}
 
-        r = requests.post(SITE_URL, files=file)
-        cnt = json.loads(r.content)
+        # r = requests.post(SITE_URL, files=file)
+        # cnt = json.loads(r.content)
+        cnt = {'dress': [{"code":"casual"}]}
 
         logger.debug(cnt['dress'])
 
