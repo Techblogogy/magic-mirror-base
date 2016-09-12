@@ -11,10 +11,19 @@ import json
 
 import httplib
 
+from googleapiclient import discovery
+import httplib2
+from oauth2client.client import GoogleCredentials
+
+DISCOVERY_URL = ('https://{api}.googleapis.com/$discovery/rest?version={apiVersion}')
+
 import numpy, struct
+
+from minfo import app_dir
 
 # import eventlet
 # eventlet.monkey_patch()
+
 
 import logging
 logger = logging.getLogger("TB")
@@ -410,6 +419,12 @@ class Recognizer(AudioSource):
         self.phrase_threshold = 0.3 # minimum seconds of speaking audio before we consider the speaking audio a phrase - values below this are ignored (for filtering out clicks and pops)
         self.non_speaking_duration = 0.5 # seconds of non-speaking audio to keep on both sides of the recording
         self.audio_gain = 5
+
+        credentials = GoogleCredentials.get_application_default().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+        http = httplib2.Http()
+        credentials.authorize(http)
+
+        self.service = discovery.build('speech', 'v1beta1', http=http, discoveryServiceUrl=DISCOVERY_URL)
 
 
     def record(self, source, duration = None, offset = None):
@@ -1007,42 +1022,60 @@ class Recognizer(AudioSource):
         assert isinstance(language, str), "`language` must be a string"
 
         flac_data = audio_data.get_flac_data(
-            convert_rate = None if audio_data.sample_rate >= 8000 else 8000, # audio samples must be at least 8 kHz
+            # convert_rate = None if audio_data.sample_rate >= 8000 else 8000, # audio samples must be at least 8 kHz
+            convert_rate = 16000, # audio samples must be at least 8 kHz
             convert_width = 2 # audio samples must be 16-bit
         )
-        if key is None: key = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
-        url = "http://www.google.com/speech-api/v2/recognize?{0}".format(urlencode({
-            "client": "chromium",
-            "lang": language,
-            "key": key,
-        }))
-        request = Request(url, data = flac_data, headers = {"Content-Type": "audio/x-flac; rate={0}".format(audio_data.sample_rate)})
 
-        # obtain audio transcription results
-        try:
-            response = urlopen(request)
-        except HTTPError as e:
-            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-        except URLError as e:
-            raise RequestError("recognition connection failed: {0}".format(e.reason))
-        response_text = response.read().decode("utf-8")
 
-        # ignore any blank blocks
-        actual_result = []
-        for line in response_text.split("\n"):
-            if not line: continue
-            result = json.loads(line)["result"]
-            if len(result) != 0:
-                actual_result = result[0]
-                break
+        service_request = self.service.speech().syncrecognize(
+            body={
+                'config': {
+                    'encoding': 'FLAC',  # raw 16-bit signed LE samples
+                    'sampleRate': 16000,  # 16 khz
+                    'languageCode': 'en-US',  # a BCP-47 language tag
+                },
+                'audio': {
+                    'content': base64.b64encode(flac_data)
+                }
+        })
+        response = service_request.execute()
 
-        # return results
-        if show_all: return actual_result
-        if "alternative" not in actual_result: raise UnknownValueError()
-        for entry in actual_result["alternative"]:
-            if "transcript" in entry:
-                return entry["transcript"]
-        raise UnknownValueError() # no transcriptions available
+        logger.debug(json.dumps(response))
+
+        # if key is None: key = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
+        # url = "http://www.google.com/speech-api/v2/recognize?{0}".format(urlencode({
+        #     "client": "chromium",
+        #     "lang": language,
+        #     "key": key,
+        # }))
+        # request = Request(url, data = flac_data, headers = {"Content-Type": "audio/x-flac; rate={0}".format(audio_data.sample_rate)})
+        #
+        # # obtain audio transcription results
+        # try:
+        #     response = urlopen(request)
+        # except HTTPError as e:
+        #     raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
+        # except URLError as e:
+        #     raise RequestError("recognition connection failed: {0}".format(e.reason))
+        # response_text = response.read().decode("utf-8")
+        #
+        # # ignore any blank blocks
+        # actual_result = []
+        # for line in response_text.split("\n"):
+        #     if not line: continue
+        #     result = json.loads(line)["result"]
+        #     if len(result) != 0:
+        #         actual_result = result[0]
+        #         break
+        #
+        # # return results
+        # if show_all: return actual_result
+        # if "alternative" not in actual_result: raise UnknownValueError()
+        # for entry in actual_result["alternative"]:
+        #     if "transcript" in entry:
+        #         return entry["transcript"]
+        # raise UnknownValueError() # no transcriptions available
 
     def recognize_wit(self, audio_data, key, show_all = False):
         """
