@@ -135,7 +135,7 @@ class My_Cam():
         call("MP4Box -add %s/cls/%s.h264 %s/cls/%s.mp4"%(app_dir,self.t, app_dir,self.t,), shell=True)
         pserve.send("m_camera", "compression_off")
 
-        # os.remove("%s/cls/%s.h264"%(app_dir,self.t,))
+        os.remove("%s/cls/%s.h264"%(app_dir,self.t,))
 
         pserve.send("m_camera", "getting_dresscode")
         cl = clothes.add("casual", self.t+".jpg")
