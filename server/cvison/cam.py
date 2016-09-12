@@ -1,11 +1,11 @@
-# from picamera import PiCamera
+from picamera import PiCamera
 from time import sleep
 from time import time
 from subprocess import call
 
 from minfo import app_dir
 
-# from PIL import Image
+from PIL import Image
 
 import thread, json, os
 
