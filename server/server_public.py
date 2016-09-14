@@ -74,7 +74,7 @@ def create_server():
 
     # Start voice recognition
     voice = Speech()
-    voice.start()
+    # voice.start()
 
 
     # Video playing
@@ -141,6 +141,7 @@ def create_server():
             userName = gcal.get_disp_name(),
             cals = gcal.get_cals(),
             c_len = len(gcal.get_cals()),
+            widgets = setup.get_widgets(),
             # pos = setup_get_pos()x
         )
 

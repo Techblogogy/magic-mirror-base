@@ -106,6 +106,11 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         } else if ($scope.click_counter == 1 && $scope.state_one) {
             socket.emit("record_stop");
             $scope.click_counter += 1;
+            $scope.time_to_add_tags = true;
+            timer_html = "Please wait, we are processing the information...";
+            document.getElementById('timer').innerHTML = timer_html;
+            console.log(timer_html);
+            document.getElementById('timer').style.display = "block";
         }
         // -----------------------STATE ONE FINISHED -------------------------------
 
