@@ -76,7 +76,6 @@ def create_server():
     voice = Speech()
     # voice.start()
 
-
     # Video playing
     pv = PlayVid()
 
@@ -85,6 +84,7 @@ def create_server():
         thread.start_new_thread( m_remote, (0,) )
     except:
         logger.error("Error: unable to start remote control thread")
+
 
     # Upload snowboy files
     @pserve.app.route("/sbupload", methods=['POST'])

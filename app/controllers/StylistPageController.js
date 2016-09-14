@@ -1,22 +1,31 @@
 
+app.directive('onLoopFinish', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attr) {
+            if (scope.$last === true) {
+                $timeout(function () {
+                    scope.$emit(attr.onLoopFinish);
+                });
+            }
+        }
+    }
+});
+
 app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location','$timeout'*/,function ($scope,$document,$http, socket/*,$location,$timeout*/) {
     $scope.loaded = function(){};
     $scope.page_id = "p_stylist";
-    $scope.img = {
-        cat: "res/pics/cat.jpg"
-    };
-    // $scope.anim = "";
-    // $scope.bodge_time = 1; //in milliseconds
+
     $scope.curr_cmd = "";
     $scope.user_search = false;
 
     $scope.item_per_page = 8;
 
 
-    // $scope.p_cnt = 0;
     $scope.getNumber = function(num) {
         return new Array(num);
     };
+    
     $http.get('http://localhost:5000/wardrobe/pamount')
     .success(function(data){
         $scope.p_amount = Number(data);
