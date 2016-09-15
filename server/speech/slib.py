@@ -1024,6 +1024,9 @@ class Recognizer(AudioSource):
                     'encoding': 'FLAC',  # raw 16-bit signed LE samples
                     'sampleRate': 16000,  # 16 khz
                     'languageCode': language,  # a BCP-47 language tag
+                    'speechContext': {
+                        "phrases": ["mirror", "add", "item", "help", "close"]
+                    }
                 },
                 'audio': {
                     'content': base64.b64encode(flac_data)
