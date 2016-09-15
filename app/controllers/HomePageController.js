@@ -2,8 +2,6 @@ app.controller('HomePageController', ['$scope','socket','$http', function ($scop
 
     $scope.page_id = "p_home";
 
-
-
     socket.forward('add_page', $scope);
     $scope.$on("socket:add_page", function (event, data) {
         $scope.switchView('add','left_swipe');

@@ -88,6 +88,38 @@ class setup:
         if request.method == 'POST':
             return True
 
+#------------------------------------WIDGETS MANAGER--------------------------------------------
+    @staticmethod
+    def init_widgets_table():
+        db.qry("""
+            CREATE TABLE IF NOT EXISTS widgets_tbl (
+                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                active INT NOT NULL DEFAULT 1
+            )
+        """)
+        db.qry("""
+        INSERT OR REPLACE INTO widgets_tbl(id, name, active)
+        VALUES ((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
+        VALUES ((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
+        VALUES ((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
+        """,("weather", "weather",1, "clock", "clock",1,"calendar", "calendar",1))
+        return 201
 
-    # What do I think abut it? Nice start :) Now lets have a look at how you can store data in the tables
-    # There's a thing called SQL. What does that mean
+    @staticmethod
+    def add_widgets(name,if_active):
+        db.qry("""
+            UPDATE widgets_tbl
+            SET active=?
+            WHERE name=?
+        """, (if_active,name))
+        return 200
+
+    @staticmethod
+    def get_widgets():
+        setup.init_widgets_table()
+        widgets = db.qry("""
+            SELECT * FROM widgets_tbl
+        """)
+        logger.debug(widgets)
+        return widgets

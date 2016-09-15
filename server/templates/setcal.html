@@ -27,7 +27,7 @@
         {% endif %}
         <div class="col-md-12">
             <h1>Manage your calendars right here</h1>
-                <h6>Pick calendars for your Mirror widget:</h6>
+                <h6>Pick calendars for your Mirror:</h6>
                 <form  class="col-md-12" action="/setcal"  method="POST">
                     <div>{% for i in range(0, c_len): %}
                         <ul>
@@ -58,12 +58,28 @@
                     </form>
             </div>
             <div class="col-md-12">
-                <h1>Upload Snowboy</h1>
-                <h6>Click here to download:</h6>
-                    <form action="/sbupload" method="POST" enctype="multipart/form-data">
-                        <input type="file" name="file">
-                        <input type="submit" value="Upload">
-                    </form>
+                <h1>Pick widgets to display:</h1>
+                <form  class="col-md-12" action="/setcal"  method="POST">
+                    <div>
+                        <ul>
+                            {%for widget in widgets:%}
+                            <li>
+                                {%if widget.active == 1:%}
+                                <input type="checkbox" name="{%widget.name%}" checked>{%widget.name%}<br>
+                                {%else:%}
+                                <input type="checkbox" name="{%widget.name%}">{%widget.name%}<br>
+                                {%endif%}
+                            </li>
+                            {%endfor%}
+                        </ul>
+                    </div>
+                    <!-- <input type="submit" name="action" value="Save"> -->
+                    <button type="submit" name="action" value="widgets">Save</button>
+                    {% if resp_g == 200 %}
+                    <p>Thanks, your data was saved</p>
+                    {% endif %}
+                </form>
+
             </div>
             <div class="col-md-12">
                 <h1>Confirm your location</h1>
