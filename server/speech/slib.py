@@ -420,7 +420,11 @@ class Recognizer(AudioSource):
         self.non_speaking_duration = 0.5 # seconds of non-speaking audio to keep on both sides of the recording
         self.audio_gain = 5
 
-        credentials = GoogleCredentials.get_application_default().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+    def auth_google(self):
+        # credentials = GoogleCredentials.get_application_default().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+
+        credentials = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+
         http = httplib2.Http()
         credentials.authorize(http)
 
@@ -1003,22 +1007,9 @@ class Recognizer(AudioSource):
         if hypothesis is not None: return hypothesis.hypstr
         raise UnknownValueError() # no transcriptions available
 
-    def recognize_google(self, audio_data, key = None, language = "en-US", show_all = False):
-        """
-        Performs speech recognition on ``audio_data`` (an ``AudioData`` instance), using the Google Speech Recognition API.
+    def recognize_google(self, audio_data, language = "en-US", show_all = False):
 
-        The Google Speech Recognition API key is specified by ``key``. If not specified, it uses a generic key that works out of the box. This should generally be used for personal or testing purposes only, as it **may be revoked by Google at any time**.
-
-        To obtain your own API key, simply following the steps on the `API Keys <http://www.chromium.org/developers/how-tos/api-keys>`__ page at the Chromium Developers site. In the Google Developers Console, Google Speech Recognition is listed as "Speech API".
-
-        The recognition language is determined by ``language``, an RFC5646 language tag like ``"en-US"`` (US English) or ``"fr-FR"`` (International French), defaulting to US English. A list of supported language values can be found in this `StackOverflow answer <http://stackoverflow.com/a/14302134>`__.
-
-        Returns the most likely transcription if ``show_all`` is false (the default). Otherwise, returns the raw API response as a JSON dictionary.
-
-        Raises a ``speech_recognition.UnknownValueError`` exception if the speech is unintelligible. Raises a ``speech_recognition.RequestError`` exception if the speech recognition operation failed, if the key isn't valid, or if there is no internet connection.
-        """
         assert isinstance(audio_data, AudioData), "`audio_data` must be audio data"
-        assert key is None or isinstance(key, str), "`key` must be `None` or a string"
         assert isinstance(language, str), "`language` must be a string"
 
         flac_data = audio_data.get_flac_data(
@@ -1027,55 +1018,33 @@ class Recognizer(AudioSource):
             convert_width = 2 # audio samples must be 16-bit
         )
 
-
         service_request = self.service.speech().syncrecognize(
             body={
                 'config': {
                     'encoding': 'FLAC',  # raw 16-bit signed LE samples
                     'sampleRate': 16000,  # 16 khz
-                    'languageCode': 'en-US',  # a BCP-47 language tag
+                    'languageCode': language,  # a BCP-47 language tag
                 },
                 'audio': {
                     'content': base64.b64encode(flac_data)
                 }
         })
-        response = service_request.execute()
 
-        logger.debug(json.dumps(response))
+        result = service_request.execute()
+        logger.debug(result)
 
-        # if key is None: key = "AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
-        # url = "http://www.google.com/speech-api/v2/recognize?{0}".format(urlencode({
-        #     "client": "chromium",
-        #     "lang": language,
-        #     "key": key,
-        # }))
-        # request = Request(url, data = flac_data, headers = {"Content-Type": "audio/x-flac; rate={0}".format(audio_data.sample_rate)})
-        #
-        # # obtain audio transcription results
-        # try:
-        #     response = urlopen(request)
-        # except HTTPError as e:
-        #     raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-        # except URLError as e:
-        #     raise RequestError("recognition connection failed: {0}".format(e.reason))
-        # response_text = response.read().decode("utf-8")
-        #
-        # # ignore any blank blocks
-        # actual_result = []
-        # for line in response_text.split("\n"):
-        #     if not line: continue
-        #     result = json.loads(line)["result"]
-        #     if len(result) != 0:
-        #         actual_result = result[0]
-        #         break
-        #
-        # # return results
-        # if show_all: return actual_result
-        # if "alternative" not in actual_result: raise UnknownValueError()
-        # for entry in actual_result["alternative"]:
-        #     if "transcript" in entry:
-        #         return entry["transcript"]
-        # raise UnknownValueError() # no transcriptions available
+        # result = json.loads( service_request.execute() )["result"]
+        # Returns the result
+        actual_result = []
+        if len(result) != 0:
+            actual_result = result["results"][0]
+
+        if "alternatives" not in actual_result: raise UnknownValueError()
+        for entry in actual_result["alternatives"]:
+            if "transcript" in entry:
+                return entry["transcript"]
+        raise UnknownValueError() # no transcriptions available
+
 
     def recognize_wit(self, audio_data, key, show_all = False):
         """
