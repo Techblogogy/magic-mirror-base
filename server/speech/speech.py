@@ -36,6 +36,7 @@ class Speech:
         # Get Configuation File
         cfg = g_cfg().get_cfg()
 
+
         self.snowboy_trigger = cfg.getboolean("SPEECH", "snowboy_trigger")
         self.api_key = cfg.get("API KEYS", "bing_speech")
 
@@ -45,6 +46,8 @@ class Speech:
         self.adj_time = cfg.getint("SPEECH", "adjust_time")
 
         self._r = sr.Recognizer()
+        self._r.auth_google()
+        # self._r.auth_google_grpc()
         self._r.dynamic_energy_threshold = cfg.getboolean("SPEECH", "dynamic_threshold") #False
         self._r.audio_gain = cfg.getint("SPEECH", "audio_gain")
 

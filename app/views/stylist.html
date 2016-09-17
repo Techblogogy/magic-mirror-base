@@ -58,11 +58,11 @@
     <div class="container">
         <div class="row del_overf" >
 
-            <div class="item" ng-repeat="item in items track by item.number">
+            <div class="item" ng-repeat="item in items track by item.number" on-loop-finish>
                 <div class="col-xs-4 item_stl" ng-class="{current:$first}" id="item-{{item.number}}" it-id="{{item.number}}" vid-id="{{item.vid_id}}" >
                     <div class="Number"> <p>{{ item.number }}</p> </div>
 
-                    <img class="item_img" ng-src="http://localhost:5000/clothes/{{item.thumbnail}}" >
+                    <img class="item_img" onload="add_load_img(this)" ng-src="http://localhost:5000/clothes/{{item.thumbnail}}" >
 
                     <h3 class="dresscode">Dresscode: {{ item.dresscode }}</h3>
                     <p class="tags">Tags: {{ item.tags }}</p>
