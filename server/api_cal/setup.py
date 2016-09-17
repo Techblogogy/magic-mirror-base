@@ -21,6 +21,7 @@ class setup:
                 lat REAL NOT NULL
             )
         """)
+
     @staticmethod
     def if_setup_tbl():
          return db.qry("SELECT name FROM sqlite_master WHERE type='table' AND name='tbl_setup'")
