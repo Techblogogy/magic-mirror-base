@@ -15,6 +15,10 @@ from googleapiclient import discovery
 import httplib2
 from oauth2client.client import GoogleCredentials
 
+# from gcloud.credentials import get_credentials
+# from google.cloud.speech.v1beta1 import cloud_speech_pb2 as cloud_speech
+# from grpc.beta import implementations
+
 DISCOVERY_URL = ('https://{api}.googleapis.com/$discovery/rest?version={apiVersion}')
 
 import numpy, struct
@@ -429,6 +433,34 @@ class Recognizer(AudioSource):
         credentials.authorize(http)
 
         self.service = discovery.build('speech', 'v1beta1', http=http, discoveryServiceUrl=DISCOVERY_URL)
+
+    # def google_grpc_channel(self, host, port):
+    #     ssl_channel = implementations.ssl_channel_credentials(None, None, None)
+    #
+    #     creds = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+    #
+    #     logger.debug(creds.get_access_token().access_token)
+    #
+    #     auth_header = (
+    #         'Authorization',
+    #         'Bearer' + creds.get_access_token().access_token
+    #     )
+    #
+    #     auth_plugin = implementations.metadata_call_credentials(
+    #         lambda _, cb: cb([auth_header], None),
+    #         name='google_creds'
+    #     )
+    #
+    #     composite_channel = implementations.composite_channel_credentials (
+    #         ssl_channel, auth_plugin
+    #     )
+    #
+    #     return implementations.secure_channel(host, port, composite_channel)
+    #
+    # def auth_google_grpc(self):
+    #     self.service = cloud_speech.beta_create_Speech_stub(
+    #         self.google_grpc_channel('speech.googleapis.com', 443)
+    #     )
 
 
     def record(self, source, duration = None, offset = None):
@@ -1018,6 +1050,21 @@ class Recognizer(AudioSource):
             convert_width = 2 # audio samples must be 16-bit
         )
 
+        # self.auth_google_grpc()
+        # response = self.service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
+        #     config=cloud_speech.RecognitionConfig(
+        #         encoding='FLAC',
+        #         sample_rate=16000,
+        #         language_code=language,
+        #         speech_context= cloud_speech.SpeechContext(
+        #             phrases=["mirror", "add", "item", "help", "close"]
+        #         )
+        #     ),
+        #     audio=cloud_speech.RecognitionAudio(
+        #         content=base64.b64encode(flac_data)
+        #     )
+        # ), 10)
+
         service_request = self.service.speech().syncrecognize(
             body={
                 'config': {
@@ -1025,7 +1072,13 @@ class Recognizer(AudioSource):
                     'sampleRate': 16000,  # 16 khz
                     'languageCode': language,  # a BCP-47 language tag
                     'speechContext': {
-                        "phrases": ["mirror", "add", "item", "help", "close"]
+                        "phrases": [
+                            "mirror",
+                            "add",
+                            "item",
+                            "help",
+                            "close"
+                        ]
                     }
                 },
                 'audio': {
@@ -1034,6 +1087,7 @@ class Recognizer(AudioSource):
         })
 
         result = service_request.execute()
+        # result = response.results
         logger.debug(result)
 
         # result = json.loads( service_request.execute() )["result"]

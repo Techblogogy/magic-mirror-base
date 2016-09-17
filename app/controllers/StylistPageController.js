@@ -1,16 +1,17 @@
 
-app.directive('onLoopFinish', function ($timeout) {
-    return {
-        restrict: 'A',
-        link: function (scope, element, attr) {
-            if (scope.$last === true) {
-                $timeout(function () {
-                    scope.$emit(attr.onLoopFinish);
-                });
-            }
-        }
-    }
-});
+// app.directive('onLoopFinish', function ($timeout) {
+//     return {
+//         restrict: 'A',
+//         link: function (scope, element, attr) {
+//             if (scope.$last === true) {
+//                 $timeout(function () {
+//                     console.log("finnished ng-repleat");
+//                     scope.$emit(attr.onLoopFinish);
+//                 });
+//             }
+//         }
+//     }
+// });
 
 app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location','$timeout'*/,function ($scope,$document,$http, socket/*,$location,$timeout*/) {
     $scope.loaded = function(){};
@@ -25,7 +26,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.getNumber = function(num) {
         return new Array(num);
     };
-    
+
     $http.get('http://localhost:5000/wardrobe/pamount')
     .success(function(data){
         $scope.p_amount = Number(data);
@@ -146,7 +147,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         .success(function(data){
             if (data.length === 0) return 0;
 
+
             for (var i = 0; i < data.length; i++) {
+                img_path = data[i].thumbnail.split('.')[0];
+                data[i].thumbnail = img_path + "_small.jpg";
+
                 data[i].vid_id = data[i].id;
                 data[i].number = i+1;
             }
@@ -355,3 +360,15 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     });
 
 }]);
+
+// Dymanically load images
+function add_load_img(img) {
+    var img_path = img.src;
+    if (img_path.split("_").length == 2) {
+        img_path = img_path.split('.')[0];
+        img_path = img_path.split('_')[0];
+        console.log(img_path);
+
+        img.src = img_path + ".jpg";
+    }
+}
