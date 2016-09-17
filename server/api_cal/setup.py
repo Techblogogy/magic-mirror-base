@@ -100,20 +100,34 @@ class setup:
         """)
         db.qry("""
         INSERT OR REPLACE INTO widgets_tbl(id, name, active)
-        VALUES ((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
-        VALUES ((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
-        VALUES ((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
-        """,("weather", "weather",1, "clock", "clock",1,"calendar", "calendar",1))
+        VALUES((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
+        """,("weather", "weather",1))
+        db.qry("""
+        INSERT OR REPLACE INTO widgets_tbl(id, name, active)
+        VALUES((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
+        """,("clock", "clock",1,))
+        db.qry("""
+        INSERT OR REPLACE INTO widgets_tbl(id, name, active)
+        VALUES((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
+        """,("calendar", "calendar",1))
         return 201
 
     @staticmethod
-    def add_widgets(name,if_active):
+    def update_widgets(widgets):
+        widgets_list = widgets
+        logger.debug(widgets)
         db.qry("""
-            UPDATE widgets_tbl
-            SET active=?
-            WHERE name=?
-        """, (if_active,name))
-        return 200
+        UPDATE widgets_tbl
+        SET active=0
+        """)
+
+        db.qry_many("""
+        UPDATE widgets_tbl
+        SET active=1
+        WHERE id=?
+        """, widgets_list)
+
+        return 201
 
     @staticmethod
     def get_widgets():

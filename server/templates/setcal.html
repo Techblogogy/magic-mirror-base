@@ -59,18 +59,18 @@
             </div>
             <div class="col-md-12">
                 <h1>Pick widgets to display:</h1>
-                <form  class="col-md-12" action="/setcal"  method="POST">
+                <form  class="col-md-12"  action="/setcal"  method="POST">
                     <div>
                         <ul>
-                            {%for widget in widgets:%}
-                            <li>
-                                {%if widget.active == 1:%}
-                                <input type="checkbox" name="{%widget.name%}" checked>{%widget.name%}<br>
-                                {%else:%}
-                                <input type="checkbox" name="{%widget.name%}">{%widget.name%}<br>
-                                {%endif%}
-                            </li>
-                            {%endfor%}
+                          {%for widget in widgets:%}
+                          <li>
+                              {%if widget.active == 1:%}
+                              <input type="checkbox" name="widgets[]" value="{{widget.id}}" checked> {{widget.name}}<br>
+                              {%else:%}
+                              <input type="checkbox" name="widgets[]" value="{{widget.id}}"> {{widget.name}}<br>
+                              {%endif%}
+                          </li>
+                          {%endfor%}
                         </ul>
                     </div>
                     <!-- <input type="submit" name="action" value="Save"> -->

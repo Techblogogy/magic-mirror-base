@@ -66,10 +66,3 @@ def get_pos():
 @decor.crossdomain(origin=ALLOWED_ORIGIN)
 def get_widgets():
     return json.dumps(setup.get_widgets(), indent=JSON_DENT)
-
-@setup_blp.route('/addwidgets', methods=['POST','OPTIONS'])
-@decor.crossdomain(origin=ALLOWED_ORIGIN)
-def add_widgets():
-    print request.form
-    request.form.getlist('widgets')
-    return json.dumps(setup.get_widgets(), indent=JSON_DENT)
