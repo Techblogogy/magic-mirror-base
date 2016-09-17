@@ -37,8 +37,8 @@ class gcal:
     # Get auth flow
     @staticmethod
     def get_flow():
+        logger.debug("LITTLE B")
         gcal.init_cal_tbl()
-
         flow = client.flow_from_clientsecrets(
             app_dir+"/client_secret.json",
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/gmail.readonly"],

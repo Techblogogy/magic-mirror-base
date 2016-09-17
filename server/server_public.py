@@ -33,7 +33,7 @@ except ImportError:
     logger.warning("MyCam failed. Are you on Raspberry PI?")
 
 from speech.speech import Speech
-from remote_ctr.remote_ctr import m_remote
+#from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
 import decor
@@ -47,7 +47,7 @@ from api_cal.gcal import gcal
 SLEEP_TIME = 0
 
 # Important Constants
-# JSON_DENT = 4
+JSON_DENT = 4
 
 def create_server():
     cfg = g_cfg().get_cfg()
@@ -73,11 +73,13 @@ def create_server():
     pserve.app.register_blueprint(wd_manager_api)
 
     # Start voice recognition
-    voice = Speech()
-    voice.start()
+
+#    voice = Speech()
+    # voice.start()
+
 
     # Video playing
-    pv = PlayVid()
+#    pv = PlayVid()
 
     # Start Remote Control
     try:
@@ -132,6 +134,10 @@ def create_server():
 
         elif(request.form.get('action') == "position"):
             setup.save_pos(request.form.get('u_lng'), request.form.get('u_lat'))
+            resp = 201
+
+        elif(request.form.get('action') == "widgets"):
+            setup.update_widgets(request.form.getlist('widgets[]'))
             resp = 201
 
         return render_template('setcal.html',
@@ -201,12 +207,14 @@ def create_server():
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
         # os.system("start \"electron ../\"")
-        subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
+        #subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
+        pass
 
     logger.info("Starting electron")
     try:
-        thread.start_new_thread( pserve.sleep_state, (voice,) )
+#        thread.start_new_thread( pserve.sleep_state, (voice,) )
         # pserve.sleep_state(voice)
+        pass
     except:
         logger.exception("Unable to sleeping thread")
     # t = threading.Timer(SLEEP_TIME, sleep_state)
