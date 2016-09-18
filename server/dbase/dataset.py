@@ -10,6 +10,7 @@ class Dataset:
         self._log = logger
 
         self.create_tables()
+        self.init_tables()
 
 
     # Placeholder for initialization of tables

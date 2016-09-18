@@ -1,12 +1,8 @@
 import decor
 
 from flask import Blueprint, redirect, request, url_for
-# from api_cal.gcal import Gcal as gc
 
 import os, json
-
-# import logging
-# logger = logging.getLogger("TB")
 
 
 def construct_bp(gcal, JSON_DENT):

@@ -16,6 +16,8 @@ def dict_factory(cursor, row):
 
 in_queue = False
 
+lock = threading.Lock()
+
 class dbase:
     _dbpath = '/mirror.db'
     _db = None
@@ -48,6 +50,7 @@ class dbase:
         self._cn.create_function("sign", 1, self._sign)
         self._cn.create_function("temp_group", 1, self._temp_group)
 
+        lock.acquire(True)
         self._cn.row_factory = dict_factory
         self._db = self._cn.cursor() # Databse Cursor
 
@@ -97,6 +100,8 @@ class dbase:
     def close(self):
         self._cn.commit()
         self._cn.close()
+
+        lock.release()
 
     # Last added id
     @classmethod

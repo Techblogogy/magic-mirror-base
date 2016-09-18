@@ -4,18 +4,12 @@ from oauth2client import client
 from apiclient.discovery import build
 from oauth2client.file import Storage
 
-# from minfo import app_dir
-
 import sys, os
 
 from flask import abort
 import httplib2
 
 import datetime
-# from dbase.dbase import dbase as db
-
-# import logging
-# logger = logging.getLogger("TB")
 
 class Gcal(Dataset):
 
@@ -176,7 +170,7 @@ class Gcal(Dataset):
     # Toggle calendars as active
     def add_cals(self, ids):
         """ Updates witch calendars to show on mirror interface """
-        
+
         self._db.qry("UPDATE tbl_gcal SET active=0");
         self._db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
 

@@ -37,7 +37,7 @@ import decor
 
 import subprocess
 
-from api_cal.setup import setup
+from api_cal.setup import Setup as ST
 from api_cal.gcal import Gcal as GC
 
 
@@ -57,12 +57,13 @@ def create_server():
     pserve = PServer()
 
     # Reigster Blueprints
-    from routes.setup import setup_blp
-    pserve.app.register_blueprint(setup_blp)
+    from routes.setup import construct_bp as crt_setup
+    setup = ST(db, pserve, app_dir, logger)
+    pserve.app.register_blueprint(crt_setup(setup))
 
-    from routes.gcal import construct_bp
+    from routes.gcal import construct_bp as crt_gcal
     gcal = GC(db, pserve, app_dir, logger)
-    pserve.app.register_blueprint(construct_bp(gcal, 4))
+    pserve.app.register_blueprint(crt_gcal(gcal, 4))
 
     from routes.wardrobe import wrd_api
     pserve.app.register_blueprint(wrd_api)
@@ -137,7 +138,7 @@ def create_server():
 
         return render_template('setcal.html',
             resp_g = resp,
-            
+
             auth = gcal.need_auth(),
 
             userName = gcal.get_disp_name(),
