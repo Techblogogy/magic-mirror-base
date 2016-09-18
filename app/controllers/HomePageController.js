@@ -78,6 +78,26 @@ app.controller('HomePageController', ['$scope','socket','$http', function ($scop
     // });
     //
 
+    //------------------------WIDGETS STATE----------------------------
+    $http.get('http://localhost:5000/setup/widgets')
+    .success(function(data){
+        $scope.widgets = data;
+        console.log("WIDGETS");
+        console.log($scope.widgets);
+        for (var i = 0; i < $scope.widgets.length; i++) {
+          console.log(typeof $scope.widgets[i].name);
+          i_id = $scope.widgets[i].name;
+          if ($scope.widgets[i].active == 1){
+            console.log(document.getElementById(i_id));
+            document.getElementById(i_id).style.display = "block";
+          } else{
+            document.getElementById(i_id).style.display = "none";
+          }
+        }
+
+    });
+
+
 
     socket.forward('r_ctr', $scope);
     $scope.$on("socket:r_ctr", function (event, data) {
