@@ -137,7 +137,8 @@ def create_server():
             resp = 201
 
         elif(request.form.get('action') == "widgets"):
-            setup.update_widgets(request.form.getlist('widgets[]'))
+            setup.update_widgets()
+            setup.activate_widgets(request.form.getlist('widgets[]'))
             resp = 201
 
         return render_template('setcal.html',
@@ -206,9 +207,9 @@ def create_server():
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
-        # os.system("start \"electron ../\"")
-        #subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
-        pass
+        os.system("start \"electron ../\"")
+        subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
+        #pass
 
     logger.info("Starting electron")
     try:

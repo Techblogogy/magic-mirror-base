@@ -110,28 +110,29 @@ class setup:
         INSERT OR REPLACE INTO widgets_tbl(id, name, active)
         VALUES((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
         """,("calendar", "calendar",1))
-        return 201
+        return 202
 
     @staticmethod
-    def update_widgets(widgets):
-        widgets_list = widgets
-        logger.debug(widgets)
+    def update_widgets():
         db.qry("""
         UPDATE widgets_tbl
         SET active=0
         """)
 
+        return 202
+
+    @staticmethod
+    def activate_widgets(widgets):
+        widgets_list = widgets
         db.qry_many("""
         UPDATE widgets_tbl
         SET active=1
         WHERE id=?
         """, widgets_list)
-
-        return 201
+        return 202
 
     @staticmethod
     def get_widgets():
-        setup.init_widgets_table()
         widgets = db.qry("""
             SELECT * FROM widgets_tbl
         """)
