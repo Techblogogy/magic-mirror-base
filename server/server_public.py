@@ -3,12 +3,6 @@ from flask_socketio import SocketIO, emit
 
 from minfo import app_dir
 
-# import ntext.dresscode
-# ntext.dresscode.get_dresscode()
-
-# import eventlet
-# eventlet.monkey_patch()
-
 import platform, logging
 
 # Setup logging
@@ -30,7 +24,8 @@ try:
     from cvison.cam import My_Cam
     mc = My_Cam()
 except ImportError:
-    logger.warning("MyCam failed. Are you on Raspberry PI?")
+    logger.exception("MyCam failed. Are you on Raspberry PI?")
+    logger.info("\n")
 
 from speech.speech import Speech
 #from remote_ctr.remote_ctr import m_remote
@@ -73,19 +68,17 @@ def create_server():
     pserve.app.register_blueprint(wd_manager_api)
 
     # Start voice recognition
-
-#    voice = Speech()
-    # voice.start()
-
+    voice = Speech()
+    voice.start()
 
     # Video playing
-#    pv = PlayVid()
+    pv = PlayVid()
 
     # Start Remote Control
     try:
         thread.start_new_thread( m_remote, (0,) )
     except:
-        logger.error("Error: unable to start remote control thread")
+        logger.exception("Error: unable to start remote control thread")
 
 
     # Upload snowboy files
@@ -94,7 +87,6 @@ def create_server():
         resp = {"status": 200}
         if 'file' not in request.files:
             resp["status"] = 500
-            print "[ERROR] File not found"
             return '[ERROR]'
 
         print resp
@@ -206,7 +198,6 @@ def create_server():
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
-        # os.system("start \"electron ../\"")
         #subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
         pass
 
@@ -217,9 +208,5 @@ def create_server():
         pass
     except:
         logger.exception("Unable to sleeping thread")
-    # t = threading.Timer(SLEEP_TIME, sleep_state)
-    # t.start()
-
-    logger.debug("THIS ACTJALLY")
 
     return (pserve.app, pserve.socketio)

@@ -1,8 +1,8 @@
 import slib as sr
 from flask_socketio import emit
 
-from server import PServer
-pserve = PServer()
+# from server import PServer
+# pserve = PServer()
 
 from ntext.ntext import get_command
 
@@ -12,20 +12,13 @@ logger = logging.getLogger("TB")
 try:
     import snowboydecoder
 except:
-    logger.error("Snowboy Not Found :(")
+    logger.exception("Snowboy Not Found :(")
 
 from minfo import app_dir
 
 import thread, platform
 
 from tb_config import conf_file as g_cfg
-
-# audio_errors:
-
-# - unrecognizable
-# - bing_error
-# - shortphase
-# - unknown_command
 
 
 class Speech:

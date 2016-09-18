@@ -1,21 +1,24 @@
+from dbase.Dataset import Dataset
+
 from oauth2client import client
 from apiclient.discovery import build
 from oauth2client.file import Storage
 
-from minfo import app_dir
+# from minfo import app_dir
 
 import sys
 
-from flask import abort, redirect
+from flask import abort
 import httplib2
 
 import datetime
-from dbase.dbase import dbase as db
+# from dbase.dbase import dbase as db
 
-import logging
-logger = logging.getLogger("TB")
+# import logging
+# logger = logging.getLogger("TB")
 
-class gcal:
+class Gcal(Dataset):
+
     #Inits Calendar tables
     @staticmethod
     def init_cal_tbl():
@@ -30,21 +33,19 @@ class gcal:
             )
         """)
 
-    @staticmethod
-    def if_cal_tbl():
-         return db.qry("SELECT name FROM sqlite_master WHERE type='table' AND name='tbl_gcal'")
 
     # Get auth flow
     @staticmethod
     def get_flow():
-        logger.debug("LITTLE B")
         gcal.init_cal_tbl()
+
         flow = client.flow_from_clientsecrets(
             app_dir+"/client_secret.json",
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/gmail.readonly"],
             redirect_uri="http://localhost:5000/gcal/auth2callback"
         )
         flow.params['access_type'] = 'offline'
+
         return flow
 
     # Get credential
@@ -179,6 +180,8 @@ class gcal:
         # print ids
         # pass
         # gcal.init_cal_tbl()
+
+        logger.debug(ids)
 
         db.qry("UPDATE tbl_gcal SET active=0");
         db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
