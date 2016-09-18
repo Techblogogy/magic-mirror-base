@@ -1,32 +1,21 @@
-from dbase.dbase import dbase as db
-from api_cal.weather import Weather
+# from dbase.dbase import dbase as db
+from dbase.dataset import Dataset
 
-from minfo import app_dir
+from api_cal.weather import Weather
 
 import random, json, requests
 
-# from Queue import Queue
-# from threading import Thread
-
-import logging
-logger = logging.getLogger("TB")
-
-from tb_config import conf_file as g_cfg
-cfg = g_cfg().get_cfg()
-
-TAG_LIMIT = cfg.getint("DRESS CODE", "tag_limit")
-SITE_URL = cfg.get("DRESS CODE", "dresscode_url")
-
-# d_q = Queue()
-
-class clothes:
+class Clothes(Dataset):
 
     # self.d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
-    @classmethod
-    def setup(self):
+    def create_tables(self):
+        # Import constants
+        self.tag_limit = self._cfg.getint("DRESS CODE", "tag_limit")
+        self.site_url = self._cfg.get("DRESS CODE", "dresscode_url")
+
         # Main Clothes Storage Table
-        db.qry("""
+        self._db.qry("""
             CREATE TABLE IF NOT EXISTS clothes (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
@@ -39,7 +28,7 @@ class clothes:
         """)
 
         # Clothes tags table
-        db.qry("""
+        self._db.qry("""
             CREATE TABLE IF NOT EXISTS clothes_tags (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 c_id INTEGER NOT NULL,
@@ -49,7 +38,7 @@ class clothes:
         """)
 
         # Clothes Metadata Table (add value when item is worn)
-        db.qry("""
+        self._db.qry("""
             CREATE TABLE IF NOT EXISTS clothes_meta (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 c_id INTEGER NOT NULL,
@@ -59,44 +48,41 @@ class clothes:
             )
         """)
 
-    @classmethod
-    def setup_indexes(self):
-        # Create indexes to speed up perfomance
-        db.qry("CREATE INDEX IF NOT EXISTS code_dx ON clothes(dresscode)")
-        db.qry("CREATE INDEX IF NOT EXISTS wears_dx ON clothes(t_wears)")
+    # Create indexes to speed up perfomance
+    def init_tables(self):
+        self._db.qry("CREATE INDEX IF NOT EXISTS code_dx ON clothes(dresscode)")
+        self._db.qry("CREATE INDEX IF NOT EXISTS wears_dx ON clothes(t_wears)")
 
-        db.qry("CREATE INDEX IF NOT EXISTS tag_dx ON clothes_tags(tag)")
+        self._db.qry("CREATE INDEX IF NOT EXISTS tag_dx ON clothes_tags(tag)")
 
-        db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
-        db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
+        self._db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
+        self._db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
+
 
     # Add clothing item
-    @classmethod
     def add(self, dresscode, thumbnail, name=None):
-        # TODO: Import from config file
-        # url = "http://93.73.73.40:8000/"
         # file = {'file': open(app_dir+'/cls/'+thumbnail, 'rb')}
-
-        # r = requests.post(SITE_URL, files=file)
+        # r = requests.post(self.site_url, files=file)
         # cnt = json.loads(r.content)
+
+        # Temporal debug option
         cnt = {'dress': [{"code":"casual"}]}
 
-        logger.debug(cnt['dress'])
+        self._log.debug(cnt['dress'])
 
-        db.qry(
-        "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
-        (name, thumbnail, cnt['dress'][0]['code'], )
+        self._db.qry(
+            "INSERT INTO clothes(name, thumbnail, dresscode) VALUES (?, ?, ?)",
+            (name, thumbnail, cnt['dress'][0]['code'], )
         )
 
-        return db.qry("SELECT * FROM clothes WHERE id=?", (db.last_id(), ) )
+        return self._db.qry("SELECT * FROM clothes WHERE id=?", (self._db.last_id(), ) )
 
     # Add Tags to items
-    @classmethod
     def add_tags(self, c_id, tags):
-        # db.qry("DELETE FROM clothes_tags WHERE c_id=?", (c_id,))
+        # self._db.qry("DELETE FROM clothes_tags WHERE c_id=?", (c_id,))
         # return "[]"
 
-        count = db.qry("""
+        count = self._db.qry("""
             SELECT COUNT(*) as cnt
             FROM clothes_tags
             WHERE c_id=?
@@ -104,7 +90,7 @@ class clothes:
         #
         # print "[TB count]: %d" % (count)
 
-        if count > TAG_LIMIT:
+        if count > self.tag_limit:
             return "[]"
 
         a_tags = tags.strip().split(",")
@@ -115,30 +101,21 @@ class clothes:
         for a_tag in a_tags:
             a_list.append( (c_id, a_tag, c_id, a_tag) )
 
-        db.qry_many("""
+        self._db.qry_many("""
             INSERT INTO clothes_tags(c_id, tag)
             SELECT ?,?
             WHERE NOT EXISTS(SELECT tag FROM clothes_tags WHERE c_id=? AND tag=?)
         """, a_list)
 
-        return db.qry("SELECT * FROM clothes_tags WHERE c_id=?", (c_id,))
+        return self._db.qry("SELECT * FROM clothes_tags WHERE c_id=?", (c_id,))
 
-    # TODO: Remove tags from items
-    @classmethod
-    def rmv_tags(self, id):
-        pass
-
-    # TODO: Returns page count
-    @classmethod
-    def pages(self):
-        pass
 
     # Returns video id
     @classmethod
     def get_video(self, id):
-        logger.debug("id is: %s", (id))
+        self._log.debug("id is: %s", (id))
 
-        path = db.qry("SELECT thumbnail FROM clothes WHERE id=?", (id,))[0]['thumbnail']
+        path = self._db.qry("SELECT thumbnail FROM clothes WHERE id=?", (id,))[0]['thumbnail']
         path = path.split(".")
 
         return path[0] + ".mp4"
@@ -147,15 +124,7 @@ class clothes:
     def get_smart(self, query, lim, ofs):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
-        # Create indexes to speed up perfomance
-        db.qry("CREATE INDEX IF NOT EXISTS code_dx ON clothes(dresscode)")
-        db.qry("CREATE INDEX IF NOT EXISTS wears_dx ON clothes(t_wears)")
-
-        db.qry("CREATE INDEX IF NOT EXISTS tag_dx ON clothes_tags(tag)")
-
-        db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
-        db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
-        # return db.qry("SELECT * FROM sqlite_master WHERE type = 'index';")
+        # return self._db.qry("SELECT * FROM sqlite_master WHERE type = 'index';")
 
         base_qry = """
             SELECT
@@ -184,23 +153,23 @@ class clothes:
         """
 
         w_rng = Weather.w_temp_range()[0]
-        w_temp = db._temp_group(w_rng)
+        w_temp = self._db._temp_group(w_rng)
 
-        logger.debug("[DEBUG] Current temperatue: %d", (w_rng))
-        logger.debug("[DEBUG] Temperature Range: %d", (w_temp))
+        self._log.debug("[DEBUG] Current temperatue: %d", (w_rng))
+        self._log.debug("[DEBUG] Temperature Range: %d", (w_temp))
 
         try:
             d_codes.index(query)
-            return db.qry(base_qry % ("AND dresscode=?"), (w_temp, w_temp, query, lim, ofs*lim))
+            return self._db.qry(base_qry % ("AND dresscode=?"), (w_temp, w_temp, query, lim, ofs*lim))
         except ValueError:
-            return db.qry(base_qry % ("AND tags LIKE ?"), (w_temp, w_temp, "%"+query+"%", lim, ofs*lim))
+            return self._db.qry(base_qry % ("AND tags LIKE ?"), (w_temp, w_temp, "%"+query+"%", lim, ofs*lim))
         # except:
         #     return {'error': "TOTAL ERROR"}
 
     # Get all items
     @classmethod
     def get_all(self):
-        return db.qry("""
+        return self._db.qry("""
             SELECT
                 id, thumbnail, dresscode, t_wears,
                     (SELECT group_concat(tag, ', ') as tags
@@ -216,7 +185,7 @@ class clothes:
     def get(self, lim, ofs):
         self.setup_indexes()
 
-        return db.qry("""
+        return self._db.qry("""
             SELECT id, thumbnail, dresscode, t_wears,
                 (SELECT group_concat(tag, ', ') as tags
                 FROM clothes_tags
@@ -230,31 +199,15 @@ class clothes:
             (lim, ofs*lim)
         )
 
-    # Memory que
-    def get_cache(self):
-        self._cn = sqlite3.connect(app_dir+self._dbpath) # Created Database "connection"
-
-        # Add custom functions
-        self._cn.create_function("sign", 1, self._sign)
-        self._cn.create_function("temp_group", 1, self._temp_group)
-
-        self._cn.row_factory = dict_factory
-        self._db = self._cn.cursor() # Databse Cursor
-
-        while True:
-            pass
-
     # Get page items
-    @classmethod
     def page_count(self, pp):
-        all_items = db.qry("SELECT COUNT(*) as ct FROM clothes")[0]["ct"]
+        all_items = self._db.qry("SELECT COUNT(*) as ct FROM clothes")[0]["ct"]
 
         return all_items/pp
 
     # Get item by id
-    @classmethod
     def get_item(self, id):
-        return db.qry("""
+        return self._db.qry("""
             SELECT
                 id, thumbnail, dresscode, t_wears,
                     (SELECT group_concat(tag, ', ') as tags
@@ -268,80 +221,74 @@ class clothes:
         )
 
     # Mark item as worn
-    @classmethod
     def worn(self, id):
-        db.qry(
+        self._db.qry(
             "UPDATE clothes SET t_wears=t_wears+1 WHERE id=?",
             (id, )
         )
-        db.qry(
+        self._db.qry(
             "INSERT INTO clothes_meta (c_id, temperature, t_time) VALUES (?, ?, date('now'))",
             (id, Weather.w_current_temp(), )
         )
 
         return ""
-        # return db.qry("SELECT * FROM clothes_meta")
+        # return self._db.qry("SELECT * FROM clothes_meta")
         # return Weather.w_current_temp()
 
     # Get items meta
-    @classmethod
     def get_meta(self):
-        return db.qry("""
+        return self._db.qry("""
             SELECT * FROM clothes_meta
         """)
 
-    @classmethod
     def worn_tmp(self, c_id, w, dt):
-        db.qry(
+        self._db.qry(
             "UPDATE clothes SET t_wears=t_wears+1 WHERE id=?",
             (c_id, )
         )
 
-        db.qry(
+        self._db.qry(
             "INSERT INTO clothes_meta (c_id, temperature, t_time) VALUES (?, ?, ?)",
             (c_id, w, dt,)
         )
 
     # Like item (ID of element, Like state (0) for no, (1) for yes)
-    @classmethod
     def set_like(self, id, like):
-        db.qry(
+        self._db.qry(
             "UPDATE clothes SET liked=? WHERE id=?",
             (id, like, )
         )
 
-    @classmethod
     def delete(self, id):
-        db.qry("DELETE FROM clothes WHERE id=?", (id, ))
-        db.qry("DELETE FROM clothes_meta WHERE id=?", (id, ))
-        db.qry("DELETE FROM clothes_tags WHERE id=?", (id, ))
+        self._db.qry("DELETE FROM clothes WHERE id=?", (id, ))
+        self._db.qry("DELETE FROM clothes_meta WHERE id=?", (id, ))
+        self._db.qry("DELETE FROM clothes_tags WHERE id=?", (id, ))
 
     # NOTE: Testing data fill
-    @classmethod
     def fill_junk(self):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
         d_tags = ["clubwear", "meetups", "beach", "work", "time", "special", "bugs", "whatistag", "needhelp", "surprise", "nonono", "whatelse"]
 
         # Clear out clothes table
-        db.qry("DELETE FROM clothes")
-        db.qry("VACUUM")
-        db.qry("DELETE FROM sqlite_sequence WHERE name='clothes'")
+        self._db.qry("DELETE FROM clothes")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes'")
 
         # Clear out clothes meta table
-        db.qry("DELETE FROM clothes_meta")
-        db.qry("VACUUM")
-        db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_meta'")
+        self._db.qry("DELETE FROM clothes_meta")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_meta'")
 
         # Clear out clothes tags table
-        db.qry("DELETE FROM clothes_tags")
-        db.qry("VACUUM")
-        db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_tags'")
+        self._db.qry("DELETE FROM clothes_tags")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_tags'")
 
         for i in range(1,100):
             # print random.choice(d_codes)
             self.add(random.choice(d_codes), "thum%s.jpg"%str(random.randint(1,13)))
-            i_id = db.last_id()
+            i_id = self._db.last_id()
 
             # Randomly add tags
             for t in range( 1, random.randint(1, len(d_tags)+1 ) ):
@@ -358,21 +305,6 @@ class clothes:
         return self.get_all()
 
     # EDIT dresscode
-
-    @classmethod
     def edit_dresscode(self, c_id, dresscode):
-        db.qry("UPDATE clothes SET dresscode=? WHERE id=?", (dresscode, c_id, ))
+        self._db.qry("UPDATE clothes SET dresscode=? WHERE id=?", (dresscode, c_id, ))
         # return "[]"
-
-
-clothes.setup()
-
-# Create background thread
-
-# t_q = Thread(target=clothes.get_cache)
-# t_q.daemon = True
-# t_q.start()
-
-# clothes.add("casual", "1.png", 20, "somthing 1", "cool, winter")
-# clothes.worn(1)
-# print clothes.get_all()

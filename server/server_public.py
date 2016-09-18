@@ -39,6 +39,7 @@ import subprocess
 
 from api_cal.setup import Setup as ST
 from api_cal.gcal import Gcal as GC
+from cvison.store import Clothes as CL
 
 
 SLEEP_TIME = 0
@@ -65,8 +66,8 @@ def create_server():
     gcal = GC(db, pserve, app_dir, logger)
     pserve.app.register_blueprint(crt_gcal(gcal, 4))
 
-    from routes.wardrobe import wrd_api
-    pserve.app.register_blueprint(wrd_api)
+    from routes.wardrobe import construct_bp as crt_wrd
+    pserve.app.register_blueprint(crt_wrd())
 
     from routes.WDmanager import wd_manager_api
     pserve.app.register_blueprint(wd_manager_api)
