@@ -21,7 +21,7 @@ class Gcal(Dataset):
 
     #Inits Calendar tables
     def create_tables(self):
-        self._log.debug("Initializing google calendar tables")
+        """ Initializes SQLITE3 storage for google calendars """
 
         # Creates primary google calendar storage table
         self._db.qry("""
@@ -36,8 +36,9 @@ class Gcal(Dataset):
         """)
 
 
-    # Get auth flow
     def get_flow(self):
+        """ Returns google authentication flow for following services, from client_sercet.json file """
+
         flow = client.flow_from_clientsecrets(
             os.path.join(self._appdir, 'client_secret.json' ),
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/gmail.readonly"],
@@ -49,6 +50,8 @@ class Gcal(Dataset):
 
     # Get credential
     def get_cred(self):
+        """ Reads current user credentials from saved file """
+
         try:
             store = Storage( os.path.join(self._appdir, 'gcal_credentials') )
             return store.locked_get()
@@ -59,6 +62,8 @@ class Gcal(Dataset):
 
     # Put credential
     def put_cred(self, cred):
+        """ Saves current user credentials into file """
+
         try:
             store = Storage( os.path.join(self._appdir, 'gcal_credentials') )
             store.locked_put(cred)
@@ -69,6 +74,8 @@ class Gcal(Dataset):
 
     # Remove credential
     def rmv_cred(self):
+        """ Removes current user credentials file """
+
         try:
             store = Storage( os.path.join(self._appdir, 'gcal_credentials') )
             store.locked_delete()
@@ -78,6 +85,7 @@ class Gcal(Dataset):
 
 
     def get_auth(self):
+        """ Attaches google authentication to current http request """
         try:
             return self.get_cred().authorize(httplib2.Http())
         except:
@@ -86,18 +94,15 @@ class Gcal(Dataset):
 
     # Checks for need of authentication
     def need_auth(self):
+        """ Check for need of authentication """
+
         return not isinstance( self.get_auth(), httplib2.Http )
 
-        # if self.get_cred() == None:
-        #     return True
-        #
-        # if self.get_disp_name() == False:
-        #     return True
-
-        # return False
 
     # De-authenticate user
     def deauth_usr(self):
+        """ Function for signing user out """
+
         self._log.debug("Removing google account authentication")
 
         self.get_cred().revoke(httplib2.Http())
@@ -108,6 +113,8 @@ class Gcal(Dataset):
 
     # Get Google Auth redirect URL
     def get_auth_uri(self):
+        """ Returns google authentication page URI """
+
         flow = self.get_flow()
         auth_uri = flow.step1_get_authorize_url()
         return auth_uri
@@ -115,6 +122,8 @@ class Gcal(Dataset):
 
     # Google Auth Redirect callback
     def auth_callback(self, key):
+        """ Saves returned google authentication key for future use """
+
         assert isinstance(key, unicode)
 
         flow = self.get_flow()
@@ -128,9 +137,7 @@ class Gcal(Dataset):
 
 
     def get_disp_name(self):
-        # self._log.debug(self.need_auth())
-        # assert not self.need_auth() # Check if authentication with google is valid
-
+        """ Gets full name of current logged in user """
         try:
             http = self.get_auth()
             info = build('plus','v1', http=http)
@@ -143,6 +150,8 @@ class Gcal(Dataset):
 
     # Return list calendarList
     def get_cals(self):
+        """ Gets a list of all possible calendars, and saves them to a database """
+
         http = self.get_auth()
         cal = build('calendar', 'v3', http=http)
 
@@ -166,11 +175,14 @@ class Gcal(Dataset):
 
     # Toggle calendars as active
     def add_cals(self, ids):
+        """ Updates witch calendars to show on mirror interface """
+        
         self._db.qry("UPDATE tbl_gcal SET active=0");
         self._db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
 
         return 200
 
+    # Returns all possible user calendars ids
     def get_ucals(self):
         return self._db.qry("SELECT gid FROM tbl_gcal WHERE active=1")
 
