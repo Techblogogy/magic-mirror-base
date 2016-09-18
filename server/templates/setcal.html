@@ -29,13 +29,13 @@
             <h1>Manage your calendars right here</h1>
                 <h6>Pick calendars for your Mirror:</h6>
                 <form  class="col-md-12" action="/setcal"  method="POST">
-                    <div>{% for i in range(0, c_len): %}
+                    <div>{% for cal in cals: %}
                         <ul>
                             <li>
-                                {%if cals[i].active == 1:%}
-                                <input type="checkbox" name="ids[]" value="{{cals[i].id}}" checked>  {{cals[i].summary}}<br>
+                                {%if cal.active == 1:%}
+                                <input type="checkbox" name="ids[]" value="{{cal.id}}" checked> {{cal.summary}}<br>
                                 {%else:%}
-                                <input type="checkbox" name="ids[]" value="{{cals[i].id}}">  {{cals[i].summary}}<br>
+                                <input type="checkbox" name="ids[]" value="{{cal.id}}"> {{cal.summary}}<br>
                                 {%endif%}
                             </li>
                         </ul>

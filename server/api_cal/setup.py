@@ -81,10 +81,9 @@ class Setup(Dataset):
 
     # Saves position
     def save_pos(self, u_lng, u_lat):
-        # self._db.qry("DELETE FROM tbl_setup")
 
         self._db.qry("""
-            UPDATE tbl_setup(lng, lat)
+            UPDATE tbl_setup
             SET lng=?, lat=?
             WHERE id=1
         """,(u_lng, u_lat))

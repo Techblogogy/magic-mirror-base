@@ -44,13 +44,14 @@ class dbase:
     # Connect to database
     @classmethod
     def connect(self):
+        lock.acquire(True)
+
         self._cn = sqlite3.connect(app_dir+self._dbpath) # Created Database "connection"
 
         # Add custom functions
         self._cn.create_function("sign", 1, self._sign)
         self._cn.create_function("temp_group", 1, self._temp_group)
 
-        lock.acquire(True)
         self._cn.row_factory = dict_factory
         self._db = self._cn.cursor() # Databse Cursor
 

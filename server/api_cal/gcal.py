@@ -171,8 +171,12 @@ class Gcal(Dataset):
     def add_cals(self, ids):
         """ Updates witch calendars to show on mirror interface """
 
+        self._log.debug(ids)
+
         self._db.qry("UPDATE tbl_gcal SET active=0");
         self._db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
+
+        self._log.debug(self._db.qry("SELECT * FROM tbl_gcal"))
 
         return 200
 
