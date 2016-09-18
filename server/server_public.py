@@ -19,6 +19,8 @@ from traceback import print_tb
 
 from tb_config import conf_file as g_cfg
 
+from dbase.dbase import dbase as db
+
 mc = None
 try:
     from cvison.cam import My_Cam
@@ -36,7 +38,7 @@ import decor
 import subprocess
 
 from api_cal.setup import setup
-from api_cal.gcal import gcal
+from api_cal.gcal import Gcal as GC
 
 
 SLEEP_TIME = 0
@@ -58,8 +60,9 @@ def create_server():
     from routes.setup import setup_blp
     pserve.app.register_blueprint(setup_blp)
 
-    from routes.gcal import gcal_api
-    pserve.app.register_blueprint(gcal_api)
+    from routes.gcal import construct_bp
+    gcal = GC(db, pserve, app_dir, logger)
+    pserve.app.register_blueprint(construct_bp(gcal, 4))
 
     from routes.wardrobe import wrd_api
     pserve.app.register_blueprint(wrd_api)
@@ -134,13 +137,13 @@ def create_server():
 
         return render_template('setcal.html',
             resp_g = resp,
-            # resp_p = setup.response()
+            
             auth = gcal.need_auth(),
+
             userName = gcal.get_disp_name(),
             cals = gcal.get_cals(),
-            c_len = len(gcal.get_cals()),
+
             widgets = setup.get_widgets(),
-            # pos = setup_get_pos()x
         )
 
     # SocketIO Connection
@@ -198,7 +201,7 @@ def create_server():
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
-        #subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
+        subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
         pass
 
     logger.info("Starting electron")

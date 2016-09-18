@@ -3,7 +3,7 @@ class Dataset:
     """ Base class for all required application modules """
 
     # Database handler, main server instance
-    def __init__(db, server, appdir, logger):
+    def __init__(self, db, server, appdir, logger):
         self._db = db
         self._srv = server
         self._appdir = appdir

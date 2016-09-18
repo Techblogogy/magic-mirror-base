@@ -1,7 +1,7 @@
 import decor
 
 from flask import Blueprint, redirect, request, url_for
-from api_cal.gcal import gcal
+# from api_cal.gcal import gcal
 
 from api_cal.setup import setup
 
