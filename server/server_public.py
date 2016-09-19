@@ -68,13 +68,14 @@ def create_server():
 
 
     # Start voice recognition
-    voice = Speech()
-    # voice.start()
+    voice = Speech(pserve, cfg, logger)
+    voice.start()
 
     # Video playing
     pv = PlayVid(clothes, app_dir, logger, cfg)
 
     # Import and create PY Camera
+    mc = None
     try:
         from cvison.cam import My_Cam
         mc = My_Cam(pserve, clothes, pv, app_dir, cfg, logger)
@@ -180,28 +181,33 @@ def create_server():
 
     @pserve.socketio.on("record_start", namespace=pserve.IO_SPACE)
     def start_recording():
-        mc.rec_start()
+        try:
+            mc.rec_start()
+        except:
+            logger.exception("MyCam failed. Are you on Raspberry PI?")
 
     @pserve.socketio.on("record_stop", namespace=pserve.IO_SPACE)
     def stop_recording():
-        mc.rec_stop()
-
+        try:
+            mc.rec_stop()
+        except:
+            logger.exception("MyCam failed. Are you on Raspberry PI?")
 
     # Turn on camera
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
     def start_cam():
-        # try:
-        mc.turn_on()
-        # except:
-        #     logger.warning("MyCam failed. Are you on Raspberry PI?")
+        try:
+            mc.turn_on()
+        except:
+            logger.exception("MyCam failed. Are you on Raspberry PI?")
 
     # Turn off camera
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        # try:
-        mc.turn_off()
-        # except:
-        #     logger.warning("MyCam failed. Are you on Raspberry PI?")
+        try:
+            mc.turn_off()
+        except:
+            logger.exception("MyCam failed. Are you on Raspberry PI?")
 
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
@@ -211,7 +217,7 @@ def create_server():
 
     logger.info("Starting electron")
     try:
-#        thread.start_new_thread( pserve.sleep_state, (voice,) )
+        # thread.start_new_thread( pserve.sleep_state, (voice,) )
         # pserve.sleep_state(voice)
         pass
     except:

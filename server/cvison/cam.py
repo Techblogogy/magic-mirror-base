@@ -22,7 +22,7 @@ class My_Cam:
         self._cfg = config
         self._log = logger
         self._appdir = appdirs
-        
+
         self.clothes = clothes
         self.pserve = pserve
 

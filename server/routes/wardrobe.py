@@ -17,7 +17,6 @@ def construct_bp(clothes, logger):
         g.request_start_time = time.time()
         g.request_time = lambda: "%.5fs" % (time.time() - g.request_start_time)
 
-
     # Returns number of pages
     @wrd_api.route("/pamount", methods=['GET', 'OPTIONS'])
     @decor.crossdomain(origin=ALLOWED_ORIGIN)
