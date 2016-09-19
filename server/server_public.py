@@ -21,9 +21,8 @@ from tb_config import conf_file as g_cfg
 
 from dbase.dbase import dbase as db
 
-
 from speech.speech import Speech
-#from remote_ctr.remote_ctr import m_remote
+from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
 import decor
@@ -209,13 +208,15 @@ def create_server():
         except:
             logger.exception("MyCam failed. Are you on Raspberry PI?")
 
+    # === Start Electron UI ===
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
         subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
         pass
-
     logger.info("Starting electron")
+
+    # === Sleeping state logic ===
     try:
         # thread.start_new_thread( pserve.sleep_state, (voice,) )
         # pserve.sleep_state(voice)
