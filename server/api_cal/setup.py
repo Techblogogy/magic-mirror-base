@@ -1,20 +1,19 @@
-import sys
+from dbase.dataset import Dataset
 
+import sys
 from flask import abort, redirect, request
-import httplib2
 
 import datetime
-from dbase.dbase import dbase as db
+# from dbase.dbase import dbase as db
+#
+# import logging
+# logger = logging.getLogger("TB")
 
-import logging
-logger = logging.getLogger("TB")
-
-class setup:
+class Setup(Dataset):
 
     # Creates setup table
-    @staticmethod
-    def init_setup_tbl():
-        db.qry("""
+    def create_tables(self):
+        self._db.qry("""
             CREATE TABLE IF NOT EXISTS tbl_setup (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 lng REAL NOT NULL,
@@ -22,36 +21,52 @@ class setup:
             )
         """)
 
-    @staticmethod
-    def if_setup_tbl():
-         return db.qry("SELECT name FROM sqlite_master WHERE type='table' AND name='tbl_setup'")
-
-    @staticmethod
-    def create_tut():
-        # Create Table if not exists
-        db.qry("""
+        self._db.qry("""
             CREATE TABLE IF NOT EXISTS tbl_tutorial (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 tut_comp INTEGER NOT NULL
             )
         """)
 
-    @staticmethod
-    def save_tut():
-        setup.create_tut()
+        self._db.qry("""
+            CREATE TABLE IF NOT EXISTS widgets_tbl (
+                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                active INT NOT NULL DEFAULT 1
+            )
+        """)
 
-        # Save table setup state
-        db.qry("""
+
+    def init_tables(self):
+
+        self._db.qry("""
+            INSERT INTO tbl_setup(lng, lat)
+            VALUES (0, 0)
+        """)
+
+        self._db.qry_many("""
+            INSERT INTO widgets_tbl(name)
+            SELECT ?
+            WHERE NOT EXISTS(SELECT name FROM widgets_tbl WHERE name=?)
+        """, [
+            ("weather", "weather"),
+            ("clock", "clock"),
+            ("calendar", "calendar")
+        ])
+
+
+    # Save table setup state
+    def save_tut(self):
+        self._db.qry("""
             INSERT INTO tbl_tutorial(tut_comp)
             SELECT 1
             WHERE NOT EXISTS(SELECT id FROM tbl_tutorial WHERE id=1)
         """)
 
-    @staticmethod
-    def is_tut():
-        setup.create_tut()
 
-        dt = db.qry("SELECT tut_comp FROM tbl_tutorial WHERE id=1")
+    # Check if tutorial is completed
+    def is_tut(self):
+        dt = self._db.qry("SELECT tut_comp FROM tbl_tutorial WHERE id=1")
 
         if len(dt) == 0:
             return {"bool": False}
@@ -65,77 +80,32 @@ class setup:
 
 
     # Saves position
-    @staticmethod
-    def save_pos(u_lng, u_lat):
-        setup.init_setup_tbl()
+    def save_pos(self, u_lng, u_lat):
 
-        db.qry("DELETE FROM tbl_setup")
-
-        db.qry("""
-            INSERT INTO tbl_setup(lng, lat)
-            VALUES (?,?)
+        self._db.qry("""
+            UPDATE tbl_setup
+            SET lng=?, lat=?
+            WHERE id=1
         """,(u_lng, u_lat))
 
-        print db.qry("SELECT * FROM tbl_setup")
+        self._log.debug(self._db.qry("SELECT * FROM tbl_setup"))
+
 
     # Retuns lat and lng coordinates
-    @staticmethod
-    def get_position():
-        return db.qry("SELECT * FROM tbl_setup")[0]
+    def get_position(self):
+        return self._db.qry("SELECT * FROM tbl_setup")[0]
 
-    # NOTE: WTF is this????
-    @staticmethod
-    def response():
-        if request.method == 'POST':
-            return True
 
-#------------------------------------WIDGETS MANAGER--------------------------------------------
-    @staticmethod
-    def init_widgets_table():
-        db.qry("""
-            CREATE TABLE IF NOT EXISTS widgets_tbl (
-                id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                active INT NOT NULL DEFAULT 1
-            )
-        """)
-        db.qry("""
-        INSERT OR REPLACE INTO widgets_tbl(id, name, active)
-        VALUES((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
-        """,("weather", "weather",1))
-        db.qry("""
-        INSERT OR REPLACE INTO widgets_tbl(id, name, active)
-        VALUES((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
-        """,("clock", "clock",1,))
-        db.qry("""
-        INSERT OR REPLACE INTO widgets_tbl(id, name, active)
-        VALUES((SELECT id FROM widgets_tbl WHERE name = ?),?,?)
-        """,("calendar", "calendar",1))
-        return 202
-
-    @staticmethod
-    def update_widgets():
-        db.qry("""
-        UPDATE widgets_tbl
-        SET active=0
-        """)
+    def update_widgets(self, widgets):
+        self._db.qry("UPDATE widgets_tbl SET active=0")
+        self._db.qry_many("UPDATE widgets_tbl SET active=1 WHERE id=?", widgets)
 
         return 202
 
-    @staticmethod
-    def activate_widgets(widgets):
-        widgets_list = widgets
-        db.qry_many("""
-        UPDATE widgets_tbl
-        SET active=1
-        WHERE id=?
-        """, widgets_list)
-        return 202
 
-    @staticmethod
-    def get_widgets():
-        widgets = db.qry("""
+    def get_widgets(self):
+        widgets = self._db.qry("""
             SELECT * FROM widgets_tbl
         """)
-        logger.debug(widgets)
+
         return widgets

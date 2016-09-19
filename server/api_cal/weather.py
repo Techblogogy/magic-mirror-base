@@ -1,7 +1,7 @@
 import httplib2
 import json
 
-from api_cal.setup import setup
+# from api_cal.setup import setup
 
 import logging
 logger = logging.getLogger("TB")
@@ -17,7 +17,7 @@ class Weather:
     def w_current_temp(self):
         h = httplib2.Http()
 
-        lt_ln = setup.get_position()
+        lt_ln = 0 #setup.get_position()
 
         (heads, resp) = h.request("http://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&units=metric&appid=%s" % (lt_ln["lat"],lt_ln["lng"],API_WEATHER_KEY), "GET")
         resp = json.loads(resp)

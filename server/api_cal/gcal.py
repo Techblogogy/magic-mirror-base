@@ -1,25 +1,24 @@
+from dbase.dataset import Dataset
+
 from oauth2client import client
 from apiclient.discovery import build
 from oauth2client.file import Storage
 
-from minfo import app_dir
+import sys, os
 
-import sys
-
-from flask import abort, redirect
+from flask import abort
 import httplib2
 
 import datetime
-from dbase.dbase import dbase as db
 
-import logging
-logger = logging.getLogger("TB")
+class Gcal(Dataset):
 
-class gcal:
     #Inits Calendar tables
-    @staticmethod
-    def init_cal_tbl():
-        db.qry("""
+    def create_tables(self):
+        """ Initializes SQLITE3 storage for google calendars """
+
+        # Creates primary google calendar storage table
+        self._db.qry("""
             CREATE TABLE IF NOT EXISTS tbl_gcal (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                 gid TEXT NOT NULL,
@@ -30,133 +29,129 @@ class gcal:
             )
         """)
 
-    @staticmethod
-    def if_cal_tbl():
-         return db.qry("SELECT name FROM sqlite_master WHERE type='table' AND name='tbl_gcal'")
 
-    # Get auth flow
-    @staticmethod
-    def get_flow():
-        logger.debug("LITTLE B")
-        gcal.init_cal_tbl()
+    def get_flow(self):
+        """ Returns google authentication flow for following services, from client_sercet.json file """
+
         flow = client.flow_from_clientsecrets(
-            app_dir+"/client_secret.json",
+            os.path.join(self._appdir, 'client_secret.json' ),
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/gmail.readonly"],
             redirect_uri="http://localhost:5000/gcal/auth2callback"
         )
         flow.params['access_type'] = 'offline'
+
         return flow
 
     # Get credential
-    @staticmethod
-    def get_cred():
+    def get_cred(self):
+        """ Reads current user credentials from saved file """
+
         try:
-            store = Storage(app_dir+'/gcal_credentials')
+            store = Storage( os.path.join(self._appdir, 'gcal_credentials') )
             return store.locked_get()
         except:
-            logger.exception(sys.exc_info()[0])
+            self._log.exception("Failed to get google authentication credential")
             return None
+
 
     # Put credential
-    @staticmethod
-    def put_cred(cred):
-        # try:
-        store = Storage(app_dir+'/gcal_credentials')
-        store.locked_put(cred)
-        # except:
-        #     return None
+    def put_cred(self, cred):
+        """ Saves current user credentials into file """
 
-    # Remove credential
-    @staticmethod
-    def rmv_cred():
         try:
-            store = Storage(app_dir+'/gcal_credentials')
-            store.locked_delete()
+            store = Storage( os.path.join(self._appdir, 'gcal_credentials') )
+            store.locked_put(cred)
         except:
-            logger.exception(sys.exc_info()[0])
+            self._log.exception("Failed to get google authentication credential")
             return None
 
+
+    # Remove credential
+    def rmv_cred(self):
+        """ Removes current user credentials file """
+
+        try:
+            store = Storage( os.path.join(self._appdir, 'gcal_credentials') )
+            store.locked_delete()
+        except:
+            self._log.exception("Failed to remove google authentication credential")
+            return None
+
+
+    def get_auth(self):
+        """ Attaches google authentication to current http request """
+        try:
+            return self.get_cred().authorize(httplib2.Http())
+        except:
+            self._log.exception("Failed to authenticate with google")
+
+
     # Checks for need of authentication
-    @staticmethod
-    def need_auth():
-        if gcal.get_cred() == None:
-            return True
+    def need_auth(self):
+        """ Check for need of authentication """
 
-        if gcal.get_disp_name() == False:
-            return True
+        return not isinstance( self.get_auth(), httplib2.Http )
 
-        return False
 
-    # De authenticate user
-    @staticmethod
-    def deauth_usr():
-        logger.debug("removing auth")
+    # De-authenticate user
+    def deauth_usr(self):
+        """ Function for signing user out """
 
-        if gcal.get_cred() != None:
-            gcal.get_cred().revoke(httplib2.Http())
-            gcal.rmv_cred()
+        self._log.debug("Removing google account authentication")
+
+        self.get_cred().revoke(httplib2.Http())
+        self.rmv_cred()
 
         return "/"
 
+
     # Get Google Auth redirect URL
-    @staticmethod
-    def get_auth_uri():
-        # if gcal.need_auth():
-        flow = gcal.get_flow()
+    def get_auth_uri(self):
+        """ Returns google authentication page URI """
+
+        flow = self.get_flow()
         auth_uri = flow.step1_get_authorize_url()
         return auth_uri
-        # else:
-        #     return "/"
+
 
     # Google Auth Redirect callback
-    @staticmethod
-    def auth_callback(key):
-        if key == None:
-            abort(400)
-            return
+    def auth_callback(self, key):
+        """ Saves returned google authentication key for future use """
 
-        flow = gcal.get_flow()
+        assert isinstance(key, unicode)
+
+        flow = self.get_flow()
 
         # Get and store credential file
         credential = flow.step2_exchange(key)
-        gcal.put_cred(credential)
+        self.put_cred(credential)
 
         # Return Index redirection
         return "/"
 
-    @staticmethod
-    def get_disp_name():
-        # if not gcal.need_auth():
+
+    def get_disp_name(self):
+        """ Gets full name of current logged in user """
         try:
-            http = gcal.get_cred().authorize(httplib2.Http())
+            http = self.get_auth()
             info = build('plus','v1', http=http)
 
             results = info.people().get(userId='me').execute()
             return results.get('displayName')
         except:
-            return False
-            # print "ERROR!", sys.exc_info()[0]
+            self._log.exception("Failed to get user display name")
 
-    @staticmethod
-    def get_mail():
-        http = gcal.get_cred().authorize(httplib2.Http())
-        mail = build('gmail', 'v1', http=http)
-
-        results = mail.users().labels().list(userId='me').execute()
-
-        return results.get('labels', [])
 
     # Return list calendarList
-    @staticmethod
-    def get_cals():
-        gcal.init_cal_tbl()
+    def get_cals(self):
+        """ Gets a list of all possible calendars, and saves them to a database """
 
-        http = gcal.get_cred().authorize(httplib2.Http())
+        http = self.get_auth()
         cal = build('calendar', 'v3', http=http)
 
         c_list = cal.calendarList().list().execute()['items']
-        db_list = []
 
+        db_list = []
         for i in c_list:
             db_list.append((i.get('id'),
                             i.get('backgroundColor'),
@@ -164,42 +159,34 @@ class gcal:
                             i.get('description'),
                             i.get('id')))
 
-        db.qry_many("""
+        self._db.qry_many("""
             INSERT INTO tbl_gcal (gid, backgroundColor, summary, description)
             SELECT ?,?,?,?
             WHERE NOT EXISTS(SELECT gid FROM tbl_gcal WHERE gid=?)
         """, db_list)
 
-        return db.qry("SELECT * FROM tbl_gcal")
-        # return ''
+        return self._db.qry("SELECT * FROM tbl_gcal")
 
-    #Add list of calendars
-    @staticmethod
-    def add_cals(ids):
-        # print ids
-        # pass
-        # gcal.init_cal_tbl()
+    # Toggle calendars as active
+    def add_cals(self, ids):
+        """ Updates witch calendars to show on mirror interface """
 
-        db.qry("UPDATE tbl_gcal SET active=0");
-        db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
+        self._log.debug(ids)
+
+        self._db.qry("UPDATE tbl_gcal SET active=0");
+        self._db.qry_many("UPDATE tbl_gcal SET active=1 WHERE id=?", ids)
+
+        self._log.debug(self._db.qry("SELECT * FROM tbl_gcal"))
 
         return 200
 
-        # print db.qry("SELECT * FROM tbl_gcal")
-
-        # for id in ids:
-        #     # print id
-        #     db.qry("INSERT INTO tbl_gcal (gid) VALUES (?)", (id, ))
-
-    #List user calendars
-    @staticmethod
-    def get_ucals():
-        return db.qry("SELECT gid FROM tbl_gcal WHERE active=1")
+    # Returns all possible user calendars ids
+    def get_ucals(self):
+        return self._db.qry("SELECT gid FROM tbl_gcal WHERE active=1")
 
     # Returns todays events
-    @staticmethod
-    def get_today():
-        http = gcal.get_cred().authorize(httplib2.Http())
+    def get_today(self):
+        http = self.get_auth()
         cal = build('calendar', 'v3', http=http)
 
         t_now = datetime.datetime.utcnow()
@@ -207,28 +194,30 @@ class gcal:
             year=t_now.year,
             month=t_now.month,
             day=t_now.day,
+
             hour=23,
             minute=59,
             second=59,
             microsecond=999999)
 
-        # print gcal.get_ucals()
-        stuff = []
-        for cl in gcal.get_ucals():
+        plans = []
+        for cl in self.get_ucals():
             results = cal.events().list(
-                # calendarId='primary',
                 calendarId=cl['gid'],
+
                 timeMin=t_now.isoformat()+"Z",
                 timeMax=t_max.isoformat()+"Z",
+
                 showDeleted=False,
                 singleEvents=True,
+
                 maxResults=15,
+
                 orderBy='startTime'
             ).execute()
             events = results.get('items',[])
 
             for e in events:
-                stuff.append(e)
+                plans.append(e)
 
-        return stuff
-        # return events
+        return plans

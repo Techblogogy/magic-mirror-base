@@ -3,12 +3,6 @@ from flask_socketio import SocketIO, emit
 
 from minfo import app_dir
 
-# import ntext.dresscode
-# ntext.dresscode.get_dresscode()
-
-# import eventlet
-# eventlet.monkey_patch()
-
 import platform, logging
 
 # Setup logging
@@ -25,23 +19,19 @@ from traceback import print_tb
 
 from tb_config import conf_file as g_cfg
 
-mc = None
-try:
-    from cvison.cam import My_Cam
-    mc = My_Cam()
-except ImportError:
-    logger.warning("MyCam failed. Are you on Raspberry PI?")
+from dbase.dbase import dbase as db
 
 from speech.speech import Speech
-#from remote_ctr.remote_ctr import m_remote
+from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
 import decor
 
 import subprocess
 
-from api_cal.setup import setup
-from api_cal.gcal import gcal
+from api_cal.setup import Setup as ST
+from api_cal.gcal import Gcal as GC
+from cvison.store import Clothes as CL
 
 
 SLEEP_TIME = 0
@@ -59,33 +49,44 @@ def create_server():
     from server import PServer
     pserve = PServer()
 
-    # Reigster Blueprints
-    from routes.setup import setup_blp
-    pserve.app.register_blueprint(setup_blp)
+    # ---> Reigster Blueprints
+    from routes.setup import construct_bp as crt_setup
+    setup = ST(db, pserve, app_dir, logger)
+    pserve.app.register_blueprint(crt_setup(setup))
 
-    from routes.gcal import gcal_api
-    pserve.app.register_blueprint(gcal_api)
+    from routes.gcal import construct_bp as crt_gcal
+    gcal = GC(db, pserve, app_dir, logger)
+    pserve.app.register_blueprint(crt_gcal(gcal, 4))
 
-    from routes.wardrobe import wrd_api
-    pserve.app.register_blueprint(wrd_api)
+    from routes.wardrobe import construct_bp as crt_wrd
+    clothes = CL(db, pserve, app_dir, logger, config=cfg)
+    pserve.app.register_blueprint(crt_wrd(clothes, logger))
 
-    from routes.WDmanager import wd_manager_api
-    pserve.app.register_blueprint(wd_manager_api)
+    from routes.WDmanager import construct_bp as ctr_mng_wrd
+    pserve.app.register_blueprint(ctr_mng_wrd(clothes, logger))
+
 
     # Start voice recognition
-
-#    voice = Speech()
-    # voice.start()
-
+    voice = Speech(pserve, cfg, logger)
+    voice.start()
 
     # Video playing
-#    pv = PlayVid()
+    pv = PlayVid(clothes, app_dir, logger, cfg)
+
+    # Import and create PY Camera
+    mc = None
+    try:
+        from cvison.cam import My_Cam
+        mc = My_Cam(pserve, clothes, pv, app_dir, cfg, logger)
+    except ImportError:
+        logger.exception("MyCam failed. Are you on Raspberry PI?")
+        logger.info("\n")
 
     # Start Remote Control
     try:
         thread.start_new_thread( m_remote, (0,) )
     except:
-        logger.error("Error: unable to start remote control thread")
+        logger.exception("Error: unable to start remote control thread")
 
 
     # Upload snowboy files
@@ -94,7 +95,6 @@ def create_server():
         resp = {"status": 200}
         if 'file' not in request.files:
             resp["status"] = 500
-            print "[ERROR] File not found"
             return '[ERROR]'
 
         print resp
@@ -137,19 +137,18 @@ def create_server():
             resp = 201
 
         elif(request.form.get('action') == "widgets"):
-            setup.update_widgets()
-            setup.activate_widgets(request.form.getlist('widgets[]'))
+            setup.update_widgets(request.form.getlist('widgets[]'))
             resp = 201
 
         return render_template('setcal.html',
             resp_g = resp,
-            # resp_p = setup.response()
+
             auth = gcal.need_auth(),
+
             userName = gcal.get_disp_name(),
             cals = gcal.get_cals(),
-            c_len = len(gcal.get_cals()),
+
             widgets = setup.get_widgets(),
-            # pos = setup_get_pos()x
         )
 
     # SocketIO Connection
@@ -181,46 +180,49 @@ def create_server():
 
     @pserve.socketio.on("record_start", namespace=pserve.IO_SPACE)
     def start_recording():
-        mc.rec_start()
+        try:
+            mc.rec_start()
+        except:
+            logger.exception("MyCam failed. Are you on Raspberry PI?")
 
     @pserve.socketio.on("record_stop", namespace=pserve.IO_SPACE)
     def stop_recording():
-        mc.rec_stop()
-
+        try:
+            mc.rec_stop()
+        except:
+            logger.exception("MyCam failed. Are you on Raspberry PI?")
 
     # Turn on camera
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
     def start_cam():
-        # try:
-        mc.turn_on()
-        # except:
-        #     logger.warning("MyCam failed. Are you on Raspberry PI?")
+        try:
+            mc.turn_on()
+        except:
+            logger.exception("MyCam failed. Are you on Raspberry PI?")
 
     # Turn off camera
     @pserve.socketio.on("user_on_leave", namespace=pserve.IO_SPACE)
     def start_cam():
-        # try:
-        mc.turn_off()
-        # except:
-        #     logger.warning("MyCam failed. Are you on Raspberry PI?")
+        try:
+            mc.turn_off()
+        except:
+            logger.exception("MyCam failed. Are you on Raspberry PI?")
 
+    # === Start Electron UI ===
     if ml_pt:
         os.system("electron /home/pi/master_3/magic-mirror-base/ &")
     else:
-        os.system("start \"electron ../\"")
         subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
-        #pass
+        pass
 
     logger.info("Starting electron")
+
+    # === Sleeping state logic ===
     try:
-#        thread.start_new_thread( pserve.sleep_state, (voice,) )
+        # thread.start_new_thread( pserve.sleep_state, (voice,) )
         # pserve.sleep_state(voice)
         pass
     except:
         logger.exception("Unable to sleeping thread")
-    # t = threading.Timer(SLEEP_TIME, sleep_state)
-    # t.start()
-
-    logger.debug("THIS ACTJALLY")
 
     return (pserve.app, pserve.socketio)

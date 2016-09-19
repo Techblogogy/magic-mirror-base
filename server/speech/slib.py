@@ -1,8 +1,3 @@
-"""Library for performing speech recognition, with support for several engines and APIs, online and offline."""
-
-__author__ = "Anthony Zhang (Uberi)"
-__version__ = "3.4.6"
-__license__ = "BSD"
 
 import io, os, subprocess, wave, aifc, base64
 import math, audioop, collections, threading
@@ -29,11 +24,11 @@ from minfo import app_dir
 # eventlet.monkey_patch()
 
 
-import logging
-logger = logging.getLogger("TB")
+# import logging
+# logger = logging.getLogger("TB")
 
-from server import PServer
-pserve = PServer()
+# from server import PServer
+# pserve = PServer()
 
 try: # attempt to use the Python 2 modules
     from urllib import urlencode
@@ -411,7 +406,7 @@ class AudioData(object):
         return flac_data
 
 class Recognizer(AudioSource):
-    def __init__(self):
+    def __init__(self, pserve, logger):
         """
         Creates a new ``Recognizer`` instance, which represents a collection of speech recognition functionality.
         """
@@ -423,6 +418,9 @@ class Recognizer(AudioSource):
         self.phrase_threshold = 0.3 # minimum seconds of speaking audio before we consider the speaking audio a phrase - values below this are ignored (for filtering out clicks and pops)
         self.non_speaking_duration = 0.5 # seconds of non-speaking audio to keep on both sides of the recording
         self.audio_gain = 5
+
+        self.pserve = pserve
+        self._log = logger
 
     def auth_google(self):
         # credentials = GoogleCredentials.get_application_default().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
@@ -439,7 +437,7 @@ class Recognizer(AudioSource):
     #
     #     creds = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
     #
-    #     logger.debug(creds.get_access_token().access_token)
+    #     self._log.debug(creds.get_access_token().access_token)
     #
     #     auth_header = (
     #         'Authorization',
@@ -546,7 +544,7 @@ class Recognizer(AudioSource):
         non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
 
         # DEBUG
-        logger.info("Energy threshold %d", (self.energy_threshold))
+        self._log.info("Energy threshold %d", (self.energy_threshold))
 
         # read audio input for phrases until there is a phrase that is long enough
         elapsed_time = 0 # number of seconds of audio read
@@ -585,8 +583,8 @@ class Recognizer(AudioSource):
                     self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
 
             # DEBUG
-            logger.info("Audio Detected")
-            pserve.send("audio_found","")
+            self._log.info("Audio Detected")
+            self.pserve.send("audio_found","")
 
             # read audio input until the phrase ends
             pause_count, phrase_count = 0, 0
@@ -623,12 +621,12 @@ class Recognizer(AudioSource):
                 break # phrase is long enough, stop listening
             else:
                 # DEBUG
-                logger.info("Phase is not long enough")
-                pserve.send("audio_error", "shortphase")
+                self._log.info("Phase is not long enough")
+                self.pserve.send("audio_error", "shortphase")
 
 
         # DEBUG
-        logger.info("Getting Frame Data")
+        self._log.info("Getting Frame Data")
 
         # obtain frame data
         for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
@@ -748,8 +746,8 @@ class Recognizer(AudioSource):
         non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
 
         # DEBUG
-        logger.info("Energy threshold %d", (self.energy_threshold))
-        pserve.send("mic_is_listening","")
+        self._log.info("Energy threshold %d", (self.energy_threshold))
+        self.pserve.send("mic_is_listening","")
 
         # assert isinstance(key, str), "`key` must be a string"
         # assert isinstance(language, str), "`language` must be a string"
@@ -758,7 +756,7 @@ class Recognizer(AudioSource):
         language = "en-US"
 
         # DEBUG:
-        # logger.info("Started Bing Recogntion")
+        # self._log.info("Started Bing Recogntion")
 
         access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
         allow_caching = True
@@ -848,7 +846,7 @@ class Recognizer(AudioSource):
                     self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
 
             # DEBUG
-            logger.info("Audio Detected")
+            self._log.info("Audio Detected")
 
             self.sample_rate = source.SAMPLE_RATE
             self.sample_width = source.SAMPLE_WIDTH
@@ -917,16 +915,16 @@ class Recognizer(AudioSource):
             #     break # phrase is long enough, stop listening
             # else:
             #     # DEBUG
-            #     logger.info("Phase is not long enough")
+            #     self._log.info("Phase is not long enough")
 
 
         # DEBUG
-        logger.info("Getting Frame Data")
+        self._log.info("Getting Frame Data")
 
-        # logger.debug(len(frames))
+        # self._log.debug(len(frames))
 
         # DEBUG
-        logger.info("Sending Request")
+        self._log.info("Sending Request")
 
         try:
             response = conn.getresponse() # urlopen(request)
@@ -943,8 +941,8 @@ class Recognizer(AudioSource):
         conn.close()
 
         # DEBUG
-        logger.info("Displaying Result")
-        logger.info(result)
+        self._log.info("Displaying Result")
+        self._log.info(result)
 
         # obtain frame data
         # for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
@@ -1088,7 +1086,7 @@ class Recognizer(AudioSource):
 
         result = service_request.execute()
         # result = response.results
-        logger.debug(result)
+        self._log.debug(result)
 
         # result = json.loads( service_request.execute() )["result"]
         # Returns the result
@@ -1159,7 +1157,7 @@ class Recognizer(AudioSource):
         assert isinstance(language, str), "`language` must be a string"
 
         # DEBUG:
-        logger.info("Started Bing Recogntion")
+        self._log.info("Started Bing Recogntion")
 
         access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
         allow_caching = True
@@ -1199,7 +1197,7 @@ class Recognizer(AudioSource):
                 self.bing_cached_access_token_expiry = start_time + expiry_seconds
 
         # DEBUG
-        logger.info("Getting Audio Data")
+        self._log.info("Getting Audio Data")
 
         wav_data = audio_data.get_wav_data(
             convert_rate = 16000, # audio samples must be 8kHz or 16 kHz
@@ -1218,7 +1216,7 @@ class Recognizer(AudioSource):
             "result.profanitymarkup": "0",
         }))
 
-        # logger.debug(len(wav_data))
+        # self._log.debug(len(wav_data))
 
         httplib.HTTPSConnection.debuglevel = 0
 
@@ -1247,7 +1245,7 @@ class Recognizer(AudioSource):
         conn.send("\r\n")
 
         # DEBUG
-        logger.info("Sending Request")
+        self._log.info("Sending Request")
 
         try:
             response = conn.getresponse() # urlopen(request)
@@ -1262,8 +1260,8 @@ class Recognizer(AudioSource):
         result = json.loads(response_text)
 
         # DEBUG
-        logger.info("Displaying Result")
-        # pserve.send("audio_detected","cmd")
+        self._log.info("Displaying Result")
+        # self.pserve.send("audio_detected","cmd")
 
         # return results
         if show_all: return result

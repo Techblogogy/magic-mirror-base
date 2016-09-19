@@ -3,32 +3,30 @@ import os
 import signal
 
 from time import sleep
-from store import clothes
-from minfo import app_dir
 
-import logging
-logger = logging.getLogger("TB")
-
-from tb_config import conf_file as g_cfg
 
 class PlayVid:
 
-	def __init__(self):
+	def __init__(self, clothes, appdirs, logger, config):
+
 		# Video playback position
-		cfg = g_cfg().get_cfg()
+		self.clothes = clothes
+		self._appdir = appdirs
+		self._log = logger
+		self._cfg = config
 
 		self.size_wrd = [
-			cfg.getint("VIDEO WARDROBE", "x"),
-			cfg.getint("VIDEO WARDROBE", "y"),
-			cfg.getint("VIDEO WARDROBE", "width"),
-			cfg.getint("VIDEO WARDROBE", "height")
+			self._cfg.getint("VIDEO WARDROBE", "x"),
+			self._cfg.getint("VIDEO WARDROBE", "y"),
+			self._cfg.getint("VIDEO WARDROBE", "width"),
+			self._cfg.getint("VIDEO WARDROBE", "height")
 		]
 
 		self.size_add = [
-			cfg.getint("VIDEO ADD PAGE", "x"),
-			cfg.getint("VIDEO ADD PAGE", "y"),
-			cfg.getint("VIDEO ADD PAGE", "width"),
-			cfg.getint("VIDEO ADD PAGE", "height")
+			self._cfg.getint("VIDEO ADD PAGE", "x"),
+			self._cfg.getint("VIDEO ADD PAGE", "y"),
+			self._cfg.getint("VIDEO ADD PAGE", "width"),
+			self._cfg.getint("VIDEO ADD PAGE", "height")
 		]
 
 		# Video File
@@ -60,9 +58,8 @@ class PlayVid:
 
 	# Plays Video File
 	def play(self):
-		# self.proc = subprocess.Popen('omxplayer '+self.file+' --win "'+str(self.x)+','+str(self.y)+','+str(self.x+self.w)+','+str(self.y+self.h)+'"', shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
 
-		logger.debug('omxplayer %s --win "%d, %d, %d, %d"' % (self.file, self.x, self.y, self.x+self.w, self.y+self.h))
+		self._log.debug('omxplayer %s --win "%d, %d, %d, %d"' % (self.file, self.x, self.y, self.x+self.w, self.y+self.h))
 
 		self.proc = subprocess.Popen('omxplayer %s --win "%d %d %d %d"' % (self.file, self.x, self.y, self.x+self.w, self.y+self.h), shell=True, stdout=subprocess.PIPE, preexec_fn=os.setsid)
 
@@ -76,13 +73,13 @@ class PlayVid:
 	def play_auto(self, dat):
 		self.playing = True
 
-		vid_id = clothes.get_video(dat)
-		self.set_p(app_dir+"/cls/"+vid_id)
+		vid_id = self.clothes.get_video(dat)
+		self.set_p( os.path.join(self._appdir, "cls", vid_id) )
 		self.play()
 
 		while self.playing:
-			logger.info("[PlayVid DEBUG] Playing video %s", (self.file))
-			logger.debug(self.proc.poll())
+			self._log.info("[PlayVid DEBUG] Playing video %s", (self.file))
+			self._log.debug(self.proc.poll())
 
 			if self.proc.poll() == 0:
 				self.play()
