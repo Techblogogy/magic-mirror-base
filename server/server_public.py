@@ -21,13 +21,6 @@ from tb_config import conf_file as g_cfg
 
 from dbase.dbase import dbase as db
 
-mc = None
-try:
-    from cvison.cam import My_Cam
-    mc = My_Cam()
-except ImportError:
-    logger.exception("MyCam failed. Are you on Raspberry PI?")
-    logger.info("\n")
 
 from speech.speech import Speech
 #from remote_ctr.remote_ctr import m_remote
@@ -57,7 +50,7 @@ def create_server():
     from server import PServer
     pserve = PServer()
 
-    # Reigster Blueprints
+    # ---> Reigster Blueprints
     from routes.setup import construct_bp as crt_setup
     setup = ST(db, pserve, app_dir, logger)
     pserve.app.register_blueprint(crt_setup(setup))
@@ -67,17 +60,27 @@ def create_server():
     pserve.app.register_blueprint(crt_gcal(gcal, 4))
 
     from routes.wardrobe import construct_bp as crt_wrd
-    pserve.app.register_blueprint(crt_wrd())
+    clothes = CL(db, pserve, app_dir, logger, config=cfg)
+    pserve.app.register_blueprint(crt_wrd(clothes, logger))
 
-    from routes.WDmanager import wd_manager_api
-    pserve.app.register_blueprint(wd_manager_api)
+    from routes.WDmanager import construct_bp as ctr_mng_wrd
+    pserve.app.register_blueprint(ctr_mng_wrd(clothes, logger))
+
 
     # Start voice recognition
     voice = Speech()
     # voice.start()
 
     # Video playing
-    pv = PlayVid()
+    pv = PlayVid(clothes, app_dir, logger, cfg)
+
+    # Import and create PY Camera
+    try:
+        from cvison.cam import My_Cam
+        mc = My_Cam(pserve, clothes, pv, app_dir, cfg, logger)
+    except ImportError:
+        logger.exception("MyCam failed. Are you on Raspberry PI?")
+        logger.info("\n")
 
     # Start Remote Control
     try:

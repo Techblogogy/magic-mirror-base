@@ -111,7 +111,6 @@ class Clothes(Dataset):
 
 
     # Returns video id
-    @classmethod
     def get_video(self, id):
         self._log.debug("id is: %s", (id))
 
@@ -120,7 +119,7 @@ class Clothes(Dataset):
 
         return path[0] + ".mp4"
 
-    @classmethod
+
     def get_smart(self, query, lim, ofs):
         d_codes = ["business-casual", "casual", "formal", "sportswear"]
 
@@ -167,7 +166,7 @@ class Clothes(Dataset):
         #     return {'error': "TOTAL ERROR"}
 
     # Get all items
-    @classmethod
+
     def get_all(self):
         return self._db.qry("""
             SELECT
@@ -181,10 +180,8 @@ class Clothes(Dataset):
         """)
 
     # Get items in range
-    @classmethod
-    def get(self, lim, ofs):
-        self.setup_indexes()
 
+    def get(self, lim, ofs):
         return self._db.qry("""
             SELECT id, thumbnail, dresscode, t_wears,
                 (SELECT group_concat(tag, ', ') as tags

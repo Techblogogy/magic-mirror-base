@@ -74,6 +74,7 @@ def construct_bp(clothes, logger):
         logger.debug(tags)
 
         return json.dumps( clothes.add_tags(c_id, tags['tags']), indent=JSON_DENT)
+
     #edit dresscode
     @wrd_api.route("/add/dresscode/<int:c_id>", methods=['POST', 'OPTIONS'])
     @decor.crossdomain(origin=ALLOWED_ORIGIN)
