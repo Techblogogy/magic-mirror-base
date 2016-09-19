@@ -100,6 +100,8 @@ class Setup(Dataset):
         self._db.qry("UPDATE widgets_tbl SET active=0")
         self._db.qry_many("UPDATE widgets_tbl SET active=1 WHERE id=?", widgets)
 
+        return 202
+
 
     def get_widgets(self):
         widgets = self._db.qry("""

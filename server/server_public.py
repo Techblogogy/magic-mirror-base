@@ -214,6 +214,7 @@ def create_server():
     else:
         subprocess.Popen('electron ../ ', shell=True, stdout=subprocess.PIPE)
         pass
+
     logger.info("Starting electron")
 
     # === Sleeping state logic ===
