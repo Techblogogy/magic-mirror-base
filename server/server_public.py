@@ -84,7 +84,8 @@ def create_server():
 
     # Start Remote Control
     try:
-        thread.start_new_thread( m_remote, (0,) )
+        # thread.start_new_thread( m_remote, (cfg,pserve,logger,) )
+        pass
     except:
         logger.exception("Error: unable to start remote control thread")
 

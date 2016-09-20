@@ -37,8 +37,10 @@ class PServer():
     def sleep_state(voice):
         global pserve
         time.sleep(SLEEP_TIME)
+
         pserve.send("sleep","123")
         logger.debug("WORKS")
+
         voice.stop_all()
         pserve.is_sleeping = True
 

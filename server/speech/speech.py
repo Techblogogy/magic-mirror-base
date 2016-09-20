@@ -200,3 +200,6 @@ class Speech:
         except sr.RequestError as e:
             self._log.error("Bing error; {0}".format(e))
             self.pserve.send("audio_error", "bing_error")
+        except:
+            self._log.exception("Unknown error")
+            self.pserve.send("audio_error", "unknown")
