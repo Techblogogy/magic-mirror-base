@@ -42,7 +42,6 @@ class PServer():
         voice.stop_all()
         pserve.is_sleeping = True
 
-
     def send(self, event, data):
         self.socketio.emit(event, data, namespace="/io")
 
