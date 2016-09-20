@@ -16,6 +16,8 @@ def dict_factory(cursor, row):
 
 in_queue = False
 
+lock = threading.Lock()
+
 class dbase:
     _dbpath = '/mirror.db'
     _db = None
@@ -42,6 +44,8 @@ class dbase:
     # Connect to database
     @classmethod
     def connect(self):
+        lock.acquire(True)
+
         self._cn = sqlite3.connect(app_dir+self._dbpath) # Created Database "connection"
 
         # Add custom functions
@@ -56,12 +60,6 @@ class dbase:
     def qry(self, qry, params=()):
         global in_queue
 
-        # Wait for another thread
-        if in_queue:
-            while in_queue:
-                sleep(0.01)
-
-        in_queue = True
         self.connect()
 
         dat = self.exe(qry,params)
@@ -76,12 +74,6 @@ class dbase:
     def qry_many(self, qry, params=[]):
         global in_queue
 
-        # Wait for another thread
-        if in_queue:
-            while in_queue:
-                sleep(0.01)
-
-        in_queue = True
         self.connect()
 
         dat = self.exe_many(qry,params)
@@ -94,11 +86,6 @@ class dbase:
     # Only execute querry
     @classmethod
     def exe(self, qry, params=()):
-        # print "\n <==="
-        # print "[DEBUG INFO] Querry: %s; Thread:" % (qry)
-        # print threading.current_thread().ident
-        # print "\n ===>"
-
         self._db.execute(qry,params)
         return self._db.fetchall()
 
@@ -114,6 +101,8 @@ class dbase:
     def close(self):
         self._cn.commit()
         self._cn.close()
+
+        lock.release()
 
     # Last added id
     @classmethod
