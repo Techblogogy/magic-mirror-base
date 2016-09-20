@@ -1,21 +1,11 @@
 import slib as sr
 from flask_socketio import emit
 
-# from server import PServer
-# pserve = PServer()
-
 from ntext.ntext import get_command
 
-# import logging
-# logger = logging.getLogger("TB")
-
-
-
-# from minfo import app_dir
 
 import thread, platform
 
-# from tb_config import conf_file as g_cfg
 
 
 class Speech:

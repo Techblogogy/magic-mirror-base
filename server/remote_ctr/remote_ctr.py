@@ -52,29 +52,29 @@ def m_remote(cfg, pserve, logger):
             if time.time() > t + 0.3 :
                 print 'Up'
 
-                pserve.socketio.emit("r_ctr", "up", namespace="/io")
+                pserve.send("r_ctr", "up")
                 t = time.time()
         if x < 100 :
             if time.time() > t + 0.3 :
                 t = time.time()
                 print 'Down'
 
-                pserve.socketio.emit("r_ctr", "down", namespace="/io")
+                pserve.send("r_ctr", "down")
         if 10900< x < 15000:
             if time.time() > t + 0.3 :
                 print 'Left'
 
-                pserve.socketio.emit("r_ctr", "right", namespace="/io")
+                pserve.send("r_ctr", "right")
                 t = time.time()
         if 5000 < x < 10100 :
             if time.time() > t + 0.3 :
                 t = time.time()
                 print 'Right'
 
-                pserve.socketio.emit("r_ctr", "left", namespace="/io")
+                pserve.send("r_ctr", "left")
         if 20001 == x :
             if time.time() > t + 0.2 :
                 t = time.time()
                 print 'Click'
 
-                pserve.socketio.emit("r_ctr", "click", namespace="/io")
+                pserve.send("r_ctr", "click")
