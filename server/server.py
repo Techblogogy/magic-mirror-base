@@ -3,6 +3,9 @@ from flask_socketio import SocketIO, emit
 from tb_config import conf_file as g_cfg
 import logging, time
 
+import threading
+lock = threading.Lock()
+
 logger = logging.getLogger("TB")
 
 cfg = g_cfg().get_cfg()
@@ -24,27 +27,30 @@ class PServer():
         # Flask Elements
         self.IO_SPACE = "/io"
 
-        self.test = "[TEST1]"
+        # self.test = "[TEST1]"
 
         self.app = Flask(__name__)
         self.app.config['DEBUG'] = False
         self.app.config['SECRET_KEY'] = "supersecret";
+
         # self.socketio = SocketIO(self.app)
         self.socketio = SocketIO(self.app, async_mode='threading')
 
     # LIttle spleeper
-    @staticmethod
     def sleep_state(voice):
-        global pserve
         time.sleep(SLEEP_TIME)
-        pserve.send("sleep","123")
+
+        self.send("sleep")
         logger.debug("WORKS")
+
         voice.stop_all()
-        pserve.is_sleeping = True
+        self.is_sleeping = True
 
-
-    def send(self, event, data):
+    def send(self, event, data=""):
+        lock.acquire(True)
         self.socketio.emit(event, data, namespace="/io")
+        lock.release()
+
 
     def start(self):
         print "[STARTING SERVERS]"

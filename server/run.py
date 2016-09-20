@@ -36,6 +36,6 @@ if __name__ == '__main__':
 
     app, socketio = create_server()
 
-    # app.run(debug=False, threaded=True)
-    socketio.run(app)
+    app.run(host="0.0.0.0", debug=False, threaded=True)
+    # socketio.run(app)
     # eventlet.wsgi.server(eventlet.listen(('', 8000)), socketio)
