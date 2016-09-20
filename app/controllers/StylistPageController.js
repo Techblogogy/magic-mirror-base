@@ -145,9 +145,10 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     $scope.get_page_items = function(p_num){
         $http.get('http://localhost:5000/wardrobe/get?items='+8+'&page='+p_num)
         .success(function(data){
-            if (data.length === 0) return 0;
-
-
+            if (data.length === 0) {
+              angular.element(document.querySelectorAll("#item-1")).addClass("current");
+              return 0;
+            }
             for (var i = 0; i < data.length; i++) {
                 img_path = data[i].thumbnail.split('.')[0];
                 data[i].thumbnail = img_path + "_small.jpg";
@@ -225,8 +226,13 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.item_is_open = false;
     $scope.click = function(itm_num){
-       voice = false;
+      if ($scope.items == undefined) {
+        $scope.switchView('add','left_swipe')
+        return 0;
+        console.log("HERE IT IS ");
+      }
 
+       voice = false;
       if (!$scope.item_is_open) {
 
            $scope.switch_item(itm_num);
