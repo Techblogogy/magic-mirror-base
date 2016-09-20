@@ -14,6 +14,27 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
 
     /* TODO: Were actuall adding begins */
 
+    // REMOTE controller
+    socket.forward('r_ctr', $scope);
+    $scope.$on("socket:r_ctr", function (event, data) {
+        // g_cn++;
+        // console.log("GLOBAL:"+g_cn);
+        console.log(123456);
+        switch (data) {
+            case "left":
+            $scope.switch_left();
+            break;
+            case "right":
+            $scope.switch_right();
+            break;
+            case "click":
+            id = $scope.get_curitem_id();
+            $scope.click_code();
+            break;
+        }
+    });
+
+
     // Recieves and switches basic camera events
     socket.forward('m_camera', $scope);
     $scope.$on("socket:m_camera", function (event, data) {
