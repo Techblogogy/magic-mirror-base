@@ -34,25 +34,25 @@ class My_Cam:
         self.cam.framerate = 24
 
         # Camera Controls
-        self.cam.rotation = self.cfg.getint("PI CAMERA", "rotation") #90
+        self.cam.rotation = self._cfg.getint("PI CAMERA", "rotation") #90
         #cam.resolution = (640, 1024)
 
-        self.cam.contrast = self.cfg.getint("PI CAMERA", "contrast") #100 # Range -100 100
+        self.cam.contrast = self._cfg.getint("PI CAMERA", "contrast") #100 # Range -100 100
         #cam.saturation = 100 # Range -100 100
-        self.cam.brightness = self.cfg.getint("PI CAMERA", "brightness") # 80 # 0 100
+        self.cam.brightness = self._cfg.getint("PI CAMERA", "brightness") # 80 # 0 100
         #cam.awb_mode = "shade"
 
-        self.cam.iso = self.cfg.getint("PI CAMERA", "iso") # 1600
+        self.cam.iso = self._cfg.getint("PI CAMERA", "iso") # 1600
 
-        self.cam.sensor_mode = self.cfg.getint("PI CAMERA", "sensor_mode") # 1
+        self.cam.sensor_mode = self._cfg.getint("PI CAMERA", "sensor_mode") # 1
 
-        self.cam.shutter_speed = 1 / self.cfg.getint("PI CAMERA", "shutter_speed")
+        self.cam.shutter_speed = 1 / self._cfg.getint("PI CAMERA", "shutter_speed")
 
         # Preview window
-        self.x = self.cfg.getint("PI CAMERA", "x")
-        self.y = self.cfg.getint("PI CAMERA", "y")
-        self.w = self.cfg.getint("PI CAMERA", "width")
-        self.h = self.cfg.getint("PI CAMERA", "height")
+        self.x = self._cfg.getint("PI CAMERA", "x")
+        self.y = self._cfg.getint("PI CAMERA", "y")
+        self.w = self._cfg.getint("PI CAMERA", "width")
+        self.h = self._cfg.getint("PI CAMERA", "height")
 
 
     def turn_on(self):
