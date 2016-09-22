@@ -68,6 +68,7 @@ def get_command(cm):
                     global item_number
                     item_number = num_dict[k]
                     br = True
+        # Search for tag
         elif c.lg == "TAG":
             br = False;
             for k in c.keys:
@@ -84,5 +85,5 @@ def get_command(cm):
             break
 
 
-get_command("Mirror, mirror on the wall")
-logger.debug(item_number)
+# get_command("Mirror, mirror on the wall")
+# logger.debug(item_number)
