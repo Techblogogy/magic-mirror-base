@@ -38,10 +38,10 @@ def m_remote(cfg, pserve, logger):
     x=0
 
     while True:
-        try:
-            x = ser.readline()
-        except:
-            logger.exception("Unable to serial read probably dropped connection")
+        # try:
+        x = ser.readline()
+        # except:
+        #     logger.exception("Unable to serial read probably dropped connection")
 
 
         try:
