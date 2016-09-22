@@ -1075,7 +1075,10 @@ class Recognizer(AudioSource):
                             "add",
                             "item",
                             "help",
-                            "close"
+                            "close",
+                            "clothes",
+                            "tag",
+                            "tags"
                         ]
                     }
                 },
