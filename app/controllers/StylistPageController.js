@@ -150,8 +150,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
               return 0;
             }
             for (var i = 0; i < data.length; i++) {
-                img_path = data[i].thumbnail.split('.')[0];
-                data[i].thumbnail = img_path + "_small.jpg";
+                // img_path = data[i].thumbnail.split('.')[0];
+                // data[i].thumbnail = img_path + "_small.jpg";
 
                 data[i].vid_id = data[i].id;
                 data[i].number = i+1;
