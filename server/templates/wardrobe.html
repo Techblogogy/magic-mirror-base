@@ -20,10 +20,10 @@
     <!-- <script src="js/scripts.js"></script> -->
     <div class="container btns">
         <div class="btn">
-            <a  class="btns" href="http://localhost:5000/manager?action=prevpage">Previous page</a>
+            <a  class="btns" href="/manager?action=prevpage">Previous page</a>
         </div>
         <div class="btn">
-            <a class="btns" href="http://localhost:5000/manager?action=nextpage">Next page</a>
+            <a class="btns" href="/manager?action=nextpage">Next page</a>
         </div>
         <p>Now you are on page {{page_counter + 1}}</p>
 
@@ -33,11 +33,11 @@
             {% for i in items: %}
             <div class="col-xs-6 item_stl">
                 <div class="col-xs-6">
-                    <img class="item_img" src="http://localhost:5000/clothes/{{ i.thumbnail }}" >
+                    <img class="item_img" src="/clothes/{{ i.thumbnail }}" >
                 </div>
                 <div class="col-xs-6 item_inform">
                     <div class="btn del">
-                        <a href="http://localhost:5000/manager?action=delete&id={{ i.id }}">Delete</a>
+                        <a href="/manager?action=delete&id={{ i.id }}">Delete</a>
                     </div>
                     <h3 class="bold_txt">Dresscode:<h3><h3 class="dresscode">{{ i.dresscode }}</h3>
                     <p class="tags"><span style="font-weight:600">Tags: </span>{{ i.tags }}</p>
