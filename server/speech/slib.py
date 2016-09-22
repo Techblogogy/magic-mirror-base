@@ -435,7 +435,7 @@ class Recognizer(AudioSource):
     # def google_grpc_channel(self, host, port):
     #     ssl_channel = implementations.ssl_channel_credentials(None, None, None)
     #
-    #     creds = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+    #     creds = get_credentials().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
     #
     #     self._log.debug(creds.get_access_token().access_token)
     #
@@ -1048,8 +1048,12 @@ class Recognizer(AudioSource):
             convert_width = 2 # audio samples must be 16-bit
         )
 
-        # self.auth_google_grpc()
-        # response = self.service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
+        # service = cloud_speech.beta_create_Speech_stub(
+        #     self.google_grpc_channel('speech.googleapis.com', 443)
+        # )
+        #
+        # # self.auth_google_grpc()
+        # response = service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
         #     config=cloud_speech.RecognitionConfig(
         #         encoding='FLAC',
         #         sample_rate=16000,

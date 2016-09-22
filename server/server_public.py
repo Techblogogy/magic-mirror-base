@@ -71,7 +71,7 @@ def create_server():
 
 
     # Start voice recognition
-    voice = Speech(pserve, cfg, logger)
+    voice = Speech(pserve, cfg, logger, app_dir)
     voice.start()
 
     # Video playing
@@ -88,7 +88,7 @@ def create_server():
 
     # Start Remote Control
     try:
-        thread.start_new_thread( m_remote, (cfg,pserve,logger,) )
+        # thread.start_new_thread( m_remote, (cfg,pserve,logger,) )
         pass
     except:
         logger.exception("Error: unable to start remote control thread")
@@ -106,7 +106,7 @@ def create_server():
 
         file = request.files['file']
         filename = "snowboy.umdl"
-        filepath = os.path.join(app_dir+'/voice', filename)
+        filepath = os.path.join(app_dir, 'voice', filename)
 
         file.save(filepath)
 

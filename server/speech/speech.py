@@ -4,21 +4,22 @@ from flask_socketio import emit
 from ntext.ntext import get_command
 
 
-import thread, platform
+import thread, platform, os
 
 
 
 class Speech:
 
-    def __init__(self, pserve, config, logger):
+    def __init__(self, pserve, config, logger, appdir):
         self.pserve = pserve
         self._cfg = config
         self._log = logger
+        self._appdir = appdir
 
         self._log.info("Initializing Speech Libraries")
 
+        # Initialalize snowboy
         self.snowboy = self.import_snowboy()
-
 
         self.snowboy_trigger = self._cfg.getboolean("SPEECH", "snowboy_trigger")
         self.api_key = self._cfg.get("API KEYS", "bing_speech")
@@ -68,7 +69,8 @@ class Speech:
 
             # Start snowboy thread
             self.dec = self.snowboy.HotwordDetector(
-                app_dir+"/voice/snowboy.umdl",
+                os.path.join(self._appdir, "voice", "snowboy.umdl"),
+                resource=os.path.join(self._appdir, "voice", "common.res"),
                 sensitivity=self.s_sensitivity,
                 audio_gain=self.s_gain
 
@@ -105,8 +107,6 @@ class Speech:
         if self.detected:
             self.bing_snowboy()
 
-        # self.detect_bing()
-
     # Check for interrupt
     def check_interrupt(self):
         return not self.running
@@ -119,30 +119,23 @@ class Speech:
         if self._r.energy_threshold <= 300:
             self._r.energy_threshold = 300
 
-    	# print self._r.energy_threshold
-
-        # print "[TB Speech] Threshold: %s" % (self._r.energy_threshold)
-
     # Voice detection
     def detected_snowboy(self):
         self._log.info("SNOWBOY DETECTED")
+
         self.detected = True
         if self.pserve.is_sleeping:
             self.pserve.is_sleeping = False
-            self.pserve.send("wake_up","456")
+            self.pserve.send("wake_up")
             try:
                 thread.start_new_thread( self.pserve.sleep_state, (self,) )
                 # self.pserve.sleep_state(voice)
             except:
                 self._log.exception("Unable to start video thread")
 
-        self.snowboy.play_audio_file(app_dir+"/voice/dong.wav")
+        self.snowboy.play_audio_file( os.path.join(self._appdir, "voice", "dong.wav") )
         self.stop()
 
-    # Bing Speech Key: 95f823d726974380840ac396bb5ebbcf
-    # Pluses: quite accurate
-    # Minuses: slow, 5000 month quota
-    # Verdict: most likely (4 out of 5)
     def bing_snowboy(self):
         self.detected = False
 
@@ -175,21 +168,23 @@ class Speech:
 
                 self.pserve.send("audio_detected",cmd[0])
 
+                # Play Audio Ding
                 try:
-                    self.snowboy.play_audio_file(app_dir+"/voice/ding.wav")
+                    self.snowboy.play_audio_file( os.path.join(self._appdir, "voice", "ding.wav") )
                 except:
-                    self._log.error("Snowboy error")
+                    self._log.exception("Snowboy error")
+
             else:
                 self.pserve.send("audio_error", "unknown_command")
 
-            self._log.debug("Bing Speech: %s", text)
+            self._log.debug("Speech: %s", text)
 
         except sr.UnknownValueError:
-            self._log.info("Bing unrecognizable")
+            self._log.info("Speech unrecognizable")
             self.pserve.send("audio_error", "unrecognizable")
         except sr.RequestError as e:
-            self._log.error("Bing error; {0}".format(e))
+            self._log.error("Speech error; {0}".format(e))
             self.pserve.send("audio_error", "bing_error")
         except:
-            self._log.exception("Unknown error")
+            self._log.exception("Speech unknown error")
             self.pserve.send("audio_error", "unknown")
