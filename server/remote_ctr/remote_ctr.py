@@ -25,7 +25,6 @@ def m_remote(cfg, pserve, logger):
     # Bind remote control connection
     con_proc = subprocess.Popen("sudo rfcomm bind %s %s" % (cfg.get("REMOTE","con_port"), cfg.get("REMOTE","mac_address")), shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
-
     ser = m_connect( cfg.get("REMOTE","com_port"), logger)
 
     t = 1
@@ -35,6 +34,8 @@ def m_remote(cfg, pserve, logger):
     k=int(k)
     p=1
     p=int(p)
+
+    x=0
 
     while True:
         try:
