@@ -21,8 +21,8 @@ from tb_config import conf_file as g_cfg
 
 from dbase.dbase import dbase as db
 
-#from speech.speech import Speech
-#from remote_ctr.remote_ctr import m_remote
+from speech.speech import Speech
+from remote_ctr.remote_ctr import m_remote
 from cvison.play import PlayVid
 
 import decor
@@ -67,8 +67,8 @@ def create_server():
 
 
     # Start voice recognition
-    #voice = Speech(pserve, cfg, logger)
-    #voice.start()
+    voice = Speech(pserve, cfg, logger)
+    voice.start()
 
     # Video playing
     pv = PlayVid(clothes, app_dir, logger, cfg)
