@@ -38,7 +38,9 @@ class Gcal(Dataset):
         flow = client.flow_from_clientsecrets(
             os.path.join(self._appdir, 'client_secret.json' ),
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile"],
-            redirect_uri="http://%s:5000/gcal/auth2callback" % (sct.gethostbyname(sct.gethostname()))
+            # redirect_uri="http://%s:5000/gcal/auth2callback" % (sct.gethostbyname(sct.gethostname()))
+            # redirect_uri="http://%s:5000/gcal/auth2callback" % (sct.gethostbyname(sct.gethostname()))
+            redirect_uri="http://localhost:5000/gcal/auth2callback"
         )
         flow.params['include_granted_scopes'] = "true"
         flow.params['access_type'] = 'offline'
