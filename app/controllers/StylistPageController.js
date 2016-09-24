@@ -47,14 +47,14 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     $scope.switch_item = function (id) {
 
-       item_id = $scope.get_curitem_id();
-       angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
+        item_id = $scope.get_curitem_id();
+        angular.element(document.querySelectorAll("#item-"+item_id)).removeClass("current");
 
-       item_id = id;
+        item_id = id;
 
-       angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
-       console.log("[TB DEBUG Switched To]: "+item_id);
-   }
+        angular.element(document.querySelectorAll("#item-"+item_id)).addClass("current");
+        console.log("[TB DEBUG Switched To]: "+item_id);
+    }
 
     $scope.switch_right = function(){
         // $scope.items
@@ -85,19 +85,19 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
         if (item_id == 0) {
             if ($scope.page_num !== 0)
-                $scope.previous_page();
+            $scope.previous_page();
 
             item_id = 1;
         }
         if (item_id == 3) {
             if ($scope.page_num !== 0)
-                $scope.previous_page();
+            $scope.previous_page();
 
             item_id = 4;
         }
         if (item_id == 6) {
             if ($scope.page_num !== 0)
-                $scope.previous_page();
+            $scope.previous_page();
 
             item_id = 7;
         }
@@ -141,13 +141,14 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         console.log("it's"+item_id);
     };
 
+
     $scope.page_num = 0;
     $scope.get_page_items = function(p_num){
         $http.get('http://localhost:5000/wardrobe/get?items='+8+'&page='+p_num)
         .success(function(data){
             if (data.length === 0) {
-              angular.element(document.querySelectorAll("#item-1")).addClass("current");
-              return 0;
+                angular.element(document.querySelectorAll("#item-1")).addClass("current");
+                return 0;
             }
             for (var i = 0; i < data.length; i++) {
                 // img_path = data[i].thumbnail.split('.')[0];
@@ -160,6 +161,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             $scope.items = data;
         });
     };
+
+
     $scope.get_page_items(0);
     $scope.next_page = function(){
         // $document.find("current").removeClass("current");
@@ -216,60 +219,60 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         console.log($scope.items[item_id].t_wears);
 
         $http.post('http://localhost:5000/wardrobe/wear/'+id_for_db)
-         .then(function () {
-             $scope.get_page_items($scope.page_num);
+        .then(function () {
+            $scope.get_page_items($scope.page_num);
         }, function () {
-             console.log("ADD ERROR!");
+            console.log("ADD ERROR!");
         });
     };
 
 
     $scope.item_is_open = false;
     $scope.click = function(itm_num){
-      if ($scope.items == undefined) {
-        $scope.switchView('add','left_swipe')
-        return 0;
-        console.log("HERE IT IS ");
-      }
+        if ($scope.items == undefined) {
+            $scope.switchView('add','left_swipe')
+            return 0;
+            console.log("HERE IT IS ");
+        }
 
-       voice = false;
-      if (!$scope.item_is_open) {
+        voice = false;
+        if (!$scope.item_is_open) {
 
-           $scope.switch_item(itm_num);
-           it_id = $scope.get_curitem_id();
-           vid_id = $scope.get_curitem_vid_id();
+            $scope.switch_item(itm_num);
+            it_id = $scope.get_curitem_id();
+            vid_id = $scope.get_curitem_vid_id();
 
-           if (it_id == $scope.items.length+1) {
-               $scope.switchView('add','left_swipe')
-               return;
-           }
-           console.log(it_id);
+            if (it_id == $scope.items.length+1) {
+                $scope.switchView('add','left_swipe')
+                return;
+            }
+            console.log(it_id);
 
-           big_item = document.getElementById("item-"+(it_id)).innerHTML;
+            big_item = document.getElementById("item-"+(it_id)).innerHTML;
 
-           document.getElementById('parent_popup').innerHTML = big_item;
-           console.log(big_item);
-           document.getElementById('parent_popup').style.display = 'inline-block';
+            document.getElementById('parent_popup').innerHTML = big_item;
+            console.log(big_item);
+            document.getElementById('parent_popup').style.display = 'inline-block';
 
-           // vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id');
-           console.log("[VIDEO DEBUG] "+vid_id);
+            // vid_id = angular.element( angular.element(document.querySelectorAll(".current"))[0] ).attr('vid-id');
+            console.log("[VIDEO DEBUG] "+vid_id);
 
-           socket.emit("start_video", vid_id);
-           $scope.item_is_open = true;
+            socket.emit("start_video", vid_id);
+            $scope.item_is_open = true;
 
-           // DEBUG timeout
-           setTimeout(function () {
-               $scope.click(null);
-           }, 30000)
+            // DEBUG timeout
+            setTimeout(function () {
+                $scope.click(null);
+            }, 30000)
 
-       } else {
-           if (document.getElementById('parent_popup').style.display === 'inline-block'){
-               document.getElementById('parent_popup').style.display = 'none';
-               socket.emit("closed");
-           }
-           $scope.item_is_open = false;
-       }
-   };
+        } else {
+            if (document.getElementById('parent_popup').style.display === 'inline-block'){
+                document.getElementById('parent_popup').style.display = 'none';
+                socket.emit("closed");
+            }
+            $scope.item_is_open = false;
+        }
+    };
 
     $scope.add_item = function() {
 
@@ -318,8 +321,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     });
 
-    socket.forward('close_item', $scope);
-    $scope.$on("socket:close_item", function (event, data) {
+    socket.forward('exit_context', $scope);
+    $scope.$on("socket:exit_context", function (event, data) {
         $scope.click(null);
 
     });
@@ -339,8 +342,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
             //     $scope.$apply();
             // }, 50);
             for (var i = 0; i < $scope.items.length; i++) {
-                    $scope.items[i].vid_id = $scope.items[i].id;
-                    $scope.items[i].number = i+1;
+                $scope.items[i].vid_id = $scope.items[i].id;
+                $scope.items[i].number = i+1;
             };
             // $scope.items.push({"element": 1});
             // var counter = 0;

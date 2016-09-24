@@ -10,9 +10,9 @@ from googleapiclient import discovery
 import httplib2
 from oauth2client.client import GoogleCredentials
 
-# from gcloud.credentials import get_credentials
-# from google.cloud.speech.v1beta1 import cloud_speech_pb2 as cloud_speech
-# from grpc.beta import implementations
+from gcloud.credentials import get_credentials
+from google.cloud.speech.v1beta1 import cloud_speech_pb2 as cloud_speech
+from grpc.beta import implementations
 
 DISCOVERY_URL = ('https://{api}.googleapis.com/$discovery/rest?version={apiVersion}')
 
@@ -20,15 +20,6 @@ import numpy, struct
 
 from minfo import app_dir
 
-# import eventlet
-# eventlet.monkey_patch()
-
-
-# import logging
-# logger = logging.getLogger("TB")
-
-# from server import PServer
-# pserve = PServer()
 
 try: # attempt to use the Python 2 modules
     from urllib import urlencode
@@ -422,6 +413,7 @@ class Recognizer(AudioSource):
         self.pserve = pserve
         self._log = logger
 
+
     def auth_google(self):
         # credentials = GoogleCredentials.get_application_default().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
 
@@ -435,7 +427,10 @@ class Recognizer(AudioSource):
     # def google_grpc_channel(self, host, port):
     #     ssl_channel = implementations.ssl_channel_credentials(None, None, None)
     #
-    #     creds = get_credentials().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+    #     # creds = get_credentials().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+    #
+    #     creds = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
+    #
     #
     #     self._log.debug(creds.get_access_token().access_token)
     #
@@ -728,228 +723,6 @@ class Recognizer(AudioSource):
                 wav_writer.close()
         return wav_data
 
-    def listen_stream(self, source, timeout = None):
-        """
-        Records a single phrase from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance, which it returns.
-
-        This is done by waiting until the audio has an energy above ``recognizer_instance.energy_threshold`` (the user has started speaking), and then recording until it encounters ``recognizer_instance.pause_threshold`` seconds of non-speaking or there is no more audio input. The ending silence is not included.
-
-        The ``timeout`` parameter is the maximum number of seconds that it will wait for a phrase to start before giving up and throwing an ``speech_recognition.WaitTimeoutError`` exception. If ``timeout`` is ``None``, it will wait indefinitely.
-        """
-        assert isinstance(source, AudioSource), "Source must be an audio source"
-        assert source.stream is not None, "Audio source must be entered before listening, see documentation for `AudioSource`; are you using `source` outside of a `with` statement?"
-        assert self.pause_threshold >= self.non_speaking_duration >= 0
-
-        seconds_per_buffer = (source.CHUNK + 0.0) / source.SAMPLE_RATE
-        pause_buffer_count = int(math.ceil(self.pause_threshold / seconds_per_buffer)) # number of buffers of non-speaking audio before the phrase is complete
-        phrase_buffer_count = int(math.ceil(self.phrase_threshold / seconds_per_buffer)) # minimum number of buffers of speaking audio before we consider the speaking audio a phrase
-        non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
-
-        # DEBUG
-        self._log.info("Energy threshold %d", (self.energy_threshold))
-        self.pserve.send("mic_is_listening","")
-
-        # assert isinstance(key, str), "`key` must be a string"
-        # assert isinstance(language, str), "`language` must be a string"
-
-        key = "fcf79b55364840a384f7316318168927"
-        language = "en-US"
-
-        # DEBUG:
-        # self._log.info("Started Bing Recogntion")
-
-        access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
-        allow_caching = True
-        try:
-            from time import monotonic # we need monotonic time to avoid being affected by system clock changes, but this is only available in Python 3.3+
-        except ImportError:
-            try:
-                from monotonic import monotonic # use time.monotonic backport for Python 2 if available (from https://pypi.python.org/pypi/monotonic)
-            except (ImportError, RuntimeError):
-                print "caching not allowed"
-                expire_time = None # monotonic time not available, don't cache access tokens
-                allow_caching = False # don't allow caching, since monotonic time isn't available
-        if expire_time is None or monotonic() > expire_time: # caching not enabled, first credential request, or the access token from the previous one expired
-            # get an access token using OAuth
-            credential_url = "https://oxford-speech.cloudapp.net/token/issueToken"
-            credential_request = Request(credential_url, data = urlencode({
-              "grant_type": "client_credentials",
-              "client_id": "python",
-              "client_secret": key,
-              "scope": "https://speech.platform.bing.com"
-            }).encode("utf-8"))
-            if allow_caching:
-                start_time = monotonic()
-            try:
-                credential_response = urlopen(credential_request)
-            except HTTPError as e:
-                raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-            except URLError as e:
-                raise RequestError("recognition connection failed: {0}".format(e.reason))
-            credential_text = credential_response.read().decode("utf-8")
-            credentials = json.loads(credential_text)
-            access_token, expiry_seconds = credentials["access_token"], float(credentials["expires_in"])
-
-            if allow_caching:
-                # save the token for the duration it is valid for
-                self.bing_cached_access_token = access_token
-                self.bing_cached_access_token_expiry = start_time + expiry_seconds
-
-        url = "/recognize?{0}".format(urlencode({
-            "version": "3.0",
-            "requestid": uuid.uuid4(),
-            "appID": "D4D52672-91D7-4C74-8AD8-42B1D98141A5",
-            "format": "json",
-            "locale": language,
-            "device.os": "wp7",
-            "scenarios": "ulm",
-            "instanceid": uuid.uuid4(),
-            "result.profanitymarkup": "0",
-        }))
-
-        httplib.HTTPSConnection.debuglevel = 1
-
-        # read audio input for phrases until there is a phrase that is long enough
-        elapsed_time = 0 # number of seconds of audio read
-        while True:
-            frames = collections.deque()
-
-            # store audio input until the phrase starts
-            while True:
-                elapsed_time += seconds_per_buffer
-                if timeout and elapsed_time > timeout: # handle timeout if specified
-                    raise WaitTimeoutError("listening timed out")
-
-                buffer = source.stream.read(source.CHUNK)
-
-                # Amplify volume
-                buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
-                buffer = struct.pack('h'*len(buffer), *buffer)
-
-                if len(buffer) == 0: break # reached end of the stream
-                frames.append(buffer)
-                if len(frames) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
-                    frames.popleft()
-
-                # detect whether speaking has started on audio input
-                energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
-
-                # DEBUG
-                # print "[Speech API DEBUG]: Audio Energy %d" % (energy)
-
-                if energy > self.energy_threshold: break
-
-                # dynamically adjust the energy threshold using assymmetric weighted average
-                if self.dynamic_energy_threshold:
-                    damping = self.dynamic_energy_adjustment_damping ** seconds_per_buffer # account for different chunk sizes and rates
-                    target_energy = energy * self.dynamic_energy_ratio
-                    self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
-
-            # DEBUG
-            self._log.info("Audio Detected")
-
-            self.sample_rate = source.SAMPLE_RATE
-            self.sample_width = source.SAMPLE_WIDTH
-
-
-            conn = httplib.HTTPSConnection("speech.platform.bing.com")
-            conn.connect()
-
-            conn.putrequest("POST", url)
-            conn.putheader('Transfer-Encoding', 'chunked')
-            conn.putheader("Authorization", "Bearer {0}".format(access_token))
-            conn.putheader("Content-Type", "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(self.sample_rate))
-            conn.endheaders()
-
-            w_head = self.get_wav_data_streaming_header("", source.SAMPLE_RATE, source.SAMPLE_WIDTH)
-
-            conn.send("%s\r\n" % hex(len(w_head))[2:])
-            conn.send("%s\r\n" % w_head)
-
-
-            # read audio input until the phrase ends
-            pause_count, phrase_count = 0, 0
-            while True:
-                elapsed_time += seconds_per_buffer
-
-                buffer = source.stream.read(source.CHUNK)
-
-                # Amplify volume
-                buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
-                buffer = struct.pack('h'*len(buffer), *buffer)
-
-                if len(buffer) == 0: break # reached end of the stream
-                frames.append(buffer)
-
-                # append to bing
-                s_buff = self.get_wav_data_streaming(buffer, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
-                # import array
-                # a = array.array(_array_fmts[self._sampwidth])
-                # a.fromstring(data)
-                # data = a
-                # assert data.itemsize == self._sampwidth
-                # data.byteswap()
-                # data.tofile(self._file)
-                # self._datawritten = self._datawritten + len(data) * self._sampwidth
-
-                conn.send("%s\r\n" % hex(len(s_buff))[2:])
-                conn.send("%s\r\n" % s_buff)
-
-                phrase_count += 1
-
-                # check if speaking has stopped for longer than the pause threshold on the audio input
-                energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
-                if energy > self.energy_threshold:
-                    pause_count = 0
-                else:
-                    pause_count += 1
-                if pause_count > pause_buffer_count: # end of the phrase
-                    break
-
-            conn.send("0\r\n")
-            conn.send("\r\n")
-            break;
-            # check how long the detected phrase is, and retry listening if the phrase is too short
-            # phrase_count -= pause_count
-            # if phrase_count >= phrase_buffer_count:
-            #     break # phrase is long enough, stop listening
-            # else:
-            #     # DEBUG
-            #     self._log.info("Phase is not long enough")
-
-
-        # DEBUG
-        self._log.info("Getting Frame Data")
-
-        # self._log.debug(len(frames))
-
-        # DEBUG
-        self._log.info("Sending Request")
-
-        try:
-            response = conn.getresponse() # urlopen(request)
-        except HTTPError as e:
-            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-        except URLError as e:
-            raise RequestError("recognition connection failed: {0}".format(e.reason))
-
-        print response.status, response.reason
-
-        response_text = response.read().decode("utf-8")
-        result = json.loads(response_text)
-
-        conn.close()
-
-        # DEBUG
-        self._log.info("Displaying Result")
-        self._log.info(result)
-
-        # obtain frame data
-        # for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
-        # frame_data = b"".join(list(frames))
-        #
-        # return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
-
     def listen_in_background(self, source, callback):
         """
         Spawns a thread to repeatedly record phrases from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance and call ``callback`` with that ``AudioData`` instance as soon as each phrase are detected.
@@ -1051,8 +824,10 @@ class Recognizer(AudioSource):
         # service = cloud_speech.beta_create_Speech_stub(
         #     self.google_grpc_channel('speech.googleapis.com', 443)
         # )
-        #
-        # # self.auth_google_grpc()
+
+        # self._log.debug(service)
+
+        # self.auth_google_grpc()
         # response = service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
         #     config=cloud_speech.RecognitionConfig(
         #         encoding='FLAC',
@@ -1075,14 +850,7 @@ class Recognizer(AudioSource):
                     'languageCode': language,  # a BCP-47 language tag
                     'speechContext': {
                         "phrases": [
-                            "mirror",
-                            "add",
-                            "item",
-                            "help",
-                            "close",
-                            "clothes",
-                            "tag",
-                            "tags"
+                            "mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find"
                         ]
                     }
                 },

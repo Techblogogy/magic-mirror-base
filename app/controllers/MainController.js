@@ -31,7 +31,7 @@ function ($scope, $location, socket, $timeout,$document, $http) {
 
     // Switch View with an animation
     $scope.switchView = function (view, animation) {
-        $scope.anim = animation;
+        // $scope.anim = animation;
 
         $timeout(function () {
             $location.path(view);
@@ -45,8 +45,8 @@ function ($scope, $location, socket, $timeout,$document, $http) {
         document.getElementById('help').style.display = "block";
     });
     //CLOSE LIST OF VCs
-    socket.forward('list_vcmd_close', $scope);
-    $scope.$on("socket:list_vcmd_close", function (event, data) {
+    socket.forward('exit_context', $scope);
+    $scope.$on("socket:exit_context", function (event, data) {
         document.getElementById('help').style.display = "none";
     });
 

@@ -10,62 +10,71 @@ body {
 
 /* Left Animations */
 @-webkit-keyframes moveToLeft {
-	from { }
-	to { -webkit-transform: translateX(-100%); }
+    from { }
+    to { -webkit-transform: translateX(-100%); }
 }
 @keyframes moveToLeft {
-	from { }
-	to { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
+    from { }
+    to { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
 }
 
 @-webkit-keyframes moveFromLeft {
-	from { -webkit-transform: translateX(-100%); }
+    from { -webkit-transform: translateX(-100%); }
 }
 @keyframes moveFromLeft {
-	from { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
+    from { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
 }
 
 /* Right Animations */
 @-webkit-keyframes moveToRight {
-	from { }
-	to { -webkit-transform: translateX(100%); }
+    from { }
+    to { -webkit-transform: translateX(100%); }
 }
 @keyframes moveToRight {
-	from { }
-	to { -webkit-transform: translateX(100%); transform: translateX(100%); }
+    from { }
+    to { -webkit-transform: translateX(100%); transform: translateX(100%); }
 }
 
 @-webkit-keyframes moveFromRight {
-	from { -webkit-transform: translateX(100%); }
+    from { -webkit-transform: translateX(100%); }
 }
 @keyframes moveFromRight {
-	from { -webkit-transform: translateX(100%); transform: translateX(100%); }
+    from { -webkit-transform: translateX(100%); transform: translateX(100%); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@-webkit-keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* Left Swipe */
 .left_swipe.ng-leave {
     /*left:0;*/
-	-webkit-animation: moveToLeft .6s ease both;
-	animation: moveToLeft .6s ease both;
+    -webkit-animation: moveToLeft .6s ease both;
+    animation: moveToLeft .6s ease both;
 }
 
 .left_swipe.ng-enter {
     /*left: 0;*/
-	-webkit-animation: moveFromRight .6s ease both;
-	animation: moveFromRight .6s ease both;
+    -webkit-animation: moveFromRight .6s ease both;
+    animation: moveFromRight .6s ease both;
 }
 
 /* Right Swipe */
 .right_swipe.ng-leave {
     /*left: 0;*/
-	-webkit-animation: moveToRight .6s ease both;
-	animation: moveToRight .6s ease both;
+    -webkit-animation: moveToRight .6s ease both;
+    animation: moveToRight .6s ease both;
 }
 
 .right_swipe.ng-enter {
     /*left: 0;*/
     -webkit-animation: moveFromLeft .6s ease both;
-	animation: moveFromLeft .6s ease both;
+    animation: moveFromLeft .6s ease both;
 }
 
 /* Page Style */
@@ -96,25 +105,15 @@ body {
     background-color: rgba(0,0,0,0.2);
 }
 
+/* Spining icon */
+
 @keyframes cssload-spin {
-	100%{ transform: rotate(360deg); transform: rotate(360deg); }
+    100%{ transform: rotate(360deg); transform: rotate(360deg); }
 }
-
-@-o-keyframes cssload-spin {
-	100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
-}
-
-@-ms-keyframes cssload-spin {
-	100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
-}
-
 @-webkit-keyframes cssload-spin {
-	100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+    100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
 }
 
-@-moz-keyframes cssload-spin {
-	100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
-}
 /*---------------------------------------------------------------------END GENERAL--------------------------------------------------------------*/
 /* Widget Style */
 @media (max-width: 1051px) {
@@ -183,7 +182,7 @@ body {
 }
 #weather > .ui-widget > .col-xs-6 > .loaded {
     -webkit-transition-delay: 3s;
-        /*font-size: 24pt;*/
+    /*font-size: 24pt;*/
 }
 #weather h1 {
     font-size: 56pt;
@@ -191,8 +190,8 @@ body {
     margin-left: 20px;
     -webkit-transition-delay: 1s;
     -webkit-animation: moveFromLeft .9s ease both;
-	animation: moveFromLeft .9s ease both;
-        /*font-size: 24pt;*/
+    animation: moveFromLeft .9s ease both;
+    /*font-size: 24pt;*/
 }
 #weather h2 {
     font-size: 28pt;
@@ -200,7 +199,7 @@ body {
     margin-top: -10px;
     margin-left: 0px;
     -webkit-animation: moveFromLeft .9s ease both;
-	animation: moveFromLeft .9s ease both;
+    animation: moveFromLeft .9s ease both;
 
     /*font-size: 24pt;*/
 }
@@ -210,7 +209,7 @@ body {
 #schedule .ui-widget{
     width: auto;
     -webkit-animation: moveFromLeft .9s ease-in-out both;
-	animation: moveFromLeft .9s ease-in-out both;
+    animation: moveFromLeft .9s ease-in-out both;
 }
 #schedule h1{
     /*font-weight: 700;*/
@@ -240,7 +239,7 @@ body {
 }
 
 #schedule .plan > span {
-  font-size: 40pt;
+    font-size: 40pt;
 }
 
 /* Maps Widget */
@@ -281,8 +280,8 @@ body {
 }
 /*
 #g_map {
-    width: 100%;
-    height: 400px;
+width: 100%;
+height: 400px;
 }*/
 /*-----------------------------*/
 /*Stylist start*/
@@ -336,16 +335,16 @@ body {
     font-size: 64px;
 }
 ul.hr {
-   margin: 0; /* Обнуляем значение отступов */
-   padding: 4px; /* Значение полей */
-  }
+    margin: 0; /* Обнуляем значение отступов */
+    padding: 4px; /* Значение полей */
+}
 ul.hr li {
-   display: inline; /* Отображать как строчный элемент */
-   margin-right: 5px; /* Отступ слева */
-   border: 1px solid #000; /* Рамка вокруг текста */
-   padding: 7px; /* Поля вокруг текста */
-   font-size: 24px;
-  }
+    display: inline; /* Отображать как строчный элемент */
+    margin-right: 5px; /* Отступ слева */
+    border: 1px solid #000; /* Рамка вокруг текста */
+    padding: 7px; /* Поля вокруг текста */
+    font-size: 24px;
+}
 .Number {
     position: inherit;
     left: 213px;
@@ -354,7 +353,7 @@ ul.hr li {
     text-align: center;
     height: 70px;
     font-size: 40px;
-/* border-radius: 50%; */
+    /* border-radius: 50%; */
     padding: 7px;
     margin-bottom: -40px;
     margin-top: -20px;
@@ -402,22 +401,23 @@ ul.hr li {
     right: 0;
 }
 #parent_popup {
-    -webkit-transition-delay: 1s;
-    -webkit-animation: moveFromLeft .9s ease both;
-	animation: moveFromLeft .9s ease both;
+    /*-webkit-transition-delay: 1s;*/
+    -webkit-animation: fadeIn .2s ease both;
+    animation: fadeIn .2s ease both;
 
     height: 100%;
 
     background-color: rgba(0, 0, 0, 0.9);
-       width: 97%;
-       position: fixed;
-       top: 0;
-       z-index: 1000;
-       left: 22px;
-       /* right: auto; */
-       display: none;
-       padding: 70px;
-       font-size: 40px;
+    width: 97%;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    left: 22px;
+
+    /* right: auto; */
+    display: none;
+    padding: 70px;
+    font-size: 40px;
 }
 #parent_popup h3{ font-size: 40px;}
 .del_overf{
@@ -429,33 +429,33 @@ ul.hr li {
 
 }
 #popup {
-  /*background-color: rgba(255, 255, 255, 0.5);*/
-  background-color: rgb(0, 0, 0);
-  /*color: rgb(0, 0, 0);*/
-  color: rgb(255, 255, 255);
+    /*background-color: rgba(255, 255, 255, 0.5);*/
+    background-color: rgb(0, 0, 0);
+    /*color: rgb(0, 0, 0);*/
+    color: rgb(255, 255, 255);
 
-  font-size: 60px;
-  margin-left: auto;
-  margin-right: auto;
+    font-size: 60px;
+    margin-left: auto;
+    margin-right: auto;
 
 }
 
 .circle {
     margin-left: 11px;
-	width: 10px;
-	height: 10px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+    width: 10px;
+    height: 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
     z-index: 23;
 }
 /*#red{
-    background: rgb(255, 0, 0);
-    display: block;
+background: rgb(255, 0, 0);
+display: block;
 }
 #green{
-    background: rgb(0, 219, 35);
-    display: none;
+background: rgb(0, 219, 35);
+display: none;
 
 }*/
 #auth_message{
@@ -534,12 +534,12 @@ ul.hr li {
     font-size: 48px;
     -webkit-transition-delay: 1s;
     -webkit-animation: moveFromLeft .9s ease both;
-	animation: moveFromLeft .9s ease both;
+    animation: moveFromLeft .9s ease both;
 }
 .msg{
     display: none;
     -webkit-animation: moveFromRight .9s ease both;
-	animation: moveFromRight .9s ease both;
+    animation: moveFromRight .9s ease both;
 }
 .mic_cmd{
     text-align: center;
@@ -568,13 +568,13 @@ ul.hr li {
 
 /*MICROPHONE ANIMATION*/
 .cssload-container {
-	text-align: center;
+    text-align: center;
     margin-left:-15px;
 }
 @-webkit-keyframes blink {
-  0% { opacity: 1;}
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+    0% { opacity: 1;}
+    50% { opacity: 0; }
+    100% { opacity: 1; }
 
 }
 @keyframes blink {
@@ -584,15 +584,15 @@ ul.hr li {
 }
 
 .cssload-double-torus {
-	width: 40px;
-	height: 40px;
-	border: 3px double;
-	border-radius: 50%;
-	animation: cssload-spin 690ms infinite linear;
-		-webkit-animation: cssload-spin 690ms infinite linear;
+    width: 40px;
+    height: 40px;
+    border: 3px double;
+    border-radius: 50%;
+    animation: cssload-spin 690ms infinite linear;
+    -webkit-animation: cssload-spin 690ms infinite linear;
 }
 
 .blink {
-	animation: blink 1s infinite;
-	-webkit-animation: blink 1s infinite;
+    animation: blink 1s infinite;
+    -webkit-animation: blink 1s infinite;
 }

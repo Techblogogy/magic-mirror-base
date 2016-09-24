@@ -4,7 +4,7 @@ from v_cmd import v_cmd
 in_cmd = [
 
     # --- Close commands
-    v_cmd(["close", "exit", "quit"], "OR", "exit"), # To replace close_item, list_vcmd_close, tutorial_close
+    v_cmd(["close", "exit", "quit"], "OR", "exit_context"), # To replace close_item, list_vcmd_close, tutorial_close
 
 
     # --- Opens Wardrobe Page
@@ -27,8 +27,8 @@ in_cmd = [
 
     v_cmd(["show", "all"], "AND", "show_all"),
 
-
     # v_cmd(["close", "item"], "AND", "close_item"),
+
 
     # --- Adding Page Commands
     v_cmd(["tag", "tags"], "TAG", "add_tags"),
@@ -48,11 +48,11 @@ in_cmd = [
     v_cmd(["what","about","weather"], "AND", "weather_warning"),
 
     v_cmd(["more", "plans"], "AND", "next_plans_page"),
-    v_cmd(["current", "plans"], "AND", "prev_plans_page")
+    v_cmd(["current", "plans"], "AND", "prev_plans_page"),
 
 
     # --- General help
-    v_cmd(["help"], "OR", "list_vcmd"),
+    v_cmd(["help"], "OR", "list_vcmd")
 
     # v_cmd(["list", "close"], "AND", "list_vcmd_close"),
     # v_cmd(["guide", "close"], "AND", "tutorial_close"),
