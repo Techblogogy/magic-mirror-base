@@ -34,7 +34,9 @@ in_cmd = [
     v_cmd(["tag", "tags"], "TAG", "add_tags"),
     v_cmd(["save","confirm"], "OR", "save_tags"),
     v_cmd(["finish","quit"], "OR", "finish_tags"),
+
     v_cmd(["start","begin"], "OR", "start_cmd"),
+    v_cmd(["stop","begin"], "OR", "stop_cmd"),
 
     v_cmd(["edit","dresscode","code"], "TAG", "edit_dresscode"),
     v_cmd(["save","code"], "AND", "save_dc"),
