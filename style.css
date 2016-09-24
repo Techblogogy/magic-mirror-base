@@ -402,8 +402,8 @@ ul.hr li {
 }
 #parent_popup {
     /*-webkit-transition-delay: 1s;*/
-    -webkit-animation: fadeIn .2s linear both;
-    animation: fadeIn .2s linear;
+    -webkit-animation: fadeIn .1s ease-in both;
+    animation: fadeIn .1s ease-in both;
 
     height: 100%;
 
