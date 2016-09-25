@@ -30,7 +30,7 @@ class Speech:
         self.adj_time = self._cfg.getint("SPEECH", "adjust_time")
 
         self._r = sr.Recognizer(self.pserve, self._log)
-        self._r.auth_google()
+        # self._r.auth_google()
         # self._r.auth_google_grpc()
         self._r.dynamic_energy_threshold = self._cfg.getboolean("SPEECH", "dynamic_threshold") #False
         self._r.audio_gain = self._cfg.getint("SPEECH", "audio_gain")

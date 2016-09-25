@@ -8,7 +8,7 @@ in_cmd = [
 
 
     # --- Opens Wardrobe Page
-    v_cmd(["dress", "today"], "AND", "wardrobe_page"), # Stylist intro
+    v_cmd(["I", "dress"], "AND", "wardrobe_page"), # Stylist intro
     v_cmd(["show", "stylist"], "AND", "wardrobe_page"),
     v_cmd(["show", "styles"], "AND", "wardrobe_page"),
 

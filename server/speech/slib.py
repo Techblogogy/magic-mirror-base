@@ -6,20 +6,24 @@ import json
 
 import httplib
 
-from googleapiclient import discovery
-import httplib2
-from oauth2client.client import GoogleCredentials
+# from googleapiclient import discovery
+# import httplib2
+# from oauth2client.client import GoogleCredentials
 
-from gcloud.credentials import get_credentials
+# from gcloud.credentials import get_credentials
+# from google.cloud.speech.v1beta1 import cloud_speech_pb2 as cloud_speech
+# from grpc.beta import implementations
+
+from gcloud import credentials
 from google.cloud.speech.v1beta1 import cloud_speech_pb2 as cloud_speech
+from google.rpc import code_pb2
 from grpc.beta import implementations
 
-DISCOVERY_URL = ('https://{api}.googleapis.com/$discovery/rest?version={apiVersion}')
+SPEECH_SCOPE = 'https://www.googleapis.com/auth/cloud-platform'
 
 import numpy, struct
 
 from minfo import app_dir
-
 
 try: # attempt to use the Python 2 modules
     from urllib import urlencode
@@ -415,8 +419,6 @@ class Recognizer(AudioSource):
 
 
     def auth_google(self):
-        # credentials = GoogleCredentials.get_application_default().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
-
         credentials = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
 
         http = httplib2.Http()
@@ -424,36 +426,26 @@ class Recognizer(AudioSource):
 
         self.service = discovery.build('speech', 'v1beta1', http=http, discoveryServiceUrl=DISCOVERY_URL)
 
-    # def google_grpc_channel(self, host, port):
-    #     ssl_channel = implementations.ssl_channel_credentials(None, None, None)
-    #
-    #     # creds = get_credentials().create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
-    #
-    #     creds = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
-    #
-    #
-    #     self._log.debug(creds.get_access_token().access_token)
-    #
-    #     auth_header = (
-    #         'Authorization',
-    #         'Bearer' + creds.get_access_token().access_token
-    #     )
-    #
-    #     auth_plugin = implementations.metadata_call_credentials(
-    #         lambda _, cb: cb([auth_header], None),
-    #         name='google_creds'
-    #     )
-    #
-    #     composite_channel = implementations.composite_channel_credentials (
-    #         ssl_channel, auth_plugin
-    #     )
-    #
-    #     return implementations.secure_channel(host, port, composite_channel)
-    #
-    # def auth_google_grpc(self):
-    #     self.service = cloud_speech.beta_create_Speech_stub(
-    #         self.google_grpc_channel('speech.googleapis.com', 443)
-    #     )
+    def google_grpc_channel(self, host, port):
+        """Creates an SSL channel with auth credentials from the environment."""
+        # In order to make an https call, use an ssl channel with defaults
+        ssl_channel = implementations.ssl_channel_credentials(None, None, None)
+
+        # Grab application default credentials from the environment
+        creds = credentials.get_credentials().create_scoped([SPEECH_SCOPE])
+        # Add a plugin to inject the creds into the header
+        auth_header = (
+            'Authorization',
+            'Bearer ' + creds.get_access_token().access_token)
+        auth_plugin = implementations.metadata_call_credentials(
+            lambda _, cb: cb([auth_header], None),
+            name='google_creds')
+
+        # compose the two together for both ssl and google auth
+        composite_channel = implementations.composite_channel_credentials(
+            ssl_channel, auth_plugin)
+
+        return implementations.secure_channel(host, port, composite_channel)
 
 
     def record(self, source, duration = None, offset = None):
@@ -629,100 +621,6 @@ class Recognizer(AudioSource):
 
         return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
 
-    def get_raw_data_streaming(self, raw_data, convert_rate = None, convert_width = None):
-        """
-        Returns a byte string representing the raw frame data for the audio represented by the ``AudioData`` instance.
-
-        If ``convert_rate`` is specified and the audio sample rate is not ``convert_rate`` Hz, the resulting audio is resampled to match.
-
-        If ``convert_width`` is specified and the audio samples are not ``convert_width`` bytes each, the resulting audio is converted to match.
-
-        Writing these bytes directly to a file results in a valid `RAW/PCM audio file <https://en.wikipedia.org/wiki/Raw_audio_format>`__.
-        """
-        assert convert_rate is None or convert_rate > 0, "Sample rate to convert to must be a positive integer"
-        assert convert_width is None or (convert_width % 1 == 0 and 1 <= convert_width <= 4), "Sample width to convert to must be between 1 and 4 inclusive"
-
-        # raw_data = self.frame_data
-
-        # make sure unsigned 8-bit audio (which uses unsigned samples) is handled like higher sample width audio (which uses signed samples)
-        if self.sample_width == 1:
-            raw_data = audioop.bias(raw_data, 1, -128) # subtract 128 from every sample to make them act like signed samples
-
-        # resample audio at the desired rate if specified
-        if convert_rate is not None and self.sample_rate != convert_rate:
-            raw_data, _ = audioop.ratecv(raw_data, self.sample_width, 1, self.sample_rate, convert_rate, None)
-
-        # convert samples to desired sample width if specified
-        if convert_width is not None and self.sample_width != convert_width:
-            if convert_width == 3: # we're converting the audio into 24-bit (workaround for https://bugs.python.org/issue12866)
-                raw_data = audioop.lin2lin(raw_data, self.sample_width, 4) # convert audio into 32-bit first, which is always supported
-                try: audioop.bias(b"", 3, 0) # test whether 24-bit audio is supported (for example, ``audioop`` in Python 3.3 and below don't support sample width 3, while Python 3.4+ do)
-                except audioop.error: # this version of audioop doesn't support 24-bit audio (probably Python 3.3 or less)
-                    raw_data = b"".join(raw_data[i + 1:i + 4] for i in range(0, len(raw_data), 4)) # since we're in little endian, we discard the first byte from each 32-bit sample to get a 24-bit sample
-                else: # 24-bit audio fully supported, we don't need to shim anything
-                    raw_data = audioop.lin2lin(raw_data, self.sample_width, convert_width)
-            else:
-                raw_data = audioop.lin2lin(raw_data, self.sample_width, convert_width)
-
-        # if the output is 8-bit audio with unsigned samples, convert the samples we've been treating as signed to unsigned again
-        if convert_width == 1:
-            raw_data = audioop.bias(raw_data, 1, 128) # add 128 to every sample to make them act like unsigned samples again
-
-        return raw_data
-
-    def get_wav_data_streaming(self, raw_data, convert_rate = None, convert_width = None):
-        convert_rate = 1600
-        convert_width = 2
-
-        raw_data = self.get_raw_data_streaming(raw_data, convert_rate, convert_width)
-
-        sample_rate = self.sample_rate if convert_rate is None else convert_rate
-        sample_width = self.sample_width if convert_width is None else convert_width
-
-        # generate the WAV file contents
-        with io.BytesIO() as wav_file:
-            wav_writer = wave.open(wav_file, "wb")
-            try: # note that we can't use context manager, since that was only added in Python 3.4
-
-                wav_file._headerwritten = True
-
-                wav_writer.setframerate(sample_rate)
-                wav_writer.setsampwidth(sample_width)
-                wav_writer.setnchannels(1)
-
-                wav_writer.writeframesraw(raw_data)
-                wav_data = wav_file.getvalue()
-            finally:  # make sure resources are cleaned up
-                wav_writer.close()
-        return wav_data
-
-    def get_wav_data_streaming_header(self, raw_data, convert_rate = None, convert_width = None):
-        convert_rate = 1600
-        convert_width = 2
-
-        raw_data = self.get_raw_data_streaming(raw_data, convert_rate, convert_width)
-
-        sample_rate = self.sample_rate if convert_rate is None else convert_rate
-        sample_width = self.sample_width if convert_width is None else convert_width
-
-        # generate the WAV file contents
-        with io.BytesIO() as wav_file:
-            wav_writer = wave.open(wav_file, "wb")
-            try: # note that we can't use context manager, since that was only added in Python 3.4
-
-                wav_writer.setparams((1, sample_width, sample_rate, 500000, 'NONE', 'not compressed'))
-                wav_writer._ensure_header_written(500000)
-
-                # wav_writer.setframerate(sample_rate)
-                # wav_writer.setsampwidth(sample_width)
-                # wav_writer.setnchannels(1)
-
-                # wav_writer.writeframes(raw_data)
-                wav_data = wav_file.getvalue()
-            finally:  # make sure resources are cleaned up
-                wav_writer.close()
-        return wav_data
-
     def listen_in_background(self, source, callback):
         """
         Spawns a thread to repeatedly record phrases from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance and call ``callback`` with that ``AudioData`` instance as soon as each phrase are detected.
@@ -752,64 +650,6 @@ class Recognizer(AudioSource):
         listener_thread.start()
         return stopper
 
-    def recognize_sphinx(self, audio_data, language = "en-US", show_all = False):
-        """
-        Performs speech recognition on ``audio_data`` (an ``AudioData`` instance), using CMU Sphinx.
-
-        The recognition language is determined by ``language``, an RFC5646 language tag like ``"en-US"`` or ``"en-GB"``, defaulting to US English. Out of the box, only ``en-US`` is supported. See `Notes on using `PocketSphinx <https://github.com/Uberi/speech_recognition/blob/master/reference/pocketsphinx.rst>`__ for information about installing other languages. This document is also included under ``reference/pocketsphinx.rst``.
-
-        Returns the most likely transcription if ``show_all`` is false (the default). Otherwise, returns the Sphinx ``pocketsphinx.pocketsphinx.Decoder`` object resulting from the recognition.
-
-        Raises a ``speech_recognition.UnknownValueError`` exception if the speech is unintelligible. Raises a ``speech_recognition.RequestError`` exception if there are any issues with the Sphinx installation.
-        """
-        assert isinstance(audio_data, AudioData), "`audio_data` must be audio data"
-        assert isinstance(language, str), "`language` must be a string"
-
-        # import the PocketSphinx speech recognition module
-        try:
-            from pocketsphinx import pocketsphinx
-            from sphinxbase import sphinxbase
-        except ImportError:
-            raise RequestError("missing PocketSphinx module: ensure that PocketSphinx is set up correctly.")
-        except ValueError:
-            raise RequestError("bad PocketSphinx installation detected; make sure you have PocketSphinx version 0.0.9 or better.")
-
-        language_directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), "pocketsphinx-data", language)
-        if not os.path.isdir(language_directory):
-            raise RequestError("missing PocketSphinx language data directory: \"{0}\"".format(language_directory))
-        acoustic_parameters_directory = os.path.join(language_directory, "acoustic-model")
-        if not os.path.isdir(acoustic_parameters_directory):
-            raise RequestError("missing PocketSphinx language model parameters directory: \"{0}\"".format(acoustic_parameters_directory))
-        language_model_file = os.path.join(language_directory, "language-model.lm.bin")
-        if not os.path.isfile(language_model_file):
-            raise RequestError("missing PocketSphinx language model file: \"{0}\"".format(language_model_file))
-        phoneme_dictionary_file = os.path.join(language_directory, "pronounciation-dictionary.dict")
-        if not os.path.isfile(phoneme_dictionary_file):
-            raise RequestError("missing PocketSphinx phoneme dictionary file: \"{0}\"".format(phoneme_dictionary_file))
-
-        # create decoder object
-        config = pocketsphinx.Decoder.default_config()
-        config.set_string("-hmm", acoustic_parameters_directory) # set the path of the hidden Markov model (HMM) parameter files
-        config.set_string("-lm", language_model_file)
-        config.set_string("-dict", phoneme_dictionary_file)
-        config.set_string("-logfn", os.devnull) # disable logging (logging causes unwanted output in terminal)
-        decoder = pocketsphinx.Decoder(config)
-
-        # obtain audio data
-        raw_data = audio_data.get_raw_data(convert_rate = 16000, convert_width = 2) # the included language models require audio to be 16-bit mono 16 kHz in little-endian format
-
-        # obtain recognition results
-        decoder.start_utt() # begin utterance processing
-        decoder.process_raw(raw_data, False, True) # process audio data with recognition enabled (no_search = False), as a full utterance (full_utt = True)
-        decoder.end_utt() # stop utterance processing
-
-        if show_all: return decoder
-
-        # return results
-        hypothesis = decoder.hyp()
-        if hypothesis is not None: return hypothesis.hypstr
-        raise UnknownValueError() # no transcriptions available
-
     def recognize_google(self, audio_data, language = "en-US", show_all = False):
 
         assert isinstance(audio_data, AudioData), "`audio_data` must be audio data"
@@ -821,97 +661,71 @@ class Recognizer(AudioSource):
             convert_width = 2 # audio samples must be 16-bit
         )
 
-        # service = cloud_speech.beta_create_Speech_stub(
-        #     self.google_grpc_channel('speech.googleapis.com', 443)
-        # )
-
         # self._log.debug(service)
 
         # self.auth_google_grpc()
-        # response = service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
-        #     config=cloud_speech.RecognitionConfig(
-        #         encoding='FLAC',
-        #         sample_rate=16000,
-        #         language_code=language,
-        #         speech_context= cloud_speech.SpeechContext(
-        #             phrases=["mirror", "add", "item", "help", "close"]
-        #         )
-        #     ),
-        #     audio=cloud_speech.RecognitionAudio(
-        #         content=base64.b64encode(flac_data)
-        #     )
-        # ), 10)
+        with cloud_speech.beta_create_Speech_stub(
+                self.google_grpc_channel('speech.googleapis.com', 443)) as service:
 
-        service_request = self.service.speech().syncrecognize(
-            body={
-                'config': {
-                    'encoding': 'FLAC',  # raw 16-bit signed LE samples
-                    'sampleRate': 16000,  # 16 khz
-                    'languageCode': language,  # a BCP-47 language tag
-                    'speechContext': {
-                        "phrases": [
-                            "mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find"
-                        ]
-                    }
-                },
-                'audio': {
-                    'content': base64.b64encode(flac_data)
-                }
-        })
+            response = service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
+                config=cloud_speech.RecognitionConfig(
+                    encoding='FLAC',
+                    sample_rate=16000,
+                    language_code=language,
+                    speech_context= cloud_speech.SpeechContext(
+                        phrases=["mirror", "add", "item", "help", "close"]
+                    )
+                ),
+                audio=cloud_speech.RecognitionAudio(
+                    # content=base64.b64encode(flac_data)
+                    content=flac_data
+                )
+            ), 10)
+            result = response.results
 
-        result = service_request.execute()
-        # result = response.results
+        # if len(result) == 0:
+        #     raise UnknownValueError()
+
         self._log.debug(result)
+
+        # actual_result = []
+        if len(result) == 0:
+            raise UnknownValueError()
+
+        return result[0].alternatives[0].transcript
+        raise UnknownValueError() # no transcriptions available
+
+        # service_request = self.service.speech().syncrecognize(
+        #     body={
+        #         'config': {
+        #             'encoding': 'FLAC',  # raw 16-bit signed LE samples
+        #             'sampleRate': 16000,  # 16 khz
+        #             'languageCode': language,  # a BCP-47 language tag
+        #             'speechContext': {
+        #                 "phrases": [
+        #                     "mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find"
+        #                 ]
+        #             }
+        #         },
+        #         'audio': {
+        #             'content': base64.b64encode(flac_data)
+        #         }
+        # })
+        # result = service_request.execute()
+
 
         # result = json.loads( service_request.execute() )["result"]
         # Returns the result
-        actual_result = []
-        if len(result) != 0:
-            actual_result = result["results"][0]
+        # actual_result = []
+        # if len(result) != 0:
+        #     actual_result = result["results"][0]
 
-        if "alternatives" not in actual_result: raise UnknownValueError()
-        for entry in actual_result["alternatives"]:
-            if "transcript" in entry:
-                return entry["transcript"]
-        raise UnknownValueError() # no transcriptions available
-
-
-    def recognize_wit(self, audio_data, key, show_all = False):
-        """
-        Performs speech recognition on ``audio_data`` (an ``AudioData`` instance), using the Wit.ai API.
-
-        The Wit.ai API key is specified by ``key``. Unfortunately, these are not available without `signing up for an account <https://wit.ai/>`__ and creating an app. You will need to add at least one intent to the app before you can see the API key, though the actual intent settings don't matter.
-
-        To get the API key for a Wit.ai app, go to the app's overview page, go to the section titled "Make an API request", and look for something along the lines of ``Authorization: Bearer XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX``; ``XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`` is the API key. Wit.ai API keys are 32-character uppercase alphanumeric strings.
-
-        The recognition language is configured in the Wit.ai app settings.
-
-        Returns the most likely transcription if ``show_all`` is false (the default). Otherwise, returns the `raw API response <https://wit.ai/docs/http/20141022#get-intent-via-text-link>`__ as a JSON dictionary.
-
-        Raises a ``speech_recognition.UnknownValueError`` exception if the speech is unintelligible. Raises a ``speech_recognition.RequestError`` exception if the speech recognition operation failed, if the key isn't valid, or if there is no internet connection.
-        """
-        assert isinstance(audio_data, AudioData), "Data must be audio data"
-        assert isinstance(key, str), "`key` must be a string"
-
-        wav_data = audio_data.get_wav_data(
-            convert_rate = None if audio_data.sample_rate >= 8000 else 8000, # audio samples must be at least 8 kHz
-            convert_width = 2 # audio samples should be 16-bit
-        )
-        url = "https://api.wit.ai/speech?v=20141022"
-        request = Request(url, data = wav_data, headers = {"Authorization": "Bearer {0}".format(key), "Content-Type": "audio/wav"})
-        try:
-            response = urlopen(request)
-        except HTTPError as e:
-            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-        except URLError as e:
-            raise RequestError("recognition connection failed: {0}".format(e.reason))
-        response_text = response.read().decode("utf-8")
-        result = json.loads(response_text)
-
-        # return results
-        if show_all: return result
-        if "_text" not in result or result["_text"] is None: raise UnknownValueError()
-        return result["_text"]
+        # if "alternatives" not in actual_result: raise UnknownValueError()
+        # return actual_result.alternatives.transcript
+        # for entry in actual_result["alternatives"]:
+        #     if "transcript" in entry:
+        #         return entry["transcript"]
+        # raise UnknownValueError() # no transcriptions available
 
     def recognize_bing(self, audio_data, key, language = "en-US", show_all = False):
         """
@@ -1044,124 +858,6 @@ class Recognizer(AudioSource):
         return result["header"]["lexical"]
         return ""
 
-    def recognize_api(self, audio_data, client_access_token, language = "en", session_id = None, show_all = False):
-        """
-        Perform speech recognition on ``audio_data`` (an ``AudioData`` instance), using the api.ai Speech to Text API.
-
-        The api.ai API client access token is specified by ``client_access_token``. Unfortunately, this is not available without `signing up for an account <https://console.api.ai/api-client/#/signup>`__ and creating an api.ai agent. To get the API client access token, go to the agent settings, go to the section titled "API keys", and look for "Client access token". API client access tokens are 32-character lowercase hexadecimal strings.
-
-        Although the recognition language is specified when creating the api.ai agent in the web console, it must also be provided in the ``language`` parameter as an RFC5646 language tag like ``"en"`` (US English) or ``"fr"`` (International French), defaulting to US English. A list of supported language values can be found in the `API documentation <https://api.ai/docs/reference/#languages>`__.
-
-        The ``session_id`` is an optional string of up to 36 characters used to identify the client making the requests; api.ai can make use of previous requests that used the same session ID to give more accurate results for future requests. If ``None``, sessions are not used; every query is interpreted as if it is the first one.
-
-        Returns the most likely transcription if ``show_all`` is false (the default). Otherwise, returns the `raw API response <https://api.ai/docs/reference/#a-namepost-multipost-query-multipart>`__ as a JSON dictionary.
-
-        Raises a ``speech_recognition.UnknownValueError`` exception if the speech is unintelligible. Raises a ``speech_recognition.RequestError`` exception if the speech recognition operation failed, if the key isn't valid, or if there is no internet connection.
-        """
-        assert isinstance(audio_data, AudioData), "Data must be audio data"
-        assert isinstance(client_access_token, str), "`username` must be a string"
-        assert isinstance(language, str), "`language` must be a string"
-        assert session_id is None or (isinstance(session_id, str) and len(session_id) <= 36), "`session_id` must be a string of up to 36 characters"
-
-        wav_data = audio_data.get_wav_data(convert_rate = 16000, convert_width = 2) # audio must be 16-bit mono 16 kHz
-        url = "https://api.api.ai/v1/query"
-
-        # pick a good multipart boundary; one that is guaranteed not to be in the text
-        while True:
-            boundary = uuid.uuid4().hex # generate a random boundary
-            if boundary.encode("utf-8") not in wav_data:
-                break
-
-        if session_id is None: session_id = uuid.uuid4().hex
-        data = (
-            b"--" + boundary.encode("utf-8") + b"\r\n" +
-            b"Content-Disposition: form-data; name=\"request\"\r\n" +
-            b"Content-Type: application/json\r\n" +
-            b"\r\n" +
-            b"{\"v\": \"20150910\", \"sessionId\": \"" + session_id.encode("utf-8") + b"\", \"lang\": \"" + language.encode("utf-8") + b"\"}\r\n" +
-            b"--" + boundary.encode("utf-8") + b"\r\n" +
-            b"Content-Disposition: form-data; name=\"voiceData\"; filename=\"audio.wav\"\r\n" +
-            b"Content-Type: audio/wav\r\n" +
-            b"\r\n" +
-            wav_data + b"\r\n" +
-            b"--" + boundary.encode("utf-8") + b"--\r\n"
-        )
-
-        request = Request(url, data = data, headers = {
-            "Authorization": "Bearer {0}".format(client_access_token),
-            "Content-Length": str(len(data)),
-            "Expect": "100-continue",
-            "Content-Type": "multipart/form-data; boundary={0}".format(boundary)
-        })
-        try:
-            response = urlopen(request)
-        except HTTPError as e:
-            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-        except URLError as e:
-            raise RequestError("recognition connection failed: {0}".format(e.reason))
-        response_text = response.read().decode("utf-8")
-        result = json.loads(response_text)
-
-        # return results
-        if show_all: return result
-        if "asr" not in result or result["asr"] is None:
-            raise UnknownValueError()
-        return result["result"]["resolvedQuery"]
-
-    def recognize_ibm(self, audio_data, username, password, language = "en-US", show_all = False):
-        """
-        Performs speech recognition on ``audio_data`` (an ``AudioData`` instance), using the IBM Speech to Text API.
-
-        The IBM Speech to Text username and password are specified by ``username`` and ``password``, respectively. Unfortunately, these are not available without `signing up for an account <https://console.ng.bluemix.net/registration/>`__. Once logged into the Bluemix console, follow the instructions for `creating an IBM Watson service instance <http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/doc/getting_started/gs-credentials.shtml>`__, where the Watson service is "Speech To Text". IBM Speech to Text usernames are strings of the form XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX, while passwords are mixed-case alphanumeric strings.
-
-        The recognition language is determined by ``language``, an RFC5646 language tag with a dialect like ``"en-US"`` (US English) or ``"zh-CN"`` (Mandarin Chinese), defaulting to US English. The supported language values are listed under the ``model`` parameter of the `audio recognition API documentation <http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/speech-to-text/api/v1/#recognize_audio_sessionless12>`__, in the form ``LANGUAGE_BroadbandModel``, where ``LANGUAGE`` is the language value.
-
-        Returns the most likely transcription if ``show_all`` is false (the default). Otherwise, returns the `raw API response <http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/speech-to-text/api/v1/#recognize_audio_sessionless12>`__ as a JSON dictionary.
-
-        Raises a ``speech_recognition.UnknownValueError`` exception if the speech is unintelligible. Raises a ``speech_recognition.RequestError`` exception if the speech recognition operation failed, if the key isn't valid, or if there is no internet connection.
-        """
-        assert isinstance(audio_data, AudioData), "Data must be audio data"
-        assert isinstance(username, str), "`username` must be a string"
-        assert isinstance(password, str), "`password` must be a string"
-
-        flac_data = audio_data.get_flac_data(
-            convert_rate = None if audio_data.sample_rate >= 16000 else 16000, # audio samples should be at least 16 kHz
-            convert_width = None if audio_data.sample_width >= 2 else 2 # audio samples should be at least 16-bit
-        )
-        model = "{0}_BroadbandModel".format(language)
-        url = "https://stream.watsonplatform.net/speech-to-text/api/v1/recognize?{0}".format(urlencode({
-            "profanity_filter": "false",
-            "continuous": "true",
-            "model": model,
-        }))
-        request = Request(url, data = flac_data, headers = {"Content-Type": "audio/x-flac"})
-        if hasattr("", "encode"):
-            authorization_value = base64.standard_b64encode("{0}:{1}".format(username, password).encode("utf-8")).decode("utf-8")
-        else:
-            authorization_value = base64.standard_b64encode("{0}:{1}".format(username, password))
-        request.add_header("Authorization", "Basic {0}".format(authorization_value))
-        try:
-            response = urlopen(request)
-        except HTTPError as e:
-            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-        except URLError as e:
-            raise RequestError("recognition connection failed: {0}".format(e.reason))
-        response_text = response.read().decode("utf-8")
-        result = json.loads(response_text)
-
-        # return results
-        if show_all: return result
-        if "results" not in result or len(result["results"]) < 1 or "alternatives" not in result["results"][0]:
-            raise UnknownValueError()
-
-        transcription = []
-        for utterance in result["results"]:
-            if "alternatives" not in utterance: raise UnknownValueError()
-            for hypothesis in utterance["alternatives"]:
-                if "transcript" in hypothesis:
-                    transcription.append(hypothesis["transcript"])
-        return "\n".join(transcription)
-
 def get_flac_converter():
     # determine which converter executable to use
     system = platform.system()
@@ -1193,27 +889,3 @@ def shutil_which(pgm):
         p = os.path.join(p, pgm)
         if os.path.exists(p) and os.access(p, os.X_OK):
             return p
-
-# backwards compatibility shims
-WavFile = AudioFile # WavFile was renamed to AudioFile in 3.4.1
-def recognize_att(self, audio_data, app_key, app_secret, language = "en-US", show_all = False):
-    authorization_url = "https://api.att.com/oauth/v4/token"
-    authorization_body = "client_id={0}&client_secret={1}&grant_type=client_credentials&scope=SPEECH".format(app_key, app_secret)
-    try: authorization_response = urlopen(authorization_url, data = authorization_body.encode("utf-8"))
-    except HTTPError as e: raise RequestError("credential request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code))))
-    except URLError as e: raise RequestError("credential connection failed: {0}".format(e.reason))
-    authorization_text = authorization_response.read().decode("utf-8")
-    authorization_bearer = json.loads(authorization_text).get("access_token")
-    if authorization_bearer is None: raise RequestError("missing OAuth access token in requested credentials")
-    wav_data = audio_data.get_wav_data(convert_rate = 8000 if audio_data.sample_rate < 16000 else 16000, convert_width = 2)
-    request = Request("https://api.att.com/speech/v3/speechToText", data = wav_data, headers = {"Authorization": "Bearer {0}".format(authorization_bearer), "Content-Language": language, "Content-Type": "audio/wav"})
-    try: response = urlopen(request)
-    except HTTPError as e: raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code))))
-    except URLError as e: raise RequestError("recognition connection failed: {0}".format(e.reason))
-    result = json.loads(response.read().decode("utf-8"))
-    if show_all: return result
-    if "Recognition" not in result or "NBest" not in result["Recognition"]: raise UnknownValueError()
-    for entry in result["Recognition"]["NBest"]:
-        if entry.get("Grade") == "accept" and "ResultText" in entry: return entry["ResultText"]
-        raise UnknownValueError() # no transcriptions available
-Recognizer.recognize_att = classmethod(recognize_att) # AT&T API is deprecated and shutting down as of 3.4.0
