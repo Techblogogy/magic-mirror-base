@@ -1,10 +1,13 @@
 
-import io, os, subprocess, wave, aifc, base64
+import io, os, subprocess, wave, aifc, base64, sys
 import math, audioop, collections, threading
 import platform, stat, random, uuid
 import json
 
 import httplib
+
+import contextlib
+from six.moves import queue
 
 # from googleapiclient import discovery
 # import httplib2
@@ -513,7 +516,7 @@ class Recognizer(AudioSource):
             target_energy = energy * self.dynamic_energy_ratio
             self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
 
-    def listen(self, source, timeout = None):
+    def listen(self, source, buff, timeout = None):
         """
         Records a single phrase from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance, which it returns.
 
@@ -552,14 +555,12 @@ class Recognizer(AudioSource):
 
                 if len(buffer) == 0: break # reached end of the stream
                 frames.append(buffer)
+                buff.put(buffer)
                 if len(frames) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
                     frames.popleft()
 
                 # detect whether speaking has started on audio input
                 energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
-
-                # DEBUG
-                # print "[Speech API DEBUG]: Audio Energy %d" % (energy)
 
                 if energy > self.energy_threshold: break
 
@@ -568,6 +569,8 @@ class Recognizer(AudioSource):
                     damping = self.dynamic_energy_adjustment_damping ** seconds_per_buffer # account for different chunk sizes and rates
                     target_energy = energy * self.dynamic_energy_ratio
                     self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
+
+            # This is a trigger moment. We Should probably start the recognition sending right here or should we do it in there
 
             # DEBUG
             self._log.info("Audio Detected")
@@ -588,10 +591,8 @@ class Recognizer(AudioSource):
 
                 if len(buffer) == 0: break # reached end of the stream
                 frames.append(buffer)
+                buff.put(buffer)
                 phrase_count += 1
-
-                # print "[Speech API DEBUG]: elapsed_time %d" % (elapsed_time)
-                # print "[Speech API DEBUG]: phrase_count %d" % (phrase_count)
 
                 # check if speaking has stopped for longer than the pause threshold on the audio input
                 energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
@@ -621,6 +622,35 @@ class Recognizer(AudioSource):
 
         return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
 
+    @contextlib.contextmanager
+    def listen_thread(self, source):
+        assert isinstance(source, AudioSource), "Source must be an audio source"
+        running = [True]
+
+        buff = queue.Queue()
+
+        def threaded_listen():
+            with source as s:
+                while running[0]:
+                    try: # listen for 1 second, then check again if the stop function has been called
+                        audio = self.listen(s, buff, 1)
+                    except WaitTimeoutError: # listening timed out, just try again
+                        pass
+                    # else:
+                    #     if running[0]: callback(self, audio)
+        def stopper():
+            running[0] = False
+            listener_thread.join() # block until the background thread is done, which can be up to 1 second
+        listener_thread = threading.Thread(target=threaded_listen)
+        listener_thread.daemon = True
+        listener_thread.start()
+
+        yield self.g_audio_data_generator(buff)
+
+        self._log.debug("STOP")
+        stopper()
+
+
     def listen_in_background(self, source, callback):
         """
         Spawns a thread to repeatedly record phrases from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance and call ``callback`` with that ``AudioData`` instance as soon as each phrase are detected.
@@ -631,101 +661,114 @@ class Recognizer(AudioSource):
 
         The ``callback`` parameter is a function that should accept two parameters - the ``recognizer_instance``, and an ``AudioData`` instance representing the captured audio. Note that ``callback`` function will be called from a non-main thread.
         """
-        assert isinstance(source, AudioSource), "Source must be an audio source"
-        running = [True]
-        def threaded_listen():
-            with source as s:
-                while running[0]:
-                    try: # listen for 1 second, then check again if the stop function has been called
-                        audio = self.listen(s, 1)
-                    except WaitTimeoutError: # listening timed out, just try again
-                        pass
-                    else:
-                        if running[0]: callback(self, audio)
-        def stopper():
-            running[0] = False
-            listener_thread.join() # block until the background thread is done, which can be up to 1 second
-        listener_thread = threading.Thread(target=threaded_listen)
-        listener_thread.daemon = True
-        listener_thread.start()
-        return stopper
+
+        with cloud_speech.beta_create_Speech_stub(self.google_grpc_channel('speech.googleapis.com', 443)) as service:
+
+            # buffered_audio_data = self.listen_thread(source)
+
+            with self.listen_thread(source) as buffered_audio_data:
+
+                requests = self.g_request_steam(buffered_audio_data, source.SAMPLE_RATE)
+                recon_stream = service.StreamingRecognize(requests, 60 * 3 + 5)
+
+                try:
+                    self.g_print_loop(recon_stream)
+                    recon_stream.cancel()
+                except:
+                    self._log.exception("Printer error")
+
+
+    def g_audio_data_generator(self,buff):
+        while True:
+            chunk = buff.get()
+            if not chunk:
+                break
+
+            data = [chunk]
+
+            while True:
+                try:
+                    data.append(buff.get(block=False))
+                except queue.Empty:
+                    break
+            yield b''.join(data)
+
+    def g_request_steam(self, data_stream, rate):
+
+        # self._log.debug( sys.getsizeof(audio_data.get_raw_data()) )
+
+        # self.auth_google_grpc()
+        # with cloud_speech.beta_create_Speech_stub(
+        #         self.google_grpc_channel('speech.googleapis.com', 443)) as service:
+
+        r_config = cloud_speech.RecognitionConfig(
+            encoding='LINEAR16',
+            sample_rate=rate,
+            language_code='en-US',
+            # speech_context= cloud_speech.SpeechContext(
+            #     phrases=["mirror", "add", "item", "help", "close"]
+            # )
+        )
+        r_stream_config = cloud_speech.StreamingRecognitionConfig(
+            config=r_config)
+
+
+        yield cloud_speech.StreamingRecognizeRequest(
+            streaming_config=r_stream_config)
+
+        for data in data_stream:
+            # self._log.debug(data_stream)
+            yield cloud_speech.StreamingRecognizeRequest(audio_content=data)
+
+    def g_print_loop(self, recognize_stream):
+        for resp in recognize_stream:
+            if resp.error.code != code_pb2.OK:
+                self._log.debug("Recognition Error")
+
+            for result in resp.results:
+                self._log.info(result.alternatives)
+
 
     def recognize_google(self, audio_data, language = "en-US", show_all = False):
 
         assert isinstance(audio_data, AudioData), "`audio_data` must be audio data"
         assert isinstance(language, str), "`language` must be a string"
 
-        flac_data = audio_data.get_flac_data(
-            # convert_rate = None if audio_data.sample_rate >= 8000 else 8000, # audio samples must be at least 8 kHz
-            convert_rate = 16000, # audio samples must be at least 8 kHz
-            convert_width = 2 # audio samples must be 16-bit
-        )
-
-        # self._log.debug(service)
-
-        # self.auth_google_grpc()
-        with cloud_speech.beta_create_Speech_stub(
-                self.google_grpc_channel('speech.googleapis.com', 443)) as service:
-
-            response = service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
-                config=cloud_speech.RecognitionConfig(
-                    encoding='FLAC',
-                    sample_rate=16000,
-                    language_code=language,
-                    speech_context= cloud_speech.SpeechContext(
-                        phrases=["mirror", "add", "item", "help", "close"]
-                    )
-                ),
-                audio=cloud_speech.RecognitionAudio(
-                    # content=base64.b64encode(flac_data)
-                    content=flac_data
-                )
-            ), 10)
-            result = response.results
-
+        # flac_data = audio_data.get_flac_data(
+        #     # convert_rate = None if audio_data.sample_rate >= 8000 else 8000, # audio samples must be at least 8 kHz
+        #     convert_rate = 16000, # audio samples must be at least 8 kHz
+        #     convert_width = 2 # audio samples must be 16-bit
+        # )
+        #
+        # self._log.debug( sys.getsizeof(audio_data.get_raw_data()) )
+        #
+        # # self.auth_google_grpc()
+        # with cloud_speech.beta_create_Speech_stub(
+        #         self.google_grpc_channel('speech.googleapis.com', 443)) as service:
+        #
+        #     response = service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
+        #         config=cloud_speech.RecognitionConfig(
+        #             encoding='LINEAR16',
+        #             sample_rate=48000,
+        #             language_code=language,
+        #             speech_context= cloud_speech.SpeechContext(
+        #                 phrases=["mirror", "add", "item", "help", "close"]
+        #             )
+        #         ),
+        #         audio=cloud_speech.RecognitionAudio(
+        #             content=audio_data.get_raw_data() #flac_data
+        #         )
+        #     ), 10)
+        #     result = response.results
+        #
+        # self._log.debug(result)
+        #
+        # # actual_result = []
         # if len(result) == 0:
         #     raise UnknownValueError()
-
-        self._log.debug(result)
-
-        # actual_result = []
-        if len(result) == 0:
-            raise UnknownValueError()
-
-        return result[0].alternatives[0].transcript
+        #
+        # return result[0].alternatives[0].transcript
         raise UnknownValueError() # no transcriptions available
-
-        # service_request = self.service.speech().syncrecognize(
-        #     body={
-        #         'config': {
-        #             'encoding': 'FLAC',  # raw 16-bit signed LE samples
-        #             'sampleRate': 16000,  # 16 khz
-        #             'languageCode': language,  # a BCP-47 language tag
-        #             'speechContext': {
-        #                 "phrases": [
-        #                     "mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find"
-        #                 ]
-        #             }
-        #         },
-        #         'audio': {
-        #             'content': base64.b64encode(flac_data)
-        #         }
-        # })
-        # result = service_request.execute()
-
-
-        # result = json.loads( service_request.execute() )["result"]
-        # Returns the result
-        # actual_result = []
-        # if len(result) != 0:
-        #     actual_result = result["results"][0]
-
-        # if "alternatives" not in actual_result: raise UnknownValueError()
-        # return actual_result.alternatives.transcript
-        # for entry in actual_result["alternatives"]:
-        #     if "transcript" in entry:
-        #         return entry["transcript"]
-        # raise UnknownValueError() # no transcriptions available
 
     def recognize_bing(self, audio_data, key, language = "en-US", show_all = False):
         """
