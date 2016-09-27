@@ -494,8 +494,7 @@ class Recognizer(AudioSource):
         # read audio input for phrases until there is a phrase that is long enough
         elapsed_time = 0 # number of seconds of audio read
 
-        buff = queue.Queue()
-        # buff_len = 0
+        frames = collections.deque()
 
         self._log.info("Energy threshold %d", (self.energy_threshold))
 
@@ -511,11 +510,10 @@ class Recognizer(AudioSource):
             buffer = self.amplify(buffer, self.audio_gain)
 
             if len(buffer) == 0: break # reached end of the stream
-            buff.put(buffer)
-            # buff_len += 1
+            frames.append(buffer)
 
-            # if buff_len > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
-            #     buff.get()
+            if len(frames) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
+                frames.popleft()
 
             # detect whether speaking has started on audio input
             energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
@@ -527,9 +525,8 @@ class Recognizer(AudioSource):
                 target_energy = energy * self.dynamic_energy_ratio
                 self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
 
-        self._log.info("Audio Detected")
-
-        return buff
+        frame_data = b"".join(list(frames))
+        return frame_data
 
 
     def listen(self, source, buff, timeout = None):
@@ -540,58 +537,6 @@ class Recognizer(AudioSource):
 
         The ``timeout`` parameter is the maximum number of seconds that it will wait for a phrase to start before giving up and throwing an ``speech_recognition.WaitTimeoutError`` exception. If ``timeout`` is ``None``, it will wait indefinitely.
         """
-        # assert isinstance(source, AudioSource), "Source must be an audio source"
-        # assert source.stream is not None, "Audio source must be entered before listening, see documentation for `AudioSource`; are you using `source` outside of a `with` statement?"
-        # assert self.pause_threshold >= self.non_speaking_duration >= 0
-        #
-        # seconds_per_buffer = (source.CHUNK + 0.0) / source.SAMPLE_RATE
-        # pause_buffer_count = int(math.ceil(self.pause_threshold / seconds_per_buffer)) # number of buffers of non-speaking audio before the phrase is complete
-        # phrase_buffer_count = int(math.ceil(self.phrase_threshold / seconds_per_buffer)) # minimum number of buffers of speaking audio before we consider the speaking audio a phrase
-        # non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
-
-        # DEBUG
-        # self._log.info("Energy threshold %d", (self.energy_threshold))
-
-        # # read audio input for phrases until there is a phrase that is long enough
-        # elapsed_time = 0 # number of seconds of audio read
-        # while True:
-        #     # frames = collections.deque()
-        #
-        #     # store audio input until the phrase starts
-        #     while True:
-        #         elapsed_time += seconds_per_buffer
-        #         if timeout and elapsed_time > timeout: # handle timeout if specified
-        #             raise WaitTimeoutError("listening timed out")
-        #
-        #         buffer = source.stream.read(source.CHUNK)
-        #
-        #         # Amplify volume
-        #         buffer = self.amplify(buffer, self.audio_gain)
-        #
-        #         if len(buffer) == 0: break # reached end of the stream
-        #         # frames.append(buffer)
-        #         buff.put(buffer)
-        #         # if len(frames) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
-        #         if len(buff) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
-        #             buff.get()
-        #
-        #         # detect whether speaking has started on audio input
-        #         energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
-        #
-        #         if energy > self.energy_threshold: break
-        #
-        #         # dynamically adjust the energy threshold using assymmetric weighted average
-        #         if self.dynamic_energy_threshold:
-        #             damping = self.dynamic_energy_adjustment_damping ** seconds_per_buffer # account for different chunk sizes and rates
-        #             target_energy = energy * self.dynamic_energy_ratio
-        #             self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
-        #
-        #     # DEBUG
-        #     self._log.info("Audio Detected")
-        #     self.pserve.send("audio_found","")
-        #
-        #     # read audio input until the phrase ends
-        #     pause_count, phrase_count = 0, 0
 
         self._log.debug("Microphone capturing thread started")
 
@@ -612,45 +557,15 @@ class Recognizer(AudioSource):
 
             buff.put(buffer)
 
-                # frames.append(buffer)
-                # phrase_count += 1
-
-                # # check if speaking has stopped for longer than the pause threshold on the audio input
-                # energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
-                # if energy > self.energy_threshold:
-                #     pause_count = 0
-                # else:
-                #     pause_count += 1
-                # if pause_count > pause_buffer_count: # end of the phrase
-                #     break
-
-            # # check how long the detected phrase is, and retry listening if the phrase is too short
-            # phrase_count -= pause_count
-            # if phrase_count >= phrase_buffer_count:
-            #     break # phrase is long enough, stop listening
-            # else:
-            #     # DEBUG
-            #     self._log.info("Phase is not long enough")
-            #     self.pserve.send("audio_error", "shortphase")
-
-
-        # DEBUG
-        # self._log.info("Getting Frame Data")
-
         self._log.debug("Microphone capturing thread stopped")
 
-        # # obtain frame data
-        # for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
-        # frame_data = b"".join(list(frames))
-        #
-        # return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
 
     @contextlib.contextmanager
-    def listen_thread(self, source, buff):
+    def listen_thread(self, source):
         assert isinstance(source, AudioSource), "Source must be an audio source"
         # running = [True]
 
-        # buff = queue.Queue()
+        buff = queue.Queue()
 
         # source.__enter__()
 
@@ -665,43 +580,21 @@ class Recognizer(AudioSource):
         mic_thread.join()
 
 
-        # def threaded_listen():
-        #     with source as s:
-        #         while running[0]:
-        #             try: # listen for 1 second, then check again if the stop function has been called
-        #                 audio = self.listen(s, buff, 1)
-        #             except WaitTimeoutError: # listening timed out, just try again
-        #                 pass
-        #             # else:
-        #             #     if running[0]: callback(self, audio)
-        # def stopper():
-        #     running[0] = False
-        #     listener_thread.join() # block until the background thread is done, which can be up to 1 second
-        # listener_thread = threading.Thread(target=threaded_listen)
-        # listener_thread.daemon = True
-        # listener_thread.start()
-        #
-        # yield self.g_audio_data_generator(buff)
-        #
-        # self._log.debug("STOP")
-        # stopper()
-
-
     def listen_in_background(self, source, callback):
         assert isinstance(source, AudioSource), "Source must be an audio source"
 
         running = [True]
 
         def threaded_listen():
-            with source as s:
-                while running[0]:
-                    try: # listen for 1 second, then check again if the stop function has been called
-                        buff = self.listen_trigger(s, 1)
-                    except WaitTimeoutError: # listening timed out, just try again
-                        pass
-                    else:
-                        # if running[0]: callback(self, audio)
-                        self.g_stream_loop(source, buff)
+            with cloud_speech.beta_create_Speech_stub(self.google_grpc_channel('speech.googleapis.com', 443)) as service:
+                with source as s:
+                    while running[0]:
+                        try: # listen for 1 second, then check again if the stop function has been called
+                            init_buff = self.listen_trigger(s, 1)
+                        except WaitTimeoutError: # listening timed out, just try again
+                            pass
+                        else:
+                            self.g_stream_loop(service, source, init_buff)
         def stopper():
             running[0] = False
             listener_thread.join() # block until the background thread is done, which can be up to 1 second
@@ -711,11 +604,11 @@ class Recognizer(AudioSource):
 
         return stopper
 
-    def g_stream_loop(self, source, buff):
-        with cloud_speech.beta_create_Speech_stub(self.google_grpc_channel('speech.googleapis.com', 443)) as service:
-            with self.listen_thread(source, buff) as buffered_audio_data:
+    def g_stream_loop(self, service, source, init_buff):
 
-                requests = self.g_request_steam(buffered_audio_data, source.SAMPLE_RATE)
+            with self.listen_thread(source) as buffered_audio_data:
+
+                requests = self.g_request_steam(buffered_audio_data, source.SAMPLE_RATE, init_buff)
                 recon_stream = service.StreamingRecognize(requests, 60 * 3 + 5)
 
                 try:
@@ -741,7 +634,7 @@ class Recognizer(AudioSource):
                     break
             yield b''.join(data)
 
-    def g_request_steam(self, data_stream, rate):
+    def g_request_steam(self, data_stream, rate, init_buff):
 
         r_config = cloud_speech.RecognitionConfig(
             encoding='LINEAR16',
@@ -755,6 +648,8 @@ class Recognizer(AudioSource):
 
         yield cloud_speech.StreamingRecognizeRequest(
             streaming_config=r_stream_config)
+
+        yield cloud_speech.StreamingRecognizeRequest(audio_content=init_buff)
 
         for data in data_stream:
             yield cloud_speech.StreamingRecognizeRequest(audio_content=data)
