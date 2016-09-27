@@ -23,6 +23,9 @@ n_units = [
     "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
     "sixteen", "seventeen", "eighteen", "nineteen",
 ]
+# n_units = [
+#     "1", "2", "3", "4", "5", "6", "six", "seven", "eight",
+# ]
 num_dict = {}
 i = 0
 for i in range(len(n_units)):
@@ -38,6 +41,8 @@ def get_numbers():
 # Return command based on voice input
 def get_command(cm):
     tokens = nltk.word_tokenize(cm)
+
+    logger.debug(tokens)
 
     # print tokens
     # print pserve.test
@@ -64,10 +69,14 @@ def get_command(cm):
         elif c.lg == "NUM":
             br = False;
             for k in tokens:
-                if k in num_dict:
+                if k.isdigit():
                     global item_number
-                    item_number = num_dict[k]
+                    item_number = int(k)
                     br = True
+                # if k in num_dict:
+                #     global item_number
+                #     item_number = num_dict[k]
+                #     br = True
         # Search for tag
         elif c.lg == "TAG":
             br = False;

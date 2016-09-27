@@ -420,6 +420,9 @@ class Recognizer(AudioSource):
         self.pserve = pserve
         self._log = logger
 
+        self._running_voice = False
+        self._running_stream = False
+
     def google_grpc_channel(self, host, port):
         """Creates an SSL channel with auth credentials from the environment."""
         # In order to make an https call, use an ssl channel with defaults
@@ -541,7 +544,7 @@ class Recognizer(AudioSource):
         self._log.debug("Microphone capturing thread started")
 
         # Tab left for entire function -->
-        while True:
+        while self._running_stream:
             # elapsed_time += seconds_per_buffer
             # if timeout and elapsed_time > 5: # handle timeout if specified
             #     break;
@@ -583,39 +586,46 @@ class Recognizer(AudioSource):
     def listen_in_background(self, source, callback):
         assert isinstance(source, AudioSource), "Source must be an audio source"
 
-        running = [True]
+        # running = [True]
 
         def threaded_listen():
             with cloud_speech.beta_create_Speech_stub(self.google_grpc_channel('speech.googleapis.com', 443)) as service:
                 with source as s:
-                    while running[0]:
+                    while self._running_voice:
                         try: # listen for 1 second, then check again if the stop function has been called
                             init_buff = self.listen_trigger(s, 1)
                         except WaitTimeoutError: # listening timed out, just try again
                             pass
                         else:
-                            self.g_stream_loop(service, source, init_buff)
+                            self.g_stream_loop(service, source, init_buff, callback)
         def stopper():
-            running[0] = False
+            self._running_voice = False
             listener_thread.join() # block until the background thread is done, which can be up to 1 second
+
+        self._running_voice = True
         listener_thread = threading.Thread(target=threaded_listen)
         listener_thread.daemon = True
         listener_thread.start()
 
         return stopper
 
-    def g_stream_loop(self, service, source, init_buff):
+    def g_stream_loop(self, service, source, init_buff, callback):
 
+            self._running_stream = True
             with self.listen_thread(source) as buffered_audio_data:
 
                 requests = self.g_request_steam(buffered_audio_data, source.SAMPLE_RATE, init_buff)
                 recon_stream = service.StreamingRecognize(requests, 60 * 3 + 5)
 
                 try:
-                    self.g_print_loop(recon_stream)
+                    self.g_print_loop(recon_stream, callback)
                     recon_stream.cancel()
                 except:
                     self._log.exception("Printer error")
+
+                self._log.debug("Exited stream")
+
+            self._log.debug("Exited everything")
 
 
     def g_audio_data_generator(self,buff):
@@ -634,12 +644,15 @@ class Recognizer(AudioSource):
                     break
             yield b''.join(data)
 
-    def g_request_steam(self, data_stream, rate, init_buff):
+    def g_request_steam(self, data_stream, rate, init_buff=None):
 
         r_config = cloud_speech.RecognitionConfig(
             encoding='LINEAR16',
             sample_rate=rate,
             language_code='en-US',
+            speech_context= cloud_speech.SpeechContext(
+                phrases=["mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find", "number 1"]
+            )
         )
         r_stream_config = cloud_speech.StreamingRecognitionConfig(
             config=r_config,
@@ -649,20 +662,37 @@ class Recognizer(AudioSource):
         yield cloud_speech.StreamingRecognizeRequest(
             streaming_config=r_stream_config)
 
-        yield cloud_speech.StreamingRecognizeRequest(audio_content=init_buff)
+        if init_buff:
+            yield cloud_speech.StreamingRecognizeRequest(audio_content=init_buff)
 
         for data in data_stream:
             yield cloud_speech.StreamingRecognizeRequest(audio_content=data)
 
-    def g_print_loop(self, recognize_stream):
+    def g_print_loop(self, recognize_stream, callback):
         for resp in recognize_stream:
             self._log.info(resp)
 
             if resp.error.code != code_pb2.OK:
+                self._running_stream = False
                 self._log.exception("Recognition Error")
+                break
+
+                # recon_stream = service.StreamingRecognize(requests, 60 * 3 + 5)
+
+            if resp.endpointer_type == 1:
+                self._log.debug("Speech Started\n")
+                self.pserve.send("audio_found","")
+            elif resp.endpointer_type == 2:
+                self._log.debug("Speech Ended\n")
+                self.pserve.send("audio_uploading","")
+            elif resp.endpointer_type == 3:
+                self._log.debug("Audio Ended. Restarting stream\n")
+                # recon_stream = service.StreamingRecognize(requests, 60 * 3 + 5)
 
             for result in resp.results:
-                self._log.info(result.alternatives)
+                for alt in result.alternatives:
+                    # self._log.info(alt.transcript)
+                    callback(alt.transcript)
 
 
 def get_flac_converter():

@@ -147,11 +147,11 @@ class Speech:
         # Start snowboy in a thread
         self.start()
 
-    def detect_bing(self,recon,audio):
+    def detect_bing(self, text):
         try:
-            self.pserve.send("audio_uploading","")
-
-            text = recon.recognize_google(audio)
+            # self.pserve.send("audio_uploading","")
+            #
+            # text = recon.recognize_google(audio)
             cmd = get_command(text)
 
             if cmd:
