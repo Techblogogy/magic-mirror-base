@@ -11,7 +11,7 @@ from six.moves import queue
 
 # from googleapiclient import discovery
 # import httplib2
-# from oauth2client.client import GoogleCredentials
+from oauth2client.client import GoogleCredentials
 
 # from gcloud.credentials import get_credentials
 # from google.cloud.speech.v1beta1 import cloud_speech_pb2 as cloud_speech
@@ -420,22 +420,14 @@ class Recognizer(AudioSource):
         self.pserve = pserve
         self._log = logger
 
-
-    def auth_google(self):
-        credentials = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped(['https://www.googleapis.com/auth/cloud-platform'])
-
-        http = httplib2.Http()
-        credentials.authorize(http)
-
-        self.service = discovery.build('speech', 'v1beta1', http=http, discoveryServiceUrl=DISCOVERY_URL)
-
     def google_grpc_channel(self, host, port):
         """Creates an SSL channel with auth credentials from the environment."""
         # In order to make an https call, use an ssl channel with defaults
         ssl_channel = implementations.ssl_channel_credentials(None, None, None)
 
         # Grab application default credentials from the environment
-        creds = credentials.get_credentials().create_scoped([SPEECH_SCOPE])
+        creds = GoogleCredentials.from_stream(os.path.join(app_dir,"audio_creds.json")).create_scoped([SPEECH_SCOPE])
+
         # Add a plugin to inject the creds into the header
         auth_header = (
             'Authorization',
@@ -450,39 +442,6 @@ class Recognizer(AudioSource):
 
         return implementations.secure_channel(host, port, composite_channel)
 
-
-    def record(self, source, duration = None, offset = None):
-        """
-        Records up to ``duration`` seconds of audio from ``source`` (an ``AudioSource`` instance) starting at ``offset`` (or at the beginning if not specified) into an ``AudioData`` instance, which it returns.
-
-        If ``duration`` is not specified, then it will record until there is no more audio input.
-        """
-        assert isinstance(source, AudioSource), "Source must be an audio source"
-        assert source.stream is not None, "Audio source must be entered before recording, see documentation for `AudioSource`; are you using `source` outside of a `with` statement?"
-
-        frames = io.BytesIO()
-        seconds_per_buffer = (source.CHUNK + 0.0) / source.SAMPLE_RATE
-        elapsed_time = 0
-        offset_time = 0
-        offset_reached = False
-        while True: # loop for the total number of chunks needed
-            if offset and not offset_reached:
-                offset_time += seconds_per_buffer
-                if offset_time > offset:
-                    offset_reached = True
-
-            buffer = source.stream.read(source.CHUNK)
-            if len(buffer) == 0: break
-
-            if offset_reached or not offset:
-                elapsed_time += seconds_per_buffer
-                if duration and elapsed_time > duration: break
-
-                frames.write(buffer)
-
-        frame_data = frames.getvalue()
-        frames.close()
-        return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
 
     def adjust_for_ambient_noise(self, source, duration = 1):
         """
@@ -506,8 +465,9 @@ class Recognizer(AudioSource):
             buffer = source.stream.read(source.CHUNK)
 
             # Amplify volume
-            buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
-            buffer = struct.pack('h'*len(buffer), *buffer)
+            # buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
+            # buffer = struct.pack('h'*len(buffer), *buffer)
+            buffer = self.amplify(buffer, self.audio_gain)
 
             energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
 
@@ -516,14 +476,12 @@ class Recognizer(AudioSource):
             target_energy = energy * self.dynamic_energy_ratio
             self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
 
-    def listen(self, source, buff, timeout = None):
-        """
-        Records a single phrase from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance, which it returns.
+    def amplify(self, buff, gain):
+        amp_b = numpy.fromstring(buff, numpy.int16) * gain # half amplitude
+        amp_b = struct.pack('h'*len(amp_b), *amp_b)
+        return amp_b
 
-        This is done by waiting until the audio has an energy above ``recognizer_instance.energy_threshold`` (the user has started speaking), and then recording until it encounters ``recognizer_instance.pause_threshold`` seconds of non-speaking or there is no more audio input. The ending silence is not included.
-
-        The ``timeout`` parameter is the maximum number of seconds that it will wait for a phrase to start before giving up and throwing an ``speech_recognition.WaitTimeoutError`` exception. If ``timeout`` is ``None``, it will wait indefinitely.
-        """
+    def listen_trigger(self, source, timeout):
         assert isinstance(source, AudioSource), "Source must be an audio source"
         assert source.stream is not None, "Audio source must be entered before listening, see documentation for `AudioSource`; are you using `source` outside of a `with` statement?"
         assert self.pause_threshold >= self.non_speaking_duration >= 0
@@ -533,111 +491,217 @@ class Recognizer(AudioSource):
         phrase_buffer_count = int(math.ceil(self.phrase_threshold / seconds_per_buffer)) # minimum number of buffers of speaking audio before we consider the speaking audio a phrase
         non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
 
-        # DEBUG
-        self._log.info("Energy threshold %d", (self.energy_threshold))
-
         # read audio input for phrases until there is a phrase that is long enough
         elapsed_time = 0 # number of seconds of audio read
+
+        buff = queue.Queue()
+        # buff_len = 0
+
+        self._log.info("Energy threshold %d", (self.energy_threshold))
+
+        # store audio input until the phrase starts
         while True:
-            frames = collections.deque()
+            elapsed_time += seconds_per_buffer
+            if timeout and elapsed_time > timeout: # handle timeout if specified
+                raise WaitTimeoutError("listening timed out")
 
-            # store audio input until the phrase starts
-            while True:
-                elapsed_time += seconds_per_buffer
-                if timeout and elapsed_time > timeout: # handle timeout if specified
-                    raise WaitTimeoutError("listening timed out")
+            buffer = source.stream.read(source.CHUNK)
 
-                buffer = source.stream.read(source.CHUNK)
+            # Amplify volume
+            buffer = self.amplify(buffer, self.audio_gain)
 
-                # Amplify volume
-                buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
-                buffer = struct.pack('h'*len(buffer), *buffer)
+            if len(buffer) == 0: break # reached end of the stream
+            buff.put(buffer)
+            # buff_len += 1
 
-                if len(buffer) == 0: break # reached end of the stream
-                frames.append(buffer)
-                buff.put(buffer)
-                if len(frames) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
-                    frames.popleft()
+            # if buff_len > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
+            #     buff.get()
 
-                # detect whether speaking has started on audio input
-                energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
+            # detect whether speaking has started on audio input
+            energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
+            if energy > self.energy_threshold: break
 
-                if energy > self.energy_threshold: break
+            # dynamically adjust the energy threshold using assymmetric weighted average
+            if self.dynamic_energy_threshold:
+                damping = self.dynamic_energy_adjustment_damping ** seconds_per_buffer # account for different chunk sizes and rates
+                target_energy = energy * self.dynamic_energy_ratio
+                self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
 
-                # dynamically adjust the energy threshold using assymmetric weighted average
-                if self.dynamic_energy_threshold:
-                    damping = self.dynamic_energy_adjustment_damping ** seconds_per_buffer # account for different chunk sizes and rates
-                    target_energy = energy * self.dynamic_energy_ratio
-                    self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
+        self._log.info("Audio Detected")
 
-            # This is a trigger moment. We Should probably start the recognition sending right here or should we do it in there
+        return buff
 
-            # DEBUG
-            self._log.info("Audio Detected")
-            self.pserve.send("audio_found","")
 
-            # read audio input until the phrase ends
-            pause_count, phrase_count = 0, 0
-            while True:
-                elapsed_time += seconds_per_buffer
-                if timeout and elapsed_time > 5: # handle timeout if specified
-                    break;
+    def listen(self, source, buff, timeout = None):
+        """
+        Records a single phrase from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance, which it returns.
 
-                buffer = source.stream.read(source.CHUNK)
+        This is done by waiting until the audio has an energy above ``recognizer_instance.energy_threshold`` (the user has started speaking), and then recording until it encounters ``recognizer_instance.pause_threshold`` seconds of non-speaking or there is no more audio input. The ending silence is not included.
 
-                # Amplify volume
-                buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
-                buffer = struct.pack('h'*len(buffer), *buffer)
+        The ``timeout`` parameter is the maximum number of seconds that it will wait for a phrase to start before giving up and throwing an ``speech_recognition.WaitTimeoutError`` exception. If ``timeout`` is ``None``, it will wait indefinitely.
+        """
+        # assert isinstance(source, AudioSource), "Source must be an audio source"
+        # assert source.stream is not None, "Audio source must be entered before listening, see documentation for `AudioSource`; are you using `source` outside of a `with` statement?"
+        # assert self.pause_threshold >= self.non_speaking_duration >= 0
+        #
+        # seconds_per_buffer = (source.CHUNK + 0.0) / source.SAMPLE_RATE
+        # pause_buffer_count = int(math.ceil(self.pause_threshold / seconds_per_buffer)) # number of buffers of non-speaking audio before the phrase is complete
+        # phrase_buffer_count = int(math.ceil(self.phrase_threshold / seconds_per_buffer)) # minimum number of buffers of speaking audio before we consider the speaking audio a phrase
+        # non_speaking_buffer_count = int(math.ceil(self.non_speaking_duration / seconds_per_buffer)) # maximum number of buffers of non-speaking audio to retain before and after
 
-                if len(buffer) == 0: break # reached end of the stream
-                frames.append(buffer)
-                buff.put(buffer)
-                phrase_count += 1
+        # DEBUG
+        # self._log.info("Energy threshold %d", (self.energy_threshold))
 
-                # check if speaking has stopped for longer than the pause threshold on the audio input
-                energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
-                if energy > self.energy_threshold:
-                    pause_count = 0
-                else:
-                    pause_count += 1
-                if pause_count > pause_buffer_count: # end of the phrase
-                    break
+        # # read audio input for phrases until there is a phrase that is long enough
+        # elapsed_time = 0 # number of seconds of audio read
+        # while True:
+        #     # frames = collections.deque()
+        #
+        #     # store audio input until the phrase starts
+        #     while True:
+        #         elapsed_time += seconds_per_buffer
+        #         if timeout and elapsed_time > timeout: # handle timeout if specified
+        #             raise WaitTimeoutError("listening timed out")
+        #
+        #         buffer = source.stream.read(source.CHUNK)
+        #
+        #         # Amplify volume
+        #         buffer = self.amplify(buffer, self.audio_gain)
+        #
+        #         if len(buffer) == 0: break # reached end of the stream
+        #         # frames.append(buffer)
+        #         buff.put(buffer)
+        #         # if len(frames) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
+        #         if len(buff) > non_speaking_buffer_count: # ensure we only keep the needed amount of non-speaking buffers
+        #             buff.get()
+        #
+        #         # detect whether speaking has started on audio input
+        #         energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
+        #
+        #         if energy > self.energy_threshold: break
+        #
+        #         # dynamically adjust the energy threshold using assymmetric weighted average
+        #         if self.dynamic_energy_threshold:
+        #             damping = self.dynamic_energy_adjustment_damping ** seconds_per_buffer # account for different chunk sizes and rates
+        #             target_energy = energy * self.dynamic_energy_ratio
+        #             self.energy_threshold = self.energy_threshold * damping + target_energy * (1 - damping)
+        #
+        #     # DEBUG
+        #     self._log.info("Audio Detected")
+        #     self.pserve.send("audio_found","")
+        #
+        #     # read audio input until the phrase ends
+        #     pause_count, phrase_count = 0, 0
 
-            # check how long the detected phrase is, and retry listening if the phrase is too short
-            phrase_count -= pause_count
-            if phrase_count >= phrase_buffer_count:
-                break # phrase is long enough, stop listening
-            else:
-                # DEBUG
-                self._log.info("Phase is not long enough")
-                self.pserve.send("audio_error", "shortphase")
+        self._log.debug("Microphone capturing thread started")
+
+        # Tab left for entire function -->
+        while True:
+            # elapsed_time += seconds_per_buffer
+            # if timeout and elapsed_time > 5: # handle timeout if specified
+            #     break;
+
+            buffer = source.stream.read(source.CHUNK)
+
+            # Amplify volume
+            buffer = self.amplify(buffer, self.audio_gain)
+
+            if len(buffer) == 0: # reached end of the stream
+                buff.put(None)
+                break
+
+            buff.put(buffer)
+
+                # frames.append(buffer)
+                # phrase_count += 1
+
+                # # check if speaking has stopped for longer than the pause threshold on the audio input
+                # energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
+                # if energy > self.energy_threshold:
+                #     pause_count = 0
+                # else:
+                #     pause_count += 1
+                # if pause_count > pause_buffer_count: # end of the phrase
+                #     break
+
+            # # check how long the detected phrase is, and retry listening if the phrase is too short
+            # phrase_count -= pause_count
+            # if phrase_count >= phrase_buffer_count:
+            #     break # phrase is long enough, stop listening
+            # else:
+            #     # DEBUG
+            #     self._log.info("Phase is not long enough")
+            #     self.pserve.send("audio_error", "shortphase")
 
 
         # DEBUG
-        self._log.info("Getting Frame Data")
+        # self._log.info("Getting Frame Data")
 
-        # obtain frame data
-        for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
-        frame_data = b"".join(list(frames))
+        self._log.debug("Microphone capturing thread stopped")
 
-        return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
+        # # obtain frame data
+        # for i in range(pause_count - non_speaking_buffer_count): frames.pop() # remove extra non-speaking frames at the end
+        # frame_data = b"".join(list(frames))
+        #
+        # return AudioData(frame_data, source.SAMPLE_RATE, source.SAMPLE_WIDTH)
 
     @contextlib.contextmanager
-    def listen_thread(self, source):
+    def listen_thread(self, source, buff):
         assert isinstance(source, AudioSource), "Source must be an audio source"
-        running = [True]
+        # running = [True]
 
-        buff = queue.Queue()
+        # buff = queue.Queue()
+
+        # source.__enter__()
+
+        mic_thread = threading.Thread(
+            target=self.listen,
+            args=(source, buff))
+        mic_thread.start()
+
+        yield self.g_audio_data_generator(buff)
+
+        # source.__exit__()
+        mic_thread.join()
+
+
+        # def threaded_listen():
+        #     with source as s:
+        #         while running[0]:
+        #             try: # listen for 1 second, then check again if the stop function has been called
+        #                 audio = self.listen(s, buff, 1)
+        #             except WaitTimeoutError: # listening timed out, just try again
+        #                 pass
+        #             # else:
+        #             #     if running[0]: callback(self, audio)
+        # def stopper():
+        #     running[0] = False
+        #     listener_thread.join() # block until the background thread is done, which can be up to 1 second
+        # listener_thread = threading.Thread(target=threaded_listen)
+        # listener_thread.daemon = True
+        # listener_thread.start()
+        #
+        # yield self.g_audio_data_generator(buff)
+        #
+        # self._log.debug("STOP")
+        # stopper()
+
+
+    def listen_in_background(self, source, callback):
+        assert isinstance(source, AudioSource), "Source must be an audio source"
+
+        running = [True]
 
         def threaded_listen():
             with source as s:
                 while running[0]:
                     try: # listen for 1 second, then check again if the stop function has been called
-                        audio = self.listen(s, buff, 1)
+                        buff = self.listen_trigger(s, 1)
                     except WaitTimeoutError: # listening timed out, just try again
                         pass
-                    # else:
-                    #     if running[0]: callback(self, audio)
+                    else:
+                        # if running[0]: callback(self, audio)
+                        self.g_stream_loop(source, buff)
         def stopper():
             running[0] = False
             listener_thread.join() # block until the background thread is done, which can be up to 1 second
@@ -645,28 +709,11 @@ class Recognizer(AudioSource):
         listener_thread.daemon = True
         listener_thread.start()
 
-        yield self.g_audio_data_generator(buff)
+        return stopper
 
-        self._log.debug("STOP")
-        stopper()
-
-
-    def listen_in_background(self, source, callback):
-        """
-        Spawns a thread to repeatedly record phrases from ``source`` (an ``AudioSource`` instance) into an ``AudioData`` instance and call ``callback`` with that ``AudioData`` instance as soon as each phrase are detected.
-
-        Returns a function object that, when called, requests that the background listener thread stop, and waits until it does before returning. The background thread is a daemon and will not stop the program from exiting if there are no other non-daemon threads.
-
-        Phrase recognition uses the exact same mechanism as ``recognizer_instance.listen(source)``.
-
-        The ``callback`` parameter is a function that should accept two parameters - the ``recognizer_instance``, and an ``AudioData`` instance representing the captured audio. Note that ``callback`` function will be called from a non-main thread.
-        """
-
+    def g_stream_loop(self, source, buff):
         with cloud_speech.beta_create_Speech_stub(self.google_grpc_channel('speech.googleapis.com', 443)) as service:
-
-            # buffered_audio_data = self.listen_thread(source)
-
-            with self.listen_thread(source) as buffered_audio_data:
+            with self.listen_thread(source, buff) as buffered_audio_data:
 
                 requests = self.g_request_steam(buffered_audio_data, source.SAMPLE_RATE)
                 recon_stream = service.StreamingRecognize(requests, 60 * 3 + 5)
@@ -682,7 +729,8 @@ class Recognizer(AudioSource):
         while True:
             chunk = buff.get()
             if not chunk:
-                break
+                self._log.debug("No Data in buffer")
+                continue
 
             data = [chunk]
 
@@ -695,211 +743,32 @@ class Recognizer(AudioSource):
 
     def g_request_steam(self, data_stream, rate):
 
-        # self._log.debug( sys.getsizeof(audio_data.get_raw_data()) )
-
-        # self.auth_google_grpc()
-        # with cloud_speech.beta_create_Speech_stub(
-        #         self.google_grpc_channel('speech.googleapis.com', 443)) as service:
-
         r_config = cloud_speech.RecognitionConfig(
             encoding='LINEAR16',
             sample_rate=rate,
             language_code='en-US',
-            # speech_context= cloud_speech.SpeechContext(
-            #     phrases=["mirror", "add", "item", "help", "close"]
-            # )
         )
         r_stream_config = cloud_speech.StreamingRecognitionConfig(
-            config=r_config)
-
+            config=r_config,
+            single_utterance=False,
+            interim_results=False)
 
         yield cloud_speech.StreamingRecognizeRequest(
             streaming_config=r_stream_config)
 
         for data in data_stream:
-            # self._log.debug(data_stream)
             yield cloud_speech.StreamingRecognizeRequest(audio_content=data)
 
     def g_print_loop(self, recognize_stream):
         for resp in recognize_stream:
+            self._log.info(resp)
+
             if resp.error.code != code_pb2.OK:
-                self._log.debug("Recognition Error")
+                self._log.exception("Recognition Error")
 
             for result in resp.results:
                 self._log.info(result.alternatives)
 
-
-    def recognize_google(self, audio_data, language = "en-US", show_all = False):
-
-        assert isinstance(audio_data, AudioData), "`audio_data` must be audio data"
-        assert isinstance(language, str), "`language` must be a string"
-
-        # flac_data = audio_data.get_flac_data(
-        #     # convert_rate = None if audio_data.sample_rate >= 8000 else 8000, # audio samples must be at least 8 kHz
-        #     convert_rate = 16000, # audio samples must be at least 8 kHz
-        #     convert_width = 2 # audio samples must be 16-bit
-        # )
-        #
-        # self._log.debug( sys.getsizeof(audio_data.get_raw_data()) )
-        #
-        # # self.auth_google_grpc()
-        # with cloud_speech.beta_create_Speech_stub(
-        #         self.google_grpc_channel('speech.googleapis.com', 443)) as service:
-        #
-        #     response = service.SyncRecognize(cloud_speech.SyncRecognizeRequest (
-        #         config=cloud_speech.RecognitionConfig(
-        #             encoding='LINEAR16',
-        #             sample_rate=48000,
-        #             language_code=language,
-        #             speech_context= cloud_speech.SpeechContext(
-        #                 phrases=["mirror", "add", "item", "help", "close"]
-        #             )
-        #         ),
-        #         audio=cloud_speech.RecognitionAudio(
-        #             content=audio_data.get_raw_data() #flac_data
-        #         )
-        #     ), 10)
-        #     result = response.results
-        #
-        # self._log.debug(result)
-        #
-        # # actual_result = []
-        # if len(result) == 0:
-        #     raise UnknownValueError()
-        #
-        # return result[0].alternatives[0].transcript
-        raise UnknownValueError() # no transcriptions available
-
-    def recognize_bing(self, audio_data, key, language = "en-US", show_all = False):
-        """
-        Performs speech recognition on ``audio_data`` (an ``AudioData`` instance), using the Microsoft Bing Voice Recognition API.
-
-        The Microsoft Bing Voice Recognition API key is specified by ``key``. Unfortunately, these are not available without `signing up for an account <https://www.microsoft.com/cognitive-services/en-us/speech-api>`__ with Microsoft Cognitive Services.
-
-        To get the API key, go to the `Microsoft Cognitive Services subscriptions overview <https://www.microsoft.com/cognitive-services/en-us/subscriptions>`__, go to the entry titled "Speech", and look for the key under the "Keys" column. Microsoft Bing Voice Recognition API keys are 32-character lowercase hexadecimal strings.
-
-        The recognition language is determined by ``language``, an RFC5646 language tag like ``"en-US"`` (US English) or ``"fr-FR"`` (International French), defaulting to US English. A list of supported language values can be found in the `API documentation <https://www.microsoft.com/cognitive-services/en-us/speech-api/documentation/api-reference-rest/BingVoiceRecognition#user-content-4-supported-locales>`__.
-
-        Returns the most likely transcription if ``show_all`` is false (the default). Otherwise, returns the `raw API response <https://www.microsoft.com/cognitive-services/en-us/speech-api/documentation/api-reference-rest/BingVoiceRecognition#user-content-3-voice-recognition-responses>`__ as a JSON dictionary.
-
-        Raises a ``speech_recognition.UnknownValueError`` exception if the speech is unintelligible. Raises a ``speech_recognition.RequestError`` exception if the speech recognition operation failed, if the key isn't valid, or if there is no internet connection.
-        """
-        assert isinstance(audio_data, AudioData), "Data must be audio data"
-        assert isinstance(key, str), "`key` must be a string"
-        assert isinstance(language, str), "`language` must be a string"
-
-        # DEBUG:
-        self._log.info("Started Bing Recogntion")
-
-        access_token, expire_time = getattr(self, "bing_cached_access_token", None), getattr(self, "bing_cached_access_token_expiry", None)
-        allow_caching = True
-        try:
-            from time import monotonic # we need monotonic time to avoid being affected by system clock changes, but this is only available in Python 3.3+
-        except ImportError:
-            try:
-                from monotonic import monotonic # use time.monotonic backport for Python 2 if available (from https://pypi.python.org/pypi/monotonic)
-            except (ImportError, RuntimeError):
-                print "caching not allowed"
-                expire_time = None # monotonic time not available, don't cache access tokens
-                allow_caching = False # don't allow caching, since monotonic time isn't available
-        if expire_time is None or monotonic() > expire_time: # caching not enabled, first credential request, or the access token from the previous one expired
-            # get an access token using OAuth
-            credential_url = "https://oxford-speech.cloudapp.net/token/issueToken"
-            credential_request = Request(credential_url, data = urlencode({
-              "grant_type": "client_credentials",
-              "client_id": "python",
-              "client_secret": key,
-              "scope": "https://speech.platform.bing.com"
-            }).encode("utf-8"))
-            if allow_caching:
-                start_time = monotonic()
-            try:
-                credential_response = urlopen(credential_request)
-            except HTTPError as e:
-                raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-            except URLError as e:
-                raise RequestError("recognition connection failed: {0}".format(e.reason))
-            credential_text = credential_response.read().decode("utf-8")
-            credentials = json.loads(credential_text)
-            access_token, expiry_seconds = credentials["access_token"], float(credentials["expires_in"])
-
-            if allow_caching:
-                # save the token for the duration it is valid for
-                self.bing_cached_access_token = access_token
-                self.bing_cached_access_token_expiry = start_time + expiry_seconds
-
-        # DEBUG
-        self._log.info("Getting Audio Data")
-
-        wav_data = audio_data.get_wav_data(
-            convert_rate = 16000, # audio samples must be 8kHz or 16 kHz
-            convert_width = 2 # audio samples should be 16-bit
-        )
-
-        url = "/recognize?{0}".format(urlencode({
-            "version": "3.0",
-            "requestid": uuid.uuid4(),
-            "appID": "D4D52672-91D7-4C74-8AD8-42B1D98141A5",
-            "format": "json",
-            "locale": language,
-            "device.os": "wp7",
-            "scenarios": "ulm",
-            "instanceid": uuid.uuid4(),
-            "result.profanitymarkup": "0",
-        }))
-
-        # self._log.debug(len(wav_data))
-
-        httplib.HTTPSConnection.debuglevel = 0
-
-        conn = httplib.HTTPSConnection("speech.platform.bing.com")
-        conn.connect()
-
-        # Set headers
-        conn.putrequest("POST", url)
-
-        conn.putheader('Transfer-Encoding', 'chunked')
-        conn.putheader("Authorization", "Bearer {0}".format(access_token))
-        conn.putheader("Content-Type", "audio/wav; samplerate=16000; sourcerate={0}; trustsourcerate=true".format(audio_data.sample_rate))
-        conn.endheaders()
-
-        # Send Chunk
-        conn.send("%s\r\n" % hex(len(wav_data))[2:])
-        conn.send("%s\r\n" % wav_data)
-
-        # Send second time
-        # conn.send("%s\r\n" % hex(len(wav_data))[2:])
-        # conn.send("%s\r\n" % wav_data)
-
-
-        # Finnish chunked
-        conn.send("0\r\n")
-        conn.send("\r\n")
-
-        # DEBUG
-        self._log.info("Sending Request")
-
-        try:
-            response = conn.getresponse() # urlopen(request)
-        except HTTPError as e:
-            raise RequestError("recognition request failed: {0}".format(getattr(e, "reason", "status {0}".format(e.code)))) # use getattr to be compatible with Python 2.6
-        except URLError as e:
-            raise RequestError("recognition connection failed: {0}".format(e.reason))
-
-        print response.status, response.reason
-
-        response_text = response.read().decode("utf-8")
-        result = json.loads(response_text)
-
-        # DEBUG
-        self._log.info("Displaying Result")
-        # self.pserve.send("audio_detected","cmd")
-
-        # return results
-        if show_all: return result
-        if "header" not in result or "lexical" not in result["header"]: raise UnknownValueError()
-        return result["header"]["lexical"]
-        return ""
 
 def get_flac_converter():
     # determine which converter executable to use
