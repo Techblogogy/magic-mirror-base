@@ -368,6 +368,11 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
         $scope.switchView('add','left_swipe');
     });
 
+    socket.forward('search', $scope);
+    $scope.$on("socket:search", function (event, data) {
+        
+    })
+
 }]);
 
 // Dymanically load images

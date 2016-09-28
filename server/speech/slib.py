@@ -604,7 +604,7 @@ class Recognizer(AudioSource):
 
         self._running_voice = True
         listener_thread = threading.Thread(target=threaded_listen)
-        listener_thread.daemon = True
+        # listener_thread.daemon = True
         listener_thread.start()
 
         return stopper
