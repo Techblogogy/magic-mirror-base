@@ -88,7 +88,7 @@ class My_Cam:
 
         # Compress image
         cmp_im = Image.open('%s/cls/%s.jpg' % (self._appdir,self.t,))
-        cmp_im.save('%s/cls/%s.jpg' % (self._appdir,self.t,), optimize=True, quality=80)
+        cmp_im.save('%s/cls/%s.jpg' % (self._appdir,self.t,), optimize=True, quality=20)
 
         self.pserve.send("m_camera", "thumb_captured")
 

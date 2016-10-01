@@ -4,6 +4,8 @@ from oauth2client import client
 from apiclient.discovery import build
 from oauth2client.file import Storage
 
+import socket as sct
+
 import sys, os
 
 from flask import abort
@@ -36,6 +38,8 @@ class Gcal(Dataset):
         flow = client.flow_from_clientsecrets(
             os.path.join(self._appdir, 'client_secret.json' ),
             scope=["https://www.googleapis.com/auth/calendar.readonly","https://www.googleapis.com/auth/userinfo.profile"],
+            # redirect_uri="http://%s:5000/gcal/auth2callback" % (sct.gethostbyname(sct.gethostname()))
+            # redirect_uri="http://%s:5000/gcal/auth2callback" % (sct.gethostbyname(sct.gethostname()))
             redirect_uri="http://localhost:5000/gcal/auth2callback"
         )
         flow.params['include_granted_scopes'] = "true"

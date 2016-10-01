@@ -3,6 +3,8 @@ node_modules/*
 
 *.pyc
 
+server/*.jpg
+
 server/cvison/*.png
 server/cvison/frames/*.png
 

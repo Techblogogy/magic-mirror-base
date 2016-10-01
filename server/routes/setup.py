@@ -31,8 +31,8 @@ def construct_bp(setup):
         #     0x8915,
         #     struct.pack("256s", IF_NAME[:15])
         # )[20:24])
-        return "192.168.1.103:5000"
-        # return "%s:%s" % (sct.gethostbyname(sct.gethostname()), IF_PORT)
+        # return "192.168.1.103:5000"
+        return "%s:%s" % (sct.gethostbyname(sct.gethostname()), IF_PORT)
 
     @setup_blp.route('/is_tut')
     def is_tut():

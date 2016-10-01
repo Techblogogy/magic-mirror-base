@@ -255,6 +255,11 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
         $scope.click_code();
     });
 
+    socket.forward('stop_cmd', $scope);
+    $scope.$on("socket:stop_cmd", function (event, data) {
+        $scope.click_code();
+    })
+
     socket.forward('save_tags', $scope);
     $scope.$on("socket:save_tags", function (event, data) {
         $scope.click_code();

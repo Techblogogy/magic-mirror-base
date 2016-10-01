@@ -45,6 +45,10 @@ def create_server():
     machine_plt = platform.machine()[:3]
     ml_pt = (machine_plt == "arm")
 
+    import socket as sct
+    # socket.gethostbyname(socket.gethostname())
+    logger.debug( "%s:%s" % (sct.gethostbyname(sct.gethostname()), 5000) )
+
     # Create server singleton instance
     from server import PServer
     pserve = PServer()
@@ -67,7 +71,7 @@ def create_server():
 
 
     # Start voice recognition
-    voice = Speech(pserve, cfg, logger)
+    voice = Speech(pserve, cfg, logger, app_dir)
     voice.start()
 
     # Video playing
@@ -102,7 +106,7 @@ def create_server():
 
         file = request.files['file']
         filename = "snowboy.umdl"
-        filepath = os.path.join(app_dir+'/voice', filename)
+        filepath = os.path.join(app_dir, 'voice', filename)
 
         file.save(filepath)
 
