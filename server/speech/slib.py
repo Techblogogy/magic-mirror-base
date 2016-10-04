@@ -651,7 +651,7 @@ class Recognizer(AudioSource):
             sample_rate=rate,
             language_code='en-US',
             speech_context= cloud_speech.SpeechContext(
-                phrases=["mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find", "number 1"]
+                phrases=["mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find", "number 1", "wear"]
             )
         )
         r_stream_config = cloud_speech.StreamingRecognitionConfig(

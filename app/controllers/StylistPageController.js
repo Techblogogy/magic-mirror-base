@@ -220,7 +220,8 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
         $http.post('http://localhost:5000/wardrobe/wear/'+id_for_db)
         .then(function () {
-            $scope.get_page_items($scope.page_num);
+            // $scope.get_page_items($scope.page_num);
+            $scope.switchView('','right_swipe');
         }, function () {
             console.log("ADD ERROR!");
         });

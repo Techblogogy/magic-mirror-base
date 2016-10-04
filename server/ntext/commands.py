@@ -17,7 +17,7 @@ in_cmd = [
     v_cmd(["next", "more"], "OR", "next_page"),
     v_cmd(["previous", "less", "back"], "OR", "previous_page"),
 
-    v_cmd(["want", "wear", "today"], "AND", "item_worn"),
+    v_cmd(["wear"], "AND", "item_worn"),
 
     v_cmd(["find"], "TAG", "search"),
 
