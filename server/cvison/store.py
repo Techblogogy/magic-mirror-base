@@ -1,7 +1,7 @@
 # from dbase.dbase import dbase as db
 from dbase.dataset import Dataset
 
-from api_cal.weather import Weather
+# from api_cal.weather import Weather
 
 import random, json, requests
 
@@ -151,7 +151,7 @@ class Clothes(Dataset):
             LIMIT ? OFFSET ?
         """
 
-        w_rng = Weather.w_temp_range()[0]
+        w_rng = self.weather.w_temp_range()[0]
         w_temp = self._db._temp_group(w_rng)
 
         self._log.debug("[DEBUG] Current temperatue: %d", (w_rng))
@@ -225,12 +225,12 @@ class Clothes(Dataset):
         )
         self._db.qry(
             "INSERT INTO clothes_meta (c_id, temperature, t_time) VALUES (?, ?, date('now'))",
-            (id, Weather.w_current_temp(), )
+            (id, self.weather.w_current_temp(), )
         )
 
         return ""
         # return self._db.qry("SELECT * FROM clothes_meta")
-        # return Weather.w_current_temp()
+        # return self.weather.w_current_temp()
 
     # Get items meta
     def get_meta(self):

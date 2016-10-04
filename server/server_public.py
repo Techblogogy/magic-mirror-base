@@ -31,6 +31,7 @@ import subprocess
 
 from api_cal.setup import Setup as ST
 from api_cal.gcal import Gcal as GC
+from api_cal.weather import Weather as WH
 from cvison.store import Clothes as CL
 
 
@@ -53,6 +54,7 @@ def create_server():
     from server import PServer
     pserve = PServer()
 
+
     # ---> Reigster Blueprints
     from routes.setup import construct_bp as crt_setup
     setup = ST(db, pserve, app_dir, logger)
@@ -62,8 +64,11 @@ def create_server():
     gcal = GC(db, pserve, app_dir, logger)
     pserve.app.register_blueprint(crt_gcal(gcal, 4))
 
+
     from routes.wardrobe import construct_bp as crt_wrd
+    weather = WH(setup, logger, cfg)
     clothes = CL(db, pserve, app_dir, logger, config=cfg)
+    clothes.weather = weather
     pserve.app.register_blueprint(crt_wrd(clothes, logger))
 
     from routes.WDmanager import construct_bp as ctr_mng_wrd

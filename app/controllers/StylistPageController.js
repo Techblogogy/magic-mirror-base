@@ -331,7 +331,7 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
     // $scope.$on("socket:search", function (event, data) {
     // console.log(data);
     $scope.get_search_results = function(p_num){
-        $http.get('http://localhost:5000/wardrobe/get/smart?q='+q+'&items='+8+'&page='+p_num)
+        $http.get('http://localhost:5000/wardrobe/get/smart?q='+$scope.qry+'&items='+8+'&page='+p_num)
         .success(function(data){
             console.log(data);
             if (data.length === 0) {
@@ -370,8 +370,16 @@ app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location',
 
     socket.forward('search', $scope);
     $scope.$on("socket:search", function (event, data) {
-        
-    })
+        console.log(data);
+        $scope.user_search = true;
+
+        $scope.qry = data[0];
+
+        $scope.page_num = 1;
+        $scope.get_search_results($scope.page_num);
+
+
+    });
 
 }]);
 
