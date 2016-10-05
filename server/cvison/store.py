@@ -58,6 +58,8 @@ class Clothes(Dataset):
         self._db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
         self._db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
 
+        self.fill_tanya()
+
 
     # Add clothing item
     def add(self, dresscode, thumbnail, name=None):
@@ -260,6 +262,43 @@ class Clothes(Dataset):
         self._db.qry("DELETE FROM clothes WHERE id=?", (id, ))
         self._db.qry("DELETE FROM clothes_meta WHERE id=?", (id, ))
         self._db.qry("DELETE FROM clothes_tags WHERE id=?", (id, ))
+
+    def fill_tanya(self):
+
+        d_tags = ["university", "meetups", "work", "whatelse", "favourite"]
+
+        # Clear out clothes table
+        self._db.qry("DELETE FROM clothes")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes'")
+
+        # Clear out clothes meta table
+        self._db.qry("DELETE FROM clothes_meta")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_meta'")
+
+        # Clear out clothes tags table
+        self._db.qry("DELETE FROM clothes_tags")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_tags'")
+
+        for i in range(1,11):
+            # print random.choice(d_codes)
+            self.add("casual", "thum%s.jpg"%str(i))
+            i_id = i #self._db.last_id()
+            self._log.debug(i_id)
+
+            # Randomly add tags
+            for t in range( 1, random.randint(1, 4) ):
+                self.add_tags(i_id, random.choice(d_tags) )
+
+            # 20% chanse to set like
+            if random.random() <= 0.1:
+                self.set_like(1, i_id)
+
+            # Randomly wear items
+            for a in range(1,random.randint(2,40)):
+                self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,8), random.randint(1,30) ) )
 
     # NOTE: Testing data fill
     def fill_junk(self):
