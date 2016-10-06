@@ -58,7 +58,7 @@ class Clothes(Dataset):
         self._db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
         self._db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
 
-        self.fill_tanya()
+        # self.fill_tanya()
 
 
     # Add clothing item
