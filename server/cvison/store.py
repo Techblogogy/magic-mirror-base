@@ -58,7 +58,7 @@ class Clothes(Dataset):
         self._db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
         self._db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
 
-        # self.fill_tanya()
+        self.fill_tanya()
 
 
     # Add clothing item
@@ -159,13 +159,17 @@ class Clothes(Dataset):
         self._log.debug("[DEBUG] Current temperatue: %d", (w_rng))
         self._log.debug("[DEBUG] Temperature Range: %d", (w_temp))
 
+        # self._log.debug( self._db.qry(base_qry) )
+        #
+        # return ""
+
         try:
             d_codes.index(query)
             return self._db.qry(base_qry % ("AND dresscode=?"), (w_temp, w_temp, query, lim, ofs*lim))
         except ValueError:
             return self._db.qry(base_qry % ("AND tags LIKE ?"), (w_temp, w_temp, "%"+query+"%", lim, ofs*lim))
-        # except:
-        #     return {'error': "TOTAL ERROR"}
+        except:
+            return {'error': "TOTAL ERROR"}
 
     # Get all items
 
@@ -292,9 +296,9 @@ class Clothes(Dataset):
             for t in range( 1, random.randint(1, 4) ):
                 self.add_tags(i_id, random.choice(d_tags) )
 
-            # 20% chanse to set like
-            if random.random() <= 0.1:
-                self.set_like(1, i_id)
+            # # 20% chanse to set like
+            # if random.random() <= 0.1:
+            #     self.set_like(1, i_id)
 
             # Randomly wear items
             for a in range(1,random.randint(2,40)):
