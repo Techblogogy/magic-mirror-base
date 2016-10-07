@@ -415,7 +415,7 @@ class Recognizer(AudioSource):
         self.pause_threshold = 0.8 # seconds of non-speaking audio before a phrase is considered complete
         self.phrase_threshold = 0.3 # minimum seconds of speaking audio before we consider the speaking audio a phrase - values below this are ignored (for filtering out clicks and pops)
         self.non_speaking_duration = 0.5 # seconds of non-speaking audio to keep on both sides of the recording
-        self.audio_gain = 8
+        self.audio_gain = 10
 
         self.pserve = pserve
         self._log = logger
