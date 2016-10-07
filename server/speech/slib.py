@@ -415,7 +415,7 @@ class Recognizer(AudioSource):
         self.pause_threshold = 0.8 # seconds of non-speaking audio before a phrase is considered complete
         self.phrase_threshold = 0.3 # minimum seconds of speaking audio before we consider the speaking audio a phrase - values below this are ignored (for filtering out clicks and pops)
         self.non_speaking_duration = 0.5 # seconds of non-speaking audio to keep on both sides of the recording
-        self.audio_gain = 5
+        self.audio_gain = 8
 
         self.pserve = pserve
         self._log = logger
@@ -651,7 +651,7 @@ class Recognizer(AudioSource):
             sample_rate=rate,
             language_code='en-US',
             speech_context= cloud_speech.SpeechContext(
-                phrases=["mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find", "number 1", "wear", "start", "stop", "stylist", "wardrobe", "exit", "one", "two", "three", "four", "five", "six", "seven", "eight"]
+                phrases=["mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find", "number 1", "wear", "start", "stop", "stylist", "wardrobe", "exit", "1", "2", "3", "4", "5", "6", "7", "8"]
             )
         )
         r_stream_config = cloud_speech.StreamingRecognitionConfig(
