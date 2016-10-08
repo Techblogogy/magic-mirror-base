@@ -58,7 +58,7 @@ class Clothes(Dataset):
         self._db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
         self._db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
 
-        self.fill_tanya()
+        # self.fill_tanya()
 
 
     # Add clothing item
@@ -286,7 +286,7 @@ class Clothes(Dataset):
         self._db.qry("VACUUM")
         self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_tags'")
 
-        for i in range(1,11):
+        for i in range(1,12):
             # print random.choice(d_codes)
             self.add("casual", "thum%s.jpg"%str(i))
             i_id = i #self._db.last_id()

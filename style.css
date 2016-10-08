@@ -206,23 +206,23 @@ body {
 
 
 /* Schedule Widget */
-#schedule .ui-widget{
+#calendar .ui-widget{
     width: auto;
     -webkit-animation: moveFromLeft .9s ease-in-out both;
     animation: moveFromLeft .9s ease-in-out both;
 }
-#schedule h1{
+#calendar h1{
     /*font-weight: 700;*/
     font-size: 56pt;
 }
-#schedule .s_item {
+#calendar .s_item {
     /*border-bottom: 1px solid white;*/
     /*border-left: 2px solid white;*/
     overflow: auto; /* FIX for bootstrap column floating */
     padding-bottom: 10px;
 }
 
-#schedule .time {
+#calendar .time {
     padding-left: 5;
     /*font-weight: 700;*/
     font-size: 32pt;
@@ -231,14 +231,14 @@ body {
 
 }
 
-#schedule .plan {
+#calendar .plan {
     /*padding-right: 0;*/
     /*font-weight: 700;*/
     font-size: 32pt;
     margin-left: auto;
 }
 
-#schedule .plan > span {
+#calendar .plan > span {
     font-size: 40pt;
 }
 

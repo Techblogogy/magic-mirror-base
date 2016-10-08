@@ -4,6 +4,8 @@ import math, audioop, collections, threading
 import platform, stat, random, uuid
 import json
 
+import datetime
+
 import httplib
 
 import contextlib
@@ -669,6 +671,7 @@ class Recognizer(AudioSource):
             yield cloud_speech.StreamingRecognizeRequest(audio_content=data)
 
     def g_print_loop(self, recognize_stream, callback):
+        # self._log.info("Streaming")
         for resp in recognize_stream:
             self._log.info(resp)
 
