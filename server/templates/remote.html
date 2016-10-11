@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Debug Remote</title>
+
+        <!-- <link rel="stylesheet" href="style.css"/> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta name="mobile-web-app-capable" content="yes">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
+
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+
+        <style>
+            .r_btn {
+                width:30vw;
+                height:30vw;
+                border: none;
+            }
+
+            .axis_tbl {
+                position: absolute;
+                top:50%;
+                left:50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .comand {
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                transform: translateX(-50%);
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <script>
+
+            var socket = io("http://"+window.location.hostname+":5000/io");
+            function ssend(dir){
+                socket.emit("s_remote", dir);
+            }
+
+            window.onload = function () {
+                var txt = document.getElementById("v_cmd")
+
+                socket.on("audio_detected", function (data) {
+                    txt.value = "";
+                })
+            }
+
+            // var txt = document.getElementById("v_cmd");
+            // txt.oninput = function (e) {
+            //     console.log(e);
+            // }
+
+            function stext(txt) {
+                socket.emit("r_voice", txt.value.toLowerCase());
+            }
+
+            // }
+
+        </script>
+
+        <table class="axis_tbl">
+
+            <tr>
+                <td></td>
+                <td>
+                    <button class="r_btn" id="r_t" onclick="ssend('up');"> <span class="glyphicon glyphicon-arrow-up"></span> </button>
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <button class="r_btn" id="r_l" onclick="ssend('left');"> <span class="glyphicon glyphicon-arrow-left"></span> </button>
+                </td>
+
+                <td>
+                    <button class="r_btn" id="r_c" onclick="ssend('click');"> <span class="glyphicon glyphicon-record"></span> </button>
+                </td>
+
+                <td>
+                    <button class="r_btn" id="r_r" onclick="ssend('right');"> <span class="glyphicon glyphicon-arrow-right"></span> </button>
+                </td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td>
+                    <button class="r_btn" id="r_b" onclick="ssend('down');"> <span class="glyphicon glyphicon-arrow-down"></span> </button>
+                </td>
+                <td></td>
+            </tr>
+
+        </table>
+
+        <input type="text" id="v_cmd" oninput="stext(this)" class="comand"/>
+
+
+    </body>
+
+</html>

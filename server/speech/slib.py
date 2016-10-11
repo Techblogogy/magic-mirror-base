@@ -472,7 +472,7 @@ class Recognizer(AudioSource):
             # Amplify volume
             # buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
             # buffer = struct.pack('h'*len(buffer), *buffer)
-            buffer = self.amplify(buffer, self.audio_gain)
+            # buffer = self.amplify(buffer, self.audio_gain)
 
             energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
 
@@ -512,7 +512,7 @@ class Recognizer(AudioSource):
             buffer = source.stream.read(source.CHUNK)
 
             # Amplify volume
-            buffer = self.amplify(buffer, self.audio_gain)
+            # buffer = self.amplify(buffer, self.audio_gain)
 
             if len(buffer) == 0: break # reached end of the stream
             frames.append(buffer)

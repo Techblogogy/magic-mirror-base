@@ -77,7 +77,7 @@ def create_server():
 
     # Start voice recognition
     voice = Speech(pserve, cfg, logger, app_dir)
-    voice.start()
+    # voice.start()
 
     # Video playing
     pv = PlayVid(clothes, app_dir, logger, cfg)
@@ -126,6 +126,11 @@ def create_server():
     @pserve.app.route('/<path:filename>')
     def index(filename):
         return send_from_directory('static', filename)
+
+    # Remote control route
+    @pserve.app.route('/remote')
+    def remote_s():
+        return render_template("remote.html")
 
 
     # Clothes thumbnails static route
@@ -201,6 +206,14 @@ def create_server():
             mc.rec_stop()
         except:
             logger.exception("MyCam failed. Are you on Raspberry PI?")
+
+    @pserve.socketio.on("s_remote", namespace=pserve.IO_SPACE)
+    def site_remote(data):
+        pserve.send("r_ctr", data)
+
+    @pserve.socketio.on("r_voice", namespace=pserve.IO_SPACE)
+    def site_voice(data):
+        voice.detect_bing(data)
 
     # Turn on camera
     @pserve.socketio.on("user_on_add", namespace=pserve.IO_SPACE)
