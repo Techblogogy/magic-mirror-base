@@ -77,7 +77,7 @@ def create_server():
 
     # Start voice recognition
     voice = Speech(pserve, cfg, logger, app_dir)
-    # voice.start()
+    voice.start()
 
     # Video playing
     pv = PlayVid(clothes, app_dir, logger, cfg)

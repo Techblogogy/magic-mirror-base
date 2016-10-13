@@ -40,7 +40,7 @@ class Speech:
         # Create microphone instance and ajust for noise
         self._log.info("Ajusting for ambient noise")
 
-    	print sr.Microphone.list_microphone_names()
+    	self._log.debug(sr.Microphone.list_microphone_names())
 
         self._m = sr.Microphone(
             device_index=self._cfg.getint("SPEECH", "device_index"),
