@@ -33,6 +33,8 @@ class My_Cam:
         # self.cam.led = False
         self.cam.framerate = 24
 
+        self.cam.hflip = True
+
         # Camera Controls
         self.cam.rotation = self._cfg.getint("PI CAMERA", "rotation") #90
         #cam.resolution = (640, 1024)
