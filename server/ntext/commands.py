@@ -14,10 +14,10 @@ in_cmd = [
     # --- Wardrobe Page Controls
     v_cmd([], "NUM", "fullscreen"),
 
-    v_cmd(["next", "page"], "AND", "next_page"),
-    v_cmd(["previous", "page"], "AND", "previous_page"),
+    v_cmd(["next", "more"], "OR", "next_page"),
+    v_cmd(["previous", "less", "back"], "OR", "previous_page"),
 
-    v_cmd(["want", "wear", "today"], "AND", "item_worn"),
+    v_cmd(["wear"], "AND", "item_worn"),
 
     v_cmd(["find"], "TAG", "search"),
 

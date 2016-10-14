@@ -40,12 +40,13 @@ class Speech:
         # Create microphone instance and ajust for noise
         self._log.info("Ajusting for ambient noise")
 
+    	self._log.debug(sr.Microphone.list_microphone_names())
+
         self._m = sr.Microphone(
             device_index=self._cfg.getint("SPEECH", "device_index"),
             sample_rate=self._cfg.getint("SPEECH", "sample_rate")
         )
 
-    	# print self._m.list_microphone_names()
         self.noise_adjust()
 
     def import_snowboy(self):

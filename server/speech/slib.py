@@ -4,6 +4,8 @@ import math, audioop, collections, threading
 import platform, stat, random, uuid
 import json
 
+import datetime
+
 import httplib
 
 import contextlib
@@ -415,7 +417,7 @@ class Recognizer(AudioSource):
         self.pause_threshold = 0.8 # seconds of non-speaking audio before a phrase is considered complete
         self.phrase_threshold = 0.3 # minimum seconds of speaking audio before we consider the speaking audio a phrase - values below this are ignored (for filtering out clicks and pops)
         self.non_speaking_duration = 0.5 # seconds of non-speaking audio to keep on both sides of the recording
-        self.audio_gain = 5
+        self.audio_gain = 10
 
         self.pserve = pserve
         self._log = logger
@@ -470,7 +472,7 @@ class Recognizer(AudioSource):
             # Amplify volume
             # buffer = numpy.fromstring(buffer, numpy.int16) * self.audio_gain # half amplitude
             # buffer = struct.pack('h'*len(buffer), *buffer)
-            buffer = self.amplify(buffer, self.audio_gain)
+            # buffer = self.amplify(buffer, self.audio_gain)
 
             energy = audioop.rms(buffer, source.SAMPLE_WIDTH) # energy of the audio signal
 
@@ -510,7 +512,7 @@ class Recognizer(AudioSource):
             buffer = source.stream.read(source.CHUNK)
 
             # Amplify volume
-            buffer = self.amplify(buffer, self.audio_gain)
+            # buffer = self.amplify(buffer, self.audio_gain)
 
             if len(buffer) == 0: break # reached end of the stream
             frames.append(buffer)
@@ -651,7 +653,7 @@ class Recognizer(AudioSource):
             sample_rate=rate,
             language_code='en-US',
             speech_context= cloud_speech.SpeechContext(
-                phrases=["mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find", "number 1"]
+                phrases=["mirror", "add", "item", "help", "close", "clothes", "tag", "tags", "find", "number 1", "wear", "start", "stop", "stylist", "wardrobe", "exit", "1", "2", "3", "4", "5", "6", "7", "8"]
             )
         )
         r_stream_config = cloud_speech.StreamingRecognitionConfig(
@@ -669,6 +671,7 @@ class Recognizer(AudioSource):
             yield cloud_speech.StreamingRecognizeRequest(audio_content=data)
 
     def g_print_loop(self, recognize_stream, callback):
+        # self._log.info("Streaming")
         for resp in recognize_stream:
             self._log.info(resp)
 

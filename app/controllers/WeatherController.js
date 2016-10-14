@@ -8,12 +8,12 @@ app.controller('WeatherCtr', ['$scope', '$http', 'socket',function ($scope, $htt
     $scope.curr_weather = function () {$http.get('http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lng+'&units=metric&appid=ea1b2a690767c4cffc1832b89fe81d68')
     .then(function(d) {
         // Get weather data\
-        console.log("WEATHER ARRAY");
         console.log(d);
         $scope.w_dat.temp = d.data.main.temp;
-        $scope.w_dat.icon = "res/icons/weather/"+d.data.weather[0].icon+".png";
+        $scope.w_dat.icon = "res/icons/weather/"+d.data.weather[0].icon.slice(0,-1)+".png";
         $scope.w_dat.descr = d.data.weather[0].description;
     }, function (e) {});};
+
     $scope.get_min_max_weather = function(){
         $http.get('http://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lng+'&units=metric&appid=ea1b2a690767c4cffc1832b89fe81d68')
         .then(function(data) {

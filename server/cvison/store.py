@@ -1,7 +1,7 @@
 # from dbase.dbase import dbase as db
 from dbase.dataset import Dataset
 
-from api_cal.weather import Weather
+# from api_cal.weather import Weather
 
 import random, json, requests
 
@@ -57,6 +57,8 @@ class Clothes(Dataset):
 
         self._db.qry("CREATE INDEX IF NOT EXISTS id_meta_dx ON clothes_meta(c_id)")
         self._db.qry("CREATE INDEX IF NOT EXISTS id_tags_dx ON clothes_tags(c_id)")
+
+        # self.fill_tanya()
 
 
     # Add clothing item
@@ -151,19 +153,23 @@ class Clothes(Dataset):
             LIMIT ? OFFSET ?
         """
 
-        w_rng = Weather.w_temp_range()[0]
+        w_rng = self.weather.w_temp_range()[0]
         w_temp = self._db._temp_group(w_rng)
 
         self._log.debug("[DEBUG] Current temperatue: %d", (w_rng))
         self._log.debug("[DEBUG] Temperature Range: %d", (w_temp))
+
+        # self._log.debug( self._db.qry(base_qry) )
+        #
+        # return ""
 
         try:
             d_codes.index(query)
             return self._db.qry(base_qry % ("AND dresscode=?"), (w_temp, w_temp, query, lim, ofs*lim))
         except ValueError:
             return self._db.qry(base_qry % ("AND tags LIKE ?"), (w_temp, w_temp, "%"+query+"%", lim, ofs*lim))
-        # except:
-        #     return {'error': "TOTAL ERROR"}
+        except:
+            return {'error': "TOTAL ERROR"}
 
     # Get all items
 
@@ -225,12 +231,12 @@ class Clothes(Dataset):
         )
         self._db.qry(
             "INSERT INTO clothes_meta (c_id, temperature, t_time) VALUES (?, ?, date('now'))",
-            (id, Weather.w_current_temp(), )
+            (id, self.weather.w_current_temp(), )
         )
 
         return ""
         # return self._db.qry("SELECT * FROM clothes_meta")
-        # return Weather.w_current_temp()
+        # return self.weather.w_current_temp()
 
     # Get items meta
     def get_meta(self):
@@ -260,6 +266,43 @@ class Clothes(Dataset):
         self._db.qry("DELETE FROM clothes WHERE id=?", (id, ))
         self._db.qry("DELETE FROM clothes_meta WHERE id=?", (id, ))
         self._db.qry("DELETE FROM clothes_tags WHERE id=?", (id, ))
+
+    def fill_tanya(self):
+
+        d_tags = ["university", "meetups", "work", "whatelse", "favourite"]
+
+        # Clear out clothes table
+        self._db.qry("DELETE FROM clothes")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes'")
+
+        # Clear out clothes meta table
+        self._db.qry("DELETE FROM clothes_meta")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_meta'")
+
+        # Clear out clothes tags table
+        self._db.qry("DELETE FROM clothes_tags")
+        self._db.qry("VACUUM")
+        self._db.qry("DELETE FROM sqlite_sequence WHERE name='clothes_tags'")
+
+        for i in range(1,12):
+            # print random.choice(d_codes)
+            self.add("casual", "thum%s.jpg"%str(i))
+            i_id = i #self._db.last_id()
+            self._log.debug(i_id)
+
+            # Randomly add tags
+            for t in range( 1, random.randint(1, 4) ):
+                self.add_tags(i_id, random.choice(d_tags) )
+
+            # # 20% chanse to set like
+            # if random.random() <= 0.1:
+            #     self.set_like(1, i_id)
+
+            # Randomly wear items
+            for a in range(1,random.randint(2,40)):
+                self.worn_tmp(str(i_id), str(random.randint(-15,30)), "%s-%02d-%02d"%( str(random.randint(2013,2016)), random.randint(1,8), random.randint(1,30) ) )
 
     # NOTE: Testing data fill
     def fill_junk(self):
