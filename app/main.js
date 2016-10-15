@@ -1,4 +1,4 @@
-var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate','btford.socket-io','angular-google-gapi']);
+var app = angular.module("mirror-ui", ['ui.bootstrap','ngRoute','ngAnimate','btford.socket-io','angular-google-gapi','youtube-embed']);
 
 // Connect to Socket.IO Server
 app.factory('socket', function (socketFactory) {
@@ -15,7 +15,7 @@ app.factory('socket', function (socketFactory) {
 // Routes Configuration
 app.config(function ($routeProvider) {
     $routeProvider
-    .when('/', {
+    .when('/youtube', {
         controller: 'HomePageController',
         templateUrl: 'app/views/home.html'
         // animation: 'left_swipe'
@@ -28,7 +28,7 @@ app.config(function ($routeProvider) {
         controller: "AddCtr",
         templateUrl: 'app/views/add.html'
     })
-    .when("/youtube", {
+    .when("/", {
         controller: "YouTubeController",
         templateUrl: 'app/views/youtube.html'
     });

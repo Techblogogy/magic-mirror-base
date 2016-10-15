@@ -1,18 +1,4 @@
 
-// app.directive('onLoopFinish', function ($timeout) {
-//     return {
-//         restrict: 'A',
-//         link: function (scope, element, attr) {
-//             if (scope.$last === true) {
-//                 $timeout(function () {
-//                     console.log("finnished ng-repleat");
-//                     scope.$emit(attr.onLoopFinish);
-//                 });
-//             }
-//         }
-//     }
-// });
-
 app.controller('StlCtr', ['$scope','$document', '$http', 'socket'/*,'$location','$timeout'*/,function ($scope,$document,$http, socket/*,$location,$timeout*/) {
     $scope.loaded = function(){};
     $scope.page_id = "p_stylist";

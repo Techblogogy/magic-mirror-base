@@ -58,9 +58,9 @@ def construct_bp(gcal, youtube, JSON_DENT):
     def gcal_mail():
         return json.dumps(gcal.get_mail(), indent=JSON_DENT)
 
-    @gcal_api.route('/youtube/<query>', methods=['GET'])
-    def gcal_youtube(query):
-        return json.dumps(youtube.search(query), indent=JSON_DENT)
+    @gcal_api.route('/youtube', methods=['GET'])
+    def gcal_youtube():
+        return json.dumps(youtube.search(request.args.get("q")), indent=JSON_DENT)
 
     # === JSON Error Handling ===
 
