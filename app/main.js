@@ -27,5 +27,10 @@ app.config(function ($routeProvider) {
     .when('/add', {
         controller: "AddCtr",
         templateUrl: 'app/views/add.html'
+    })
+    .when("/youtube", {
+        controller: "YouTubeController",
+        templateUrl: 'app/views/youtube.html'
     });
+
 });

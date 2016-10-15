@@ -1,23 +1,28 @@
 // Weather Data Controller
-app.controller('WeatherCtr', ['$scope', '$http', 'socket',function ($scope, $http, socket) {
+app.controller('WeatherCtr', ['$scope', '$http', 'socket', 'weather', function ($scope, $http, socket, weather) {
 
     $scope.name = "Weather";
     $scope.show_title = false;
 
     $scope.loaded = function () {};
-    $scope.curr_weather = function () {$http.get('http://api.openweathermap.org/data/2.5/weather?lat='+lat+'&lon='+lng+'&units=metric&appid=ea1b2a690767c4cffc1832b89fe81d68')
-    .then(function(d) {
-        // Get weather data\
-        console.log(d);
-        $scope.w_dat.temp = d.data.main.temp;
-        $scope.w_dat.icon = "res/icons/weather/"+d.data.weather[0].icon.slice(0,-1)+".png";
-        $scope.w_dat.descr = d.data.weather[0].description;
-    }, function (e) {});};
+    $scope.curr_weather = function () {
+
+        weather.getWeather(lat, lng)
+        .success(function(d) {
+            $scope.w_dat.temp = d.main.temp;
+            $scope.w_dat.icon = "res/icons/weather/"+d.weather[0].icon.slice(0,-1)+".png";
+            $scope.w_dat.descr = d.weather[0].description;
+        })
+        .error(function (e) {
+            console.error(e);
+        });
+
+    };
 
     $scope.get_min_max_weather = function(){
-        $http.get('http://api.openweathermap.org/data/2.5/forecast?lat='+lat+'&lon='+lng+'&units=metric&appid=ea1b2a690767c4cffc1832b89fe81d68')
+
+        weather.getForecast(lat, lng)
         .then(function(data) {
-            console.log("WEATHER ARRAY 2222222");
             console.log(data);
             // Extract data for today
             //variables
@@ -64,8 +69,7 @@ app.controller('WeatherCtr', ['$scope', '$http', 'socket',function ($scope, $htt
         });
     };
 
-    // navigator.geolocation.getCurrentPosition(function (p) {
-    $http.get('http://localhost:5000/setup/pos/get')
+    weather.getLocation()
     .success(function(data){
         console.log(data);
 
@@ -73,11 +77,8 @@ app.controller('WeatherCtr', ['$scope', '$http', 'socket',function ($scope, $htt
         lng = data.lng;
 
         // Get current weather
-
         $scope.curr_weather();
         setInterval(function () {  $scope.curr_weather();}, 600000);
-
-
 
         // Get min/max weather
         $scope.get_min_max_weather();
@@ -99,28 +100,31 @@ app.controller('WeatherCtr', ['$scope', '$http', 'socket',function ($scope, $htt
     $scope.$on("socket:weather_warning", function (event, data) {
         console.log("WEATHER WARNING");
         console.log($scope.w_dat.descr);
+
         rain_message = "";
         rain_message = $scope.w_dat.descr;
+
         if ($scope.rain_counter > 0) {
             rain_message = "You'd better take an umbrella";
-        }
-        else {
+        } else {
             rain_message = "It's not gonna rain today";
         }
+
         if ($scope.snow_counter > 0) {
             snow_message = "Snowy day";
-        }
-        else {
+        } else {
             snow_message = "";
         }
+
         document.getElementById('rain_message').innerHTML = rain_message;
         angular.element(document.querySelectorAll("#rain_message")).removeClass("msg");
         angular.element(document.querySelectorAll("#rain_message")).addClass("msg_active");
         document.getElementById('snow_message').innerHTML = snow_message;
-        console.log(12345678);
+
         angular.element(document.querySelectorAll("#snow_message")).removeClass("msg");
         angular.element(document.querySelectorAll("#snow_message")).addClass("msg_active");
     });
+
     setTimeout(function () {
         angular.element(document.querySelectorAll("#rain_message")).removeClass("msg_active");
         angular.element(document.querySelectorAll("#rain_message")).addClass("msg");

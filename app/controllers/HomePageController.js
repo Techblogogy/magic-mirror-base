@@ -23,7 +23,6 @@ app.controller('HomePageController', ['$scope','socket','$http', function ($scop
     .success(function(data){
         ip = data;
         $scope.ip = ip;
-        console.log(ip);
     });
     // SETUP STATE
     $http.get('http://localhost:5000/gcal/isauth')

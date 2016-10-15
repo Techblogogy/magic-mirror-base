@@ -31,6 +31,7 @@ import subprocess
 
 from api_cal.setup import Setup as ST
 from api_cal.gcal import Gcal as GC
+from api_cal.youtube import YouTube as YT
 from api_cal.weather import Weather as WH
 from cvison.store import Clothes as CL
 
@@ -55,6 +56,7 @@ def create_server():
     pserve = PServer()
 
 
+
     # ---> Reigster Blueprints
     from routes.setup import construct_bp as crt_setup
     setup = ST(db, pserve, app_dir, logger)
@@ -62,7 +64,10 @@ def create_server():
 
     from routes.gcal import construct_bp as crt_gcal
     gcal = GC(db, pserve, app_dir, logger)
-    pserve.app.register_blueprint(crt_gcal(gcal, 4))
+    youtb = YT(db, pserve, app_dir, logger, config=cfg)
+    # youtb.search("Hair")
+
+    pserve.app.register_blueprint(crt_gcal(gcal, youtb, 4))
 
 
     from routes.wardrobe import construct_bp as crt_wrd

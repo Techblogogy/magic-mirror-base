@@ -5,21 +5,12 @@ app.controller('AddCtr', ['$scope','$document', '$http', 'socket',function ($sco
     $scope.time_to_add_tags = false;
 
     socket.emit("user_on_add");
-    // setTimeout(function () {
-    //     socket.emit("m_camera");
-    // }, 2000);
-    // setTimeout(function () {
-    //     socket.emit("m_camera_dat");
-    // }, 4000);
 
-    /* TODO: Were actuall adding begins */
 
     // REMOTE controller
     socket.forward('r_ctr', $scope);
     $scope.$on("socket:r_ctr", function (event, data) {
-        // g_cn++;
-        // console.log("GLOBAL:"+g_cn);
-        console.log(123456);
+
         switch (data) {
             case "left":
             $scope.switch_left();

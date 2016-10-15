@@ -5,29 +5,6 @@ function ($scope, $location, socket, $timeout,$document, $http) {
     $scope.anim = "";
     $scope.bodge_time = 1; //in milliseconds
 
-    // socket.emit("myevent");
-
-    // socket.forward('r_ctr', $scope);
-    // $scope.$on("socket:r_ctr", function (event, data) {
-    //     // console.log("HEY Mnan!");
-    //     console.log(data);
-    //     if (data == "left") {
-    //         $scope.switch_left();
-    //     }
-    //     else if (data == "right") {
-    //         $scope.switch_right();
-    //     }
-    //
-    //     // $scope.switchView('weather', 'left_swipe');
-    // });
-
-    // $http.post("http://localhost:5000/");
-    // $http.post('http://localhost:5000/wardrobe/add', [])
-    // .success(function(d){
-    //     // $scope.items = d;
-    //     console.log("sent thing");
-    // });
-
 
     // Switch View with an animation
     $scope.switchView = function (view, animation) {
@@ -73,21 +50,12 @@ function ($scope, $location, socket, $timeout,$document, $http) {
 
     // Microphone functions
     $scope.mic_active = function(){
-        // document.getElementById('red').style.display = 'none';
-        // document.getElementById('green').style.display = 'block';
     };
     $scope.mic_is_listening = function(){
-
     };
     $scope.audio_is_detected = function(){
         console.log("Command was detected");
     };
-    // $scope.audio_was_recorded = function(){
-    //     console.log("Command was detected");
-    //     // document.getElementById('m_listen').style.color = 'red';
-    //     document.getElementById('mic_cmd').style.display = 'block';
-    //     // document.getElementById('microph_img').style.display = 'none';
-    // };
 
     $scope.default_microphone = function () {
         document.getElementById('m_listen').style.display = 'none';
