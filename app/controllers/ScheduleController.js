@@ -1,13 +1,15 @@
 // Schedule Data Controller
-app.controller('ScheduleCtr', ['$scope', '$http','socket',function ($scope, $http, socket) {
+app.controller('ScheduleCtr', ['$scope', '$http', 'socket', 'calendar', function ($scope, $http, socket, calendar) {
     $scope.plans = [];
     $scope.curr_plans_page = 0;
     $scope.name = "Plans for Today:";
     $scope.show_title = false;
-    $scope.refresh = function(){
-        $http.get('http://localhost:5000/gcal/today')
+
+    $scope.refresh = function() {
+
+        // $http.get('http://localhost:5000/gcal/today')
+        calendar.getToday()
         .success(function(data){
-            // console.log("DATA"+data);
             $scope.plans_num = data.length; //amount of plans
             $scope.plans_p_num = Math.floor($scope.plans_num/5); //amount of plans pages
             for(var i = 0; i <= $scope.plans_p_num; i++){ //for every page:
