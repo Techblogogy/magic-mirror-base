@@ -84,3 +84,17 @@ else
     echo -e "\e[31mPip dependencies install failed"
     exit;
 fi
+
+
+# === Python (Part 2)
+
+# Add Mirror executable to bin
+echo -e "\e[35mAdding application to Bin\e[0m"
+chmod a+x mirror
+
+if sudo ln -s ~/magic-mirror-base/server/mirror /usr/local/bin; then
+    echo -e "\e[32mAdded application to bin\e[0m"
+else
+    echo -e "\e[31mAdding application to bin failed"
+    exit;
+fi
