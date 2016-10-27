@@ -23,3 +23,7 @@ simplejson==3.8.2
 six==1.10.0
 uritemplate==0.6
 Werkzeug==0.11.11
+grpc-google-cloud-speech-v1beta1==1.0.1
+six==1.10.0
+google-cloud-core==0.20.0
+grpcio==1.0.1rc1
