@@ -17,7 +17,7 @@ cd ~
 
 # Getting Magic Mirror Repository
 echo -e "\e[35mDownloading Magic Mirror repository\e[0m"
-if https://github.com/Techblogogy/magic-mirror-base.git; then
+if git clone https://github.com/Techblogogy/magic-mirror-base.git; then
     echo -e "\e[32mRepository downloaded\e[0m"
 else
     echo -e "\e[31mRepository download failed\e[0m"
@@ -98,3 +98,8 @@ else
     echo -e "\e[31mAdding application to bin failed"
     exit;
 fi
+
+
+# TODO: Autostart
+
+# TODO: Splash screen
