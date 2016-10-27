@@ -30,12 +30,14 @@ cd ~/magic-mirror-base || exit
 # === NodeJS
 
 # Install NodeJS
+echo " "
 echo -e "\e[35mInstalling NodeJS\e[0m"
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install -y nodejs
 echo -e "\e[32mNodeJS Installed\e[0m"
 
 # Npm install
+echo " "
 echo -e "\e[35mInstalling javascript packages\e[0m"
 if npm install; then
     echo -e "\e[35mJS Packages installed\e[0m"
@@ -50,6 +52,7 @@ fi
 cd ~/magic-mirror-base/server || exit
 
 # Install Python Dependencies
+echo " "
 echo -e "\e[35mInstalling Python-dev\e[0m"
 if sudo apt-get install -y python-dev; then
     echo -e "\e[32mPython Dev installed\e[0m"
@@ -59,6 +62,7 @@ else
 fi
 
 # Install pip
+echo " "
 echo -e "\e[35mInstalling pip\e[0m"
 if sudo apt-get install -y python-pip; then
     echo -e "\e[32mPip installed\e[0m"
@@ -68,6 +72,7 @@ else
 fi
 
 # Install Pyaudio
+echo " "
 echo -e "\e[35mInstalling Pyaudio\e[0m"
 if sudo apt-get install -y python-pyaudio; then
     echo -e "\e[32mPyaudio installed\e[0m"
@@ -77,6 +82,7 @@ else
 fi
 
 # Install Pip Dependencies
+echo " "
 echo "\e[35mInstalling pip dependencies. This may take a while, please wait...\e[0m"
 if sudo pip install -r requirments.txt; then
     echo -e "\e[32mPip dependencies installed\e[0m"
@@ -89,6 +95,7 @@ fi
 # === Python (Part 2)
 
 # Add Mirror executable to bin
+echo " "
 echo -e "\e[35mAdding application to Bin\e[0m"
 chmod a+x mirror
 
