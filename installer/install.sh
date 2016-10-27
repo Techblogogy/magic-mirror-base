@@ -32,7 +32,7 @@ cd ~/magic-mirror-base || exit
 # Install NodeJS
 echo -e "\e[35mInstalling NodeJS\e[0m"
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-sudo apt-get install -y nodejs npm
+sudo apt-get install -y nodejs 
 echo -e "\e[32mNodeJS Installed\e[0m"
 
 # Npm install
