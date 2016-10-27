@@ -8,8 +8,8 @@
 # === System (Part 1)
 
 # Apt-Update
-echo -e "\e[35mUpdating linux repositories\e[0m"
-sudo apt-get update
+# echo -e "\e[35mUpdating linux repositories\e[0m"
+# sudo apt-get update
 
 
 # === Repository Clone
@@ -32,7 +32,7 @@ cd ~/magic-mirror-base || exit
 # Install NodeJS
 echo -e "\e[35mInstalling NodeJS\e[0m"
 curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-sudo apt-get install -y nodejs 
+sudo apt-get install -y nodejs
 echo -e "\e[32mNodeJS Installed\e[0m"
 
 # Npm install
