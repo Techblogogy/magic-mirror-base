@@ -106,6 +106,13 @@ else
     exit;
 fi
 
+# TODO: Copy resources
+mkdir ~/.local/share/mirror_server
+cd ~/magic-mirror-base/installer/data
+
+
+
+# TODO: Copy Config File
 
 # TODO: Autostart
 
