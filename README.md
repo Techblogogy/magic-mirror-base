@@ -1,6 +1,7 @@
 # Magic Mirror (ReadMe is still WIP)
 
 [![Version](https://img.shields.io/badge/version-1.0.0-brightgreen.svg)]()
+[![Python2](https://img.shields.io/badge/python-2.7-blue.svg)]()
 [![licence](https://img.shields.io/badge/licence-GPLv3-blue.svg)]()
 [![OpenSource](https://badges.frapsoft.com/os/v2/open-source.svg?v=102)]()
 
