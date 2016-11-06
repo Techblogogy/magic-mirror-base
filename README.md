@@ -4,7 +4,7 @@
 [![licence](https://img.shields.io/badge/licence-GPLv3-blue.svg)]()
 [![OpenSource](https://badges.frapsoft.com/os/v2/open-source.svg?v=102)]()
 
-Open Source Smart Mirror software for Raspberry PI. Keep in my software is still under construction, thus a little buggy :smile:
+Open Source Smart Mirror software for Raspberry PI. Keep in my software is still under construction, thus a little buggy :wink:
 
 ## Installation
 
