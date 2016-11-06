@@ -108,8 +108,9 @@ fi
 
 # TODO: Copy resources
 mkdir ~/.local/share/mirror_server
-cd ~/magic-mirror-base/installer/data
+cd ~/magic-mirror-base/installer
 
+cp -avr ~/magic-mirror-base/installer/data/ ~/.local/share/mirror_server
 
 
 # TODO: Copy Config File
