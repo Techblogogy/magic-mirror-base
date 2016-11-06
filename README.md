@@ -5,3 +5,5 @@
 [![OpenSource](https://badges.frapsoft.com/os/v2/open-source.svg?v=102)]()
 
 Open Source Smart Mirror software for Raspberry PI.
+
+Documentation coming soon... ^_^
