@@ -25,7 +25,7 @@ mirror
 (Still WIP) as of yet installer doesn't add magic mirror software to autostart, you'll have to do this manually.
 
 ## Contribution
-You are free to modify and improve this software. If you spot any bugs feel free to submit any bugs you find into the issue box. If your feeling extra luck, you can fork repository and try to fix some of the bugs yourself and then submit a pull request.
+You are free to modify and improve this software. If you spot any bugs feel free to submit any bugs you find into the issue box. If your feeling extra brave, you can fork repository and try to fix some of the bugs yourself and submit a pull request.
 
 ## Authors
 
