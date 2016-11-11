@@ -25,6 +25,16 @@ mirror
 
 (Still WIP) as of yet installer doesn't add magic mirror software to autostart, you'll have to do this manually.
 
+## Donations
+If you like it feel free to donate, every little helps
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="8E6LS9N72ACYE">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+
 ## Contribution
 You are free to modify and improve this software. If you spot any bugs feel free to submit any bugs you find into the issue box. If your feeling extra brave, you can fork repository and try to fix some of the bugs yourself and submit a pull request.
 
